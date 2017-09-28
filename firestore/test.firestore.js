@@ -1,0 +1,834 @@
+describe("firestore", () => {
+    var db;
+    before(() => {
+        var config = {
+            apiKey: "AIzaSyBq2hAhIglCyzK0A4pW-bQVHwzfvF-Gx70",
+            authDomain: "firestore-hacker-news.firebaseapp.com",
+            databaseURL: "https://firestore-hacker-news.firebaseio.com",
+            projectId: "firestore-hacker-news",
+            storageBucket: "firestore-hacker-news.appspot.com",
+            messagingSenderId: "20031644771"
+        };
+        var app = firebase.initializeApp(config);
+        db = firebase.firestore(app);
+        //firebase.firestore.setLogLevel("debug");
+
+    });
+
+    it("should be initializable with persistence", () => {
+      // [START initialize_persistence]
+      firebase.initializeApp({
+        apiKey: '### FIREBASE API KEY ###',
+        authDomain: '### FIREBASE AUTH DOMAIN ###',
+        projectId: '### CLOUD FIRESTORE PROJECT ID ###',
+      }
+      // [START_EXCLUDE silent]
+      ,"persisted_app"
+      // [END_EXCLUDE]
+      );
+
+      firebase.firestore().enablePersistence()
+        .then(function() {
+            // Initialize Cloud Firestore through firebase
+            var db = firebase.firestore();
+        })
+        .catch(function(err) {
+            if (err.code == 'failed-precondition') {
+                // Multiple tabs open, persistence can only be enabled
+                // in one tab at a a time.
+                // ...
+            } else if (err.code == 'unimplemented') {
+                // The current browser does not support all of the
+                // features required to enable persistence
+                // ...
+            }
+        });
+      // [END initialize_persistence]
+    });
+
+    it("should reply with .fromCache fields", () => {
+      // [START use_from_cache]
+      db.collection("cities").where("state", "==", "CA")
+        .onSnapshot({ includeQueryMetadataChanges: true }, function(snapshot) {
+            snapshot.docChanges.forEach(function(change) {
+                if (change.type === "added") {
+                    console.log("New city: ", change.doc.data());
+                }
+
+                var source = snapshot.metadata.fromCache ? "local cache" : "server";
+                console.log("Data came from " + source);
+            });
+        });
+      // [END use_from_cache]
+    });
+
+    describe("collection('users')", () => {
+        it("should add data to a collection", () => {
+            return output =
+            // [START add_ada_lovelace]
+            db.collection("users").add({
+                first: "Ada",
+                last: "Lovelace",
+                born: 1815
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+            // [END add_ada_lovelace]
+        });
+
+        it("should get all users", () => {
+            return output =
+            // [START get_all_users]
+            db.collection("users").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    console.log(`${doc.id} => ${doc.data()}`);
+                });
+            });
+            // [END get_all_users]
+        });
+
+        it("should add data to a collection with new fields", () => {
+            return output =
+            // [START add_alan_turing]
+            // Add a second document with a generated ID.
+            db.collection("users").add({
+                first: "Alan",
+                middle: "Mathison",
+                last: "Turing",
+                born: 1912
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+            // [END add_alan_turing]
+        });
+
+        it("should loop through a watched collection", (done) => {
+            // This is not a typo.
+            var unsubscribe =
+
+            // [START listen_for_users]
+            db.collection("users")
+                .where("born", "<", 1900)
+                .onSnapshot(function(snapshot) {
+                    console.log("Current users born before 1900:");
+                    snapshot.forEach(function (userSnapshot) {
+                        console.log(userSnapshot.data())
+                    });
+                });
+            // [END listen_for_users]
+
+            setTimeout(() => {
+                unsubscribe();
+                done();
+            }, 1500);
+        });
+
+        it("should reference a specific document", () => {
+            // [START doc_reference]
+            var alovelaceDocumentRef = db.collection('users').doc('alovelace');
+            // [END doc_reference]
+        });
+
+        it("should reference a specific collection", () => {
+            // [START collection_reference]
+            var usersCollectionRef = db.collection('users');
+            // [END collection_reference]
+        });
+
+        it("should reference a specific document (alternative)", () => {
+            // [START doc_reference_alternative]
+            var alovelaceDocumentRef = db.doc('users/alovelace');
+            // [END doc_reference_alternative]
+        })
+
+        it("should reference a document in a subcollection", () => {
+            // [START subcollection_reference]
+            var messageRef = db.collection('rooms').doc('roomA')
+                            .collection('messages').doc('message1');
+            // [END subcollection_reference]
+        });
+
+        it("should set a document", () => {
+            return output =
+            // [START set_document]
+            // Add a new document in collection "cities"
+            db.collection("cities").doc("LA").set({
+                name: "Los Angeles",
+                state: "CA",
+                country: "USA"
+            })
+            .then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+            // [END set_document]
+        });
+
+        it("should support batch writes", (done) => {
+            // [START write_batch]
+            // Get a new write batch
+            var batch = db.batch();
+
+            // Set the value of 'NYC'
+            var nycRef = db.collection("cities").doc("NYC");
+            batch.set(nycRef, {name: "New York City"});
+
+            // Update the population of 'SF'
+            var sfRef = db.collection("cities").doc("SF");
+            batch.update(sfRef, {"population": 1000000});
+
+            // Delete the city 'LA'
+            var laRef = db.collection("cities").doc("LA");
+            batch.delete(laRef);
+
+            // Commit the batch
+            batch.commit().then(function () {
+                // [START_EXCLUDE]
+                done();
+                // [END_EXCLUDE]
+            });
+            // [END write_batch]
+        });
+
+        it("should set a document with every datatype #UNVERIFIED", () => {
+            // [START data_types]
+            var docData = {
+                stringExample: "Hello world!",
+                booleanExample: true,
+                numberExample: 3.14159265,
+                dateExample: new Date("December 10, 1815"),
+                arrayExample: [5, true, "hello"],
+                nullExample: null,
+                objectExample: {
+                    a: 5,
+                    b: {
+                        nested: "foo"
+                    }
+                }
+            };
+            db.collection("data").doc("one").set(docData).then(function() {
+                console.log("Document successfully written!");
+            });
+            // [END data_types]
+        });
+
+        it("should allow set with merge", () => {
+            // [START set_with_merge]
+            var cityRef = db.collection('cities').doc('BJ');
+
+            var setWithMerge = cityRef.set({
+                capital: true
+            }, { merge: true });
+            // [END set_with_merge]
+            return setWithMerge;
+        });
+
+        it("should update a document's nested fields #UNVERIFIED", () => {
+            // [START update_document_nested]
+            // Create an initial document to update.
+            var frankDocRef = db.collection("users").doc("frank");
+            frankDocRef.set({
+                name: "Frank",
+                favorites: { food: "Pizza", color: "Blue", subject: "recess" },
+                age: 12
+            });
+
+            // To update age and favorite color:
+            db.collection("users").doc("frank").update({
+                "age": 13,
+                "favorites.color": "Red"
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            });
+            // [END update_document_nested]
+        });
+
+        it("should delete a collection", () => {
+            // [START delete_collection]
+            /**
+             * Delete a collection, in batches of batchSize. Note that this does
+             * not recursively delete subcollections of documents in the collection
+             */
+            function deleteCollection(db, collectionRef, batchSize) {
+                var query = collectionRef.orderBy('__name__').limit(batchSize);
+
+                return new Promise(function(resolve, reject) {
+                    deleteQueryBatch(db, query, batchSize, resolve, reject);
+                });
+            }
+
+            function deleteQueryBatch(db, query, batchSize, resolve, reject) {
+                query.get()
+                    .then((snapshot) => {
+                        // When there are no documents left, we are done
+                        if (snapshot.size == 0) {
+                            return 0;
+                        }
+
+                        // Delete documents in a batch
+                        var batch = db.batch();
+                        snapshot.docs.forEach(function(doc) {
+                            batch.delete(doc.ref);
+                        });
+
+                        return batch.commit().then(function() {
+                            return snapshot.size;
+                        });
+                    }).then(function(numDeleted) {
+                        if (numDeleted <= batchSize) {
+                            resolve();
+                            return;
+                        }
+
+                        // Recurse on the next process tick, to avoid
+                        // exploding the stack.
+                        process.nextTick(function() {
+                            deleteQueryBatch(db, query, batchSize, resolve, reject);
+                        });
+                    })
+                    .catch(reject);
+            }
+            // [END delete_collection]
+
+            return deleteCollection(db, db.collection("users"), 2);
+        }).timeout(2000);
+    });
+
+    describe("collection('cities')", () => {
+        it("should set documents #UNVERIFIED", () => {
+            // [START example_data]
+            var citiesRef = db.collection("cities");
+
+            citiesRef.doc("SF").set({
+                name: "San Francisco", state: "CA", country: "USA",
+                capital: false, population: 860000 });
+            citiesRef.doc("LA").set({
+                name: "Los Angeles", state: "CA", country: "USA",
+                capital: false, population: 3900000 });
+            citiesRef.doc("DC").set({
+                name: "Washington, D.C.", state: null, country: "USA",
+                capital: true, population: 680000 });
+            citiesRef.doc("TOK").set({
+                name: "Tokyo", state: "null", country: "Japan",
+                capital: true, population: 9000000 });
+            citiesRef.doc("BJ").set({
+                name: "Beijing", state: null, country: "China",
+                capital: true, population: 21500000 });
+            // [END example_data]
+        });
+        it("should set a document", () => {
+            var data = {};
+
+            return output =
+            // [START cities_document_set]
+            db.collection("cities").doc("new-city-id").set(data);
+            // [END cities_document_set]
+        });
+
+        it("should add a document", () => {
+            return output =
+            // [START add_document]
+            // Add a new document with a generated id.
+            db.collection("cities").add({
+                name: "Tokyo",
+                country: "Japan"
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+            // [END add_document]
+        });
+
+        it("should add an empty a document #UNVERIFIED", () => {
+            var data = {};
+            // [START new_document]
+            // Add a new document with a generated id.
+            var newCityRef = db.collection("cities").doc();
+
+            // later...
+            newCityRef.set(data);
+            // [END new_document]
+        });
+
+        it("should update a document", () => {
+            var data = {};
+            // [START update_document]
+            var washingtonRef = db.collection("cities").doc("DC");
+
+            // Set the "capital" field of the city 'DC'
+            return washingtonRef.update({
+                capital: true
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            })
+            .catch(function(error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+            // [END update_document]
+        });
+
+        it("should delete a document", () => {
+            return output =
+            // [START delete_document]
+            db.collection("cities").doc("DC").delete().then(function() {
+                console.log("Document successfully deleted!");
+            }).catch(function(error) {
+                console.error("Error removing document: ", error);
+            });
+            // [END delete_document]
+        });
+
+        it("should handle transactions #FIXME #UNVERIFIED", () => {
+            return db.collection("cities").doc("SF").set({ population: 0 }).then(() => {
+                // [START transaction]
+                // Create a reference to the SF doc.
+                var sfDocRef = db.collection("cities").doc("SF");
+
+                // Uncomment to initialize the doc.
+                // sfDocRef.set({ population: 0 });
+
+                return db.runTransaction(function(transaction) {
+                    // This code may get re-run multiple times if there are conflicts.
+                    return transaction.get(sfDocRef).then(function(sfDoc) {
+                        var newPopulation = sfDoc.data().population + 1;
+                        transaction.update(sfDocRef, { population: newPopulation });
+                    });
+                }).then(function() {
+                    console.log("Transaction successfully committed!");
+                }).catch(function(error) {
+                    console.log("Transaction failed: ", error);
+                });
+                // [END transaction]
+            });
+        });
+
+        it("should handle transaction which bubble out data #UNVERIFIED", () => {
+            // [START transaction_promise]
+            // Create a reference to the SF doc.
+            var sfDocRef = db.collection("cities").doc("SF");
+
+            db.runTransaction(function(transaction) {
+                return transaction.get(sfDocRef).then(function(sfDoc) {
+                    var newPopulation = sfDoc.data().population + 1;
+                    if (newPopulation <= 1000000) {
+                    transaction.update(sfDocRef, { population: newPopulation });
+                    return newPopulation;
+                    } else {
+                    return Promise.reject("Sorry! Population is too big.");
+                    }
+                });
+            }).then(function(newPopulation) {
+                console.log("Population increased to ", newPopulation);
+            }).catch(function(err) {
+                // This will be an "population is too big" error.
+                console.error(err);
+            });
+            // [END transaction_promise]
+        });
+
+        it("should get a single document #UNVERIFIED", () => {
+            // [START get_document]
+            var docRef = db.collection("cities").doc("SF");
+
+            docRef.get().then(function(doc) {
+                if (doc.exists) {
+                    console.log("Document data:", doc.data());
+                } else {
+                    console.log("No such document!");
+                }
+            }).catch(function(error) {
+                console.log("Error getting document:", error);
+            });
+            // [END get_document]
+        });
+
+        it("should listen on a single document", (done) => {
+            var unsub =
+            // [START listen_document]
+            db.collection("cities").doc("SF")
+                .onSnapshot(function(doc) {
+                    console.log("Current data: ", doc && doc.data());
+                });
+            // [END listen_document]
+
+            setTimeout(function() {
+                unsub();
+                done();
+            }, 3000);
+        }).timeout(5000);
+
+        it("should listen on a single document with metadata #UNVERIFIED", (done) => {
+            var unsub =
+            // [START listen_document_local]
+            db.collection("cities").doc("SF")
+                .onSnapshot(function(doc) {
+                    var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+                    console.log(source, " data: ", doc && doc.data());
+                });
+            // [END listen_document_local]
+
+            setTimeout(function() {
+                unsub();
+                done();
+            }, 3000);
+        }).timeout(5000);
+
+        it("should get multiple documents from a collection", () => {
+            return output =
+            // [START get_multiple]
+            db.collection("cities").where("capital", "==", true)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        console.log(doc.id, " => ", doc.data());
+                    });
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                });
+            // [END get_multiple]
+        }).timeout(5000);
+
+        it("should get all documents from a collection", () => {
+            return output =
+            // [START get_multiple_all]
+            db.collection("cities").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    console.log(doc.id, " => ", doc.data());
+                });
+            });
+            // [END get_multiple_all]
+        })
+
+        it("should listen on multiple documents #UNVERIFIED", (done) => {
+            var unsubscribe =
+            // [START listen_multiple]
+            db.collection("cities").where("state", "==", "CA")
+                .onSnapshot(function(querySnapshot) {
+                    var cities = [];
+                    querySnapshot.forEach(function(doc) {
+                        cities.push(doc.data().name);
+                    });
+                    console.log("Current cities in CA: ", cities.join(", "));
+                });
+            // [END listen_multiple]
+            setTimeout(function() {
+                unsubscribe();
+                done();
+            }, 2500);
+        }).timeout(5000);
+
+        it("should view changes between snapshots #UNVERIFIED", (done) => {
+            var unsubscribe =
+            // [START listen_diffs]
+            db.collection("cities").where("state", "==", "CA")
+                .onSnapshot(function(snapshot) {
+                    snapshot.docChanges.forEach(function(change) {
+                        if (change.type === "added") {
+                            console.log("New city: ", change.doc.data());
+                        }
+                        if (change.type === "modified") {
+                            console.log("Modified city: ", change.doc.data());
+                        }
+                        if (change.type === "removed") {
+                            console.log("Removed city: ", change.doc.data());
+                        }
+                    });
+                });
+            // [END listen_diffs]
+            setTimeout(function() {
+                unsubscribe();
+                done();
+            }, 2500);
+        }).timeout(5000);
+
+        it("should unsubscribe a listener", () => {
+            // [START detach_listener]
+            var unsubscribe = db.collection("cities")
+                .onSnapshot(function () {});
+            // ...
+            // Stop listening to changes
+            unsubscribe();
+            // [END detach_listener]
+        });
+
+        it("should handle listener errors", () => {
+            var unsubscribe =
+            // [START handle_listen_errors]
+            db.collection("cities")
+                .onSnapshot(function(snapshot) {
+                    //...
+                }, function(error) {
+                    //...
+                });
+            // [END handle_listen_errors]
+            unsubscribe();
+        });
+
+        it("should update a document with server timestamp", () => {
+            function update() {
+                // [START update_with_server_timestamp]
+                var docRef = db.collection('objects').doc('some-id');
+
+                // Update the teimstamp field with the value form the server
+                var updateTimestamp = docRef.update({
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                // [END update_with_server_timestamp]
+
+                return updateTimestamp;
+            }
+
+            return db.collection('objects').doc('some-id')
+                .set({})
+                .then(() => update())
+                .then(() => {
+                    console.log('Document updated with server timestamp');
+                });
+        });
+
+        it("should delete a document field", () => {
+            function update() {
+                // [START update_delete_field]
+                var cityRef = db.collection('cities').doc('BJ');
+
+                // Remove the 'capital' field from the document
+                var removeCapital = cityRef.update({
+                    capital: firebase.firestore.FieldValue.delete()
+                });
+                // [END update_delete_field]
+
+                return removeCapital;
+            }
+
+
+            return db.collection('cities').doc('BJ')
+                .set({ capital: true })
+                .then(() => update())
+                .then(() => {
+                    console.log('Document field deleted');
+                });
+        });
+
+        describe("queries", () => {
+            it("should handle simple where", () => {
+                // [START simple_queries]
+                // Create a reference to the cities collection
+                var citiesRef = db.collection("cities");
+
+                // Create a query against the collection.
+                var query = citiesRef.where("state", "==", "CA");
+                // [END simple_queries]
+            });
+
+            it("should handle another simple where", () => {
+                // [START simple_queries_again]
+                var citiesRef = db.collection("cities");
+
+                var query = citiesRef.where("capital", "==", true);
+                // [END simple_queries_again]
+            });
+
+            it("should handle other wheres", () => {
+                var citiesRef = db.collection("cities");
+                // [START example_filters]
+                citiesRef.where("state", "==", "CA")
+                citiesRef.where("population", "<", 100000)
+                citiesRef.where("name", ">=", "San Francisco")
+                // [END example_filters]
+            });
+
+            it("should handle compound queries", () => {
+                var citiesRef = db.collection("cities");
+                // [START chain_filters]
+                citiesRef.where("state", "==", "CO").where("name", "==", "Denver")
+                citiesRef.where("state", "==", "CA").where("population", "<", 1000000)
+                // [END chain_filters]
+            });
+
+            it("should handle range filters on one field", () => {
+                var citiesRef = db.collection("cities");
+                // [START valid_range_filters]
+                citiesRef.where("state", ">=", "CA").where("state", "<=", "IN")
+                citiesRef.where("state", "==", "CA").where("population", ">", 1000000)
+                // [END valid_range_filters]
+            });
+
+            it("should not handle range filters on multiple field", () => {
+                var citiesRef = db.collection("cities");
+                expect(() => {
+                    // [START invalid_range_filters]
+                    citiesRef.where("state", ">=", "CA").where("population", ">", 100000)
+                    // [END invalid_range_filters]
+                }).to.throwException();
+            });
+
+            it("should order and limit", () => {
+                var citiesRef = db.collection("cities");
+                // [START order_and_limit]
+                citiesRef.orderBy("name").limit(3)
+                // [END order_and_limit]
+            });
+
+            it("should order descending", () => {
+                var citiesRef = db.collection("cities");
+                // [START order_and_limit_desc]
+                citiesRef.orderBy("name", "desc").limit(3)
+                // [END order_and_limit_desc]
+            });
+
+            it("should order descending by other field", () => {
+                var citiesRef = db.collection("cities");
+                // [START order_multiple]
+                citiesRef.orderBy("state").orderBy("population", "desc")
+                // [END order_multiple]
+            });
+
+            it("should where and order by with limit", () => {
+                var citiesRef = db.collection("cities");
+                // [START filter_and_order]
+                citiesRef.where("population", ">", 100000).orderBy("population").limit(2)
+                // [END filter_and_order]
+            });
+
+            it("should where and order on same field", () => {
+                var citiesRef = db.collection("cities");
+                // [START valid_filter_and_order]
+                citiesRef.where("population", ">", 100000).orderBy("population")
+                // [END valid_filter_and_order]
+            });
+
+            it("should not where and order on same field", () => {
+                var citiesRef = db.collection("cities");
+                expect(() => {
+                    // [START invalid_filter_and_order]
+                    citiesRef.where("population", ">", 100000).orderBy("country")
+                    // [END invalid_filter_and_order]
+                }).to.throwException();
+            });
+
+            it("should handle startAt", () => {
+                var citiesRef = db.collection("cities");
+                // [START order_and_start]
+                citiesRef.orderBy("population").startAt(1000000)
+                // [END order_and_start]
+            });
+
+            it("should handle endAt", () => {
+                var citiesRef = db.collection("cities");
+                // [START order_and_end]
+                citiesRef.orderBy("population").endAt(1000000)
+                // [END order_and_end]
+            });
+
+            it("should handle startAt(doc) ", () => {
+                // [START start_doc]
+                var citiesRef = db.collection("cities");
+
+                return citiesRef.doc("SF").get().then(function(doc) {
+                    // Get all cities with a populateion bigger than San Francisco
+                    var biggerThanSf = citiesRef
+                        .orderBy("population")
+                        .startAt(doc);
+
+                    // ...
+                });
+                // [END start_doc]
+            });
+
+            it("should handle multiple orderBy", () => {
+                // [START start_multiple_orderby]
+                // Will return all Springfields
+                db.collection("cities")
+                   .orderBy("name")
+                   .orderBy("state")
+                   .startAt("Springfield")
+
+                // Will return "Springfield, Missouri" and "Springfield, Wisconsin"
+                db.collection("cities")
+                   .orderBy("name")
+                   .orderBy("state")
+                   .startAt("Springfield", "Missouri")
+                // [END start_multiple_orderby]
+            });
+
+            it("shoud paginate", () => {
+              // [START paginate]
+              var first = db.collection("cities")
+                      .orderBy("population")
+                      .limit(25);
+
+              return first.get().then(function (documentSnapshots) {
+                // Get the last visible document
+                var lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+                console.log("last", lastVisible);
+
+                // Construct a new query starting at this document,
+                // get the next 25 cities.
+                var next = db.collection("cities")
+                        .orderBy("population")
+                        .startAfter(lastVisible)
+                        .limit(25);
+              });
+              // [END paginate]
+            });
+        });
+    });
+
+    // TODO: Break out into separate file
+    describe("solution-aggregation", () => {
+        it("should update a restaurant in a transaction #UNVERIFIED", () => {
+            // [START add_rating_transaction]
+            function addRating(restaurantRef, rating) {
+                // Create a reference for a new rating, for use inside the transaction
+                var ratingRef = restaurantRef.collection('ratings').doc();
+
+                // In a transaction, add the new rating and update the aggregate totals
+                return db.runTransaction(transaction => {
+                    return transaction.get(restaurantRef).then(res => {
+                        // Compute new number of ratings
+                        var newNumRatings = res.data().numRatings + 1;
+
+                        // Compute new average rating
+                        var oldRatingTotal = res.data().avgRating * res.data().numRatings;
+                        var newAvgRating = (oldRatingTotal * rating) / newNumRatings;
+
+                        // Commit to Firestore
+                        transaction.update(restaurantRef, {
+                            numRatings: newNumRatings,
+                            avgRating: newAvgRating
+                        });
+                        transaction.set(ratingRef, { rating: rating });
+                    })
+                });
+            }
+            // [END add_rating_transaction]
+
+            // Create document and add a rating
+            var ref = db.collection('resaurants').doc('arinell-pizza');
+            return ref.set({
+                name: 'Arinell Pizza',
+                avgRating: 4.63,
+                numRatings: 683
+            }).then(res => {
+                return addRating(ref, 5.0)
+            });
+        });
+    });
+});
