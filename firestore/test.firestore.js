@@ -586,7 +586,7 @@ describe("firestore", () => {
                 // [START update_with_server_timestamp]
                 var docRef = db.collection('objects').doc('some-id');
 
-                // Update the teimstamp field with the value form the server
+                // Update the timestamp field with the value from the server
                 var updateTimestamp = docRef.update({
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
