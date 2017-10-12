@@ -4,7 +4,7 @@ var arinellDoc = {
   avgRating: 4.65,
   numRatings: 683
 }
-// [EMD sample_doc]
+// [END sample_doc]
 
 describe("firestore-solution-arrays", () => {
     var db;
