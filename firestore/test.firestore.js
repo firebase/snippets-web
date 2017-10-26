@@ -742,7 +742,7 @@ describe("firestore", () => {
                 var citiesRef = db.collection("cities");
 
                 return citiesRef.doc("SF").get().then(function(doc) {
-                    // Get all cities with a populateion bigger than San Francisco
+                    // Get all cities with a population bigger than San Francisco
                     var biggerThanSf = citiesRef
                         .orderBy("population")
                         .startAt(doc);
