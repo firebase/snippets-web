@@ -320,7 +320,7 @@ describe("firestore", () => {
                 name: "Washington, D.C.", state: null, country: "USA",
                 capital: true, population: 680000 });
             citiesRef.doc("TOK").set({
-                name: "Tokyo", state: "null", country: "Japan",
+                name: "Tokyo", state: null, country: "Japan",
                 capital: true, population: 9000000 });
             citiesRef.doc("BJ").set({
                 name: "Beijing", state: null, country: "China",
