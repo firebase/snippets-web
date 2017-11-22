@@ -427,10 +427,10 @@ describe("firestore", () => {
                 return transaction.get(sfDocRef).then(function(sfDoc) {
                     var newPopulation = sfDoc.data().population + 1;
                     if (newPopulation <= 1000000) {
-                    transaction.update(sfDocRef, { population: newPopulation });
-                    return newPopulation;
+                        transaction.update(sfDocRef, { population: newPopulation });
+                        return newPopulation;
                     } else {
-                    return Promise.reject("Sorry! Population is too big.");
+                        return Promise.reject("Sorry! Population is too big.");
                     }
                 });
             }).then(function(newPopulation) {
