@@ -286,7 +286,7 @@ describe("firestore", () => {
                             return snapshot.size;
                         });
                     }).then(function(numDeleted) {
-                        if (numDeleted <= batchSize) {
+                        if (numDeleted < batchSize) {
                             resolve();
                             return;
                         }
