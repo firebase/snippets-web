@@ -807,7 +807,7 @@ describe("firestore", () => {
 
                         // Compute new average rating
                         var oldRatingTotal = res.data().avgRating * res.data().numRatings;
-                        var newAvgRating = (oldRatingTotal * rating) / newNumRatings;
+                        var newAvgRating = (oldRatingTotal + rating) / newNumRatings;
 
                         // Commit to Firestore
                         transaction.update(restaurantRef, {
