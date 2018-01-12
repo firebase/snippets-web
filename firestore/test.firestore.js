@@ -2,17 +2,13 @@ describe("firestore", () => {
     var db;
     before(() => {
         var config = {
-            apiKey: "AIzaSyBq2hAhIglCyzK0A4pW-bQVHwzfvF-Gx70",
-            authDomain: "firestore-hacker-news.firebaseapp.com",
-            databaseURL: "https://firestore-hacker-news.firebaseio.com",
-            projectId: "firestore-hacker-news",
-            storageBucket: "firestore-hacker-news.appspot.com",
-            messagingSenderId: "20031644771"
+            apiKey: "AIzaSyCM61mMr_iZnP1DzjT1PMB5vDGxfyWNM64",
+            authDomain: "firestore-snippets.firebaseapp.com",
+            projectId: "firestore-snippets"
         };
         var app = firebase.initializeApp(config);
         db = firebase.firestore(app);
         //firebase.firestore.setLogLevel("debug");
-
     });
 
     it("should be initializable with persistence", () => {
@@ -44,6 +40,32 @@ describe("firestore", () => {
             }
         });
       // [END initialize_persistence]
+    });
+
+    it("should be able to enable/disable network", () => {
+        var disable =
+        // [START disable_network]
+        firebase.firestore().disableNetwork()
+            .then(function() {
+                // Do offline actions
+                // [START_EXCLUDE]
+                console.log("Network disabled!");
+                // [END_EXCLUDE]
+            });
+        // [END disable_network]
+
+        var enable =
+        // [START enable_network]
+        firebase.firestore().enableNetwork()
+            .then(function() {
+                // Do online actions
+                // [START_EXCLUDE]
+                console.log("Network enabled!");
+                // [END_EXCLUDE]
+            });
+        // [END enable_network]
+
+        return Promise.all([enable, disable]);
     });
 
     it("should reply with .fromCache fields", () => {
@@ -293,9 +315,9 @@ describe("firestore", () => {
 
                         // Recurse on the next process tick, to avoid
                         // exploding the stack.
-                        process.nextTick(function() {
+                        setTimeout(function() {
                             deleteQueryBatch(db, query, batchSize, resolve, reject);
-                        });
+                        }, 0);
                     })
                     .catch(reject);
             }
@@ -406,6 +428,10 @@ describe("firestore", () => {
                 return db.runTransaction(function(transaction) {
                     // This code may get re-run multiple times if there are conflicts.
                     return transaction.get(sfDocRef).then(function(sfDoc) {
+                        if (!sfDoc.exists) {
+                            throw "Document does not exist!";
+                        }
+
                         var newPopulation = sfDoc.data().population + 1;
                         transaction.update(sfDocRef, { population: newPopulation });
                     });
@@ -425,6 +451,10 @@ describe("firestore", () => {
 
             db.runTransaction(function(transaction) {
                 return transaction.get(sfDocRef).then(function(sfDoc) {
+                    if (!sfDoc.exists) {
+                        throw "Document does not exist!";
+                    }
+
                     var newPopulation = sfDoc.data().population + 1;
                     if (newPopulation <= 1000000) {
                         transaction.update(sfDocRef, { population: newPopulation });
@@ -450,6 +480,7 @@ describe("firestore", () => {
                 if (doc.exists) {
                     console.log("Document data:", doc.data());
                 } else {
+                    // doc.data() will be undefined in this case
                     console.log("No such document!");
                 }
             }).catch(function(error) {
@@ -463,7 +494,7 @@ describe("firestore", () => {
             // [START listen_document]
             db.collection("cities").doc("SF")
                 .onSnapshot(function(doc) {
-                    console.log("Current data: ", doc && doc.data());
+                    console.log("Current data: ", doc.data());
                 });
             // [END listen_document]
 
@@ -479,7 +510,7 @@ describe("firestore", () => {
             db.collection("cities").doc("SF")
                 .onSnapshot(function(doc) {
                     var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-                    console.log(source, " data: ", doc && doc.data());
+                    console.log(source, " data: ", doc.data());
                 });
             // [END listen_document_local]
 
@@ -496,6 +527,7 @@ describe("firestore", () => {
                 .get()
                 .then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
+                        // doc.data() is never undefined for query doc snapshots
                         console.log(doc.id, " => ", doc.data());
                     });
                 })
@@ -510,6 +542,7 @@ describe("firestore", () => {
             // [START get_multiple_all]
             db.collection("cities").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
+                    // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
                 });
             });
@@ -601,6 +634,28 @@ describe("firestore", () => {
                 .then(() => {
                     console.log('Document updated with server timestamp');
                 });
+        });
+
+        it("should use options to control server timestamp resolution #UNVERIFIED", () => {
+            var options = {
+                // Options: 'estimate', 'previous', or 'none'
+                serverTimestamps: 'estimate'
+            };
+
+            // Perform an update followed by an immediate read without
+            // waiting for the update to complete. Due to the snapshot
+            // options we will get two results: one with an estimate
+            // timestamp and one with the resolved server timestamp.
+            var docRef = db.collection('objects').doc('some-id');
+            docRef.update({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            docRef.onSnapshot(function(snapshot) {
+                var data = snapshot.data(options);
+                console.log(
+                    'Timestamp: ' + data.timestamp +
+                    ', pending: ' + snapshot.metadata.hasPendingWrites);
+            });
         });
 
         it("should delete a document field", () => {
@@ -802,6 +857,10 @@ describe("firestore", () => {
                 // In a transaction, add the new rating and update the aggregate totals
                 return db.runTransaction(transaction => {
                     return transaction.get(restaurantRef).then(res => {
+                        if (!res.exists) {
+                            throw "Document does not exist!";
+                        }
+
                         // Compute new number of ratings
                         var newNumRatings = res.data().numRatings + 1;
 
