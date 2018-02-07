@@ -520,6 +520,24 @@ describe("firestore", () => {
             }, 3000);
         }).timeout(5000);
 
+        it("should listen on a single document with options #UNVERIFIED", (done) => {
+            var unsub =
+            // [START listen_with_metadata]
+            db.collection("cities").doc("SF")
+                .onSnapshot({
+                    // Listen for document metadata changes
+                    includeMetadataChanges: true
+                }, function(doc) {
+                    // ...
+                });
+            // [END listen_with_metadata]
+
+            setTimeout(function() {
+                unsub();
+                done();
+            }, 3000);
+        }).timeout(5000);
+
         it("should get multiple documents from a collection", () => {
             return output =
             // [START get_multiple]
