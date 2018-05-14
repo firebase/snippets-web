@@ -71,7 +71,7 @@ describe("firestore", () => {
     it("should reply with .fromCache fields", () => {
       // [START use_from_cache]
       db.collection("cities").where("state", "==", "CA")
-        .onSnapshot({ includeQueryMetadataChanges: true }, function(snapshot) {
+        .onSnapshot({ includeMetadataChanges: true }, function(snapshot) {
             snapshot.docChanges.forEach(function(change) {
                 if (change.type === "added") {
                     console.log("New city: ", change.doc.data());
