@@ -72,7 +72,7 @@ describe("firestore", () => {
       // [START use_from_cache]
       db.collection("cities").where("state", "==", "CA")
         .onSnapshot({ includeMetadataChanges: true }, function(snapshot) {
-            snapshot.docChanges.forEach(function(change) {
+            snapshot.docChanges().forEach(function(change) {
                 if (change.type === "added") {
                     console.log("New city: ", change.doc.data());
                 }
@@ -590,7 +590,7 @@ describe("firestore", () => {
             // [START listen_diffs]
             db.collection("cities").where("state", "==", "CA")
                 .onSnapshot(function(snapshot) {
-                    snapshot.docChanges.forEach(function(change) {
+                    snapshot.docChanges().forEach(function(change) {
                         if (change.type === "added") {
                             console.log("New city: ", change.doc.data());
                         }
