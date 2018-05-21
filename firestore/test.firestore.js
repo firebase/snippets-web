@@ -489,6 +489,28 @@ describe("firestore", () => {
             // [END get_document]
         });
 
+        it("should get a document with options #UNVERIFIED", () => {
+            // [START get_document_options]
+            var docRef = db.collection("cities").doc("SF");
+
+            // Valid options for source are 'server', 'cache', or
+            // 'default'. See https://firebase.google.com/docs/reference/js/firebase.firestore.GetOptions
+            // for more information.
+            var getOptions = {
+                source: 'cache'
+            };
+
+            // Get a document, forcing the SDK to fetch from the offline cache.
+            docRef.get(getOptions).then(function(doc) {
+                // Document was found in the cache. If no cached document exists,
+                // an error will be returned to the 'catch' block below.
+                console.log("Cached document data:", doc.data());
+            }).catch(function(error) {
+                console.log("Error getting cached document:", error);
+            });
+            // [END get_document_options]
+        });
+
         it("should listen on a single document", (done) => {
             var unsub =
             // [START listen_document]
