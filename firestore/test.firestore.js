@@ -231,6 +231,8 @@ describe("firestore", () => {
                 dateExample: new Date("December 10, 1815"),
                 arrayExample: [5, true, "hello"],
                 nullExample: null,
+                referenceExample: db.collection("data").doc(),
+                geoPointExample: new firestore.GeoPoint(37.422036, -122.084076),
                 objectExample: {
                     a: 5,
                     b: {
