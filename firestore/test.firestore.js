@@ -754,10 +754,10 @@ describe("firestore", () => {
                 // [END example_filters]
             });
 
-            it("should handle array_contains where", () => {
+            it("should handle array-contains where", () => {
                 var citiesRef = db.collection("cities");
                 // [START array_contains_filter]
-                citiesRef.where("regions", "array_contains", "west_coast")
+                citiesRef.where("regions", "array-contains", "west_coast")
                 // [END array_contains_filter]
             });
 
