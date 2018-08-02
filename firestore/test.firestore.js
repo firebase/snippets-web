@@ -334,19 +334,24 @@ describe("firestore", () => {
 
             citiesRef.doc("SF").set({
                 name: "San Francisco", state: "CA", country: "USA",
-                capital: false, population: 860000 });
+                capital: false, population: 860000,
+                regions: ["west_coast", "norcal"] });
             citiesRef.doc("LA").set({
                 name: "Los Angeles", state: "CA", country: "USA",
-                capital: false, population: 3900000 });
+                capital: false, population: 3900000,
+                regions: ["west_coast", "socal"] });
             citiesRef.doc("DC").set({
                 name: "Washington, D.C.", state: null, country: "USA",
-                capital: true, population: 680000 });
+                capital: true, population: 680000,
+                regions: ["east_coast"] });
             citiesRef.doc("TOK").set({
                 name: "Tokyo", state: null, country: "Japan",
-                capital: true, population: 9000000 });
+                capital: true, population: 9000000,
+                regions: ["kanto", "honshu"] });
             citiesRef.doc("BJ").set({
                 name: "Beijing", state: null, country: "China",
-                capital: true, population: 21500000 });
+                capital: true, population: 21500000,
+                regions: ["jingjinji", "hebei"] });
             // [END example_data]
         });
         it("should set a document", () => {
@@ -747,6 +752,13 @@ describe("firestore", () => {
                 citiesRef.where("population", "<", 100000)
                 citiesRef.where("name", ">=", "San Francisco")
                 // [END example_filters]
+            });
+
+            it("should handle array-contains where", () => {
+                var citiesRef = db.collection("cities");
+                // [START array_contains_filter]
+                citiesRef.where("regions", "array-contains", "west_coast")
+                // [END array_contains_filter]
             });
 
             it("should handle compound queries", () => {
