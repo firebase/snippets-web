@@ -410,6 +410,22 @@ describe("firestore", () => {
             // [END update_document]
         });
 
+        it("should update an array field in a document", () => {
+            // [START update_document_array]
+            var washingtonRef = db.collection("cities").doc("DC");
+
+            // Atomically add a new region to the "regions" array field.
+            washingtonRef.update({
+                regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+            });
+
+            // Atomically remove a region from the "regions" array field.
+            washingtonRef.update({
+                regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
+            });
+            // [END update_document_array]
+        });
+
         it("should delete a document", () => {
             return output =
             // [START delete_document]
