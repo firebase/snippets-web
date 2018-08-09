@@ -24,10 +24,6 @@ describe("firestore", () => {
       );
 
       firebase.firestore().enablePersistence()
-        .then(function() {
-            // Initialize Cloud Firestore through firebase
-            var db = firebase.firestore();
-        })
         .catch(function(err) {
             if (err.code == 'failed-precondition') {
                 // Multiple tabs open, persistence can only be enabled
@@ -39,6 +35,7 @@ describe("firestore", () => {
                 // ...
             }
         });
+      // Subsequent queries will use persistence, if it was enabled successfully
       // [END initialize_persistence]
     });
 
