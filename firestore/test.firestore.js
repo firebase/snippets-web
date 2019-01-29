@@ -225,7 +225,7 @@ describe("firestore", () => {
                 stringExample: "Hello world!",
                 booleanExample: true,
                 numberExample: 3.14159265,
-                dateExample: new Date("December 10, 1815"),
+                dateExample: firebase.firestore.Timestamp.fromDate(new Date("December 10, 1815")),
                 arrayExample: [5, true, "hello"],
                 nullExample: null,
                 objectExample: {
