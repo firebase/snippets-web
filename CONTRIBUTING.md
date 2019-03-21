@@ -105,11 +105,7 @@ Before you submit your pull request consider the following guidelines:
      ```
   Note: the optional commit `-a` command line option will automatically "add" and "rm" edited files.
 
-* Build your changes locally to ensure all the tests pass:
-
-    ```shell
-   gulp
-    ```
+* Open the local index.html file in your browser to ensure all the tests pass.
 
 * Push your branch to GitHub:
 

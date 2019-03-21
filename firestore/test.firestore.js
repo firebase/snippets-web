@@ -423,6 +423,18 @@ describe("firestore", () => {
             // [END update_document_array]
         });
 
+        it("should update a document using numeric transforms", () => {
+            // [START update_document_increment]
+            var washingtonRef = db.collection('cities').doc('DC');
+
+            // Atomically increment the population of the city by 50.
+            // Note that increment() with no arguments increments by 1.
+            washingtonRef.update({
+                population: firebase.firestore.FieldValue.increment(50)
+            });
+            // [END update_document_increment]
+        })
+
         it("should delete a document", () => {
             return output =
             // [START delete_document]
@@ -450,6 +462,9 @@ describe("firestore", () => {
                             throw "Document does not exist!";
                         }
 
+                        // Add one person to the city population.
+                        // Note: this could be done without a transaction
+                        //       by updating the population using FieldValue.increment()
                         var newPopulation = sfDoc.data().population + 1;
                         transaction.update(sfDocRef, { population: newPopulation });
                     });
