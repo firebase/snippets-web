@@ -429,7 +429,7 @@ describe("firestore", () => {
 
             // Atomically increment the population of the city by 50.
             // Note that increment() with no arguments increments by 1.
-            var popIncrement = washingtonRef.update({
+            washingtonRef.update({
                 population: firebase.firestore.FieldValue.increment(50)
             });
             // [END update_document_increment]
