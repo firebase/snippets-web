@@ -428,7 +428,6 @@ describe("firestore", () => {
             var washingtonRef = db.collection('cities').doc('DC');
 
             // Atomically increment the population of the city by 50.
-            // Note that increment() with no arguments increments by 1.
             washingtonRef.update({
                 population: firebase.firestore.FieldValue.increment(50)
             });
