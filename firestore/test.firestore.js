@@ -666,8 +666,13 @@ describe("firestore", () => {
         it("should unsubscribe a listener", () => {
             // [START detach_listener]
             var unsubscribe = db.collection("cities")
-                .onSnapshot(function () {});
-            // ...
+                .onSnapshot(function (){
+                  // Respond to data
+                  // ...
+                });
+            
+            // Later ...
+
             // Stop listening to changes
             unsubscribe();
             // [END detach_listener]
