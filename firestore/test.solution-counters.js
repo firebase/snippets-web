@@ -24,13 +24,8 @@ function incrementCounter(db, ref, num_shards) {
     const shard_id = Math.floor(Math.random() * num_shards).toString();
     const shard_ref = ref.collection('shards').doc(shard_id);
 
-    // Update count in a transaction
-    return db.runTransaction(t => {
-        return t.get(shard_ref).then(doc => {
-            const new_count = doc.data().count + 1;
-            t.update(shard_ref, { count: new_count });
-        });
-    });
+    // Update count
+    return shard_ref.update("count", firebase.firestore.FieldValue.increment(1));
 }
 // [END increment_counter]
 
