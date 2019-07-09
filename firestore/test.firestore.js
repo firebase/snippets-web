@@ -12,17 +12,13 @@ describe("firestore", () => {
     });
 
     it("should be initializable with persistence", () => {
-      // [START initialize_persistence]
       firebase.initializeApp({
         apiKey: '### FIREBASE API KEY ###',
         authDomain: '### FIREBASE AUTH DOMAIN ###',
         projectId: '### CLOUD FIRESTORE PROJECT ID ###',
-      }
-      // [START_EXCLUDE silent]
-      ,"persisted_app"
-      // [END_EXCLUDE]
-      );
+      } ,"persisted_app");
 
+      // [START initialize_persistence]
       firebase.firestore().enablePersistence()
         .catch(function(err) {
             if (err.code == 'failed-precondition') {
