@@ -17,7 +17,7 @@ export async function onDocumentReady() {
 export async function flushRealtimeDatabase(anRTDBReference) {
 
   //[START rtdb_emulator_flush]
-  // With a DatabaseReference, write null to the root node to delete the database.
+  // With a database Reference, write null to the root node to delete the database.
   anRTDBReference.child("/").set(null);
   // [END rtdb_emulator_connect]
 }
