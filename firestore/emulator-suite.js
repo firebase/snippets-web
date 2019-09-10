@@ -3,7 +3,7 @@
 export async function onDocumentReady(firebaseApp) {
 
   //[START fs_emulator_connect]
-  // firebasApp previously initialized using firebase.initializeApp()
+  //firebaseApp previously initialized using firebase.initializeApp()
   const db = firebaseApp.firestore();
   if (location.hostname === "localhost") {
     db.settings({
