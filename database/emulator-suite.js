@@ -13,3 +13,10 @@ export async function onDocumentReady() {
   const db = myApp.database();
   // [END rtdb_emulator_connect]
 }
+
+export async function flushRealtimeDatabase(anRTDBReference) {
+
+  //[START rtdb_emulator_flush]
+  anRTDBReference.child("/").set(null);
+  // [END rtdb_emulator_connect]
+}
