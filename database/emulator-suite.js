@@ -1,6 +1,5 @@
 
-
-export async function onDocumentReady() {
+function onDocumentReady() {
 
   //[START rtdb_emulator_connect]
   if (location.hostname === "localhost") {
@@ -17,7 +16,7 @@ export async function onDocumentReady() {
   // [END rtdb_emulator_connect]
 }
 
-export async function flushRealtimeDatabas(firebase) {
+function flushRealtimeDatabase(firebase) {
 
   //[START rtdb_emulator_flush]
   // With a database Reference, write null to clear the database.
