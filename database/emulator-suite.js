@@ -1,5 +1,5 @@
 
-function onDocumentReady() {
+function onDocumentReady(firebase) {
 
   //[START rtdb_emulator_connect]
   if (location.hostname === "localhost") {
