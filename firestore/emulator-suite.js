@@ -1,5 +1,5 @@
 
-export async function onDocumentReady(firebaseApp) {
+function onDocumentReady(firebaseApp) {
 
   //[START fs_emulator_connect]
   // firebaseApp previously initialized using firebase.initializeApp().
