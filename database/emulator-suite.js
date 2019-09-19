@@ -1,5 +1,5 @@
 
-function onDocumentReady() {
+function onDocumentReady(firebase) {
 
   //[START rtdb_emulator_connect]
   if (location.hostname === "localhost") {
@@ -21,5 +21,5 @@ function flushRealtimeDatabase(firebase) {
   //[START rtdb_emulator_flush]
   // With a database Reference, write null to clear the database.
   firebase.database().ref().set(null);
-  // [END rtdb_emulator_connect]
+  // [END rtdb_emulator_flush]
 }
