@@ -1031,7 +1031,7 @@ describe("firestore", () => {
             // [END add_rating_transaction]
 
             // Create document and add a rating
-            var ref = db.collection('resaurants').doc('arinell-pizza');
+            var ref = db.collection('restaurants').doc('arinell-pizza');
             return ref.set({
                 name: 'Arinell Pizza',
                 avgRating: 4.63,
