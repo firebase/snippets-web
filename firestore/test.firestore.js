@@ -797,19 +797,39 @@ describe("firestore", () => {
                 // [END array_contains_filter]
             });
 
+            it("should handle an array contains any where", () => {
+                const citiesRef = db.collection('cities');
+                // [START array_contains_any_filter]
+                citiesRef.where('regions', 'array-contains-any',
+                    ['west_coast', 'east_coast']);
+                // [END array_contains_any_filter]
+            });
+
+            it("should handle an in where", () => {
+                const citiesRef = db.collection('cities');
+                // [START in_filter]
+                citiesRef.where('region', 'in', ['USA', 'Japan']);
+                // [END in_filter]
+
+                // [START in_filter_with_array]
+                citiesRef.where('region', 'in',
+                    [['west_coast', 'east_coast']]);
+                // [END in_filter_with_array]
+            });
+
             it("should handle compound queries", () => {
                 var citiesRef = db.collection("cities");
                 // [START chain_filters]
-                citiesRef.where("state", "==", "CO").where("name", "==", "Denver")
-                citiesRef.where("state", "==", "CA").where("population", "<", 1000000)
+                citiesRef.where("state", "==", "CO").where("name", "==", "Denver");
+                citiesRef.where("state", "==", "CA").where("population", "<", 1000000);
                 // [END chain_filters]
             });
 
             it("should handle range filters on one field", () => {
                 var citiesRef = db.collection("cities");
                 // [START valid_range_filters]
-                citiesRef.where("state", ">=", "CA").where("state", "<=", "IN")
-                citiesRef.where("state", "==", "CA").where("population", ">", 1000000)
+                citiesRef.where("state", ">=", "CA").where("state", "<=", "IN");
+                citiesRef.where("state", "==", "CA").where("population", ">", 1000000);
                 // [END valid_range_filters]
             });
 
@@ -817,7 +837,7 @@ describe("firestore", () => {
                 var citiesRef = db.collection("cities");
                 expect(() => {
                     // [START invalid_range_filters]
-                    citiesRef.where("state", ">=", "CA").where("population", ">", 100000)
+                    citiesRef.where("state", ">=", "CA").where("population", ">", 100000);
                     // [END invalid_range_filters]
                 }).to.throwException();
             });
