@@ -808,7 +808,7 @@ describe("firestore", () => {
             it("should handle an in where", () => {
                 const citiesRef = db.collection('cities');
                 // [START in_filter]
-                citiesRef.where('region', 'in', ['USA', 'Japan']);
+                citiesRef.where('country', 'in', ['USA', 'Japan']);
                 // [END in_filter]
 
                 // [START in_filter_with_array]
