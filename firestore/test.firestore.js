@@ -11,6 +11,14 @@ describe("firestore", () => {
         //firebase.firestore.setLogLevel("debug");
     });
 
+    it("should be able to set the cache size", () => {
+        // [START fs_setup_cache]
+        firebase.firestore().settings({
+            cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+        });
+        // [END fs_setup_cache]
+    });
+
     it("should be initializable with persistence", () => {
       firebase.initializeApp({
         apiKey: '### FIREBASE API KEY ###',
@@ -33,14 +41,6 @@ describe("firestore", () => {
         });
       // Subsequent queries will use persistence, if it was enabled successfully
       // [END initialize_persistence]
-    });
-
-    it("should be able to set the cache size", () => {
-        // [START fs_setup_cache]
-        firebase.firestore().settings({
-            cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
-        });
-        // [END fs_setup_cache]
     });
 
     it("should be able to enable/disable network", () => {
