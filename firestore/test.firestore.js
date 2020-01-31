@@ -197,6 +197,62 @@ describe("firestore", () => {
             // [END set_document]
         });
 
+        it("should set document with a custom object converter", () => {
+            // [START city_custom_object]
+            class City {
+                constructor (name, state, country ) {
+                    this.name = name;
+                    this.state = state;
+                    this.country = country;
+                }
+                toString() {
+                    return this.name + ', ' + this.state + ', ' + this.country;
+                }
+            }
+                
+                // Firestore data converter
+              cityConverter = {
+                  toFirestore: function(city) {
+                      return {
+                          name: city.name,
+                          state: city.state,
+                          country: city.country
+                          }
+                  },
+                  fromFirestore: function(snapshot, options){
+                      const data = snapshot.data(options);
+                      return new City(data.name, data.state, data.country)
+                  }
+              }
+            // [END city_custom_object]
+            return output =
+            // [START set_custom_object]
+            // Set with cityConverter
+            db.collection("cities").doc("LA")
+              .withConverter(cityConverter)
+              .set(new City("Los Angeles", "CA", "USA"));
+            // [END set_custom_object]
+        });
+
+        it("should get document with a custom object converter", () => {
+            return output =
+            // [START get_custom_object]
+            db.collection("cities").doc("LA")
+              .withConverter(cityConverter)
+              .get().then(function(doc) {
+                if (doc.exists){
+                  // Convert to City object
+                  city = doc.data();
+                  // Use a City instance method
+                  console.log(city.toString());
+                } else {
+                  console.log("No such document!")
+                }}).catch(function(error) {
+                  console.log("Error getting document:", error)
+                });
+            // [END get_custom_object]
+        });
+
         it("should support batch writes", (done) => {
             // [START write_batch]
             // Get a new write batch
