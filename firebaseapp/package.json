@@ -1,0 +1,14 @@
+{
+  "name": "firebaseapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "firebaseapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "firebase": "^7.9.2"
+  }
+}
