@@ -5,9 +5,8 @@ function onDocumentReady(firebaseApp) {
   // firebaseApp previously initialized using firebase.initializeApp().
   var db = firebaseApp.firestore();
   if (location.hostname === "localhost") {
-    // Note that the Firebase Web SDK must connect to the WebChannel port
     db.settings({
-      host: "localhost:8081",
+      host: "localhost:8080",
       ssl: false
     });
   }
