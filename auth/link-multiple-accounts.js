@@ -36,6 +36,38 @@ function getProviders() {
   // [END auth_get_providers]
 }
 
+function simpleLink() {
+  // This is just a dummy variable for sample purposes, the other
+  // snippets demonstrate how to get a real credential.
+  var credential = new firebase.auth.AuthCredential();
+
+  // [START auth_simple_link]
+  auth.currentUser.linkWithCredential(credential)
+    .then(function(usercred) {
+      var user = usercred.user;
+      console.log("Account linking success", user);
+    }).catch(function(error) {
+      console.log("Account linking error", error);
+    });
+  // [END auth_simple_link]
+}
+
+function anonymousLink() {
+  // This is just a dummy variable for sample purposes, the other
+  // snippets demonstrate how to get a real credential.
+  var credential = new firebase.auth.AuthCredential();
+
+  // [START auth_anonymous_link]
+  auth.currentUser.linkWithCredential(credential)
+    .then(function(usercred) {
+      var user = usercred.user;
+      console.log("Anonymous account successfully upgraded", user);
+    }).catch(function(error) {
+      console.log("Error upgrading anonymous account", error);
+    });
+  // [END auth_anonymous_link]
+}
+
 function linkWithPopup() {
   var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -75,17 +107,6 @@ function linkWithRedirect() {
   });
   // [END auth_get_redirect_result]
 }
-
-// For one, the user variable in the line:
-// return user.delete().then(function() {
-// does not have a .delete function, it would need to be user.user.delete()
-// & in this example they suggest:
-// // Merge prevUser and currentUser data stored in Firebase
-// which in this auth context (& assuming basic security rules enabled) would mean you would only have access to currentUser ’s storage, 
-// but then they delete the current user & link the credential to the previous user. In otherwords you would only be able to merge the previous user’s 
-// data into the current user’s storage, however the current user is deleted & no longer accessible
-// So I’d just like a sanity check here that this example is indeed a flawed approach!
-
 
 function mergeAccounts() {
   // This is just a dummy variable for sample purposes, the other
@@ -134,3 +155,25 @@ function mergeAccounts() {
   // [END auth_merge_accounts]
 }
 
+function makeEmailCredential() {
+  var email = "test@test.com";
+  var password = "abcde12345";
+
+  // [START auth_make_email_credential]
+  var credential = firebase.auth.EmailAuthProvider.credential(email, password);
+  // [END auth_make_email_credential]
+}
+
+function unlink() {
+  var user = auth.currentUser;
+
+  // [START auth_unlink_provider]
+  user.unlink(providerId).then(function() {
+    // Auth provider unlinked from account
+    // ...
+  }).catch(function(error) {
+    // An error happened
+    // ...
+  });
+  // [END auth_unlink_provider]
+}
