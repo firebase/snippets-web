@@ -392,27 +392,25 @@ describe("firestore", () => {
             citiesRef.doc("SF").set({
                 name: "San Francisco", state: "CA", country: "USA",
                 capital: false, population: 860000,
-                "historical.facts": {"established.year": 1997},
+                "political.leaders": {"state.governor": "Gavin Newsom"},
                 regions: ["west_coast", "norcal"] });
             citiesRef.doc("LA").set({
                 name: "Los Angeles", state: "CA", country: "USA",
                 capital: false, population: 3900000,
-                "historical.facts": {"established.year": 1781},
+                "political.leaders": {"state.governor": "Gavin Newsom"},
                 regions: ["west_coast", "socal"] });
             citiesRef.doc("DC").set({
                 name: "Washington, D.C.", state: null, country: "USA",
                 capital: true, population: 680000,
-                "historical.facts": {"established.year": 1790},
+                "political.leaders": {"state.governor": "Jay Inslee"},
                 regions: ["east_coast"] });
             citiesRef.doc("TOK").set({
                 name: "Tokyo", state: null, country: "Japan",
                 capital: true, population: 9000000,
-                "historical.facts": {"established.year": 1603},
                 regions: ["kanto", "honshu"] });
             citiesRef.doc("BJ").set({
                 name: "Beijing", state: null, country: "China",
                 capital: true, population: 21500000,
-                "historical.facts": {"established.year": -1045},
                 regions: ["jingjinji", "hebei"] });
             // [END example_data]
         });
@@ -832,9 +830,9 @@ describe("firestore", () => {
                 // Create a query against the collection.
                 var query = citiesRef.where("state", "==", "CA");
 
-                // Create a query with the FieldPath for escaping
-                var fieldPathFilter = new firebase.firestore.FieldPath("historical.facts", "established.year");
-                var ancientCities = citiesRef.where(fieldPathFilter, "<", 0);
+                // Alternative query showcasing FieldPath usage
+                var fieldPathFilter = new firebase.firestore.FieldPath("political.leaders", "state.governor");
+                var query2 = citiesRef.where(fieldPathFilter, "==", "Gavin Newsom");
                 // [END simple_queries]
             });
 
