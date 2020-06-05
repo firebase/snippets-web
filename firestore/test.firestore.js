@@ -868,7 +868,7 @@ describe("firestore", () => {
                 // [END in_filter]
 
                 // [START in_filter_with_array]
-                citiesRef.where('region', 'in',
+                citiesRef.where('regions', 'in',
                     [['west_coast', 'east_coast']]);
                 // [END in_filter_with_array]
             });
