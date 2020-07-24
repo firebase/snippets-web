@@ -1,10 +1,10 @@
 // These samples are intended for Web so this import would normally be
 // done in HTML however using modules here is more convenient for
 // ensuring sample correctness offline.
-var firebase = require('firebase');
-var auth = firebase.auth();
+const firebase = require('firebase');
+const auth = firebase.auth();
 
-var MyUserDataRepo = function() {};
+const MyUserDataRepo = function() {};
 
 MyUserDataRepo.prototype.merge = function(data1, data2) {
   // TODO(you): How you implement this is specific to your application!

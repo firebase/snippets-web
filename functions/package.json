@@ -1,9 +1,9 @@
 {
-  "name": "firebaseapp",
+  "name": "functions",
   "version": "1.0.0",
   "scripts": {},
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "^7.9.2"
+    "firebase": "^7.17.1"
   }
 }

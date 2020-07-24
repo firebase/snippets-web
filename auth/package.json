@@ -1,9 +1,7 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "description": "",
   "scripts": {},
-  "author": "",
   "license": "Apache 2.0",
   "dependencies": {
     "firebase": "^7.12.0"

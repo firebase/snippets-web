@@ -1,9 +1,10 @@
+const firebase = require('firebase');
+require('firebase/firestore');
 
 function onDocumentReady(firebaseApp) {
-
   //[START fs_emulator_connect]
-  // firebaseApp previously initialized using firebase.initializeApp().
-  var db = firebaseApp.firestore();
+  // Firebase previously initialized using firebase.initializeApp().
+  var db = firebase.firestore();
   if (location.hostname === "localhost") {
     db.settings({
       host: "localhost:8080",

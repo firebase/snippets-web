@@ -1,0 +1,12 @@
+{
+  "lerna": "2.8.0",
+  "packages": [
+    "auth",
+    "database",
+    "firebaseapp",
+    "firestore",
+    "functions",
+    "installations"
+  ],
+  "version": "1.0.0"
+}

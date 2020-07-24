@@ -1,0 +1,11 @@
+{
+  "name": "snippets-web",
+  "version": "1.0.0",
+  "scripts": {
+    "lerna-bootstrap": "lerna bootstrap"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}
