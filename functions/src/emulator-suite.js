@@ -14,12 +14,13 @@ export function emulatorSettings() {
   // [END functions_emulator_connect]
 }
 
-export function callFunction() {
+export async function callFunction() {
   // [START functions_callable_call]
-  const addMessage = httpsCallable(getFunctions(getApp()), 'addMessage');
-  addMessage({ text: '<message text>'}).then((result) => {
-    const sanitizedMessage = result.data.text;
-    // ...
-  });
+  const functions = getFunctions(getApp());
+  const addMessage = httpsCallable(functions, 'addMessage');
+
+  const result = await addMessage({ text: '<message text>'});
+  const sanitizedMessage = result.data.text;
+  // ...
   // [END functions_callable_call]
 }
