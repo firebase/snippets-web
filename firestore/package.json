@@ -4,6 +4,6 @@
   "scripts": {},
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "^7.17.1"
+    "firebase": "^0.800.7"
   }
 }

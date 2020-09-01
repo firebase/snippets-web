@@ -1,34 +1,41 @@
+import { initializeApp } from "@firebase/app";
+import { getFirestore } from "@firebase/firestore";
+
 describe("firestore", () => {
-    var db;
+    let db;
     before(() => {
-        var config = {
+        const config = {
             apiKey: "AIzaSyCM61mMr_iZnP1DzjT1PMB5vDGxfyWNM64",
             authDomain: "firestore-snippets.firebaseapp.com",
             projectId: "firestore-snippets"
         };
-        var app = firebase.initializeApp(config);
-        db = firebase.firestore(app);
+        const app = initializeApp(config);
+        db = getFirestore(app);
         //firebase.firestore.setLogLevel("debug");
     });
 
     it("should be able to set the cache size", () => {
         // [START fs_setup_cache]
-        firebase.firestore().settings({
+        db.settings({
             cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
         });
         // [END fs_setup_cache]
     });
 
     it("should be initializable with persistence", () => {
-      firebase.initializeApp({
+      const app = initializeApp({
         apiKey: '### FIREBASE API KEY ###',
         authDomain: '### FIREBASE AUTH DOMAIN ###',
         projectId: '### CLOUD FIRESTORE PROJECT ID ###',
       } ,"persisted_app");
 
+      const db = getFirestore(app);
+
       // [START initialize_persistence]
-      firebase.firestore().enablePersistence()
-        .catch(function(err) {
+      const { enableIndexedDbPersistence } = require("@firebase/firestore"); 
+
+      enableIndexedDbPersistence(db)
+        .catch((err) => {
             if (err.code == 'failed-precondition') {
                 // Multiple tabs open, persistence can only be enabled
                 // in one tab at a a time.
@@ -43,109 +50,108 @@ describe("firestore", () => {
       // [END initialize_persistence]
     });
 
-    it("should be able to enable/disable network", () => {
-        var disable =
-        // [START disable_network]
-        firebase.firestore().disableNetwork()
-            .then(function() {
-                // Do offline actions
-                // [START_EXCLUDE]
-                console.log("Network disabled!");
-                // [END_EXCLUDE]
-            });
-        // [END disable_network]
+    it("should be able to enable/disable network", async () => {
+      // [START disable_network]
+      const { disableNetwork } = require("@firebase/firestore"); 
 
-        var enable =
-        // [START enable_network]
-        firebase.firestore().enableNetwork()
-            .then(function() {
-                // Do online actions
-                // [START_EXCLUDE]
-                console.log("Network enabled!");
-                // [END_EXCLUDE]
-            });
-        // [END enable_network]
+      await disableNetwork(db);
+      console.log("Network disabled!");
+      // Do offline actions
+      // [START_EXCLUDE]
+      console.log("Network disabled!");
+      // [END_EXCLUDE]
+      // [END disable_network]
 
-        return Promise.all([enable, disable]);
+      // [START enable_network]
+      const { enableNetwork } = require("@firebase/firestore"); 
+
+      await enableNetwork(db)
+      // Do online actions
+      // [START_EXCLUDE]
+      console.log("Network enabled!");
+      // [END_EXCLUDE]
+      // [END enable_network]
+
     });
 
     it("should reply with .fromCache fields", () => {
       // [START use_from_cache]
-      db.collection("cities").where("state", "==", "CA")
-        .onSnapshot({ includeMetadataChanges: true }, function(snapshot) {
-            snapshot.docChanges().forEach(function(change) {
-                if (change.type === "added") {
-                    console.log("New city: ", change.doc.data());
-                }
+      const { collection, onSnapshot, where, query } = require("@firebase/firestore"); 
+      
+      const query = query(collection(db, "cities"), where("state", "==", "CA"));
+      onSnapshot(query, { includeMetadataChanges: true }, (snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+              if (change.type === "added") {
+                  console.log("New city: ", change.doc.data());
+              }
 
-                var source = snapshot.metadata.fromCache ? "local cache" : "server";
-                console.log("Data came from " + source);
-            });
-        });
+              const source = snapshot.metadata.fromCache ? "local cache" : "server";
+              console.log("Data came from " + source);
+          });
+      });
       // [END use_from_cache]
     });
 
     describe("collection('users')", () => {
-        it("should add data to a collection", () => {
-            return output =
+        it("should add data to a collection", async () => {
             // [START add_ada_lovelace]
-            db.collection("users").add({
+            const { collection, addDoc } = require("@firebase/firestore"); 
+
+            try {
+              const docRef = await addDoc(collection(db, "users"), {
                 first: "Ada",
                 last: "Lovelace",
                 born: 1815
-            })
-            .then(function(docRef) {
-                console.log("Document written with ID: ", docRef.id);
-            })
-            .catch(function(error) {
-                console.error("Error adding document: ", error);
-            });
+              });
+              console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+              console.error("Error adding document: ", e);
+            }
             // [END add_ada_lovelace]
         });
 
-        it("should get all users", () => {
-            return output =
+        it("should get all users", async () => {
             // [START get_all_users]
-            db.collection("users").get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    console.log(`${doc.id} => ${doc.data()}`);
-                });
+            const { getDocs } = require("@firebase/firestore"); 
+
+            const querySnapshot = await getDocs(db.collection("users"));
+            querySnapshot.forEach((doc) => {
+              console.log(`${doc.id} => ${doc.data()}`);
             });
             // [END get_all_users]
         });
 
-        it("should add data to a collection with new fields", () => {
-            return output =
+        it("should add data to a collection with new fields", async () => {
             // [START add_alan_turing]
             // Add a second document with a generated ID.
-            db.collection("users").add({
+            const { addDoc, collection } = require("@firebase/firestore"); 
+
+            try {
+              const docRef = await addDoc(collection(db, "users"), {
                 first: "Alan",
                 middle: "Mathison",
                 last: "Turing",
                 born: 1912
-            })
-            .then(function(docRef) {
-                console.log("Document written with ID: ", docRef.id);
-            })
-            .catch(function(error) {
-                console.error("Error adding document: ", error);
-            });
+              });
+
+              console.log("Document written with ID: ", docRef.id);
+            } catch (e) {
+              console.error("Error adding document: ", e);
+            }
             // [END add_alan_turing]
         });
 
         it("should loop through a watched collection", (done) => {
-            // This is not a typo.
-            var unsubscribe =
-
             // [START listen_for_users]
-            db.collection("users")
-                .where("born", "<", 1900)
-                .onSnapshot(function(snapshot) {
-                    console.log("Current users born before 1900:");
-                    snapshot.forEach(function (userSnapshot) {
-                        console.log(userSnapshot.data())
-                    });
+            const { collection, where, query, onSnapshot } = require("@firebase/firestore"); 
+
+            const q = query(collection(db, "users"), where("born", "<", 1900));
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                console.log("Current users born before 1900:");
+                snapshot.forEach(function (userSnapshot) {
+                    console.log(userSnapshot.data())
                 });
+            });
             // [END listen_for_users]
 
             setTimeout(() => {
@@ -156,48 +162,50 @@ describe("firestore", () => {
 
         it("should reference a specific document", () => {
             // [START doc_reference]
-            var alovelaceDocumentRef = db.collection('users').doc('alovelace');
+            const { collection, doc } = require("@firebase/firestore");
+
+            const alovelaceDocumentRef = doc(collection(db, 'users'), 'alovelace');
             // [END doc_reference]
         });
 
         it("should reference a specific collection", () => {
             // [START collection_reference]
-            var usersCollectionRef = db.collection('users');
+            const { collection } = require("@firebase/firestore");
+
+            const usersCollectionRef = collection(db, 'users');
             // [END collection_reference]
         });
 
         it("should reference a specific document (alternative)", () => {
             // [START doc_reference_alternative]
-            var alovelaceDocumentRef = db.doc('users/alovelace');
+            const { doc } = require("@firebase/firestore"); 
+
+            const alovelaceDocumentRef = doc(db, 'users/alovelace');
             // [END doc_reference_alternative]
         })
 
         it("should reference a document in a subcollection", () => {
             // [START subcollection_reference]
-            var messageRef = db.collection('rooms').doc('roomA')
-                            .collection('messages').doc('message1');
+            const { doc, collection } = require("@firebase/firestore"); 
+
+            const messageRef = doc(collection(doc(collection("rooms"), "roomA"), "messages"), "message1");
             // [END subcollection_reference]
         });
 
-        it("should set a document", () => {
-            return output =
+        it("should set a document", async () => {
             // [START set_document]
+            const { doc, collection, setDoc } = require("@firebase/firestore"); 
+
             // Add a new document in collection "cities"
-            db.collection("cities").doc("LA").set({
-                name: "Los Angeles",
-                state: "CA",
-                country: "USA"
-            })
-            .then(function() {
-                console.log("Document successfully written!");
-            })
-            .catch(function(error) {
-                console.error("Error writing document: ", error);
+            await setDoc(doc(collection(db, "cities"), "LA"), {
+              name: "Los Angeles",
+              state: "CA",
+              country: "USA"
             });
             // [END set_document]
         });
 
-        it("should set document with a custom object converter", () => {
+        it("should set document with a custom object converter", async () => {
             // [START city_custom_object]
             class City {
                 constructor (name, state, country ) {
@@ -210,78 +218,76 @@ describe("firestore", () => {
                 }
             }
                 
-                // Firestore data converter
-              cityConverter = {
-                  toFirestore: function(city) {
-                      return {
-                          name: city.name,
-                          state: city.state,
-                          country: city.country
-                          }
-                  },
-                  fromFirestore: function(snapshot, options){
-                      const data = snapshot.data(options);
-                      return new City(data.name, data.state, data.country)
-                  }
-              }
+            // Firestore data converter
+            cityConverter = {
+                toFirestore: function(city) {
+                    return {
+                        name: city.name,
+                        state: city.state,
+                        country: city.country
+                        }
+                },
+                fromFirestore: function(snapshot, options){
+                    const data = snapshot.data(options);
+                    return new City(data.name, data.state, data.country)
+                }
+            }
             // [END city_custom_object]
-            return output =
             // [START set_custom_object]
+            const { doc, collection, setDoc } = require("@firebase/firestore"); 
+            
             // Set with cityConverter
-            db.collection("cities").doc("LA")
-              .withConverter(cityConverter)
-              .set(new City("Los Angeles", "CA", "USA"));
+            const ref = doc(collection(db, "cities"), "LA").withConverter(cityConverter);
+            await setDoc(ref, new City("Los Angeles", "CA", "USA"));
             // [END set_custom_object]
         });
 
-        it("should get document with a custom object converter", () => {
-            return output =
+        it("should get document with a custom object converter", async () => {
             // [START get_custom_object]
-            db.collection("cities").doc("LA")
-              .withConverter(cityConverter)
-              .get().then(function(doc) {
-                if (doc.exists){
-                  // Convert to City object
-                  city = doc.data();
-                  // Use a City instance method
-                  console.log(city.toString());
-                } else {
-                  console.log("No such document!")
-                }}).catch(function(error) {
-                  console.log("Error getting document:", error)
-                });
+            const { doc, collection, getDoc} = require("@firebase/firestore"); 
+
+            const ref = collection(doc(db, "cities"), "LA").withConverter(cityConverter);
+            const doc = await getDoc(ref);
+            if (doc.exists){
+              // Convert to City object
+              city = doc.data();
+              // Use a City instance method
+              console.log(city.toString());
+            } else {
+              console.log("No such document!")
+            }
             // [END get_custom_object]
         });
 
-        it("should support batch writes", (done) => {
+        it("should support batch writes", async () => {
             // [START write_batch]
+            const { writeBatch, doc, collection } = require("@firebase/firestore"); 
+
             // Get a new write batch
-            var batch = db.batch();
+            const batch = writeBatch(db);
 
             // Set the value of 'NYC'
-            var nycRef = db.collection("cities").doc("NYC");
+            const nycRef = doc(collection(db, "cities"), "NYC");
             batch.set(nycRef, {name: "New York City"});
 
             // Update the population of 'SF'
-            var sfRef = db.collection("cities").doc("SF");
+            const sfRef = doc(collection(db, "cities"), "SF");
             batch.update(sfRef, {"population": 1000000});
 
             // Delete the city 'LA'
-            var laRef = db.collection("cities").doc("LA");
+            const laRef = doc(collection(db, "cities"), "LA");
             batch.delete(laRef);
 
             // Commit the batch
-            batch.commit().then(function () {
-                // [START_EXCLUDE]
-                done();
-                // [END_EXCLUDE]
-            });
+            await batch.commit();
             // [END write_batch]
         });
 
-        it("should set a document with every datatype #UNVERIFIED", () => {
+        it("should set a document with every datatype #UNVERIFIED", async () => {
             // [START data_types]
-            var docData = {
+            const { doc, collection, setDoc } = require("@firebase/firestore"); 
+
+            const docData = {
                 stringExample: "Hello world!",
                 booleanExample: true,
                 numberExample: 3.14159265,
@@ -295,40 +301,36 @@ describe("firestore", () => {
                     }
                 }
             };
-            db.collection("data").doc("one").set(docData).then(function() {
-                console.log("Document successfully written!");
-            });
+            await setDoc(doc(collection(db, "data"), "one"), docData);
             // [END data_types]
         });
 
-        it("should allow set with merge", () => {
+        it("should allow set with merge", async () => {
             // [START set_with_merge]
-            var cityRef = db.collection('cities').doc('BJ');
+            const { doc, collection, setDoc } = require("@firebase/firestore"); 
 
-            var setWithMerge = cityRef.set({
-                capital: true
-            }, { merge: true });
+            const cityRef = doc(collection(db, 'cities'), 'BJ');
+            setDoc(cityRef, { capital: true }, { merge: true });
             // [END set_with_merge]
             return setWithMerge;
         });
 
-        it("should update a document's nested fields #UNVERIFIED", () => {
+        it("should update a document's nested fields #UNVERIFIED", async () => {
             // [START update_document_nested]
+            const { doc, collection, setDoc, updateDoc } = require("@firebase/firestore"); 
+
             // Create an initial document to update.
-            var frankDocRef = db.collection("users").doc("frank");
-            frankDocRef.set({
+            const frankDocRef = doc(collection(db, "users"), "frank");
+            await setDoc(frankDocRef, {
                 name: "Frank",
                 favorites: { food: "Pizza", color: "Blue", subject: "recess" },
                 age: 12
             });
 
             // To update age and favorite color:
-            db.collection("users").doc("frank").update({
+            await updateDoc(frankDocRef, {
                 "age": 13,
                 "favorites.color": "Red"
-            })
-            .then(function() {
-                console.log("Document successfully updated!");
             });
             // [END update_document_nested]
         });
