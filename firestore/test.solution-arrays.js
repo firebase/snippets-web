@@ -1,4 +1,4 @@
-let postsWithArray = [
+const postsWithArray = [
     // [START post_with_array]
     // Sample document in the 'posts' collection.
     {
@@ -12,7 +12,7 @@ let postsWithArray = [
     // [END post_with_array]
 ];
 
-let postsWithMap = [
+const postsWithMap = [
     // [START post_with_map]
     // Sample document in the 'posts' collection
     {
@@ -26,7 +26,7 @@ let postsWithMap = [
     // [END post_with_map]
 ];
 
-let postsWithMapAdvanced = [
+const postsWithMapAdvanced = [
     // [START post_with_map_advanced]
     // The value of each entry in 'categories' is a unix timestamp
     {
@@ -41,43 +41,55 @@ let postsWithMapAdvanced = [
 ]
 
 describe("firestore-solution-arrays", () => {
-    var db;
+    let db;
     before(() => {
-        var config = {
+        const { initializeApp } = require("@firebase/app");
+        const { getFirestore } = require("@firebase/firestore");
+  
+        const config = {
             apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
             authDomain: "firestorequickstarts.firebaseapp.com",
             projectId: "firestorequickstarts",
         };
-        var app = firebase.initializeApp(config, "solution-arrays");
-        db = firebase.firestore(app);
+        const app = initializeApp(config, "solution-arrays");
+        db = getFirestore(app);
     });
 
     describe("solution-arrays", () => {
-        it("should query in a category #UNVERIFIED", () => {
+        it("should query in a category", async () => {
             // [START query_in_category]
+            const { collection, getDocs, query, where } = require("@firebase/firestore");
+
             // Find all documents in the 'posts' collection that are
             // in the 'cats' category.
-            db.collection('posts')
-                .where('categories.cats', '==', true)
-                .get()
-                .then(() => {
-                    // ...
-                });
+            const q = query(collection(db, "posts"), where("categories.cats", "==", true));
+            const docs = await getDocs(q);
+            // ...
             // [END query_in_category]
         });
 
-        it("should query in a category by timestamp #UNVERIFIED", () => {
-            // [START query_in_category_timestamp_invalid]
-            db.collection('posts')
-                .where('categories.cats', '==', true)
-                .orderBy('timestamp');
-            // [END query_in_category_timestamp_invalid]
+        it("should query in a category by timestamp", () => {
+            function queryOne() {
+                // [START query_in_category_timestamp_invalid]
+                const { collection, query, where, orderBy } = require("@firebase/firestore");
 
-            // [START query_in_category_timestamp]
-            db.collection('posts')
-                .where('categories.cats', '>', 0)
-                .orderBy('categories.cats');
-            // [END query_in_category_timestamp]
+                const q = query(collection(db, "posts"),
+                    where("categories.cats", "==", true),
+                    orderBy("timestamp"));
+                // [END query_in_category_timestamp_invalid]
+            }
+
+
+            function queryTwo() {
+                // [START query_in_category_timestamp]
+                const { collection, query, where, orderBy } = require("@firebase/firestore");
+
+                const q = query(collection(db, "posts"),
+                    where("categories.cats", ">", 0),
+                    orderBy("categories.cats"));
+                // [END query_in_category_timestamp]
+            }
+
         });
     });
 });
