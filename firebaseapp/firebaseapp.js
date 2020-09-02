@@ -1,4 +1,4 @@
-var firebase = require('@firebase/app');
+var firebase = require('firebase/app');
 
 function multpleFirebaseApps() {
     // [START firebase_options]

@@ -1,9 +1,11 @@
 {
   "name": "installations",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
+  },
   "license": "Apache 2.0",
   "dependencies": {
-    "firebase": "^7.16.1"
+    "firebase": "^7.19.1"
   }
 }

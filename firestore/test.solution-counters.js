@@ -1,3 +1,6 @@
+var firebase = require('firebase/app');
+require('firebase/firestore');
+
 var db;
 
 // [START create_counter]

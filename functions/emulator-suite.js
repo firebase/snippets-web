@@ -1,5 +1,5 @@
-const firebase = require("firebase");
-require("firebase/functions");
+var firebase = require('firebase/app');
+require('firebase/functions');
 
 function emulatorSettings() {
   // [START functions_emulator_connect]

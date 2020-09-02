@@ -1,3 +1,35 @@
+var firebase = require('firebase/app');
+const { expect } = require('chai');
+require('firebase/firestore');
+
+// [START city_custom_object]
+class City {
+    constructor (name, state, country ) {
+        this.name = name;
+        this.state = state;
+        this.country = country;
+    }
+    toString() {
+        return this.name + ', ' + this.state + ', ' + this.country;
+    }
+}
+    
+// Firestore data converter
+var cityConverter = {
+    toFirestore: function(city) {
+        return {
+            name: city.name,
+            state: city.state,
+            country: city.country
+            }
+    },
+    fromFirestore: function(snapshot, options){
+        const data = snapshot.data(options);
+        return new City(data.name, data.state, data.country)
+    }
+}
+// [END city_custom_object]
+
 describe("firestore", () => {
     var db;
     before(() => {
@@ -87,7 +119,7 @@ describe("firestore", () => {
 
     describe("collection('users')", () => {
         it("should add data to a collection", () => {
-            return output =
+            var output =
             // [START add_ada_lovelace]
             db.collection("users").add({
                 first: "Ada",
@@ -101,10 +133,11 @@ describe("firestore", () => {
                 console.error("Error adding document: ", error);
             });
             // [END add_ada_lovelace]
+            return output;
         });
 
         it("should get all users", () => {
-            return output =
+            var output =
             // [START get_all_users]
             db.collection("users").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -112,10 +145,11 @@ describe("firestore", () => {
                 });
             });
             // [END get_all_users]
+            return output;
         });
 
         it("should add data to a collection with new fields", () => {
-            return output =
+            var output =
             // [START add_alan_turing]
             // Add a second document with a generated ID.
             db.collection("users").add({
@@ -131,6 +165,7 @@ describe("firestore", () => {
                 console.error("Error adding document: ", error);
             });
             // [END add_alan_turing]
+            return output;
         });
 
         it("should loop through a watched collection", (done) => {
@@ -180,7 +215,7 @@ describe("firestore", () => {
         });
 
         it("should set a document", () => {
-            return output =
+            var output =
             // [START set_document]
             // Add a new document in collection "cities"
             db.collection("cities").doc("LA").set({
@@ -195,54 +230,29 @@ describe("firestore", () => {
                 console.error("Error writing document: ", error);
             });
             // [END set_document]
+            return output;
         });
 
         it("should set document with a custom object converter", () => {
-            // [START city_custom_object]
-            class City {
-                constructor (name, state, country ) {
-                    this.name = name;
-                    this.state = state;
-                    this.country = country;
-                }
-                toString() {
-                    return this.name + ', ' + this.state + ', ' + this.country;
-                }
-            }
-                
-                // Firestore data converter
-              cityConverter = {
-                  toFirestore: function(city) {
-                      return {
-                          name: city.name,
-                          state: city.state,
-                          country: city.country
-                          }
-                  },
-                  fromFirestore: function(snapshot, options){
-                      const data = snapshot.data(options);
-                      return new City(data.name, data.state, data.country)
-                  }
-              }
-            // [END city_custom_object]
-            return output =
+            var output =
             // [START set_custom_object]
             // Set with cityConverter
             db.collection("cities").doc("LA")
               .withConverter(cityConverter)
               .set(new City("Los Angeles", "CA", "USA"));
             // [END set_custom_object]
+            return output;
         });
 
         it("should get document with a custom object converter", () => {
-            return output =
+            var output =
             // [START get_custom_object]
             db.collection("cities").doc("LA")
               .withConverter(cityConverter)
               .get().then(function(doc) {
                 if (doc.exists){
                   // Convert to City object
-                  city = doc.data();
+                  var city = doc.data();
                   // Use a City instance method
                   console.log(city.toString());
                 } else {
@@ -251,6 +261,7 @@ describe("firestore", () => {
                   console.log("Error getting document:", error)
                 });
             // [END get_custom_object]
+            return output;
         });
 
         it("should support batch writes", (done) => {
@@ -413,15 +424,15 @@ describe("firestore", () => {
         });
         it("should set a document", () => {
             var data = {};
-
-            return output =
+            var output =
             // [START cities_document_set]
             db.collection("cities").doc("new-city-id").set(data);
             // [END cities_document_set]
+            return output;
         });
 
         it("should add a document", () => {
-            return output =
+            var output =
             // [START add_document]
             // Add a new document with a generated id.
             db.collection("cities").add({
@@ -435,6 +446,7 @@ describe("firestore", () => {
                 console.error("Error adding document: ", error);
             });
             // [END add_document]
+            return output;
         });
 
         it("should add an empty a document #UNVERIFIED", () => {
@@ -495,7 +507,7 @@ describe("firestore", () => {
         })
 
         it("should delete a document", () => {
-            return output =
+            var output =
             // [START delete_document]
             db.collection("cities").doc("DC").delete().then(function() {
                 console.log("Document successfully deleted!");
@@ -503,6 +515,7 @@ describe("firestore", () => {
                 console.error("Error removing document: ", error);
             });
             // [END delete_document]
+            return output;
         });
 
         it("should handle transactions #FIXME #UNVERIFIED", () => {
@@ -653,7 +666,7 @@ describe("firestore", () => {
         }).timeout(5000);
 
         it("should get multiple documents from a collection", () => {
-            return output =
+            var output =
             // [START get_multiple]
             db.collection("cities").where("capital", "==", true)
                 .get()
@@ -667,10 +680,11 @@ describe("firestore", () => {
                     console.log("Error getting documents: ", error);
                 });
             // [END get_multiple]
+            return output;
         }).timeout(5000);
 
         it("should get all documents from a collection", () => {
-            return output =
+            var output =
             // [START get_multiple_all]
             db.collection("cities").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
@@ -679,6 +693,7 @@ describe("firestore", () => {
                 });
             });
             // [END get_multiple_all]
+            return output;
         })
 
         it("should listen on multiple documents #UNVERIFIED", (done) => {
@@ -895,7 +910,7 @@ describe("firestore", () => {
                     // [START invalid_range_filters]
                     citiesRef.where("state", ">=", "CA").where("population", ">", 100000);
                     // [END invalid_range_filters]
-                }).to.throwException();
+                }).to.throw();
             });
 
             it("should order and limit", () => {
@@ -939,7 +954,7 @@ describe("firestore", () => {
                     // [START invalid_filter_and_order]
                     citiesRef.where("population", ">", 100000).orderBy("country")
                     // [END invalid_filter_and_order]
-                }).to.throwException();
+                }).to.throw;
             });
 
             it("should handle startAt", () => {
