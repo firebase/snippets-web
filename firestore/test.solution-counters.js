@@ -1,15 +1,17 @@
-var db;
+let db;
 
 // [START create_counter]
 function createCounter(ref, num_shards) {
-    var batch = db.batch();
+    const { collection, doc, writeBatch} = require("@firebase/firestore");
+
+    const batch = writeBatch(db);
 
     // Initialize the counter document
     batch.set(ref, { num_shards: num_shards });
 
     // Initialize each shard with count=0
     for (let i = 0; i < num_shards; i++) {
-        let shardRef = ref.collection('shards').doc(i.toString());
+        const shardRef = doc(collection(ref, 'shards'), i.toString());
         batch.set(shardRef, { count: 0 });
     }
 
@@ -20,62 +22,72 @@ function createCounter(ref, num_shards) {
 
 // [START increment_counter]
 function incrementCounter(db, ref, num_shards) {
+    const { collection, doc, updateDoc, increment } = require("@firebase/firestore");
+
     // Select a shard of the counter at random
-    const shard_id = Math.floor(Math.random() * num_shards).toString();
-    const shard_ref = ref.collection('shards').doc(shard_id);
+    const shardId = Math.floor(Math.random() * num_shards).toString();
+    const shardRef = doc(collection(ref, 'shards'), shardId);
 
     // Update count
-    return shard_ref.update("count", firebase.firestore.FieldValue.increment(1));
+    return updateDoc(shardRef, "count", increment(1));
 }
 // [END increment_counter]
 
 // [START get_count]
-function getCount(ref) {
-    // Sum the count of each shard in the subcollection
-    return ref.collection('shards').get().then(snapshot => {
-        let total_count = 0;
-        snapshot.forEach(doc => {
-            total_count += doc.data().count;
-        });
+async function getCount(ref) {
+    const { collection, getDocs } = require("@firebase/firestore");
 
-        return total_count;
+    // Sum the count of each shard in the subcollection
+    const snapshot = await getDocs(collection(ref, 'shards'));
+
+    let totalCount = 0;
+    snapshot.forEach(doc => {
+        totalCount += doc.data().count;
     });
+
+    return totalCount;
 }
 // [END get_count]
 
 describe("firestore-solution-counters", () => {
     before(() => {
-        var config = {
+        const { initializeApp } = require("@firebase/app");
+        const { getFirestore } = require("@firebase/firestore");
+  
+        const config = {
             apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
             authDomain: "firestorequickstarts.firebaseapp.com",
             projectId: "firestorequickstarts",
         };
-        var app = firebase.initializeApp(config, "solution-counters");
-        db = firebase.firestore(app);
+        const app = initializeApp(config, "solution-arrays");
+        db = getFirestore(app);
     });
 
     describe("solution-counters", () => {
         it("should create a counter", () => {
             // Create a counter with 10 shards
-            return createCounter(db.collection('counters').doc(), 10);
+            const { collection, doc } = require("@firebase/firestore");
+
+            return createCounter(doc(collection(db, 'counters')), 10);
         });
 
-        it("should increment a counter", () => {
+        it("should increment a counter", async () => {
             // Create a counter, then increment it
-            let ref = db.collection('counters').doc();
-            return createCounter(ref, 10).then(() => {
-                return incrementCounter(db, ref, 10);
-            });
+            const { collection, doc } = require("@firebase/firestore");
+
+            const ref = doc(collection(db, 'counters'));
+            await createCounter(ref, 10)
+            await incrementCounter(db, ref, 10);
         });
 
-        it("should get the count of a counter", () => {
+        it("should get the count of a counter", async () => {
             // Create a counter, increment it, then get the count
-            let ref = db.collection('counters').doc();
-            return createCounter(ref, 10).then(() => {
-                return incrementCounter(db, ref, 10);
-            }).then(() => {
-                return getCount(ref);
-            });
+            const { collection, doc } = require("@firebase/firestore");
+
+            const ref = doc(collection(db, 'counters'));
+            await createCounter(ref, 10);
+            await incrementCounter(db, ref, 10);
+            await getCount(ref);
         });
     });
 });
