@@ -1,3 +1,6 @@
+var firebase = require('firebase/app');
+require('firebase/firestore');
+
 // [START sample_doc]
 var arinellDoc = {
   name: 'Arinell Pizza',

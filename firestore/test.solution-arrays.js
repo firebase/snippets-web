@@ -1,3 +1,6 @@
+var firebase = require('firebase/app');
+require('firebase/firestore');
+
 let postsWithArray = [
     // [START post_with_array]
     // Sample document in the 'posts' collection.

@@ -1,9 +1,17 @@
 {
   "name": "firestore",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
+  },
   "license": "Apache-2.0",
   "dependencies": {
     "firebase": "^7.17.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.12",
+    "@types/mocha": "^8.0.3",
+    "chai": "^4.2.0",
+    "mocha": "^8.1.3"
   }
 }

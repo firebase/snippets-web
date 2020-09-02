@@ -2,10 +2,12 @@
   "name": "snippets-web",
   "version": "1.0.0",
   "scripts": {
-    "lerna-bootstrap": "lerna bootstrap"
+    "lerna-bootstrap": "lerna bootstrap --no-ci",
+    "lerna-compile": "lerna run compile"
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "typescript": "^3.8.3"
   }
 }

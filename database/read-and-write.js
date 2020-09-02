@@ -1,3 +1,9 @@
+// These samples are intended for Web so this import would normally be
+// done in HTML however using modules here is more convenient for
+// ensuring sample correctness offline.
+var firebase = require("firebase/app");
+require("firebase/database");
+
 // [START rtdb_write_new_user]
 function writeUserData(userId, name, email, imageUrl) {
   firebase.database().ref('users/' + userId).set({
