@@ -1,5 +1,5 @@
 import { initializeApp } from "@firebase/app";
-import { getFirestore } from "@firebase/firestore";
+import { getFirestore, CACHE_SIZE_UNLIMITED } from "@firebase/firestore";
 
 describe("firestore", () => {
     let db;
@@ -11,13 +11,12 @@ describe("firestore", () => {
         };
         const app = initializeApp(config);
         db = getFirestore(app);
-        //firebase.firestore.setLogLevel("debug");
     });
 
     it("should be able to set the cache size", () => {
         // [START fs_setup_cache]
         db.settings({
-            cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+            cacheSizeBytes: CACHE_SIZE_UNLIMITED
         });
         // [END fs_setup_cache]
     });
@@ -285,13 +284,13 @@ describe("firestore", () => {
 
         it("should set a document with every datatype #UNVERIFIED", async () => {
             // [START data_types]
-            const { doc, collection, setDoc } = require("@firebase/firestore"); 
+            const { doc, collection, setDoc, Timestamp } = require("@firebase/firestore"); 
 
             const docData = {
                 stringExample: "Hello world!",
                 booleanExample: true,
                 numberExample: 3.14159265,
-                dateExample: firebase.firestore.Timestamp.fromDate(new Date("December 10, 1815")),
+                dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
                 arrayExample: [5, true, "hello"],
                 nullExample: null,
                 objectExample: {
@@ -761,62 +760,63 @@ describe("firestore", () => {
             }
 
             const { collection, doc, setDoc } = require("@firebase/firestore");
-            
+
             await setDoc(doc(collection(db, 'objects'), 'some-id'), {});
             await update();
             console.log('Document updated with server timestamp');
         });
 
-        it("should use options to control server timestamp resolution #UNVERIFIED", () => {
-            var options = {
-                // Options: 'estimate', 'previous', or 'none'
-                serverTimestamps: 'estimate'
-            };
+        it("should use options to control server timestamp resolution", async () => {
+          // [START server_timestamp_resolution_options]
+          const { collection, updateDoc, serverTimestamp, onSnapshot } = require("@firebase/firestore");
+          // Perform an update followed by an immediate read without
+          // waiting for the update to complete. Due to the snapshot
+          // options we will get two results: one with an estimate
+          // timestamp and one with the resolved server timestamp.
+          const docRef = doc(collection(db, 'objects'), 'some-id');
+          updateDoc(docRef, {
+              timestamp: serverTimestamp()
+          });
 
-            // Perform an update followed by an immediate read without
-            // waiting for the update to complete. Due to the snapshot
-            // options we will get two results: one with an estimate
-            // timestamp and one with the resolved server timestamp.
-            var docRef = db.collection('objects').doc('some-id');
-            docRef.update({
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            docRef.onSnapshot(function(snapshot) {
-                var data = snapshot.data(options);
-                console.log(
-                    'Timestamp: ' + data.timestamp +
-                    ', pending: ' + snapshot.metadata.hasPendingWrites);
-            });
+          onSnapshot(docRef, (snapshot) => {
+            const options = {
+              // Options: 'estimate', 'previous', or 'none'
+              serverTimestamps: 'estimate'
+            };
+            const data = snapshot.data(options);
+            console.log(
+                'Timestamp: ' + data.timestamp +
+                ', pending: ' + snapshot.metadata.hasPendingWrites);
+          });
+          // [END server_timestamp_resolution_options]
         });
 
-        it("should delete a document field", () => {
-            function update() {
-                // [START update_delete_field]
-                var cityRef = db.collection('cities').doc('BJ');
+        it("should delete a document field", async () => {
+            async function update() {
+              // [START update_delete_field]
+              const { doc, collection, updateDoc, deleteField } = require("@firebase/firestore");
 
-                // Remove the 'capital' field from the document
-                var removeCapital = cityRef.update({
-                    capital: firebase.firestore.FieldValue.delete()
-                });
-                // [END update_delete_field]
+              const cityRef = doc(collection(db, 'cities'), 'BJ');
 
-                return removeCapital;
+              // Remove the 'capital' field from the document
+              await updateDoc(cityRef, {
+                  capital: deleteField()
+              });
+              // [END update_delete_field]
             }
 
+            const { doc, collection, setDoc } = require("@firebase/firestore");
 
-            return db.collection('cities').doc('BJ')
-                .set({ capital: true })
-                .then(() => update())
-                .then(() => {
-                    console.log('Document field deleted');
-                });
+            await setDoc(doc(collection(db,'cities'), 'BJ'), { capital: true });
+            await update();
         });
 
         describe("queries", () => {
             it("should handle simple where", () => {
                 // [START simple_queries]
                 // Create a reference to the cities collection
-                var citiesRef = db.collection("cities");
+                const { collection, query, where } = require("@firebase/firestore");
+                const citiesRef = collection(db, "cities");
 
                 // Create a query against the collection.
                 var query = citiesRef.where("state", "==", "CA");
@@ -825,242 +825,306 @@ describe("firestore", () => {
 
             it("should handle another simple where", () => {
                 // [START simple_queries_again]
-                var citiesRef = db.collection("cities");
+                const { collection, query, where } = require("@firebase/firestore");
+                const citiesRef = collection(db, "cities");
 
-                var query = citiesRef.where("capital", "==", true);
+                const q = query(citiesRef, where("capital", "==", true));
                 // [END simple_queries_again]
             });
 
             it("should handle other wheres", () => {
-                var citiesRef = db.collection("cities");
-                // [START example_filters]
-                citiesRef.where("state", "==", "CA")
-                citiesRef.where("population", "<", 100000)
-                citiesRef.where("name", ">=", "San Francisco")
-                // [END example_filters]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START example_filters]
+              citiesRef.where("state", "==", "CA")
+              citiesRef.where("population", "<", 100000)
+              citiesRef.where("name", ">=", "San Francisco")
+              // [END example_filters]
             });
 
             it("should handle array-contains where", () => {
-                var citiesRef = db.collection("cities");
-                // [START array_contains_filter]
-                citiesRef.where("regions", "array-contains", "west_coast")
-                // [END array_contains_filter]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START array_contains_filter]
+              const { query, where } = require("@firebase/firestore");  
+              const q = query(citiesRef, where("regions", "array-contains", "west_coast"));
+              // [END array_contains_filter]
             });
 
             it("should handle an array contains any where", () => {
-                const citiesRef = db.collection('cities');
-                // [START array_contains_any_filter]
-                citiesRef.where('regions', 'array-contains-any',
-                    ['west_coast', 'east_coast']);
-                // [END array_contains_any_filter]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START array_contains_any_filter]
+              const { query, where } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, 
+                where('regions', 'array-contains-any', ['west_coast', 'east_coast']));
+              // [END array_contains_any_filter]
             });
 
             it("should handle an in where", () => {
-                const citiesRef = db.collection('cities');
-                // [START in_filter]
-                citiesRef.where('country', 'in', ['USA', 'Japan']);
-                // [END in_filter]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
 
+              function inFilter() {
+                // [START in_filter]
+                const { query, where } = require("@firebase/firestore");
+
+                const q = query(citiesRef, where('country', 'in', ['USA', 'Japan']));
+                // [END in_filter]
+              }
+
+              function inFilterWithArray() {
                 // [START in_filter_with_array]
-                citiesRef.where('regions', 'in',
-                    [['west_coast', 'east_coast']]);
+                const { query, where } = require("@firebase/firestore");  
+
+                const q = query(citiesRef, where('regions', 'in', [['west_coast', 'east_coast']]));
                 // [END in_filter_with_array]
+              }
             });
 
             it("should handle compound queries", () => {
-                var citiesRef = db.collection("cities");
-                // [START chain_filters]
-                citiesRef.where("state", "==", "CO").where("name", "==", "Denver");
-                citiesRef.where("state", "==", "CA").where("population", "<", 1000000);
-                // [END chain_filters]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START chain_filters]
+              const { query, where } = require("@firebase/firestore");  
+
+              const q1 = query(citiesRef, where("state", "==", "CO"), where("name", "==", "Denver"));
+              const q2 = query(citiesRef, where("state", "==", "CA"), where("population", "<", 1000000));
+              // [END chain_filters]
             });
 
             it("should handle range filters on one field", () => {
-                var citiesRef = db.collection("cities");
-                // [START valid_range_filters]
-                citiesRef.where("state", ">=", "CA").where("state", "<=", "IN");
-                citiesRef.where("state", "==", "CA").where("population", ">", 1000000);
-                // [END valid_range_filters]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START valid_range_filters]
+              const { query, where } = require("@firebase/firestore");  
+
+              const q1 = query(citiesRef, where("state", ">=", "CA"), where("state", "<=", "IN"));
+              const q2 = query(citiesRef, where("state", "==", "CA"), where("population", ">", 1000000));
+              // [END valid_range_filters]
             });
 
             it("should not handle range filters on multiple field", () => {
-                var citiesRef = db.collection("cities");
-                expect(() => {
-                    // [START invalid_range_filters]
-                    citiesRef.where("state", ">=", "CA").where("population", ">", 100000);
-                    // [END invalid_range_filters]
-                }).to.throwException();
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              expect(() => {
+                // [START invalid_range_filters]
+                const { query, where } = require("@firebase/firestore");  
+
+                const q = query(citiesRef, where("state", ">=", "CA"), where("population", ">", 100000));
+                // [END invalid_range_filters]
+              }).to.throwException();
             });
 
             it("should order and limit", () => {
-                var citiesRef = db.collection("cities");
-                // [START order_and_limit]
-                citiesRef.orderBy("name").limit(3)
-                // [END order_and_limit]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START order_and_limit]
+              const { query, orderBy, limit } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, orderBy("name"), limit(3));
+              // [END order_and_limit]
             });
 
             it("should order descending", () => {
-                var citiesRef = db.collection("cities");
-                // [START order_and_limit_desc]
-                citiesRef.orderBy("name", "desc").limit(3)
-                // [END order_and_limit_desc]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START order_and_limit_desc]
+              const { query, orderBy, limit } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, orderBy("name", "desc"), limit(3));
+              // [END order_and_limit_desc]
             });
 
             it("should order descending by other field", () => {
-                var citiesRef = db.collection("cities");
-                // [START order_multiple]
-                citiesRef.orderBy("state").orderBy("population", "desc")
-                // [END order_multiple]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START order_multiple]
+              const { query, orderBy } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, orderBy("state"), orderBy("population", "desc"));
+              // [END order_multiple]
             });
 
             it("should where and order by with limit", () => {
-                var citiesRef = db.collection("cities");
-                // [START filter_and_order]
-                citiesRef.where("population", ">", 100000).orderBy("population").limit(2)
-                // [END filter_and_order]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START filter_and_order]
+              const { query, where, orderBy, limit } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, where("population", ">", 100000), orderBy("population"), limit(2));
+              // [END filter_and_order]
             });
 
             it("should where and order on same field", () => {
-                var citiesRef = db.collection("cities");
-                // [START valid_filter_and_order]
-                citiesRef.where("population", ">", 100000).orderBy("population")
-                // [END valid_filter_and_order]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START valid_filter_and_order]
+              const { query, where, orderBy } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, where("population", ">", 100000), orderBy("population"));
+              // [END valid_filter_and_order]
             });
 
             it("should not where and order on same field", () => {
-                var citiesRef = db.collection("cities");
-                expect(() => {
-                    // [START invalid_filter_and_order]
-                    citiesRef.where("population", ">", 100000).orderBy("country")
-                    // [END invalid_filter_and_order]
-                }).to.throwException();
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              expect(() => {
+                // [START invalid_filter_and_order]
+                const { query, where, orderBy } = require("@firebase/firestore");  
+                
+                const q = query(citiesRef, where("population", ">", 100000), orderBy("country"));
+                // [END invalid_filter_and_order]
+              }).to.throwException();
             });
 
             it("should handle startAt", () => {
-                var citiesRef = db.collection("cities");
-                // [START order_and_start]
-                citiesRef.orderBy("population").startAt(1000000)
-                // [END order_and_start]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START order_and_start]
+              const { query, orderBy, startAt } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, orderBy("population"), startAt(1000000));
+              // [END order_and_start]
             });
 
             it("should handle endAt", () => {
-                var citiesRef = db.collection("cities");
-                // [START order_and_end]
-                citiesRef.orderBy("population").endAt(1000000)
-                // [END order_and_end]
+              const { collection } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
+
+              // [START order_and_end]
+              const { query, orderBy, endAt } = require("@firebase/firestore");  
+
+              const q = query(citiesRef, orderBy("population"), endAt(1000000));
+              // [END order_and_end]
             });
 
-            it("should handle startAt(doc) ", () => {
-                // [START start_doc]
-                var citiesRef = db.collection("cities");
+            it("should handle startAt(doc) ", async () => {
+              // [START start_doc]
+              const { collection, doc, getDoc, query, orderBy, startAt } = require("@firebase/firestore");  
+              const citiesRef = collection(db, "cities");
 
-                return citiesRef.doc("SF").get().then(function(doc) {
-                    // Get all cities with a population bigger than San Francisco
-                    var biggerThanSf = citiesRef
-                        .orderBy("population")
-                        .startAt(doc);
-
-                    // ...
-                });
-                // [END start_doc]
+              const docSnap = await getDoc(doc(citiesRef, "SF"));
+              
+              // Get all cities with a population bigger than San Francisco
+              const biggerThanSf = query(citiesRef, orderBy("popuation"), startAt(docSnap));
+              // ...
+              // [END start_doc]
             });
 
             it("should handle multiple orderBy", () => {
                 // [START start_multiple_orderby]
                 // Will return all Springfields
-                db.collection("cities")
-                   .orderBy("name")
-                   .orderBy("state")
-                   .startAt("Springfield")
+                const { collection, query, orderBy, startAt } = require("@firebase/firestore");  
+                const q1 = query(collection(db, "cities"),
+                   orderBy("name"),
+                   orderBy("state"),
+                   startAt("Springfield"));
 
                 // Will return "Springfield, Missouri" and "Springfield, Wisconsin"
-                db.collection("cities")
-                   .orderBy("name")
-                   .orderBy("state")
-                   .startAt("Springfield", "Missouri")
+                const q2 = query(collection(db, "cities"),
+                   orderBy("name"),
+                   orderBy("state"),
+                   startAt("Springfield", "Missouri"));
                 // [END start_multiple_orderby]
             });
 
-            it("shoud paginate", () => {
+            it("should paginate", async () => {
               // [START paginate]
-              var first = db.collection("cities")
-                      .orderBy("population")
-                      .limit(25);
+              const { collection, query, orderBy, startAfter, limit, getDocs } = require("@firebase/firestore");  
+      
+              // Query the first page of docs
+              const first = query(collection(db, "cities"), orderBy("population"), limit(25));
+              const documentSnapshots = await getDocs(first);
 
-              return first.get().then(function (documentSnapshots) {
-                // Get the last visible document
-                var lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-                console.log("last", lastVisible);
+              // Get the last visible document
+              const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+              console.log("last", lastVisible);
 
-                // Construct a new query starting at this document,
-                // get the next 25 cities.
-                var next = db.collection("cities")
-                        .orderBy("population")
-                        .startAfter(lastVisible)
-                        .limit(25);
-              });
+              // Construct a new query starting at this document,
+              // get the next 25 cities.
+              const next = query(collection(db, "cities"),
+                  orderBy("population"),
+                  startAfter(lastVisible),
+                  limit(25));
               // [END paginate]
             });
         });
 
-        describe('collectionGroup(landmarks', () => {
-            it("should setup example data", () => {
+        describe('collectionGroup(landmarks)', () => {
+            it("should setup example data", async () => {
                 // [START fs_collection_group_query_data_setup]
-                var citiesRef = db.collection('cities');
+                const { collection, doc, setDoc } = require("@firebase/firestore");  
 
-                var landmarks = Promise.all([
-                    citiesRef.doc('SF').collection('landmarks').doc().set({
+                const citiesRef = collection(db, 'cities');
+
+                await Promise.all([
+                    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
                         name: 'Golden Gate Bridge',
                         type: 'bridge'
                     }),
-                    citiesRef.doc('SF').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
                         name: 'Legion of Honor',
                         type: 'museum'
                     }),
-                    citiesRef.doc('LA').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
                         name: 'Griffith Park',
                         type: 'park'
                     }),
-                    citiesRef.doc('LA').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
                         name: 'The Getty',
                         type: 'museum'
                     }),
-                    citiesRef.doc('DC').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
                         name: 'Lincoln Memorial',
                         type: 'memorial'
                     }),
-                    citiesRef.doc('DC').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
                         name: 'National Air and Space Museum',
                         type: 'museum'
                     }),
-                    citiesRef.doc('TOK').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
                         name: 'Ueno Park',
                         type: 'park'
                     }),
-                    citiesRef.doc('TOK').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
                         name: 'National Museum of Nature and Science',
                         type: 'museum'
                     }),
-                    citiesRef.doc('BJ').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
                         name: 'Jingshan Park',
                         type: 'park'
                     }),
-                    citiesRef.doc('BJ').collection('landmarks').doc().set({
+                    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
                         name: 'Beijing Ancient Observatory',
                         type: 'museum'
                     })
                 ]);
                 // [END fs_collection_group_query_data_setup]
-                return landmarks;
             });
             
-            it("should query a collection group", () => {
+            it("should query a collection group", async () => {
                 // [START fs_collection_group_query]
-                var museums = db.collectionGroup('landmarks').where('type', '==', 'museum');
-                museums.get().then(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
-                        console.log(doc.id, ' => ', doc.data());
-                    });
+                const { collectionGroup, query, where, getDocs } = require("@firebase/firestore");  
+
+                const museums = query(collectionGroup(db, 'landmarks'), where('type', '==', 'museum'));
+                const querySnapshot = await getDocs(museums);
+                querySnapshot.forEach((doc) => {
+                    console.log(doc.id, ' => ', doc.data());
                 });
                 // [END fs_collection_group_query]
             });
@@ -1069,46 +1133,47 @@ describe("firestore", () => {
 
     // TODO: Break out into separate file
     describe("solution-aggregation", () => {
-        it("should update a restaurant in a transaction #UNVERIFIED", () => {
+        it("should update a restaurant in a transaction #UNVERIFIED", async () => {
             // [START add_rating_transaction]
-            function addRating(restaurantRef, rating) {
+            const { collection, doc, runTransaction} = require("@firebase/firestore");  
+
+            async function addRating(restaurantRef, rating) {
                 // Create a reference for a new rating, for use inside the transaction
-                var ratingRef = restaurantRef.collection('ratings').doc();
+                const ratingRef = doc(collection(restaurantRef, 'ratings'));
 
                 // In a transaction, add the new rating and update the aggregate totals
-                return db.runTransaction(transaction => {
-                    return transaction.get(restaurantRef).then(res => {
-                        if (!res.exists) {
-                            throw "Document does not exist!";
-                        }
+                await runTransaction(db, async (transaction) => {
+                    const res = await transaction.get(restaurantRef);
+                    if (!res.exists()) {
+                        throw "Document does not exist!";
+                    }
 
-                        // Compute new number of ratings
-                        var newNumRatings = res.data().numRatings + 1;
+                    // Compute new number of ratings
+                    const newNumRatings = res.data().numRatings + 1;
 
-                        // Compute new average rating
-                        var oldRatingTotal = res.data().avgRating * res.data().numRatings;
-                        var newAvgRating = (oldRatingTotal + rating) / newNumRatings;
+                    // Compute new average rating
+                    const oldRatingTotal = res.data().avgRating * res.data().numRatings;
+                    const newAvgRating = (oldRatingTotal + rating) / newNumRatings;
 
-                        // Commit to Firestore
-                        transaction.update(restaurantRef, {
-                            numRatings: newNumRatings,
-                            avgRating: newAvgRating
-                        });
-                        transaction.set(ratingRef, { rating: rating });
-                    })
+                    // Commit to Firestore
+                    transaction.update(restaurantRef, {
+                        numRatings: newNumRatings,
+                        avgRating: newAvgRating
+                    });
+                    transaction.set(ratingRef, { rating: rating });
                 });
             }
             // [END add_rating_transaction]
 
             // Create document and add a rating
-            var ref = db.collection('restaurants').doc('arinell-pizza');
-            return ref.set({
+            const { setDoc } = require("@firebase/firestore");
+            const ref = doc(collection(db, 'restaurants'), ('arinell-pizza'));
+            await setDoc(ref, {
                 name: 'Arinell Pizza',
                 avgRating: 4.63,
                 numRatings: 683
-            }).then(res => {
-                return addRating(ref, 5.0)
             });
+            await addRating(ref, 5.0);
         });
     });
 });
