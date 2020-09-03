@@ -2,7 +2,7 @@ let db;
 
 // [START create_counter]
 function createCounter(ref, num_shards) {
-    const { collection, doc, writeBatch} = require("@firebase/firestore");
+    const { collection, doc, writeBatch } = require("firebase/firestore");
 
     const batch = writeBatch(db);
 
@@ -51,8 +51,8 @@ async function getCount(ref) {
 
 describe("firestore-solution-counters", () => {
     before(() => {
-        const { initializeApp } = require("@firebase/app");
-        const { getFirestore } = require("@firebase/firestore");
+        const { initializeApp } = require("firebase/app");
+        const { getFirestore } = require("firebase/firestore");
   
         const config = {
             apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
@@ -66,14 +66,14 @@ describe("firestore-solution-counters", () => {
     describe("solution-counters", () => {
         it("should create a counter", () => {
             // Create a counter with 10 shards
-            const { collection, doc } = require("@firebase/firestore");
+            const { collection, doc } = require("firebase/firestore");
 
             return createCounter(doc(collection(db, 'counters')), 10);
         });
 
         it("should increment a counter", async () => {
             // Create a counter, then increment it
-            const { collection, doc } = require("@firebase/firestore");
+            const { collection, doc } = require("firebase/firestore");
 
             const ref = doc(collection(db, 'counters'));
             await createCounter(ref, 10)
@@ -82,7 +82,7 @@ describe("firestore-solution-counters", () => {
 
         it("should get the count of a counter", async () => {
             // Create a counter, increment it, then get the count
-            const { collection, doc } = require("@firebase/firestore");
+            const { collection, doc } = require("firebase/firestore");
 
             const ref = doc(collection(db, 'counters'));
             await createCounter(ref, 10);

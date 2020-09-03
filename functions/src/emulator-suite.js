@@ -1,5 +1,5 @@
-import { initializeApp, getApp } from "@firebase/app";
-import { getFunctions, useFunctionsEmulator, httpsCallable } from "@firebase/functions";
+import { initializeApp, getApp } from "firebase/app";
+import { getFunctions, useFunctionsEmulator, httpsCallable } from "firebase/functions";
 
 initializeApp({
   projectId: '### CLOUD FUNCTIONS PROJECT ID ###',

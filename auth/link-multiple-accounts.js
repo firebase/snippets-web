@@ -36,11 +36,7 @@ function getProviders() {
   // [END auth_get_providers]
 }
 
-function simpleLink() {
-  // This is just a dummy variable for sample purposes, the other
-  // snippets demonstrate how to get a real credential.
-  var credential = new firebase.auth.AuthCredential();
-
+function simpleLink(credential) {
   // [START auth_simple_link]
   auth.currentUser.linkWithCredential(credential)
     .then(function(usercred) {
@@ -52,11 +48,7 @@ function simpleLink() {
   // [END auth_simple_link]
 }
 
-function anonymousLink() {
-  // This is just a dummy variable for sample purposes, the other
-  // snippets demonstrate how to get a real credential.
-  var credential = new firebase.auth.AuthCredential();
-
+function anonymousLink(credential) {
   // [START auth_anonymous_link]
   auth.currentUser.linkWithCredential(credential)
     .then(function(usercred) {
@@ -108,11 +100,7 @@ function linkWithRedirect() {
   // [END auth_get_redirect_result]
 }
 
-function mergeAccounts() {
-  // This is just a dummy variable for sample purposes, the other
-  // snippets demonstrate how to get a real credential.
-  var newCredential = new firebase.auth.AuthCredential();
-
+function mergeAccounts(newCredential) {
   // [START auth_merge_accounts]
   // The implementation of how you store your user data depends on your application
   var repo = new MyUserDataRepo();
@@ -150,7 +138,6 @@ function mergeAccounts() {
     // If there are errors we want to undo the data merge/deletion
     console.log("Sign In Error", error);
     repo.set(prevUser, prevUserData);
-    repo.set(currentUser, currentUserData);
   });
   // [END auth_merge_accounts]
 }
@@ -164,7 +151,7 @@ function makeEmailCredential() {
   // [END auth_make_email_credential]
 }
 
-function unlink() {
+function unlink(providerId) {
   var user = auth.currentUser;
 
   // [START auth_unlink_provider]

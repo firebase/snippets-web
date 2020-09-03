@@ -1,6 +1,11 @@
 
-function onDocumentReady(firebase) {
+// These samples are intended for Web so this import would normally be
+// done in HTML however using modules here is more convenient for
+// ensuring sample correctness offline.
+var firebase = require("firebase/app");
+require("firebase/database");
 
+function onDocumentReady(firebase) {
   //[START rtdb_emulator_connect]
   if (location.hostname === "localhost") {
 

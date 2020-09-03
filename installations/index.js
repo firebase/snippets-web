@@ -1,4 +1,5 @@
-const firebase = require("firebase");
+const firebase = require("firebase/app");
+require("firebase/installations");
 
 async function deleteInstallation() {
   try {
@@ -24,9 +25,9 @@ async function getInstallationId() {
 async function getAuthenticationToken() {
   try {
     // [START get_auth_token]
-    const authToken = await firebase.installations()
+    const installationToken = await firebase.installations()
         .getToken(/* forceRefresh */ true);
-    console.log(authToken);
+    console.log(installationToken);
     // [END get_auth_token]
   } catch (err) {
     console.error('Unable to get auth token: ', err);

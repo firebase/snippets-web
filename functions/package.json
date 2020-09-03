@@ -2,7 +2,8 @@
   "name": "functions",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
   },
   "license": "Apache-2.0",
   "dependencies": {

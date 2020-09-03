@@ -9,8 +9,8 @@ const arinellDoc = {
 describe("firestore-solution-arrays", () => {
     let db;
     before(async () => {
-      const { initializeApp } = require("@firebase/app");
-      const { getFirestore, collection, doc, setDoc } = require("@firebase/firestore");
+      const { initializeApp } = require("firebase/app");
+      const { getFirestore, collection, doc, setDoc } = require("firebase/firestore");
 
       const config = {
           apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
@@ -26,7 +26,7 @@ describe("firestore-solution-arrays", () => {
     describe("solution-arrays", () => {
         it("should get a collection of ratings", async () => {
           // [START get_collection_ratings]
-          const { collection, doc, getDocs } = require("@firebase/firestore");
+          const { collection, doc, getDocs } = require("firebase/firestore");
 
           const ratingsRef = collection(doc(collection(db, "restaurants"), "arinell-pizza"), "ratings");
           const ratingsDocs = await getDocs(ratingsRef);

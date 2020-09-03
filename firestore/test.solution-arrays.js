@@ -43,8 +43,8 @@ const postsWithMapAdvanced = [
 describe("firestore-solution-arrays", () => {
     let db;
     before(() => {
-        const { initializeApp } = require("@firebase/app");
-        const { getFirestore } = require("@firebase/firestore");
+        const { initializeApp } = require("firebase/app");
+        const { getFirestore } = require("firebase/firestore");
   
         const config = {
             apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
@@ -58,7 +58,7 @@ describe("firestore-solution-arrays", () => {
     describe("solution-arrays", () => {
         it("should query in a category", async () => {
             // [START query_in_category]
-            const { collection, getDocs, query, where } = require("@firebase/firestore");
+            const { collection, getDocs, query, where } = require("firebase/firestore");
 
             // Find all documents in the 'posts' collection that are
             // in the 'cats' category.

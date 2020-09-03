@@ -1,7 +1,9 @@
 {
   "name": "auth",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
+  },
   "license": "Apache 2.0",
   "dependencies": {
     "firebase": "^7.12.0"
