@@ -106,8 +106,8 @@ describe("firestore", () => {
       // [START use_from_cache]
       const { collection, onSnapshot, where, query } = require("firebase/firestore"); 
       
-      const query = query(collection(db, "cities"), where("state", "==", "CA"));
-      onSnapshot(query, { includeMetadataChanges: true }, (snapshot) => {
+      const q = query(collection(db, "cities"), where("state", "==", "CA"));
+      onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
           snapshot.docChanges().forEach((change) => {
               if (change.type === "added") {
                   console.log("New city: ", change.doc.data());
@@ -216,7 +216,7 @@ describe("firestore", () => {
             // [START subcollection_reference]
             const { doc, collection } = require("firebase/firestore"); 
 
-            const messageRef = doc(collection(doc(collection("rooms"), "roomA"), "messages"), "message1");
+            const messageRef = doc(collection(doc(collection(db, "rooms"), "roomA"), "messages"), "message1");
             // [END subcollection_reference]
         });
 
@@ -247,11 +247,11 @@ describe("firestore", () => {
             // [START get_custom_object]
             const { doc, collection, getDoc} = require("firebase/firestore"); 
 
-            const ref = collection(doc(db, "cities"), "LA").withConverter(cityConverter);
-            const doc = await getDoc(ref);
-            if (doc.exists) {
+            const ref = doc(collection(db, "cities"), "LA").withConverter(cityConverter);
+            const docSnap = await getDoc(ref);
+            if (docSnap.exists()) {
               // Convert to City object
-              city = doc.data();
+              const city = docSnap.data();
               // Use a City instance method
               console.log(city.toString());
             } else {
@@ -313,7 +313,6 @@ describe("firestore", () => {
             const cityRef = doc(collection(db, 'cities'), 'BJ');
             setDoc(cityRef, { capital: true }, { merge: true });
             // [END set_with_merge]
-            return setWithMerge;
         });
 
         it("should update a document's nested fields #UNVERIFIED", async () => {
@@ -420,7 +419,7 @@ describe("firestore", () => {
             // [START cities_document_set]
             const { collection, doc, setDoc } = require("firebase/firestore"); 
 
-            await setDoc(doc(collection("cities"), "new-city-id"), data);
+            await setDoc(doc(collection(db, "cities"), "new-city-id"), data);
             // [END cities_document_set]
         });
 
@@ -435,7 +434,6 @@ describe("firestore", () => {
             });
             console.log("Document written with ID: ", docRef.id);
             // [END add_document]
-            return output;
         });
 
         it("should add an empty a document", async () => {
@@ -469,7 +467,7 @@ describe("firestore", () => {
             // [START update_document_array]
             const { collection, doc, updateDoc, arrayUnion, arrayRemove } = require("firebase/firestore");
 
-            const washingtonRef = doc(collection("db", cities), "DC");
+            const washingtonRef = doc(collection(db, "cities"), "DC");
 
             // Atomically add a new region to the "regions" array field.
             await updateDoc(washingtonRef, {
@@ -487,7 +485,7 @@ describe("firestore", () => {
             // [START update_document_increment]
             const { collection, doc, updateDoc, increment } = require("firebase/firestore");
 
-            const washingtonRef = doc(collection("db", cities), "DC");
+            const washingtonRef = doc(collection(db, "cities"), "DC");
 
             // Atomically increment the population of the city by 50.
             await updateDoc(washingtonRef, {
@@ -502,7 +500,6 @@ describe("firestore", () => {
 
             await deleteDoc(doc(collection(db, "cities"), "DC"));
             // [END delete_document]
-            return output;
         });
 
         it("should handle transactions", async () => {
@@ -539,7 +536,7 @@ describe("firestore", () => {
             const sfDocRef = doc(collection(db, "cities"), "SF");
 
             try {
-              const newPopulation = await runTransaction(db, (transaction) => {
+              const newPopulation = await runTransaction(db, async (transaction) => {
                 const sfDoc = await transaction.get(sfDocRef);
                 if (!sfDoc.exists()) {
                   throw "Document does not exist!";
@@ -566,10 +563,10 @@ describe("firestore", () => {
             const { collection, doc, getDoc } = require("firebase/firestore");
 
             const docRef = doc(collection(db, "cities"), "SF");
-            const doc = await getDoc(docRef);
+            const docSnap = await getDoc(docRef);
 
-            if (doc.exists) {
-              console.log("Document data:", doc.data());
+            if (docSnap.exists()) {
+              console.log("Document data:", docSnap.data());
             } else {
               // doc.data() will be undefined in this case
               console.log("No such document!");
@@ -657,7 +654,6 @@ describe("firestore", () => {
               console.log(doc.id, " => ", doc.data());
             });
             // [END get_multiple]
-            return output;
         }).timeout(5000);
 
         it("should get all documents from a collection", async () => {
@@ -670,8 +666,7 @@ describe("firestore", () => {
               console.log(doc.id, " => ", doc.data());
             });
             // [END get_multiple_all]
-            return output;
-        })
+        });
 
         it("should listen on multiple documents #UNVERIFIED", (done) => {
             // [START listen_multiple]
@@ -774,7 +769,7 @@ describe("firestore", () => {
 
         it("should use options to control server timestamp resolution", async () => {
           // [START server_timestamp_resolution_options]
-          const { collection, updateDoc, serverTimestamp, onSnapshot } = require("firebase/firestore");
+          const { collection, doc, updateDoc, serverTimestamp, onSnapshot } = require("firebase/firestore");
           // Perform an update followed by an immediate read without
           // waiting for the update to complete. Due to the snapshot
           // options we will get two results: one with an estimate
@@ -785,11 +780,10 @@ describe("firestore", () => {
           });
 
           onSnapshot(docRef, (snapshot) => {
-            const options = {
+            const data = snapshot.data({
               // Options: 'estimate', 'previous', or 'none'
-              serverTimestamps: 'estimate'
-            };
-            const data = snapshot.data(options);
+              serverTimestamps: "estimate"
+            });
             console.log(
                 'Timestamp: ' + data.timestamp +
                 ', pending: ' + snapshot.metadata.hasPendingWrites);
@@ -839,13 +833,13 @@ describe("firestore", () => {
             });
 
             it("should handle other wheres", () => {
-              const { collection } = require("firebase/firestore");  
+              const { collection, query, where } = require("firebase/firestore");  
               const citiesRef = collection(db, "cities");
 
               // [START example_filters]
-              citiesRef.where("state", "==", "CA")
-              citiesRef.where("population", "<", 100000)
-              citiesRef.where("name", ">=", "San Francisco")
+              const q1 =  query(citiesRef, where("state", "==", "CA"));
+              const q2 =  query(citiesRef, where("population", "<", 100000));
+              const q3 =  query(citiesRef, where("name", ">=", "San Francisco"));
               // [END example_filters]
             });
 
