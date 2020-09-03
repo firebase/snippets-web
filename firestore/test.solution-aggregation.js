@@ -7,7 +7,11 @@ const arinellDoc = {
 // [END sample_doc]
 
 describe("firestore-solution-arrays", () => {
+    const { FirebaseFirestore } = require("firebase/firestore");
+
+    /** @type {FirebaseFirestore} */
     let db;
+
     before(async () => {
       const { initializeApp } = require("firebase/app");
       const { getFirestore, collection, doc, setDoc } = require("firebase/firestore");

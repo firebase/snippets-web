@@ -41,11 +41,15 @@ const postsWithMapAdvanced = [
 ]
 
 describe("firestore-solution-arrays", () => {
+    const { FirebaseFirestore } = require("firebase/firestore");
+
+    /** @type {FirebaseFirestore} */
     let db;
+
     before(() => {
         const { initializeApp } = require("firebase/app");
         const { getFirestore } = require("firebase/firestore");
-  
+
         const config = {
             apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
             authDomain: "firestorequickstarts.firebaseapp.com",
@@ -71,7 +75,7 @@ describe("firestore-solution-arrays", () => {
         it("should query in a category by timestamp", () => {
             function queryOne() {
                 // [START query_in_category_timestamp_invalid]
-                const { collection, query, where, orderBy } = require("@firebase/firestore");
+                const { collection, query, where, orderBy, FirebaseFirestore } = require("@firebase/firestore");
 
                 const q = query(collection(db, "posts"),
                     where("categories.cats", "==", true),

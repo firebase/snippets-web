@@ -1,3 +1,6 @@
+const { FirebaseFirestore } = require('firebase/firestore');
+
+/** @type {FirebaseFirestore} */
 let db;
 
 // [START create_counter]
@@ -22,7 +25,7 @@ function createCounter(ref, num_shards) {
 
 // [START increment_counter]
 function incrementCounter(db, ref, num_shards) {
-    const { collection, doc, updateDoc, increment } = require("@firebase/firestore");
+    const { collection, doc, updateDoc, increment, FirebaseFirestore } = require("@firebase/firestore");
 
     // Select a shard of the counter at random
     const shardId = Math.floor(Math.random() * num_shards).toString();

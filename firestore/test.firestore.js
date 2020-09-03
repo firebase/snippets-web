@@ -1,5 +1,3 @@
-const { initializeApp } = require("firebase/app");
-const { getFirestore, CACHE_SIZE_UNLIMITED } = require("firebase/firestore");
 const { expect } = require('chai');
 
 // [START city_custom_object]
@@ -31,26 +29,39 @@ var cityConverter = {
 // [END city_custom_object]
 
 describe("firestore", () => {
+    const { FirebaseFirestore } = require("firebase/firestore");
+
+    /** @type {FirebaseFirestore} */
     let db;
+    let app;
+
     before(() => {
+        const { initializeApp } = require("firebase/app");
+        const { getFirestore } = require("firebase/firestore");
+
         const config = {
             apiKey: "AIzaSyCM61mMr_iZnP1DzjT1PMB5vDGxfyWNM64",
             authDomain: "firestore-snippets.firebaseapp.com",
             projectId: "firestore-snippets"
         };
-        const app = initializeApp(config);
+        app = initializeApp(config);
         db = getFirestore(app);
     });
 
     it("should be able to set the cache size", () => {
         // [START fs_setup_cache]
-        db.settings({
-            cacheSizeBytes: CACHE_SIZE_UNLIMITED
+        const { initializeFirestore, CACHE_SIZE_UNLIMITED } = require("firebase/firestore");
+
+        const firestoreDb = initializeFirestore(app, {
+          cacheSizeBytes: CACHE_SIZE_UNLIMITED
         });
         // [END fs_setup_cache]
     });
 
     it("should be initializable with persistence", () => {
+      const { initializeApp } = require("firebase/app");
+      const { getFirestore } = require("firebase/firestore");
+
       const app = initializeApp({
         apiKey: '### FIREBASE API KEY ###',
         authDomain: '### FIREBASE AUTH DOMAIN ###',
@@ -140,9 +151,9 @@ describe("firestore", () => {
 
         it("should get all users", async () => {
             // [START get_all_users]
-            const { getDocs } = require("firebase/firestore"); 
+            const { collection, getDocs } = require("firebase/firestore"); 
 
-            const querySnapshot = await getDocs(db.collection("users"));
+            const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
               console.log(`${doc.id} => ${doc.data()}`);
             });
