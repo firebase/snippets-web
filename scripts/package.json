@@ -1,0 +1,9 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "Internal repo scripts",
+  "scripts": {
+  },
+  "author": "samstern@google.com",
+  "license": "Apache-2.0"
+}
