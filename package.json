@@ -2,6 +2,7 @@
   "name": "snippets-web",
   "version": "1.0.0",
   "scripts": {
+    "snippets": "npx ts-node scripts/separate-snippets.ts",
     "lerna-bootstrap": "lerna bootstrap --no-ci",
     "lerna-compile": "lerna run compile"
   },

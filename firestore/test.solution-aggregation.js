@@ -1,3 +1,4 @@
+// [SNIPPETS_SEPARATION enabled]
 // [START sample_doc]
 const arinellDoc = {
   name: 'Arinell Pizza',

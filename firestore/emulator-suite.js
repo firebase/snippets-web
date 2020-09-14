@@ -1,5 +1,6 @@
+// [SNIPPETS_SEPARATION enabled]
 function onDocumentReady(firebaseApp) {
-  //[START fs_emulator_connect]
+  // [START fs_emulator_connect]
   const { initializeFirestore } = require("firebase/firestore");
 
   let settings = {};

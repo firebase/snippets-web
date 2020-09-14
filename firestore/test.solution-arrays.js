@@ -1,3 +1,4 @@
+// [SNIPPETS_SEPARATION enabled]
 const postsWithArray = [
     // [START post_with_array]
     // Sample document in the 'posts' collection.

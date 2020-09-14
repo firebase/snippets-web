@@ -1,3 +1,4 @@
+// [SNIPPETS_SEPARATION enabled]
 const { expect } = require('chai');
 
 // [START city_custom_object]
