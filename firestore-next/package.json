@@ -1,12 +1,12 @@
 {
-  "name": "firestore",
+  "name": "firestore-next",
   "version": "1.0.0",
   "scripts": {
     "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "^7.20.0"
+    "firebase": "^0.800.7"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",

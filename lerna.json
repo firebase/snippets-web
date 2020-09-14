@@ -5,6 +5,7 @@
     "database",
     "firebaseapp",
     "firestore",
+    "firestore-next",
     "functions",
     "installations"
   ],
