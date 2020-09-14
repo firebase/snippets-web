@@ -50,7 +50,7 @@ function processSnippet(
     if (line.match(RE_REQUIRE)) {
       outputLines.push(line.replace(RE_REQUIRE, `import {$1} from $2`));
     } else if (line.match(RE_START_SNIPPET)) {
-      outputLines.push(line.replace(RE_START_SNIPPET, `[START modular_$1]`));
+      outputLines.push(line.replace(RE_START_SNIPPET, `[START ${snippetPrefix}$1]`));
     } else if (line.match(RE_END_SNIPPET)) {
       outputLines.push(
         line.replace(RE_END_SNIPPET, `[END ${snippetPrefix}$1]`)
