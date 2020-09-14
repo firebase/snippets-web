@@ -9,6 +9,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "lerna": "^3.22.1",
+    "ts-node": "^9.0.0",
     "typescript": "^3.8.3"
   }
 }
