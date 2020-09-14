@@ -26,7 +26,16 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
 
-      - run: npm install
+      - name: Install dependencies
+        run: |
+          npm install
+          npm run lerna-bootstrap
+
+      - name: Compile snippets
+        run: npm run lerna-compile
+
+      - name: Check generated snippets
+        run: |
+          npm run snippets
+          ./scripts/checkdirty.sh
       
-      - name: "Lint and Test"
-        run: ./scripts/test.sh
