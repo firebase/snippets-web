@@ -3,6 +3,8 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+git add .
+
 if [[ $(git diff --stat HEAD) != '' ]]; then
   git diff --stat HEAD
   echo
