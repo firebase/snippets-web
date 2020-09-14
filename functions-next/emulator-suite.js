@@ -1,5 +1,5 @@
-import { initializeApp, getApp } from "firebase/app";
-import { getFunctions, useFunctionsEmulator, httpsCallable } from "firebase/functions";
+// [SNIPPETS_SEPARATION enabled]
+import { initializeApp } from "firebase/app";
 
 initializeApp({
   projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
@@ -9,6 +9,9 @@ initializeApp({
 
 export function emulatorSettings() {
   // [START functions_emulator_connect]
+  const { getApp } = require("firebase/app");
+  const { getFunctions, useFunctionsEmulator } = require( "firebase/functions");
+
   const functions = getFunctions(getApp());
   useFunctionsEmulator(functions, "http://localhost:5001");
   // [END functions_emulator_connect]
@@ -16,6 +19,9 @@ export function emulatorSettings() {
 
 export async function callFunction() {
   // [START functions_callable_call]
+  const { getApp } = require("firebase/app");
+  const { getFunctions, httpsCallable } = require( "firebase/functions");
+
   const functions = getFunctions(getApp());
   const addMessage = httpsCallable(functions, 'addMessage');
 
