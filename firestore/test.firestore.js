@@ -1,6 +1,7 @@
-var firebase = require('firebase/app');
-const { expect } = require('chai');
+const firebase = require('firebase/app');
 require('firebase/firestore');
+
+const { expect } = require('chai');
 
 // [START city_custom_object]
 class City {

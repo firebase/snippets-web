@@ -5,7 +5,9 @@
     "database",
     "firebaseapp",
     "firestore",
+    "firestore-next",
     "functions",
+    "functions-next",
     "installations"
   ],
   "version": "1.0.0"
