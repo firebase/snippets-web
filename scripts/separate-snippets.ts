@@ -183,13 +183,13 @@ async function main() {
     }
 
     for (const snippetName in config.map) {
-      const filePath = path.join(snippetDir, `${snippetName}.js`);
+      const newFilePath = path.join(snippetDir, `${snippetName}.js`);
       const content = processSnippet(
         config.map[snippetName],
         filePath,
         config.prefix
       );
-      fs.writeFileSync(filePath, content);
+      fs.writeFileSync(newFilePath, content);
     }
   }
 }
