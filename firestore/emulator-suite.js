@@ -1,17 +1,15 @@
-// [SNIPPETS_SEPARATION enabled]
-function onDocumentReady(firebaseApp) {
-  // [START fs_emulator_connect]
-  const { initializeFirestore } = require("firebase/firestore");
+const firebase = require('firebase');
+require('firebase/firestore');
 
-  let settings = {};
+function onDocumentReady(firebaseApp) {
+  //[START fs_emulator_connect]
+  // Firebase previously initialized using firebase.initializeApp().
+  var db = firebase.firestore();
   if (location.hostname === "localhost") {
-    settings = {
+    db.settings({
       host: "localhost:8080",
       ssl: false
-    };
+    });
   }
-
-  // firebaseApps previously initialized using initializeApp()
-  const db = initializeFirestore(firebaseApp, settings);
   // [END fs_emulator_connect]
 }
