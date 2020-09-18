@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_handle_listen_errors]
+// [START handle_listen_errors_modular]
 import { collection, onSnapshot } from "firebase/firestore";
 
 const unsubscribe = onSnapshot(
@@ -14,4 +14,4 @@ const unsubscribe = onSnapshot(
   (error) => {
     // ...
   });
-// [END modular_handle_listen_errors]
+// [END handle_listen_errors_modular]

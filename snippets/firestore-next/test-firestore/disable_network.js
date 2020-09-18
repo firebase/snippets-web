@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_disable_network]
+// [START disable_network_modular]
 import { disableNetwork } from "firebase/firestore"; 
 
 await disableNetwork(db);
@@ -12,4 +12,4 @@ console.log("Network disabled!");
 // [START_EXCLUDE]
 console.log("Network disabled!");
 // [END_EXCLUDE]
-// [END modular_disable_network]
+// [END disable_network_modular]

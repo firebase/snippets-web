@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_document_array]
+// [START update_document_array_modular]
 import { collection, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 const washingtonRef = doc(collection(db, "cities"), "DC");
@@ -17,4 +17,4 @@ await updateDoc(washingtonRef, {
 await updateDoc(washingtonRef, {
     regions: arrayRemove("east_coast")
 });
-// [END modular_update_document_array]
+// [END update_document_array_modular]

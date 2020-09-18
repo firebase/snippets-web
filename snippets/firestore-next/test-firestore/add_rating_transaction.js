@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_add_rating_transaction]
+// [START add_rating_transaction_modular]
 import { collection, doc, runTransaction} from "firebase/firestore";  
 
 async function addRating(restaurantRef, rating) {
@@ -32,4 +32,4 @@ async function addRating(restaurantRef, rating) {
         transaction.set(ratingRef, { rating: rating });
     });
 }
-// [END modular_add_rating_transaction]
+// [END add_rating_transaction_modular]

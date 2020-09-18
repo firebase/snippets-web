@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_collection_reference]
+// [START collection_reference_modular]
 import { collection } from "firebase/firestore";
 
 const usersCollectionRef = collection(db, 'users');
-// [END modular_collection_reference]
+// [END collection_reference_modular]

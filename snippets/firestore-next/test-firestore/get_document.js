@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_document]
+// [START get_document_modular]
 import { collection, doc, getDoc } from "firebase/firestore";
 
 const docRef = doc(collection(db, "cities"), "SF");
@@ -15,4 +15,4 @@ if (docSnap.exists()) {
   // doc.data() will be undefined in this case
   console.log("No such document!");
 }
-// [END modular_get_document]
+// [END get_document_modular]

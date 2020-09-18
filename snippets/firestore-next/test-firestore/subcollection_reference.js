@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_subcollection_reference]
+// [START subcollection_reference_modular]
 import { doc, collection } from "firebase/firestore"; 
 
 const messageRef = doc(collection(doc(collection(db, "rooms"), "roomA"), "messages"), "message1");
-// [END modular_subcollection_reference]
+// [END subcollection_reference_modular]

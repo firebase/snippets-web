@@ -18,9 +18,9 @@ For a file to be included in the separator script it must contain a comment like
 // [SNIPPETS_SEPARATION enabled]
 ```
 
-By default separated snippets will have their name prefixed with `modular_`
+By default separated snippets will have their name suffixed with `_modular`
 but you can override this with a commment:
 
 ```js
-// [SNIPPETS_PREFIX banana]
+// [SNIPPETS_SUFFIX _banana]
 ```

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_start_multiple_orderby]
+// [START start_multiple_orderby_modular]
 // Will return all Springfields
 import { collection, query, orderBy, startAt } from "firebase/firestore";  
 const q1 = query(collection(db, "cities"),
@@ -16,4 +16,4 @@ const q2 = query(collection(db, "cities"),
    orderBy("name"),
    orderBy("state"),
    startAt("Springfield", "Missouri"));
-// [END modular_start_multiple_orderby]
+// [END start_multiple_orderby_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_write_batch]
+// [START write_batch_modular]
 import { writeBatch, doc, collection } from "firebase/firestore"; 
 
 // Get a new write batch
@@ -23,4 +23,4 @@ batch.delete(laRef);
 
 // Commit the batch
 await batch.commit();
-// [END modular_write_batch]
+// [END write_batch_modular]

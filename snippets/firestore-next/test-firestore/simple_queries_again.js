@@ -3,9 +3,9 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_simple_queries_again]
+// [START simple_queries_again_modular]
 import { collection, query, where } from "firebase/firestore";
 const citiesRef = collection(db, "cities");
 
 const q = query(citiesRef, where("capital", "==", true));
-// [END modular_simple_queries_again]
+// [END simple_queries_again_modular]

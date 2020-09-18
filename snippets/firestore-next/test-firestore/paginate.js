@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_paginate]
+// [START paginate_modular]
 import { collection, query, orderBy, startAfter, limit, getDocs } from "firebase/firestore";  
 
 // Query the first page of docs
@@ -20,4 +20,4 @@ const next = query(collection(db, "cities"),
     orderBy("population"),
     startAfter(lastVisible),
     limit(25));
-// [END modular_paginate]
+// [END paginate_modular]

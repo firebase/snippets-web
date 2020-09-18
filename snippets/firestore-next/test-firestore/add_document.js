@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_add_document]
+// [START add_document_modular]
 import { collection, addDoc } from "firebase/firestore"; 
 
 // Add a new document with a generated id.
@@ -12,4 +12,4 @@ const docRef = await addDoc(collection(db, "cities"), {
   country: "Japan"
 });
 console.log("Document written with ID: ", docRef.id);
-// [END modular_add_document]
+// [END add_document_modular]

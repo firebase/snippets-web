@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_add_ada_lovelace]
+// [START add_ada_lovelace_modular]
 import { collection, addDoc } from "firebase/firestore"; 
 
 try {
@@ -16,4 +16,4 @@ try {
 } catch (e) {
   console.error("Error adding document: ", e);
 }
-// [END modular_add_ada_lovelace]
+// [END add_ada_lovelace_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_increment_counter]
+// [START increment_counter_modular]
 function incrementCounter(db, ref, num_shards) {
     import { collection, doc, updateDoc, increment, FirebaseFirestore } from "@firebase/firestore";
 
@@ -14,4 +14,4 @@ function incrementCounter(db, ref, num_shards) {
     // Update count
     return updateDoc(shardRef, "count", increment(1));
 }
-// [END modular_increment_counter]
+// [END increment_counter_modular]

@@ -3,11 +3,11 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_all_users]
+// [START get_all_users_modular]
 import { collection, getDocs } from "firebase/firestore"; 
 
 const querySnapshot = await getDocs(collection(db, "users"));
 querySnapshot.forEach((doc) => {
   console.log(`${doc.id} => ${doc.data()}`);
 });
-// [END modular_get_all_users]
+// [END get_all_users_modular]

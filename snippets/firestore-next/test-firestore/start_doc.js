@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_start_doc]
+// [START start_doc_modular]
 import { collection, doc, getDoc, query, orderBy, startAt } from "firebase/firestore";  
 const citiesRef = collection(db, "cities");
 
@@ -12,4 +12,4 @@ const docSnap = await getDoc(doc(citiesRef, "SF"));
 // Get all cities with a population bigger than San Francisco
 const biggerThanSf = query(citiesRef, orderBy("popuation"), startAt(docSnap));
 // ...
-// [END modular_start_doc]
+// [END start_doc_modular]

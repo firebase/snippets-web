@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_city_custom_object]
+// [START city_custom_object_modular]
 class City {
     constructor (name, state, country ) {
         this.name = name;
@@ -29,4 +29,4 @@ var cityConverter = {
         return new City(data.name, data.state, data.country)
     }
 }
-// [END modular_city_custom_object]
+// [END city_custom_object_modular]

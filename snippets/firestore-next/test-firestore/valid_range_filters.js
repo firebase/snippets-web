@@ -3,9 +3,9 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_valid_range_filters]
+// [START valid_range_filters_modular]
 import { query, where } from "firebase/firestore";  
 
 const q1 = query(citiesRef, where("state", ">=", "CA"), where("state", "<=", "IN"));
 const q2 = query(citiesRef, where("state", "==", "CA"), where("population", ">", 1000000));
-// [END modular_valid_range_filters]
+// [END valid_range_filters_modular]

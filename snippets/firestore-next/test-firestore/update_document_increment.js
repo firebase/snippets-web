@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_document_increment]
+// [START update_document_increment_modular]
 import { collection, doc, updateDoc, increment } from "firebase/firestore";
 
 const washingtonRef = doc(collection(db, "cities"), "DC");
@@ -12,4 +12,4 @@ const washingtonRef = doc(collection(db, "cities"), "DC");
 await updateDoc(washingtonRef, {
     population: increment(50)
 });
-// [END modular_update_document_increment]
+// [END update_document_increment_modular]

@@ -3,10 +3,10 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_functions_emulator_connect]
+// [START functions_emulator_connect_modular]
 import { getApp } from "firebase/app";
 import { getFunctions, useFunctionsEmulator } from  "firebase/functions";
 
 const functions = getFunctions(getApp());
 useFunctionsEmulator(functions, "http://localhost:5001");
-// [END modular_functions_emulator_connect]
+// [END functions_emulator_connect_modular]

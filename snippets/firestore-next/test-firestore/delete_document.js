@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_delete_document]
+// [START delete_document_modular]
 import { collection, doc, deleteDoc } from "firebase/firestore";
 
 await deleteDoc(doc(collection(db, "cities"), "DC"));
-// [END modular_delete_document]
+// [END delete_document_modular]

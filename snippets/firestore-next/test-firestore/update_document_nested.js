@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_document_nested]
+// [START update_document_nested_modular]
 import { doc, collection, setDoc, updateDoc } from "firebase/firestore"; 
 
 // Create an initial document to update.
@@ -19,4 +19,4 @@ await updateDoc(frankDocRef, {
     "age": 13,
     "favorites.color": "Red"
 });
-// [END modular_update_document_nested]
+// [END update_document_nested_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_delete_collection]
+// [START delete_collection_modular]
 /**
  * Delete a collection, in batches of batchSize. Note that this does
  * not recursively delete subcollections of documents in the collection
@@ -45,4 +45,4 @@ async function deleteQueryBatch(db, query, batchSize, resolve) {
       deleteQueryBatch(db, query, batchSize, resolve);
   }, 0);
 }
-// [END modular_delete_collection]
+// [END delete_collection_modular]

@@ -3,10 +3,10 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_sample_doc]
+// [START sample_doc_modular]
 const arinellDoc = {
   name: 'Arinell Pizza',
   avgRating: 4.65,
   numRatings: 683
 }
-// [END modular_sample_doc]
+// [END sample_doc_modular]

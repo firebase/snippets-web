@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_detach_listener]
+// [START detach_listener_modular]
 import { collection, onSnapshot } from "firebase/firestore";
 
 const unsubscribe = onSnapshot(collection(db, "cities"), () => {
@@ -15,4 +15,4 @@ const unsubscribe = onSnapshot(collection(db, "cities"), () => {
 
 // Stop listening to changes
 unsubscribe();
-// [END modular_detach_listener]
+// [END detach_listener_modular]

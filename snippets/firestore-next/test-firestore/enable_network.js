@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_enable_network]
+// [START enable_network_modular]
 import { enableNetwork } from "firebase/firestore"; 
 
 await enableNetwork(db)
@@ -11,4 +11,4 @@ await enableNetwork(db)
 // [START_EXCLUDE]
 console.log("Network enabled!");
 // [END_EXCLUDE]
-// [END modular_enable_network]
+// [END enable_network_modular]
