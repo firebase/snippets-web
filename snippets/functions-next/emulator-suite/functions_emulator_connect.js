@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START modular_functions_emulator_connect]
-import { getApp } from "firebase/app";
+import { app } from "firebase/app";
 import { getFunctions, useFunctionsEmulator } from  "firebase/functions";
 
-const functions = getFunctions(getApp());
+const functions = getFunctions(app());
 useFunctionsEmulator(functions, "http://localhost:5001");
 // [END modular_functions_emulator_connect]
