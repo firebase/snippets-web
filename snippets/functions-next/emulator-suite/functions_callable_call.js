@@ -4,10 +4,10 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START modular_functions_callable_call]
-import { getApp } from "firebase/app";
+import { app } from "firebase/app";
 import { getFunctions, httpsCallable } from  "firebase/functions";
 
-const functions = getFunctions(getApp());
+const functions = getFunctions(app());
 const addMessage = httpsCallable(functions, 'addMessage');
 
 const result = await addMessage({ text: '<message text>'});
