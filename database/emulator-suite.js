@@ -2,10 +2,10 @@
 // These samples are intended for Web so this import would normally be
 // done in HTML however using modules here is more convenient for
 // ensuring sample correctness offline.
-var firebase = require("firebase/app");
-require("firebase/database");
+import firebase from "firebase/app";
+import "firebase/database";
 
-function onDocumentReady(firebase) {
+function onDocumentReady() {
   //[START rtdb_emulator_connect]
   if (location.hostname === "localhost") {
 
@@ -21,8 +21,7 @@ function onDocumentReady(firebase) {
   // [END rtdb_emulator_connect]
 }
 
-function flushRealtimeDatabase(firebase) {
-
+function flushRealtimeDatabase() {
   //[START rtdb_emulator_flush]
   // With a database Reference, write null to clear the database.
   firebase.database().ref().set(null);

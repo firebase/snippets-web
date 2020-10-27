@@ -10,7 +10,7 @@ initializeApp({
 export function emulatorSettings() {
   // [START functions_emulator_connect]
   const { app } = require("firebase/app");
-  const { getFunctions, useFunctionsEmulator } = require( "firebase/functions");
+  const { getFunctions, useFunctionsEmulator } = require("firebase/functions");
 
   const functions = getFunctions(app());
   useFunctionsEmulator(functions, "http://localhost:5001");
@@ -20,7 +20,7 @@ export function emulatorSettings() {
 export async function callFunction() {
   // [START functions_callable_call]
   const { app } = require("firebase/app");
-  const { getFunctions, httpsCallable } = require( "firebase/functions");
+  const { getFunctions, httpsCallable } = require("firebase/functions");
 
   const functions = getFunctions(app());
   const addMessage = httpsCallable(functions, 'addMessage');

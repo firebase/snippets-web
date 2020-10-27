@@ -1,5 +1,5 @@
-const firebase = require("firebase/app");
-require("firebase/installations");
+import firebase from "firebase/app";
+import "firebase/installations";
 
 async function deleteInstallation() {
   try {

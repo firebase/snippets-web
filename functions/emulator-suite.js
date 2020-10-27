@@ -1,5 +1,5 @@
-var firebase = require('firebase/app');
-require('firebase/functions');
+import firebase from "firebase/app";
+import "firebase/functions";
 
 function emulatorSettings() {
   // [START functions_emulator_connect]
