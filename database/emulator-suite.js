@@ -2,27 +2,20 @@
 // These samples are intended for Web so this import would normally be
 // done in HTML however using modules here is more convenient for
 // ensuring sample correctness offline.
-var firebase = require("firebase/app");
-require("firebase/database");
+import firebase from "firebase/app";
+import "firebase/database";
 
-function onDocumentReady(firebase) {
+function onDocumentReady() {
   //[START rtdb_emulator_connect]
+  var db = firebase.database();
   if (location.hostname === "localhost") {
-
-    var firebaseConfig = {
-      // Point to the RTDB emulator running on localhost.
-      // In almost all cases the ns (namespace) is your project ID.
-      databaseURL: "http://localhost:9000?ns=YOUR_DATABASE_NAMESPACE"
-    }
-
-    var myApp = firebase.initializeApp(firebaseConfig);
-    var db = myApp.database();
+    // Point to the RTDB emulator running on localhost.
+    db.useEmulator("localhost", 9000);
   } 
   // [END rtdb_emulator_connect]
 }
 
-function flushRealtimeDatabase(firebase) {
-
+function flushRealtimeDatabase() {
   //[START rtdb_emulator_flush]
   // With a database Reference, write null to clear the database.
   firebase.database().ref().set(null);
