@@ -1,5 +1,5 @@
-var firebase = require('firebase/app');
-require('firebase/firestore');
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 let postsWithArray = [
     // [START post_with_array]
