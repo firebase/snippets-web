@@ -6,7 +6,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "^7.24.0"
+    "firebase": "^8.0.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.12",
