@@ -7,16 +7,10 @@ import "firebase/database";
 
 function onDocumentReady() {
   //[START rtdb_emulator_connect]
+  var db = firebase.database();
   if (location.hostname === "localhost") {
-
-    var firebaseConfig = {
-      // Point to the RTDB emulator running on localhost.
-      // In almost all cases the ns (namespace) is your project ID.
-      databaseURL: "http://localhost:9000?ns=YOUR_DATABASE_NAMESPACE"
-    }
-
-    var myApp = firebase.initializeApp(firebaseConfig);
-    var db = myApp.database();
+    // Point to the RTDB emulator running on localhost.
+    db.useEmulator("localhost", 9000);
   } 
   // [END rtdb_emulator_connect]
 }
