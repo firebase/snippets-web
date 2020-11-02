@@ -1,4 +1,4 @@
-var firebase = require('firebase/app');
+import firebase  from 'firebase/app';
 
 function multpleFirebaseApps() {
     // [START firebase_options]

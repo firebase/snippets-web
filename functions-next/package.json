@@ -7,6 +7,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "^0.800.3"
+    "firebase": "exp"
   }
 }

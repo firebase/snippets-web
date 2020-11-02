@@ -5,7 +5,7 @@
 
 // [START functions_callable_call_modular]
 import { getApp } from "firebase/app";
-import { getFunctions, httpsCallable } from  "firebase/functions";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const functions = getFunctions(getApp());
 const addMessage = httpsCallable(functions, 'addMessage');

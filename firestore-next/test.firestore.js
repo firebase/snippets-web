@@ -853,6 +853,10 @@ describe("firestore", () => {
               const q2 =  query(citiesRef, where("population", "<", 100000));
               const q3 =  query(citiesRef, where("name", ">=", "San Francisco"));
               // [END example_filters]
+
+              // [START simple_query_not_equal]
+              const q4 = query(citiesRef, where("capital", "!=", false));
+              // [END simple_query_not_equal]
             });
 
             it("should handle array-contains where", () => {
@@ -887,6 +891,14 @@ describe("firestore", () => {
 
                 const q = query(citiesRef, where('country', 'in', ['USA', 'Japan']));
                 // [END in_filter]
+              }
+
+              function notInFilter() {
+                // [START not_in_filter]
+                const { query, where } = require("firebase/firestore");
+
+                const q = query(citiesRef, where('country', 'not-in', ['USA', 'Japan']));
+                // [END not_in_filter]
               }
 
               function inFilterWithArray() {

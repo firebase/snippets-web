@@ -1,5 +1,5 @@
-const firebase = require('firebase/app');
-require('firebase/firestore');
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const { expect } = require('chai');
 
@@ -860,6 +860,10 @@ describe("firestore", () => {
                 citiesRef.where("population", "<", 100000)
                 citiesRef.where("name", ">=", "San Francisco")
                 // [END example_filters]
+
+                // [START simple_query_not_equal]
+                citiesRef.where("capital", "!=", false);
+                // [END simple_query_not_equal]
             });
 
             it("should handle array-contains where", () => {
@@ -882,6 +886,10 @@ describe("firestore", () => {
                 // [START in_filter]
                 citiesRef.where('country', 'in', ['USA', 'Japan']);
                 // [END in_filter]
+
+                // [START not_in_filter]
+                citiesRef.where('country', 'not-in', ['USA', 'Japan']);
+                // [END not_in_filter]
 
                 // [START in_filter_with_array]
                 citiesRef.where('regions', 'in',
