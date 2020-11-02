@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_multiple]
+// [START listen_multiple_modular]
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 const q = query(collection(db, "cities"), where("state", "==", "CA"));
@@ -14,4 +14,4 @@ const unsubscribe = onSnapshot(q, (querySnapshot) => {
   });
   console.log("Current cities in CA: ", cities.join(", "));
 });
-// [END modular_listen_multiple]
+// [END listen_multiple_modular]

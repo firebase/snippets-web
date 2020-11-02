@@ -5,8 +5,8 @@ import * as path from "path";
 // Regex for comment which must be included in a file for it to be separated
 const RE_SNIPPETS_SEPARATION = /\[SNIPPETS_SEPARATION\s+enabled\]/;
 
-// Regex for comment to control the separator prefix
-const RE_SNIPPETS_PREFIX = /\[SNIPPETS_PREFIX\s+([A-Za-z0-9_]+)\]/;
+// Regex for comment to control the separator suffix
+const RE_SNIPPETS_SUFFIX = /\[SNIPPETS_SUFFIX\s+([A-Za-z0-9_]+)\]/;
 
 // Regex for [START] and [END] snippet tags.
 const RE_START_SNIPPET = /\[START\s+([A-Za-z_]+)\s*\]/;
@@ -18,11 +18,11 @@ const RE_REQUIRE = /const {(.+?)} = require\((.+?)\)/;
 
 type SnippetsConfig = {
   enabled: boolean;
-  prefix: string;
+  suffix: string;
   map: Record<string, string[]>;
 };
 
-const DEFAULT_PREFIX = "modular_";
+const DEFAULT_SUFFIX = "_modular";
 
 function isBlank(line: string) {
   return line.trim().length === 0;
@@ -33,16 +33,16 @@ function isBlank(line: string) {
  *   - Converting require statements into top-level imports.
  *   - Adjusting indentation to left-align all content
  *   - Removing any blank lines at the starts
- *   - Adding a prefix to snippet names
+ *   - Adding a suffix to snippet names
  *
  * @param lines the lines containing the snippet (including START/END comments)
  * @param sourceFile the source file where the original snippet lives
- * @param snippetPrefix the prefix (such as modular_)
+ * @param snippetSuffix the suffix (such as _modular)
  */
 function processSnippet(
   lines: string[],
   sourceFile: string,
-  snippetPrefix: string
+  snippetSuffix: string
 ): string {
   const outputLines: string[] = [];
 
@@ -50,10 +50,10 @@ function processSnippet(
     if (line.match(RE_REQUIRE)) {
       outputLines.push(line.replace(RE_REQUIRE, `import {$1} from $2`));
     } else if (line.match(RE_START_SNIPPET)) {
-      outputLines.push(line.replace(RE_START_SNIPPET, `[START ${snippetPrefix}$1]`));
+      outputLines.push(line.replace(RE_START_SNIPPET, `[START $1${snippetSuffix}]`));
     } else if (line.match(RE_END_SNIPPET)) {
       outputLines.push(
-        line.replace(RE_END_SNIPPET, `[END ${snippetPrefix}$1]`)
+        line.replace(RE_END_SNIPPET, `[END $1${snippetSuffix}]`)
       );
     } else {
       outputLines.push(line);
@@ -115,7 +115,7 @@ function collectSnippets(filePath: string): SnippetsConfig {
 
   const config: SnippetsConfig = {
     enabled: false,
-    prefix: DEFAULT_PREFIX,
+    suffix: DEFAULT_SUFFIX,
     map: {},
   };
 
@@ -124,10 +124,10 @@ function collectSnippets(filePath: string): SnippetsConfig {
     return config;
   }
 
-  const prefixLine = lines.find((l) => !!l.match(RE_SNIPPETS_PREFIX));
-  if (prefixLine) {
-    const m = prefixLine.match(RE_SNIPPETS_PREFIX);
-    config.prefix = m[1];
+  const suffixLine = lines.find((l) => !!l.match(RE_SNIPPETS_SUFFIX));
+  if (suffixLine) {
+    const m = suffixLine.match(RE_SNIPPETS_SUFFIX);
+    config.suffix = m[1];
   }
 
   let currSnippetName = "";
@@ -175,7 +175,7 @@ async function main() {
     const snippetDir = path.join("./snippets", fileSlug);
 
     console.log(
-      `Processing: ${filePath} --> ${snippetDir} (prefix=${config.prefix})`
+      `Processing: ${filePath} --> ${snippetDir} (suffix=${config.suffix})`
     );
 
     if (!fs.existsSync(snippetDir)) {
@@ -187,7 +187,7 @@ async function main() {
       const content = processSnippet(
         config.map[snippetName],
         filePath,
-        config.prefix
+        config.suffix
       );
       fs.writeFileSync(newFilePath, content);
     }

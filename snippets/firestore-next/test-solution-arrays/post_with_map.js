@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_post_with_map]
+// [START post_with_map_modular]
 // Sample document in the 'posts' collection
 {
     title: "My great post",
@@ -13,4 +13,4 @@
         "cats": true
     }
 }
-// [END modular_post_with_map]
+// [END post_with_map_modular]

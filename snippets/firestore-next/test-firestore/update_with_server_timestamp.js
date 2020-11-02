@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_with_server_timestamp]
+// [START update_with_server_timestamp_modular]
 import { collection, updateDoc, serverTimestamp } from "firebase/firestore";
 
 const docRef = doc(collection(db, 'objects'), 'some-id');
@@ -12,4 +12,4 @@ const docRef = doc(collection(db, 'objects'), 'some-id');
 const updateTimestamp = await updateDoc(docRef, {
     timestamp: serverTimestamp()
 });
-// [END modular_update_with_server_timestamp]
+// [END update_with_server_timestamp_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_post_with_map_advanced]
+// [START post_with_map_advanced_modular]
 // The value of each entry in 'categories' is a unix timestamp
 {
   title: "My great post",
@@ -13,4 +13,4 @@
     cats: 1502144665
   }
 }
-// [END modular_post_with_map_advanced]
+// [END post_with_map_advanced_modular]

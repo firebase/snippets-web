@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_document_options]
+// [START get_document_options_modular]
 import { collection, doc, getDocFromCache } from "firebase/firestore";
 
 const docRef = doc(collection(db, "cities"), "SF");
@@ -18,4 +18,4 @@ try {
 } catch (e) {
   console.log("Error getting cached document:", e);
 }
-// [END modular_get_document_options]
+// [END get_document_options_modular]

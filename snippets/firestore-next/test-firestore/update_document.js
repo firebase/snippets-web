@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_document]
+// [START update_document_modular]
 import { collection, doc, updateDoc } from "firebase/firestore";
 
 const washingtonRef = doc(collection(db, "cities"), "DC");
@@ -12,4 +12,4 @@ const washingtonRef = doc(collection(db, "cities"), "DC");
 await updateDoc(washingtonRef, {
   capital: true
 });
-// [END modular_update_document]
+// [END update_document_modular]

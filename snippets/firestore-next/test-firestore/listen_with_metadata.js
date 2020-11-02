@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_with_metadata]
+// [START listen_with_metadata_modular]
 import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const unsub = onSnapshot(
@@ -12,4 +12,4 @@ const unsub = onSnapshot(
   (doc) => {
     // ...
   });
-// [END modular_listen_with_metadata]
+// [END listen_with_metadata_modular]

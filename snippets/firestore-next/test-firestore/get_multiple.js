@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_multiple]
+// [START get_multiple_modular]
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 const q = query(collection(db, "cities"), where("capital", "==", true));
@@ -13,4 +13,4 @@ querySnapshot.forEach((doc) => {
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data());
 });
-// [END modular_get_multiple]
+// [END get_multiple_modular]

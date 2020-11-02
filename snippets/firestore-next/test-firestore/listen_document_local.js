@@ -3,11 +3,11 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_document_local]
+// [START listen_document_local_modular]
 import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const unsub = onSnapshot(doc(collection(db, "cities"), "SF"), (doc) => {
   const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
   console.log(source, " data: ", doc.data());
 });
-// [END modular_listen_document_local]
+// [END listen_document_local_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_custom_object]
+// [START get_custom_object_modular]
 import { doc, collection, getDoc} from "firebase/firestore"; 
 
 const ref = doc(collection(db, "cities"), "LA").withConverter(cityConverter);
@@ -16,4 +16,4 @@ if (docSnap.exists()) {
 } else {
   console.log("No such document!")
 }
-// [END modular_get_custom_object]
+// [END get_custom_object_modular]

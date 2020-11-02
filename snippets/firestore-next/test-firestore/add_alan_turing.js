@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_add_alan_turing]
+// [START add_alan_turing_modular]
 // Add a second document with a generated ID.
 import { addDoc, collection } from "firebase/firestore"; 
 
@@ -19,4 +19,4 @@ try {
 } catch (e) {
   console.error("Error adding document: ", e);
 }
-// [END modular_add_alan_turing]
+// [END add_alan_turing_modular]

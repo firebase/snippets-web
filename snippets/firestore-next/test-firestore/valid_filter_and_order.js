@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_valid_filter_and_order]
+// [START valid_filter_and_order_modular]
 import { query, where, orderBy } from "firebase/firestore";  
 
 const q = query(citiesRef, where("population", ">", 100000), orderBy("population"));
-// [END modular_valid_filter_and_order]
+// [END valid_filter_and_order_modular]

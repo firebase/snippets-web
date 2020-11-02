@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_transaction]
+// [START transaction_modular]
 import { runTransaction } from "firebase/firestore";
 
 try {
@@ -20,4 +20,4 @@ try {
 } catch (e) {
   console.log("Transaction failed: ", e);
 }
-// [END modular_transaction]
+// [END transaction_modular]

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_server_timestamp_resolution_options]
+// [START server_timestamp_resolution_options_modular]
 import { collection, doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 // Perform an update followed by an immediate read without
 // waiting for the update to complete. Due to the snapshot
@@ -23,4 +23,4 @@ onSnapshot(docRef, (snapshot) => {
       'Timestamp: ' + data.timestamp +
       ', pending: ' + snapshot.metadata.hasPendingWrites);
 });
-// [END modular_server_timestamp_resolution_options]
+// [END server_timestamp_resolution_options_modular]

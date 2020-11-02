@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_order_and_end]
+// [START order_and_end_modular]
 import { query, orderBy, endAt } from "firebase/firestore";  
 
 const q = query(citiesRef, orderBy("population"), endAt(1000000));
-// [END modular_order_and_end]
+// [END order_and_end_modular]

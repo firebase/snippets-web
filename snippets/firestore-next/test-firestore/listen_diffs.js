@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_diffs]
+// [START listen_diffs_modular]
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 const q = query(collection(db, "cities"), where("state", "==", "CA"));
@@ -20,4 +20,4 @@ const unsubscribe = onSnapshot(q, (snapshot) => {
     }
   });
 });
-// [END modular_listen_diffs]
+// [END listen_diffs_modular]

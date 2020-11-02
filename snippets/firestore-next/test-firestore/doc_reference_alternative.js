@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_doc_reference_alternative]
+// [START doc_reference_alternative_modular]
 import { doc } from "firebase/firestore"; 
 
 const alovelaceDocumentRef = doc(db, 'users/alovelace');
-// [END modular_doc_reference_alternative]
+// [END doc_reference_alternative_modular]

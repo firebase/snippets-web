@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_fs_emulator_connect]
+// [START fs_emulator_connect_modular]
 import { initializeFirestore } from "firebase/firestore";
 
 let settings = {};
@@ -16,4 +16,4 @@ if (location.hostname === "localhost") {
 
 // firebaseApps previously initialized using initializeApp()
 const db = initializeFirestore(firebaseApp, settings);
-// [END modular_fs_emulator_connect]
+// [END fs_emulator_connect_modular]

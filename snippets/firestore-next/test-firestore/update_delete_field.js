@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_update_delete_field]
+// [START update_delete_field_modular]
 import { doc, collection, updateDoc, deleteField } from "firebase/firestore";
 
 const cityRef = doc(collection(db, 'cities'), 'BJ');
@@ -12,4 +12,4 @@ const cityRef = doc(collection(db, 'cities'), 'BJ');
 await updateDoc(cityRef, {
     capital: deleteField()
 });
-// [END modular_update_delete_field]
+// [END update_delete_field_modular]

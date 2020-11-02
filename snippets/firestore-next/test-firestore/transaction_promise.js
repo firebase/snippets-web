@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_transaction_promise]
+// [START transaction_promise_modular]
 import { collection, doc, runTransaction } from "firebase/firestore";
 
 // Create a reference to the SF doc.
@@ -29,4 +29,4 @@ try {
   // This will be a "population is too big" error.
   console.error(e);
 }
-// [END modular_transaction_promise]
+// [END transaction_promise_modular]

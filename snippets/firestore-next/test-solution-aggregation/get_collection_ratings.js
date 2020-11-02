@@ -3,9 +3,9 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_collection_ratings]
+// [START get_collection_ratings_modular]
 import { collection, doc, getDocs } from "firebase/firestore";
 
 const ratingsRef = collection(doc(collection(db, "restaurants"), "arinell-pizza"), "ratings");
 const ratingsDocs = await getDocs(ratingsRef);
-// [END modular_get_collection_ratings]
+// [END get_collection_ratings_modular]

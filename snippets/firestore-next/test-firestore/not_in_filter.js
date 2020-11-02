@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_not_in_filter]
+// [START not_in_filter_modular]
 import { query, where } from "firebase/firestore";
 
 const q = query(citiesRef, where('country', 'not-in', ['USA', 'Japan']));
-// [END modular_not_in_filter]
+// [END not_in_filter_modular]

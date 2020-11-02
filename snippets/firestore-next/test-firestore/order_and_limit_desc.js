@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_order_and_limit_desc]
+// [START order_and_limit_desc_modular]
 import { query, orderBy, limit } from "firebase/firestore";  
 
 const q = query(citiesRef, orderBy("name", "desc"), limit(3));
-// [END modular_order_and_limit_desc]
+// [END order_and_limit_desc_modular]

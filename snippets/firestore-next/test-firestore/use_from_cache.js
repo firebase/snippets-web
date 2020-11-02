@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_use_from_cache]
+// [START use_from_cache_modular]
 import { collection, onSnapshot, where, query } from "firebase/firestore"; 
 
 const q = query(collection(db, "cities"), where("state", "==", "CA"));
@@ -17,4 +17,4 @@ onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
         console.log("Data came from " + source);
     });
 });
-// [END modular_use_from_cache]
+// [END use_from_cache_modular]

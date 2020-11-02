@@ -3,10 +3,10 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_document]
+// [START listen_document_modular]
 import { collection, doc, onSnapshot } from "firebase/firestore";
 
 const unsub = onSnapshot(doc(collection(db, "cities"), "SF"), (doc) => {
     console.log("Current data: ", doc.data());
 });
-// [END modular_listen_document]
+// [END listen_document_modular]

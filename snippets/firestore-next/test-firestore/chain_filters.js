@@ -3,9 +3,9 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_chain_filters]
+// [START chain_filters_modular]
 import { query, where } from "firebase/firestore";  
 
 const q1 = query(citiesRef, where("state", "==", "CO"), where("name", "==", "Denver"));
 const q2 = query(citiesRef, where("state", "==", "CA"), where("population", "<", 1000000));
-// [END modular_chain_filters]
+// [END chain_filters_modular]

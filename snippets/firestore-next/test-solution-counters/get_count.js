@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_get_count]
+// [START get_count_modular]
 async function getCount(ref) {
     import { collection, getDocs } from "@firebase/firestore";
 
@@ -17,4 +17,4 @@ async function getCount(ref) {
 
     return totalCount;
 }
-// [END modular_get_count]
+// [END get_count_modular]

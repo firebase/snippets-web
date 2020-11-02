@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_example_data]
+// [START example_data_modular]
 import { collection, doc, setDoc } from "firebase/firestore"; 
 
 const citiesRef = collection(db, "cities");
@@ -28,4 +28,4 @@ await setDoc(doc(citiesRef, "BJ"), {
     name: "Beijing", state: null, country: "China",
     capital: true, population: 21500000,
     regions: ["jingjinji", "hebei"] });
-// [END modular_example_data]
+// [END example_data_modular]

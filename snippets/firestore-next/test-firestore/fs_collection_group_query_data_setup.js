@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_fs_collection_group_query_data_setup]
+// [START fs_collection_group_query_data_setup_modular]
 import { collection, doc, setDoc } from "firebase/firestore";  
 
 const citiesRef = collection(db, 'cities');
@@ -50,4 +50,4 @@ await Promise.all([
         type: 'museum'
     })
 ]);
-// [END modular_fs_collection_group_query_data_setup]
+// [END fs_collection_group_query_data_setup_modular]

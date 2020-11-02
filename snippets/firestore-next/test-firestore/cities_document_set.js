@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_cities_document_set]
+// [START cities_document_set_modular]
 import { collection, doc, setDoc } from "firebase/firestore"; 
 
 await setDoc(doc(collection(db, "cities"), "new-city-id"), data);
-// [END modular_cities_document_set]
+// [END cities_document_set_modular]

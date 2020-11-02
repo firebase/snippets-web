@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_create_counter]
+// [START create_counter_modular]
 function createCounter(ref, num_shards) {
     import { collection, doc, writeBatch } from "firebase/firestore";
 
@@ -21,4 +21,4 @@ function createCounter(ref, num_shards) {
     // Commit the write batch
     return batch.commit();
 }
-// [END modular_create_counter]
+// [END create_counter_modular]

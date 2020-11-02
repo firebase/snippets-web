@@ -3,11 +3,11 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_simple_queries]
+// [START simple_queries_modular]
 // Create a reference to the cities collection
 import { collection, query, where } from "firebase/firestore";
 const citiesRef = collection(db, "cities");
 
 // Create a query against the collection.
 const q = query(citiesRef, where("state", "==", "CA"));
-// [END modular_simple_queries]
+// [END simple_queries_modular]

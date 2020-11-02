@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_data_types]
+// [START data_types_modular]
 import { doc, collection, setDoc, Timestamp } from "firebase/firestore"; 
 
 const docData = {
@@ -21,4 +21,4 @@ const docData = {
     }
 };
 await setDoc(doc(collection(db, "data"), "one"), docData);
-// [END modular_data_types]
+// [END data_types_modular]

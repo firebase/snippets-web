@@ -3,8 +3,8 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_invalid_range_filters]
+// [START invalid_range_filters_modular]
 import { query, where } from "firebase/firestore";  
 
 const q = query(citiesRef, where("state", ">=", "CA"), where("population", ">", 100000));
-// [END modular_invalid_range_filters]
+// [END invalid_range_filters_modular]

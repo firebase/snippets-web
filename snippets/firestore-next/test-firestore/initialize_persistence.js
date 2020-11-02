@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_initialize_persistence]
+// [START initialize_persistence_modular]
 import { enableIndexedDbPersistence } from "firebase/firestore"; 
 
 enableIndexedDbPersistence(db)
@@ -19,4 +19,4 @@ enableIndexedDbPersistence(db)
       }
   });
 // Subsequent queries will use persistence, if it was enabled successfully
-// [END modular_initialize_persistence]
+// [END initialize_persistence_modular]

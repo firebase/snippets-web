@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START modular_listen_for_users]
+// [START listen_for_users_modular]
 import { collection, where, query, onSnapshot } from "firebase/firestore"; 
 
 const q = query(collection(db, "users"), where("born", "<", 1900));
@@ -13,4 +13,4 @@ const unsubscribe = onSnapshot(q, (snapshot) => {
         console.log(userSnapshot.data())
     });
 });
-// [END modular_listen_for_users]
+// [END listen_for_users_modular]
