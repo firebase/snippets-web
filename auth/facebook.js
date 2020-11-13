@@ -16,17 +16,20 @@ function checkLoginState(response) {
         var credential = firebase.auth.FacebookAuthProvider.credential(
             response.authResponse.accessToken);
         
+        // [START auth_facebook_signin_credential]
         // Sign in with the credential from the Facebook user.
-        firebase.auth().signInWithCredential(credential).catch((error) => {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          // ...
-        });
+        firebase.auth().signInWithCredential(credential)
+          .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+        // [END auth_facebook_signin_credential]
       } else {
         // User is already signed-in Firebase with the correct user.
       }
@@ -53,3 +56,24 @@ function isUserEqual(facebookAuthResponse, firebaseUser) {
   return false;
 }
 // [END auth_facebook_checksameuser]
+
+function authWithCredential(credential) {
+  // [START auth_facebook_signin_credential]
+  // Sign in with the credential from the Facebook user.
+  firebase.auth().signInWithCredential(credential)
+    .then((cred) => {
+      // Signed in 
+      // ...
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  // [END auth_facebook_signin_credential]
+}
