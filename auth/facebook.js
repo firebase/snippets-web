@@ -16,8 +16,8 @@ function checkLoginState(response) {
         var credential = firebase.auth.FacebookAuthProvider.credential(
             response.authResponse.accessToken);
         
-        // [START auth_facebook_signin_credential]
         // Sign in with the credential from the Facebook user.
+        // [START auth_facebook_signin_credential]
         firebase.auth().signInWithCredential(credential)
           .catch((error) => {
             // Handle Errors here.
