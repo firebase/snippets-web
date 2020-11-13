@@ -4,7 +4,9 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/_includes/_get_credentials_web.html
+// ==========================================================================================
+// Docs: Snippets in this file are "general purpose" and are used on more than one docs page
+// ==========================================================================================
 
 function makeGoogleCredential(googleUser) {
   // [START auth_make_google_credential]
@@ -26,8 +28,6 @@ function makeEmailCredential(email, password) {
   // [END auth_make_email_credential]
 }
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/_includes/_next_steps_web.html
-
 function signOut() {
   // [START auth_sign_out]
   firebase.auth().signOut().then(() => {
@@ -36,4 +36,20 @@ function signOut() {
     // An error happened.
   });
   // [END auth_sign_out]
+}
+
+function authStateListener() {
+  // [START auth_state_listener]
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      var uid = user.uid;
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+  // [END auth_state_listener]
 }
