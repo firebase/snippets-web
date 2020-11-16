@@ -16,7 +16,7 @@ function addHash(done) {
   const lng = 0.1278;
   const hash = geofire.geohashForLocation([lat, lng]);
 
-  // Add the hasn and the lat/lng to the document. We will use the hash
+  // Add the h and the lat/lng to the document. We will use the hash
   // for queries and the lat/lng for distance comparisons.
   const londonRef = db.collection('cities').doc('LON');
   londonRef.update({
@@ -45,8 +45,8 @@ function queryHashes(done) {
   for (const b of bounds) {
     const q = db.collection('cities')
       .orderBy('geohash')
-      .startAt(bounds[0])
-      .endAt(bounds[1]);
+      .startAt(b[0])
+      .endAt(b[1]);
 
     promises.push(q.get());
   }
