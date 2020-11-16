@@ -35,12 +35,12 @@ function queryHashes(done) {
   // [START fs_geo_query_hashes]
   // Find cities within 50km of London
   const center = [51.5074, 0.1278];
-  const radiusKm = 50;
+  const radiusInKm = 50;
 
   // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
   // a separate query for each pair. There can be up to 9 pais of bounds
   // depending on overlap, but in most cases there are 4.
-  const bounds = geofire.geohashQueryBounds(center, radiusKm);
+  const bounds = geofire.geohashQueryBounds(center, radiusInKm);
   const promises = [];
   for (const b of bounds) {
     const q = db.collection('cities')
@@ -63,7 +63,7 @@ function queryHashes(done) {
         // We have to filter out a few false positives due to GeoHash
         // accuracy, but most will match
         const distance = geofire.distanceBetween([lat, lng], center);
-        if (distance <= radiusKm) {
+        if (distance <= radiusInKm) {
           matchingDocs.push(doc);
         }
       }
