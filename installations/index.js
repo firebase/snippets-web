@@ -41,7 +41,7 @@ async function setOnIdChangeHandler() {
       console.log(newId);
       // TODO: Handle new installation ID.
     });
-    // [START set_id_change_handler]
+    // [END set_id_change_handler]
   } catch (err) {
     console.error('Unable to set ID change handler: ', err);
   }
