@@ -18,6 +18,6 @@ function multipleInstances() {
   var database1 = firebase.database();
 
   // Get a database instance for app2
-  var database1 = firebase.database(app2);
+  var database2 = firebase.database(app2);
   // [END rtdb_multiple_instances]
 }
