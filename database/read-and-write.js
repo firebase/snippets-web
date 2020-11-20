@@ -46,6 +46,16 @@ function socialListenStarCount() {
   // [END rtdb_social_listen_star_count]
 }
 
+function socialSingleValueRead() {
+  // [START rtdb_social_single_value_read]
+  var userId = firebase.auth().currentUser.uid;
+  return firebase.database().ref('/users/' + userId).once('value').then((snapshot) => {
+    var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+    // ...
+  });
+  // [END rtdb_social_single_value_read]
+}
+
 // [START rtdb_social_write_fan_out]
 function writeNewPost(uid, username, picture, title, body) {
   // A post entry.
