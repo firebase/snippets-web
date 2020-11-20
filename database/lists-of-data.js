@@ -22,7 +22,7 @@ function socialListenChildren() {
   function setCommentValues(el, key, text, author) {};
   function deleteComment(el, key) {};
 
-  // [START rtb_social_listen_children]
+  // [START rtdb_social_listen_children]
   var commentsRef = firebase.database().ref('post-comments/' + postId);
   commentsRef.on('child_added', (data) => {
     addCommentElement(postElement, data.key, data.val().text, data.val().author);
@@ -35,7 +35,7 @@ function socialListenChildren() {
   commentsRef.on('child_removed', (data) => {
     deleteComment(postElement, data.key);
   });
-  // [END rtb_social_listen_children]
+  // [END rtdb_social_listen_children]
 }
 
 function socialListenValue() {
