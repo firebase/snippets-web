@@ -52,6 +52,13 @@ function socialListenValue() {
   // [END rtdb_social_listen_value]
 }
 
+function socialMostStarred() {
+  // [START rtdb_social_most_starred]
+  var myUserId = firebase.auth().currentUser.uid;
+  var topUserPostsRef = firebase.database().ref('user-posts/' + myUserId).orderByChild('starCount');
+  // [END rtdb_social_most_starred]
+}
+
 function socialMostViewed() {
   // [START rtdb_social_most_viewed]
   var mostViewedPosts = firebase.database().ref('posts').orderByChild('metrics/views');
