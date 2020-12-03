@@ -8,7 +8,9 @@
     "firestore-next",
     "functions",
     "functions-next",
-    "installations"
+    "installations",
+    "perf",
+    "perf-next"
   ],
   "version": "1.0.0"
 }

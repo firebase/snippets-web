@@ -1,0 +1,11 @@
+{
+  "name": "perf-next",
+  "version": "1.0.0",
+  "scripts": {
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "firebase": "exp"
+  }
+}
