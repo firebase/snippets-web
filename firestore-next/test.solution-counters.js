@@ -1,4 +1,6 @@
+// [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
+
 const { FirebaseFirestore } = require('firebase/firestore');
 
 /** @type {FirebaseFirestore} */
