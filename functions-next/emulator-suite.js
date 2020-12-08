@@ -15,7 +15,7 @@ export function emulatorSettings() {
   const { getFunctions, useFunctionsEmulator } = require("firebase/functions");
 
   const functions = getFunctions(getApp());
-  useFunctionsEmulator(functions, "http://localhost:5001");
+  useFunctionsEmulator(functions, "localhost", 5001);
   // [END functions_emulator_connect]
 }
 
