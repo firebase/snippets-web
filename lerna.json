@@ -11,7 +11,9 @@
     "functions-next",
     "installations",
     "perf",
-    "perf-next"
+    "perf-next",
+    "remoteconfig",
+    "remoteconfig-next"
   ],
   "version": "1.0.0"
 }
