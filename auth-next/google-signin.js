@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/google-signin.md
 
 function googleBuildAndSignIn(id_token) {
@@ -11,7 +19,7 @@ function googleBuildAndSignIn(id_token) {
   const credential = GoogleAuthProvider.credential(id_token);
 
   // Sign in with credential from the Google user.
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithCredential(auth, credential).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
@@ -19,7 +27,7 @@ function googleBuildAndSignIn(id_token) {
     // The email of the user's account used.
     const email = error.email;
     // The AuthCredential type that was used.
-    const credential = error.credential;
+    const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
   });
   // [END auth_google_build_signin]
@@ -33,7 +41,7 @@ function onSignIn_wrapper() {
 
   // [START auth_google_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
 
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);
@@ -54,8 +62,8 @@ function onSignIn_wrapper() {
           const errorMessage = error.message;
           // The email of the user's account used.
           const email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          const credential = error.credential;
+          // The credential that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
           // ...
         });
         // [END auth_google_signin_credential]

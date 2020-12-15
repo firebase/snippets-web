@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 // ==========================================================================================
 // Docs: Snippets in this file are "general purpose" and are used on more than one docs page
 // ==========================================================================================
@@ -35,7 +43,7 @@ function signOut() {
   // [START auth_sign_out]
   const { getAuth, signOut } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signOut(auth).then(() => {
     // Sign-out successful.
   }).catch((error) => {
@@ -48,7 +56,7 @@ function authStateListener() {
   // [START auth_state_listener]
   const { getAuth, onAuthStateChanged } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties

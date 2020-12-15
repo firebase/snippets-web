@@ -4,13 +4,13 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START auth_merge_accounts_modular]
-import { getAuth, signInWithCredential, linkWithCredential } from "firebase/auth";
+import { getAuth, signInWithCredential, linkWithCredential, OAuthProvider } from "firebase/auth";
 
 // The implementation of how you store your user data depends on your application
 const repo = new MyUserDataRepo();
 
 // Get reference to the currently signed-in user
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 const prevUser = auth.currentUser;
 
 // Get the data which you will want to merge. This should be done now
@@ -30,10 +30,12 @@ signInWithCredential(auth, newCredential).then((result) => {
   // Note: How you handle this is specific to your application
   const mergedData = repo.merge(prevUserData, currentUserData);
 
-  return linkWithCredential(prevUser, result.credential)
+  const credential = OAuthProvider.credentialFromResult(result);
+  return linkWithCredential(prevUser, credential)
     .then((linkResult) => {
       // Sign in with the newly linked credential
-      return signInWithCredential(auth, linkResult.credential);
+      const linkCredential = OAuthProvider.credentialFromResult(linkResult);
+      return signInWithCredential(auth, linkCredential);
     })
     .then((signInResult) => {
       // Save the merged data to the new user

@@ -4,17 +4,18 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START auth_msft_signin_popup_modular]
-import { getAuth, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithPopup(auth, provider)
   .then((result) => {
     // User is signed in.
     // IdP data available in result.additionalUserInfo.profile.
-    // OAuth access token can also be retrieved:
-    // result.credential.accessToken
-    // OAuth ID token can also be retrieved:
-    // result.credential.idToken
+
+    // Get the OAuth access token and ID Token
+    const credential = OAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+    const idToken = credential.idToken;
   })
   .catch((error) => {
     // Handle error.

@@ -143,6 +143,7 @@ function appleLinkFacebook() {
       .then((result) => {
         // Facebook credential is linked to the current Apple user.
         // Facebook additional data available in result.additionalUserInfo.profile,
+
         // Additional Facebook OAuth access token can also be retrieved.
         // result.credential.accessToken
   

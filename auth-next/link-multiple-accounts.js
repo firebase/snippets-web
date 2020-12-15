@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 const MyUserDataRepo = function() {};
 
 MyUserDataRepo.prototype.merge = function(data1, data2) {
@@ -39,7 +47,7 @@ function simpleLink(credential) {
   // [START auth_simple_link]
   const { getAuth, linkWithCredential } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   linkWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       const user = usercred.user;
@@ -54,7 +62,7 @@ function anonymousLink(credential) {
   // [START auth_anonymous_link]
   const { getAuth, linkWithCredential } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   linkWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       const user = usercred.user;
@@ -70,7 +78,7 @@ function linkWithPopup() {
   const { getAuth, linkWithPopup, GoogleAuthProvider } = require("firebase/auth");
   const provider = new GoogleAuthProvider();
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   linkWithPopup(auth.currentUser, provider).then((result) => {
     // Accounts successfully linked.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -88,7 +96,7 @@ function linkWithRedirect() {
   const { getAuth, linkWithRedirect, GoogleAuthProvider } = require("firebase/auth");
   const provider = new GoogleAuthProvider();
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   linkWithRedirect(auth.currentUser, provider)
     .then(/* ... */)
     .catch(/* ... */);
@@ -98,7 +106,7 @@ function linkWithRedirect() {
   const { getRedirectResult } = require("firebase/auth");
   getRedirectResult(auth).then((result) => {
     const credential = GoogleAuthProvider.credentialFromResult(result);
-    if (result.credential) {
+    if (credential) {
       // Accounts successfully linked.
       const user = result.user;
       // ...
@@ -112,13 +120,13 @@ function linkWithRedirect() {
 
 function mergeAccounts(newCredential) {
   // [START auth_merge_accounts]
-  const { getAuth, signInWithCredential, linkWithCredential } = require("firebase/auth");
+  const { getAuth, signInWithCredential, linkWithCredential, OAuthProvider } = require("firebase/auth");
 
   // The implementation of how you store your user data depends on your application
   const repo = new MyUserDataRepo();
 
   // Get reference to the currently signed-in user
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   const prevUser = auth.currentUser;
 
   // Get the data which you will want to merge. This should be done now
@@ -138,10 +146,12 @@ function mergeAccounts(newCredential) {
     // Note: How you handle this is specific to your application
     const mergedData = repo.merge(prevUserData, currentUserData);
 
-    return linkWithCredential(prevUser, result.credential)
+    const credential = OAuthProvider.credentialFromResult(result);
+    return linkWithCredential(prevUser, credential)
       .then((linkResult) => {
         // Sign in with the newly linked credential
-        return signInWithCredential(auth, linkResult.credential);
+        const linkCredential = OAuthProvider.credentialFromResult(linkResult);
+        return signInWithCredential(auth, linkCredential);
       })
       .then((signInResult) => {
         // Save the merged data to the new user
@@ -170,7 +180,7 @@ function unlink(providerId) {
   // [START auth_unlink_provider]
   const { getAuth, unlink } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   unlink(auth.currentUser, providerId).then(() => {
     // Auth provider unlinked from account
     // ...

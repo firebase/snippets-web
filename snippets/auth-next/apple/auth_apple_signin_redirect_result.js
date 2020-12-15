@@ -7,12 +7,14 @@
 import { getAuth, getRedirectResult, OAuthProvider } from "firebase/auth";
 
 // Result from Redirect auth flow.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 getRedirectResult(auth)
   .then((result) => {
-    const credential = OAuthProvider.credentialFromResult(credential);
+    const credential = OAuthProvider.credentialFromResult(result);
     if (credential) {
-      // TODO(samstern): Show how to get the credential
+      // You can also get the Apple OAuth Access and ID Tokens.
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     }
     // The signed-in user info.
     const user = result.user;
@@ -23,8 +25,8 @@ getRedirectResult(auth)
     const errorMessage = error.message;
     // The email of the user's account used.
     const email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    const credential = error.credential;
+    // The credential that was used.
+    const credential = OAuthProvider.credentialFromError(error);
 
     // ...
   });

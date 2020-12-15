@@ -1,8 +1,13 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import firebase from "firebase/app";
-import "firebase/auth";
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/cordova.md
 
@@ -18,7 +23,7 @@ function cordovaSignInRedirect() {
   // [START auth_cordova_sign_in_redirect]
   const { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithRedirect(auth, new GoogleAuthProvider())
     .then(() => {
       return getRedirectResult(auth);
@@ -45,7 +50,7 @@ function cordovaRedirectResult() {
   // [START auth_cordova_redirect_result]
   const { getAuth, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   getRedirectResult(auth)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);

@@ -6,7 +6,7 @@
 // [START auth_state_listener_modular]
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties

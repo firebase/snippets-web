@@ -9,7 +9,7 @@ import { getAuth, fetchSignInMethodsForEmail, EmailAuthProvider} from "firebase/
 // After asking the user for their email.
 const email = window.prompt('Please provide your email');
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 fetchSignInMethodsForEmail(auth, email)
   .then((signInMethods) => {
     // This returns the same array as fetchProvidersForEmail but for email

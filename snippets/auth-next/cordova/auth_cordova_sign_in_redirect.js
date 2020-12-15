@@ -6,7 +6,7 @@
 // [START auth_cordova_sign_in_redirect_modular]
 import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithRedirect(auth, new GoogleAuthProvider())
   .then(() => {
     return getRedirectResult(auth);

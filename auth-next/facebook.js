@@ -1,8 +1,13 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import firebase from "firebase/app";
-import "firebase/auth";
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
 
 function checkLoginState_wrapper() {
   // See real implementation below
@@ -12,7 +17,7 @@ function checkLoginState_wrapper() {
 
   // [START auth_facebook_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, signOut, FacebookAuthProvider } = require("firebase/auth");
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
 
   function checkLoginState(response) {
     if (response.authResponse) {
@@ -35,7 +40,7 @@ function checkLoginState_wrapper() {
               // The email of the user's account used.
               const email = error.email;
               // The AuthCredential type that was used.
-              const credential = error.credential;
+              const credential = FacebookAuthProvider.credentialFromError(error);
               // ...
             });
           // [END auth_facebook_signin_credential]
@@ -74,10 +79,10 @@ function isUserEqual_wrapper() {
 
 function authWithCredential(credential) {
   // [START auth_facebook_signin_credential]
-  const { getAuth, signInWithCredential } = require("firebase/auth");
+  const { getAuth, signInWithCredential, FacebookAuthProvider } = require("firebase/auth");
 
   // Sign in with the credential from the Facebook user.
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithCredential(auth, credential)
     .then((cred) => {
       // Signed in 
@@ -90,7 +95,7 @@ function authWithCredential(credential) {
       // The email of the user's account used.
       const email = error.email;
       // The AuthCredential type that was used.
-      const credential = error.credential;
+      const credential = FacebookAuthProvider.credentialFromError(error);
       // ...
     });
   // [END auth_facebook_signin_credential]

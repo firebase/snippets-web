@@ -6,7 +6,7 @@
 // [START auth_anon_sign_in_modular]
 import { getAuth, signInAnonymously } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInAnonymously(auth)
   .then(() => {
     // Signed in..

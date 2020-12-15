@@ -6,6 +6,6 @@
 // [START auth_yahoo_signin_redirect_modular]
 import { getAuth, signInWithRedirect } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithRedirect(auth, provider);
 // [END auth_yahoo_signin_redirect_modular]

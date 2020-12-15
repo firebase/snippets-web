@@ -15,7 +15,7 @@ initializeApp(config);
  * @return {!Promise<?string>} The promise that resolves with an ID token if
  *     available. Otherwise, the promise resolves with null.
  */
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 const getIdTokenPromise = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

@@ -5,7 +5,7 @@
 
 // [START auth_facebook_callback_modular]
 import { getAuth, onAuthStateChanged, signInWithCredential, signOut, FacebookAuthProvider } from "firebase/auth";
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 
 function checkLoginState(response) {
   if (response.authResponse) {
@@ -27,7 +27,7 @@ function checkLoginState(response) {
             // The email of the user's account used.
             const email = error.email;
             // The AuthCredential type that was used.
-            const credential = error.credential;
+            const credential = FacebookAuthProvider.credentialFromError(error);
             // ...
           });
       } else {

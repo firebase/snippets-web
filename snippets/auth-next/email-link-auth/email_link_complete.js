@@ -7,7 +7,7 @@
 import { getAuth, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 
 // Confirm the link is a sign-in with email link.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 if (isSignInWithEmailLink(auth, window.location.href)) {
   // Additional state parameters can also be passed via URL.
   // This can be used to continue the user's intended action before triggering

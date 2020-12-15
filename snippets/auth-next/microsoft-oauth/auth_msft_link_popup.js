@@ -7,16 +7,17 @@
 import { getAuth, linkWithPopup, OAuthProvider } from "firebase/auth";
 
 const provider = new OAuthProvider('microsoft.com');
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 
 linkWithPopup(auth.currentUser, provider)
     .then((result) => {
       // Microsoft credential is linked to the current user.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.

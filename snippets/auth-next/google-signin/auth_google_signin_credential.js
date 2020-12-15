@@ -10,8 +10,8 @@ signInWithCredential(auth, credential).catch((error) => {
   const errorMessage = error.message;
   // The email of the user's account used.
   const email = error.email;
-  // The firebase.auth.AuthCredential type that was used.
-  const credential = error.credential;
+  // The credential that was used.
+  const credential = GoogleAuthProvider.credentialFromError(error);
   // ...
 });
 // [END auth_google_signin_credential_modular]

@@ -6,7 +6,7 @@
 // [START auth_apple_signin_popup_modular]
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithPopup(auth, provider)
   .then((result) => {
     // The signed-in user info.
@@ -25,8 +25,8 @@ signInWithPopup(auth, provider)
     const errorMessage = error.message;
     // The email of the user's account used.
     const email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    const credential = error.credential;
+    // The credential that was used.
+    const credential = OAuthProvider.credentialFromError(error);
 
     // ...
   });

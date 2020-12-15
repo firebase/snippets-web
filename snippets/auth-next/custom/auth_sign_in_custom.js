@@ -6,7 +6,7 @@
 // [START auth_sign_in_custom_modular]
 import { getAuth, signInWithCustomToken } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithCustomToken(auth, token)
   .then((user) => {
     // Signed in

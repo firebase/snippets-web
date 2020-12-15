@@ -6,7 +6,7 @@
 // [START auth_set_persistence_none_modular]
 import { getAuth, setPersistence, signInWithRedirect, inMemoryPersistence, GoogleAuthProvider } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 setPersistence(auth, inMemoryPersistence)
   .then(() => {
     const provider = new GoogleAuthProvider();

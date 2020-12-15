@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/apple.md
 
 function appleProvider() {
@@ -27,7 +35,7 @@ function appleSignInPopup(provider) {
   // [START auth_apple_signin_popup]
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithPopup(auth, provider)
     .then((result) => {
       // The signed-in user info.
@@ -46,8 +54,8 @@ function appleSignInPopup(provider) {
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
+      // The credential that was used.
+      const credential = OAuthProvider.credentialFromError(error);
 
       // ...
     });
@@ -58,7 +66,7 @@ function appleSignInRedirect(provider) {
   // [START auth_apple_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithRedirect(auth, provider);
   // [END auth_apple_signin_redirect]
 }
@@ -68,12 +76,14 @@ function appleSignInRedirectResult() {
   const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
 
   // Result from Redirect auth flow.
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   getRedirectResult(auth)
     .then((result) => {
-      const credential = OAuthProvider.credentialFromResult(credential);
+      const credential = OAuthProvider.credentialFromResult(result);
       if (credential) {
-        // TODO(samstern): Show how to get the credential
+        // You can also get the Apple OAuth Access and ID Tokens.
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
       }
       // The signed-in user info.
       const user = result.user;
@@ -84,8 +94,8 @@ function appleSignInRedirectResult() {
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
+      // The credential that was used.
+      const credential = OAuthProvider.credentialFromError(error);
 
       // ...
     });
@@ -97,7 +107,7 @@ function appleReauthenticatePopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   // Result from Redirect auth flow.
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   const provider = new OAuthProvider('apple.com');
 
   reauthenticateWithPopup(auth.currentUser, provider)
@@ -122,8 +132,8 @@ function appleReauthenticatePopup() {
       const errorMessage = error.message;
       // The email of the user's account used.
       const email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      const credential = error.credential;
+      // The credential that was used.
+      const credential = OAuthProvider.credentialFromError(error);
   
       // ...
     });
@@ -134,7 +144,7 @@ function appleLinkFacebook() {
   // [START auth_apple_link_facebook]
   const { getAuth, linkWithPopup, FacebookAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   const provider = new FacebookAuthProvider();
   provider.addScope('user_birthday');
 
@@ -182,7 +192,7 @@ function appleSignInNonce(appleIdToken, unhashedNonce,) {
   // [START auth_apple_signin_nonce]
   const { getAuth, signInWithCredential, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
 
   // Build Firebase credential with the Apple ID token.
   const provider = new OAuthProvider('apple.com');

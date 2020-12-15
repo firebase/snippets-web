@@ -6,7 +6,7 @@
 // [START auth_signup_password_modular]
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 createUserWithEmailAndPassword(auth, email, password)
   .then((user) => {
     // Signed in 

@@ -6,7 +6,7 @@
 // [START auth_simple_link_modular]
 import { getAuth, linkWithCredential } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 linkWithCredential(auth.currentUser, credential)
   .then((usercred) => {
     const user = usercred.user;

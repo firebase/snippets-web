@@ -4,10 +4,10 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START auth_facebook_signin_credential_modular]
-import { getAuth, signInWithCredential } from "firebase/auth";
+import { getAuth, signInWithCredential, FacebookAuthProvider } from "firebase/auth";
 
 // Sign in with the credential from the Facebook user.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 signInWithCredential(auth, credential)
   .then((cred) => {
     // Signed in 
@@ -20,7 +20,7 @@ signInWithCredential(auth, credential)
     // The email of the user's account used.
     const email = error.email;
     // The AuthCredential type that was used.
-    const credential = error.credential;
+    const credential = FacebookAuthProvider.credentialFromError(error);
     // ...
   });
 // [END auth_facebook_signin_credential_modular]

@@ -7,7 +7,7 @@
 import { getAuth, reauthenticateWithPopup, OAuthProvider } from "firebase/auth";
 
 // Result from Redirect auth flow.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 const provider = new OAuthProvider('apple.com');
 
 reauthenticateWithPopup(auth.currentUser, provider)
@@ -32,8 +32,8 @@ reauthenticateWithPopup(auth.currentUser, provider)
     const errorMessage = error.message;
     // The email of the user's account used.
     const email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    const credential = error.credential;
+    // The credential that was used.
+    const credential = OAuthProvider.credentialFromError(error);
 
     // ...
   });

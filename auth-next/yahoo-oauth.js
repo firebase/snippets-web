@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/yahoo-oauth.md
 
 function yahooCreateProvider() {
@@ -39,17 +47,18 @@ function yahooCreateProviderScopes() {
 function yahooSignInPopup() {
   const provider = yahooCreateProvider();
   // [START auth_yahoo_signin_popup]
-  const { getAuth, signInWithPopup } = require("firebase/auth");
+  const { getAuth, signInWithPopup,OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // Yahoo OAuth access token can be retrieved by calling:
-      // result.credential.accessToken
-      // Yahoo OAuth ID token can be retrieved by calling:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -62,24 +71,25 @@ function yahooSignInRedirect() {
   // [START auth_yahoo_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithRedirect(auth, provider);
   // [END auth_yahoo_signin_redirect]
 }
 
 function yahooRedirectResult() {
   // [START auth_yahoo_redirect_result]
-  const { getAuth, getRedirectResult } = require("firebase/auth");
+  const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   getRedirectResult(auth)
     .then((result) => {
       // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // Yahoo OAuth access token can be retrieved by calling:
-      // result.credential.accessToken
-      // Yahoo OAuth ID token can be retrieved by calling:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -92,15 +102,16 @@ function yahooLinkPopup() {
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('yahoo.com');
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   linkWithPopup(auth.currentUser, provider)
       .then((result) => {
         // Yahoo credential is linked to the current user.
         // IdP data available in result.additionalUserInfo.profile.
-        // Yahoo OAuth access token can be retrieved by calling:
-        // result.credential.accessToken
-        // Yahoo OAuth ID token can be retrieved by calling:
-        // result.credential.idToken
+
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
       })
       .catch((error) => {
         // Handle error.
@@ -113,17 +124,18 @@ function yahooReauthPopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('yahoo.com');
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   reauthenticateWithPopup(auth.currentUser, provider)
       .then((result) => {
         // User is re-authenticated with fresh tokens minted and
         // should be able to perform sensitive operations like account
         // deletion and email or password update.
         // IdP data available in result.additionalUserInfo.profile.
-        // Yahoo OAuth access token can be retrieved by calling:
-        // result.credential.accessToken
-        // Yahoo OAuth ID token can be retrieved by calling:
-        // result.credential.idToken
+
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
       })
       .catch((error) => {
         // Handle error.

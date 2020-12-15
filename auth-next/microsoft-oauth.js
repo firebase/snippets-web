@@ -1,6 +1,14 @@
 // [SNIPPETS_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
+
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/microsoft-oauth.md
 
 function msftCreateProvider() {
@@ -49,17 +57,18 @@ function msftProviderScopes() {
 function msftSigninPopup() {
   const provider = msftCreateProvider();
   // [START auth_msft_signin_popup]
-  const { getAuth, signInWithPopup } = require("firebase/auth");
+  const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -73,24 +82,25 @@ function msftSignInRedirect() {
   // [START auth_msft_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   signInWithRedirect(auth, provider);
   // [END auth_msft_signin_redirect]
 }
 
 function msftRedirectResult() {
   // [START auth_msf_redirect_result]
-  const { getAuth, getRedirectResult } = require("firebase/auth");
+  const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
     
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   getRedirectResult(auth)
     .then((result) => {
       // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -103,16 +113,17 @@ function msftLinkWithPopup() {
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('microsoft.com');
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
 
   linkWithPopup(auth.currentUser, provider)
       .then((result) => {
         // Microsoft credential is linked to the current user.
         // IdP data available in result.additionalUserInfo.profile.
-        // OAuth access token can also be retrieved:
-        // result.credential.accessToken
-        // OAuth ID token can also be retrieved:
-        // result.credential.idToken
+
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
       })
       .catch((error) => {
         // Handle error.
@@ -125,17 +136,18 @@ function msftReauthPopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('microsoft.com');
-  const auth = getAuth();
+  const auth = getAuth(firebaseApp);
   reauthenticateWithPopup(auth.currentUser, provider)
       .then((result) => {
         // User is re-authenticated with fresh tokens minted and
         // should be able to perform sensitive operations like account
         // deletion and email or password update.
         // IdP data available in result.additionalUserInfo.profile.
-        // OAuth access token can also be retrieved:
-        // result.credential.accessToken
-        // OAuth ID token can also be retrieved:
-        // result.credential.idToken
+        
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
       })
       .catch((error) => {
         // Handle error.

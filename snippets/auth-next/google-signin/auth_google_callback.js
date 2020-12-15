@@ -5,7 +5,7 @@
 
 // [START auth_google_callback_modular]
 import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 
 function onSignIn(googleUser) {
   console.log('Google Auth Response', googleUser);
@@ -25,8 +25,8 @@ function onSignIn(googleUser) {
         const errorMessage = error.message;
         // The email of the user's account used.
         const email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        const credential = error.credential;
+        // The credential that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
       });
     } else {

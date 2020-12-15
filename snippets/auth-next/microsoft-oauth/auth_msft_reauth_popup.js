@@ -7,17 +7,18 @@
 import { getAuth, reauthenticateWithPopup, OAuthProvider } from "firebase/auth";
 
 const provider = new OAuthProvider('microsoft.com');
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 reauthenticateWithPopup(auth.currentUser, provider)
     .then((result) => {
       // User is re-authenticated with fresh tokens minted and
       // should be able to perform sensitive operations like account
       // deletion and email or password update.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.

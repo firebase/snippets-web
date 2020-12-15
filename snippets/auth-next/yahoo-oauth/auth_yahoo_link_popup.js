@@ -7,15 +7,16 @@
 import { getAuth, linkWithPopup, OAuthProvider } from "firebase/auth";
 
 const provider = new OAuthProvider('yahoo.com');
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 linkWithPopup(auth.currentUser, provider)
     .then((result) => {
       // Yahoo credential is linked to the current user.
       // IdP data available in result.additionalUserInfo.profile.
-      // Yahoo OAuth access token can be retrieved by calling:
-      // result.credential.accessToken
-      // Yahoo OAuth ID token can be retrieved by calling:
-      // result.credential.idToken
+
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.

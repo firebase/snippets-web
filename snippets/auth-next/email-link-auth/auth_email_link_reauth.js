@@ -11,7 +11,7 @@ const credential = EmailAuthProvider.credentialWithLink(
   email, window.location.href);
 
 // Re-authenticate the user with this credential.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 reauthenticateWithCredential(auth.currentUser, credential)
   .then((usercred) => {
     // The user is now successfully re-authenticated and can execute sensitive

@@ -11,7 +11,7 @@ const credential = EmailAuthProvider.credentialWithLink(
   email, window.location.href);
 
 // Link the credential to the current user.
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 linkWithCredential(auth.currentUser, credential)
   .then((usercred) => {
     // The provider is now successfully linked.

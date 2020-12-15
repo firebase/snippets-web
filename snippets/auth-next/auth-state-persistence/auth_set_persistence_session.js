@@ -6,7 +6,7 @@
 // [START auth_set_persistence_session_modular]
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
 
-const auth = getAuth();
+const auth = getAuth(firebaseApp);
 setPersistence(auth, browserSessionPersistence)
   .then(() => {
     // Existing and future Auth states are now persisted in the current
