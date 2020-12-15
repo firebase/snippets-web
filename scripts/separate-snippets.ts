@@ -130,29 +130,32 @@ function collectSnippets(filePath: string): SnippetsConfig {
     config.suffix = m[1];
   }
 
-  let currSnippetName = "";
-  let inSnippet = false;
+  let inSnippetNames = [];
+
   for (const line of lines) {
     const startMatch = line.match(RE_START_SNIPPET);
     const endMatch = line.match(RE_END_SNIPPET);
 
     if (startMatch) {
-      inSnippet = true;
-      currSnippetName = startMatch[1];
-      config.map[currSnippetName] = [];
-    }
+      const snippetName = startMatch[1];
+      config.map[snippetName] = [];
+      config.map[snippetName].push(line);
 
-    if (inSnippet) {
-      config.map[currSnippetName].push(line);
-    }
+      inSnippetNames.push(snippetName);
+    } else if (endMatch) {
+      const snippetName = endMatch[1];
+      config.map[snippetName].push(line);
 
-    if (endMatch) {
-      if (endMatch[1] !== currSnippetName) {
+      if (!inSnippetNames.includes(snippetName)) {
         throw new Error(
-          `Snippet ${currSnippetName} in ${filePath} has unmatched START/END tags`
+          `Unrecognized END tag ${snippetName} in ${filePath}.`
         );
       }
-      inSnippet = false;
+      inSnippetNames.splice(inSnippetNames.indexOf(snippetName), 1);
+    } else if (inSnippetNames.length > 0) {
+      for (const snippetName of inSnippetNames) {
+        config.map[snippetName].push(line);
+      }
     }
   }
 

@@ -1,8 +1,13 @@
-// These samples are intended for Web so this import would normally be
-// done in HTML however using modules here is more convenient for
-// ensuring sample correctness offline.
-import firebase from "firebase/app";
-import "firebase/auth";
+// [SNIPPETS_REGISTRY disabled]
+// [SNIPPETS_SEPARATION enabled]
+
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  apiKey: '### FIREBASE API KEY ###',
+  authDomain: '### FIREBASE AUTH DOMAIN ###',
+});
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/custom-email-handler.md
 
@@ -13,26 +18,29 @@ function handleUserManagementQueryParams() {
   }
 
   // [START auth_handle_mgmt_query_params]
+  const { initializeApp } = require("firebase/app");
+  const { getAuth } = require("firebase/auth");
+
   document.addEventListener('DOMContentLoaded', () => {
     // TODO: Implement getParameterByName()
 
     // Get the action to complete.
-    var mode = getParameterByName('mode');
+    const mode = getParameterByName('mode');
     // Get the one-time code from the query parameter.
-    var actionCode = getParameterByName('oobCode');
+    const actionCode = getParameterByName('oobCode');
     // (Optional) Get the continue URL from the query parameter if available.
-    var continueUrl = getParameterByName('continueUrl');
+    const continueUrl = getParameterByName('continueUrl');
     // (Optional) Get the language code if available.
-    var lang = getParameterByName('lang') || 'en';
+    const lang = getParameterByName('lang') || 'en';
 
     // Configure the Firebase SDK.
     // This is the minimum configuration required for the API to be used.
-    var config = {
+    const config = {
       'apiKey': "YOU_API_KEY" // Copy this key from the web initialization
                               // snippet found in the Firebase console.
     };
-    var app = firebase.initializeApp(config);
-    var auth = app.auth();
+    const app = initializeApp(config);
+    const auth = getAuth(app);
 
     // Handle the user management action.
     switch (mode) {
@@ -56,20 +64,22 @@ function handleUserManagementQueryParams() {
 }
 
 // [START auth_handle_reset_password]
+const { verifyPasswordResetCode, confirmPasswordReset } = require("firebase/auth");
+
 function handleResetPassword(auth, actionCode, continueUrl, lang) {
   // Localize the UI to the selected language as determined by the lang
   // parameter.
 
   // Verify the password reset code is valid.
-  auth.verifyPasswordResetCode(actionCode).then((email) => {
-    var accountEmail = email;
+  verifyPasswordResetCode(auth, actionCode).then((email) => {
+    const accountEmail = email;
 
     // TODO: Show the reset screen with the user's email and ask the user for
     // the new password.
-    var newPassword = "...";
+    const newPassword = "...";
 
     // Save the new password.
-    auth.confirmPasswordReset(actionCode, newPassword).then((resp) => {
+    confirmPasswordReset(auth, actionCode, newPassword).then((resp) => {
       // Password reset has been confirmed and new password updated.
 
       // TODO: Display a link back to the app, or sign-in the user directly
@@ -91,17 +101,19 @@ function handleResetPassword(auth, actionCode, continueUrl, lang) {
 // [END auth_handle_reset_password]
 
 // [START auth_handle_recover_email]
+const { checkActionCode, applyActionCode, sendPasswordResetEmail } = require("firebase/auth");
+
 function handleRecoverEmail(auth, actionCode, lang) {
   // Localize the UI to the selected language as determined by the lang
   // parameter.
-  var restoredEmail = null;
+  let restoredEmail = null;
   // Confirm the action code is valid.
-  auth.checkActionCode(actionCode).then((info) => {
+  checkActionCode(auth, actionCode).then((info) => {
     // Get the restored email address.
     restoredEmail = info['data']['email'];
 
     // Revert to the old email.
-    return auth.applyActionCode(actionCode);
+    return applyActionCode(auth, actionCode);
   }).then(() => {
     // Account email reverted to restoredEmail
 
@@ -109,7 +121,7 @@ function handleRecoverEmail(auth, actionCode, lang) {
 
     // You might also want to give the user the option to reset their password
     // in case the account was compromised:
-    auth.sendPasswordResetEmail(restoredEmail).then(() => {
+    sendPasswordResetEmail(auth, restoredEmail).then(() => {
       // Password reset confirmation sent. Ask user to check their email.
     }).catch((error) => {
       // Error encountered while sending password reset code.
@@ -125,7 +137,7 @@ function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
   // Localize the UI to the selected language as determined by the lang
   // parameter.
   // Try to apply the email verification code.
-  auth.applyActionCode(actionCode).then((resp) => {
+  applyActionCode(auth, actionCode).then((resp) => {
     // Email address has been verified.
 
     // TODO: Display a confirmation message to the user.
