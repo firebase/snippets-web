@@ -16,7 +16,7 @@ function addHash(done) {
   const lng = 0.1278;
   const hash = geofire.geohashForLocation([lat, lng]);
 
-  // Add the h and the lat/lng to the document. We will use the hash
+  // Add the hash and the lat/lng to the document. We will use the hash
   // for queries and the lat/lng for distance comparisons.
   const londonRef = db.collection('cities').doc('LON');
   londonRef.update({
@@ -38,7 +38,7 @@ function queryHashes(done) {
   const radiusInKm = 50;
 
   // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
-  // a separate query for each pair. There can be up to 9 pais of bounds
+  // a separate query for each pair. There can be up to 9 pairs of bounds
   // depending on overlap, but in most cases there are 4.
   const bounds = geofire.geohashQueryBounds(center, radiusInKm);
   const promises = [];

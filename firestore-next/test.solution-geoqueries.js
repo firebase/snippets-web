@@ -38,7 +38,7 @@ async function queryHashes(done) {
   const radiusInKm = 50;
 
   // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
-  // a separate query for each pair. There can be up to 9 pais of bounds
+  // a separate query for each pair. There can be up to 9 pairs of bounds
   // depending on overlap, but in most cases there are 4.
   const bounds = geofire.geohashQueryBounds(center, radiusInKm);
   const promises = [];
