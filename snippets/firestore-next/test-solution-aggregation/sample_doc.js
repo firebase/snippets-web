@@ -8,5 +8,5 @@ const arinellDoc = {
   name: 'Arinell Pizza',
   avgRating: 4.65,
   numRatings: 683
-}
+};
 // [END sample_doc_modular]

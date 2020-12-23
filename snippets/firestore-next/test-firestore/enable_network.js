@@ -6,7 +6,7 @@
 // [START enable_network_modular]
 import { enableNetwork } from "firebase/firestore"; 
 
-await enableNetwork(db)
+await enableNetwork(db);
 // Do online actions
 // [START_EXCLUDE]
 console.log("Network enabled!");

@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START auth_svc_listen_activate_modular]
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(clients.claim());
 });
 // [END auth_svc_listen_activate_modular]
