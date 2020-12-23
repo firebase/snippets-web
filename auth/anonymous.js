@@ -14,6 +14,6 @@ function anonSignIn() {
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
-    })
+    });
   // [END auth_anon_sign_in]
 }

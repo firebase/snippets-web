@@ -4,7 +4,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-import * as firebaseui from "firebaseui"
+import * as firebaseui from "firebaseui";
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/firebaseui.md
 
@@ -189,7 +189,7 @@ function fuiStartPhoneOptions() {
         recaptchaParameters: {
           type: 'image', // 'audio'
           size: 'normal', // 'invisible' or 'compact'
-          badge: 'bottomleft' //' bottomright' or 'inline' applies to invisible.
+          badge: 'bottomleft' // ' bottomright' or 'inline' applies to invisible.
         },
         defaultCountry: 'GB', // Set default country to the United Kingdom (+44).
         // For prefilling the national number, set defaultNationNumber.

@@ -94,7 +94,7 @@ function svcIntercept() {
   
   self.addEventListener('fetch', (event) => {
     /** @type {FetchEvent} */
-    let evt = event;
+    const evt = event;
 
     const requestProcessor = (idToken) => {
       let req = evt.request;
@@ -108,7 +108,7 @@ function svcIntercept() {
         const headers = new Headers();
         req.headers.forEach((val, key) => {
           headers.append(key, val);
-        })
+        });
         // Add ID token to header.
         headers.append('Authorization', 'Bearer ' + idToken);
         processRequestPromise = getBodyContent(req).then((body) => {
@@ -145,7 +145,7 @@ function svcIntercept() {
 
 function svcListenActivate(clients) {
   // [START auth_svc_listen_activate]
-  self.addEventListener('activate', event => {
+  self.addEventListener('activate', (event) => {
     event.waitUntil(clients.claim());
   });
   // [END auth_svc_listen_activate]

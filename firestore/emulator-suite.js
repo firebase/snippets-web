@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore';
 
 function onDocumentReady() {
-  //[START fs_emulator_connect]
+  // [START fs_emulator_connect]
   // Firebase previously initialized using firebase.initializeApp().
   var db = firebase.firestore();
   if (location.hostname === "localhost") {

@@ -75,7 +75,7 @@ function queryHashes(done) {
     // [START_EXCLUDE]
     done(matchingDocs);
     // [END_EXCLUDE]
-  })
+  });
 
   // [END fs_geo_query_hashes]
 }
@@ -93,7 +93,7 @@ describe("firestore-solution-geoqueries", () => {
 
     describe("solution-geoqueries", () => {
       it("should add a hash to a doc", (done) => {
-        addHash(done)
+        addHash(done);
       });
 
       it("should query hashes", (done) => {

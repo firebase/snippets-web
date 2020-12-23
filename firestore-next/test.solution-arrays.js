@@ -41,7 +41,7 @@ const postsWithMapAdvanced = [
       }
     }
     // [END post_with_map_advanced]
-]
+];
 
 describe("firestore-solution-arrays", () => {
     const { FirebaseFirestore } = require("firebase/firestore");
