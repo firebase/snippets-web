@@ -15,5 +15,5 @@ signInAnonymously(auth)
     const errorCode = error.code;
     const errorMessage = error.message;
     // ...
-  })
+  });
 // [END auth_anon_sign_in_modular]

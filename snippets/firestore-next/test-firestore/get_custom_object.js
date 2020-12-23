@@ -14,6 +14,6 @@ if (docSnap.exists()) {
   // Use a City instance method
   console.log(city.toString());
 } else {
-  console.log("No such document!")
+  console.log("No such document!");
 }
 // [END get_custom_object_modular]

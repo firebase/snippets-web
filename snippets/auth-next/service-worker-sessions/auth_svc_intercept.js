@@ -32,7 +32,7 @@ const getBodyContent = (req) => {
 
 self.addEventListener('fetch', (event) => {
   /** @type {FetchEvent} */
-  let evt = event;
+  const evt = event;
 
   const requestProcessor = (idToken) => {
     let req = evt.request;
@@ -46,7 +46,7 @@ self.addEventListener('fetch', (event) => {
       const headers = new Headers();
       req.headers.forEach((val, key) => {
         headers.append(key, val);
-      })
+      });
       // Add ID token to header.
       headers.append('Authorization', 'Bearer ' + idToken);
       processRequestPromise = getBodyContent(req).then((body) => {

@@ -16,5 +16,5 @@ signInWithCustomToken(auth, token)
     const errorCode = error.code;
     const errorMessage = error.message;
     // ...
-  })
+  });
 // [END auth_sign_in_custom_modular]

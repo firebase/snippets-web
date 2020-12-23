@@ -11,7 +11,7 @@ async function getCount(ref) {
     const snapshot = await getDocs(collection(ref, 'shards'));
 
     let totalCount = 0;
-    snapshot.forEach(doc => {
+    snapshot.forEach((doc) => {
         totalCount += doc.data().count;
     });
 

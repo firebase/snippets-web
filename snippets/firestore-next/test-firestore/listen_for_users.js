@@ -10,7 +10,7 @@ const q = query(collection(db, "users"), where("born", "<", 1900));
 const unsubscribe = onSnapshot(q, (snapshot) => {
     console.log("Current users born before 1900:");
     snapshot.forEach(function (userSnapshot) {
-        console.log(userSnapshot.data())
+        console.log(userSnapshot.data());
     });
 });
 // [END listen_for_users_modular]
