@@ -1,0 +1,19 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "rules": {
+        "arrow-parens": ["error", "always"],
+        "arrow-spacing": ["error"],
+        "no-const-assign": ["error"],
+        "prefer-const": ["error"],
+        "spaced-comment": ["error", "always"],
+        "semi": ["error", "always"]
+    }
+}
