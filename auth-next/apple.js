@@ -4,7 +4,7 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseApp = initializeApp({
-  projectId: '### CLOUD FUNCTIONS PROJECT ID ###',
+  projectId: '### PROJECT ID ###',
   apiKey: '### FIREBASE API KEY ###',
   authDomain: '### FIREBASE AUTH DOMAIN ###',
 });
