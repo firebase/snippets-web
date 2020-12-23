@@ -10,7 +10,6 @@ var db;
 
 function addHash(done) {
   // [START fs_geo_add_hash]
-
   // Compute the GeoHash for a lat/lng point
   const lat = 51.5074;
   const lng = 0.1278;
