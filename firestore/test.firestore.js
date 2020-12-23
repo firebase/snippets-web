@@ -22,13 +22,13 @@ var cityConverter = {
             name: city.name,
             state: city.state,
             country: city.country
-            }
+            };
     },
     fromFirestore: function(snapshot, options){
         const data = snapshot.data(options);
-        return new City(data.name, data.state, data.country)
+        return new City(data.name, data.state, data.country);
     }
-}
+};
 // [END city_custom_object]
 
 describe("firestore", () => {
@@ -41,7 +41,7 @@ describe("firestore", () => {
         };
         var app = firebase.initializeApp(config);
         db = firebase.firestore(app);
-        //firebase.firestore.setLogLevel("debug");
+        // firebase.firestore.setLogLevel("debug");
     });
 
     it("should be able to set the cache size", () => {
@@ -179,7 +179,7 @@ describe("firestore", () => {
                 .onSnapshot(function(snapshot) {
                     console.log("Current users born before 1900:");
                     snapshot.forEach(function (userSnapshot) {
-                        console.log(userSnapshot.data())
+                        console.log(userSnapshot.data());
                     });
                 });
             // [END listen_for_users]
@@ -206,7 +206,7 @@ describe("firestore", () => {
             // [START doc_reference_alternative]
             var alovelaceDocumentRef = db.doc('users/alovelace');
             // [END doc_reference_alternative]
-        })
+        });
 
         it("should reference a document in a subcollection", () => {
             // [START subcollection_reference]
@@ -257,9 +257,9 @@ describe("firestore", () => {
                   // Use a City instance method
                   console.log(city.toString());
                 } else {
-                  console.log("No such document!")
+                  console.log("No such document!");
                 }}).catch(function(error) {
-                  console.log("Error getting document:", error)
+                  console.log("Error getting document:", error);
                 });
             // [END get_custom_object]
             return output;
@@ -505,7 +505,7 @@ describe("firestore", () => {
                 population: firebase.firestore.FieldValue.increment(50)
             });
             // [END update_document_increment]
-        })
+        });
 
         it("should delete a document", () => {
             var output =
@@ -695,7 +695,7 @@ describe("firestore", () => {
             });
             // [END get_multiple_all]
             return output;
-        })
+        });
 
         it("should listen on multiple documents #UNVERIFIED", (done) => {
             var unsubscribe =
@@ -759,9 +759,9 @@ describe("firestore", () => {
             // [START handle_listen_errors]
             db.collection("cities")
                 .onSnapshot(function(snapshot) {
-                    //...
+                    // ...
                 }, function(error) {
-                    //...
+                    // ...
                 });
             // [END handle_listen_errors]
             unsubscribe();
@@ -856,9 +856,9 @@ describe("firestore", () => {
             it("should handle other wheres", () => {
                 var citiesRef = db.collection("cities");
                 // [START example_filters]
-                citiesRef.where("state", "==", "CA")
-                citiesRef.where("population", "<", 100000)
-                citiesRef.where("name", ">=", "San Francisco")
+                citiesRef.where("state", "==", "CA");
+                citiesRef.where("population", "<", 100000);
+                citiesRef.where("name", ">=", "San Francisco");
                 // [END example_filters]
 
                 // [START simple_query_not_equal]
@@ -869,7 +869,7 @@ describe("firestore", () => {
             it("should handle array-contains where", () => {
                 var citiesRef = db.collection("cities");
                 // [START array_contains_filter]
-                citiesRef.where("regions", "array-contains", "west_coast")
+                citiesRef.where("regions", "array-contains", "west_coast");
                 // [END array_contains_filter]
             });
 
@@ -925,35 +925,35 @@ describe("firestore", () => {
             it("should order and limit", () => {
                 var citiesRef = db.collection("cities");
                 // [START order_and_limit]
-                citiesRef.orderBy("name").limit(3)
+                citiesRef.orderBy("name").limit(3);
                 // [END order_and_limit]
             });
 
             it("should order descending", () => {
                 var citiesRef = db.collection("cities");
                 // [START order_and_limit_desc]
-                citiesRef.orderBy("name", "desc").limit(3)
+                citiesRef.orderBy("name", "desc").limit(3);
                 // [END order_and_limit_desc]
             });
 
             it("should order descending by other field", () => {
                 var citiesRef = db.collection("cities");
                 // [START order_multiple]
-                citiesRef.orderBy("state").orderBy("population", "desc")
+                citiesRef.orderBy("state").orderBy("population", "desc");
                 // [END order_multiple]
             });
 
             it("should where and order by with limit", () => {
                 var citiesRef = db.collection("cities");
                 // [START filter_and_order]
-                citiesRef.where("population", ">", 100000).orderBy("population").limit(2)
+                citiesRef.where("population", ">", 100000).orderBy("population").limit(2);
                 // [END filter_and_order]
             });
 
             it("should where and order on same field", () => {
                 var citiesRef = db.collection("cities");
                 // [START valid_filter_and_order]
-                citiesRef.where("population", ">", 100000).orderBy("population")
+                citiesRef.where("population", ">", 100000).orderBy("population");
                 // [END valid_filter_and_order]
             });
 
@@ -961,7 +961,7 @@ describe("firestore", () => {
                 var citiesRef = db.collection("cities");
                 expect(() => {
                     // [START invalid_filter_and_order]
-                    citiesRef.where("population", ">", 100000).orderBy("country")
+                    citiesRef.where("population", ">", 100000).orderBy("country");
                     // [END invalid_filter_and_order]
                 }).to.throw;
             });
@@ -969,14 +969,14 @@ describe("firestore", () => {
             it("should handle startAt", () => {
                 var citiesRef = db.collection("cities");
                 // [START order_and_start]
-                citiesRef.orderBy("population").startAt(1000000)
+                citiesRef.orderBy("population").startAt(1000000);
                 // [END order_and_start]
             });
 
             it("should handle endAt", () => {
                 var citiesRef = db.collection("cities");
                 // [START order_and_end]
-                citiesRef.orderBy("population").endAt(1000000)
+                citiesRef.orderBy("population").endAt(1000000);
                 // [END order_and_end]
             });
 
@@ -1001,13 +1001,13 @@ describe("firestore", () => {
                 db.collection("cities")
                    .orderBy("name")
                    .orderBy("state")
-                   .startAt("Springfield")
+                   .startAt("Springfield");
 
                 // Will return "Springfield, Missouri" and "Springfield, Wisconsin"
                 db.collection("cities")
                    .orderBy("name")
                    .orderBy("state")
-                   .startAt("Springfield", "Missouri")
+                   .startAt("Springfield", "Missouri");
                 // [END start_multiple_orderby]
             });
 
@@ -1106,8 +1106,8 @@ describe("firestore", () => {
                 var ratingRef = restaurantRef.collection('ratings').doc();
 
                 // In a transaction, add the new rating and update the aggregate totals
-                return db.runTransaction(transaction => {
-                    return transaction.get(restaurantRef).then(res => {
+                return db.runTransaction((transaction) => {
+                    return transaction.get(restaurantRef).then((res) => {
                         if (!res.exists) {
                             throw "Document does not exist!";
                         }
@@ -1125,7 +1125,7 @@ describe("firestore", () => {
                             avgRating: newAvgRating
                         });
                         transaction.set(ratingRef, { rating: rating });
-                    })
+                    });
                 });
             }
             // [END add_rating_transaction]
@@ -1136,8 +1136,8 @@ describe("firestore", () => {
                 name: 'Arinell Pizza',
                 avgRating: 4.63,
                 numRatings: 683
-            }).then(res => {
-                return addRating(ref, 5.0)
+            }).then((res) => {
+                return addRating(ref, 5.0);
             });
         });
     });

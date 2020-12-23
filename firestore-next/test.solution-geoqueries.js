@@ -89,7 +89,7 @@ describe("firestore-solution-geoqueries", () => {
 
     describe("solution-geoqueries", () => {
       it("should add a hash to a doc", (done) => {
-        addHash(done)
+        addHash(done);
       });
 
       it("should query hashes", (done) => {

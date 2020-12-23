@@ -6,7 +6,7 @@ const arinellDoc = {
   name: 'Arinell Pizza',
   avgRating: 4.65,
   numRatings: 683
-}
+};
 // [END sample_doc]
 
 describe("firestore-solution-arrays", () => {
@@ -38,6 +38,6 @@ describe("firestore-solution-arrays", () => {
           const ratingsRef = collection(doc(collection(db, "restaurants"), "arinell-pizza"), "ratings");
           const ratingsDocs = await getDocs(ratingsRef);
           // [END get_collection_ratings]
-        })
+        });
     });
 });

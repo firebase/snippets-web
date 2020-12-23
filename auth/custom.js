@@ -16,6 +16,6 @@ function signInCustom() {
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
-    })
+    });
   // [END auth_sign_in_custom]
 }

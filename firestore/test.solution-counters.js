@@ -12,7 +12,7 @@ function createCounter(ref, num_shards) {
 
     // Initialize each shard with count=0
     for (let i = 0; i < num_shards; i++) {
-        let shardRef = ref.collection('shards').doc(i.toString());
+        const shardRef = ref.collection('shards').doc(i.toString());
         batch.set(shardRef, { count: 0 });
     }
 
@@ -35,9 +35,9 @@ function incrementCounter(db, ref, num_shards) {
 // [START get_count]
 function getCount(ref) {
     // Sum the count of each shard in the subcollection
-    return ref.collection('shards').get().then(snapshot => {
+    return ref.collection('shards').get().then((snapshot) => {
         let total_count = 0;
-        snapshot.forEach(doc => {
+        snapshot.forEach((doc) => {
             total_count += doc.data().count;
         });
 
@@ -65,7 +65,7 @@ describe("firestore-solution-counters", () => {
 
         it("should increment a counter", () => {
             // Create a counter, then increment it
-            let ref = db.collection('counters').doc();
+            const ref = db.collection('counters').doc();
             return createCounter(ref, 10).then(() => {
                 return incrementCounter(db, ref, 10);
             });
@@ -73,7 +73,7 @@ describe("firestore-solution-counters", () => {
 
         it("should get the count of a counter", () => {
             // Create a counter, increment it, then get the count
-            let ref = db.collection('counters').doc();
+            const ref = db.collection('counters').doc();
             return createCounter(ref, 10).then(() => {
                 return incrementCounter(db, ref, 10);
             }).then(() => {

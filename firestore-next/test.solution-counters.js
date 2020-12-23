@@ -47,7 +47,7 @@ async function getCount(ref) {
     const snapshot = await getDocs(collection(ref, 'shards'));
 
     let totalCount = 0;
-    snapshot.forEach(doc => {
+    snapshot.forEach((doc) => {
         totalCount += doc.data().count;
     });
 
@@ -82,7 +82,7 @@ describe("firestore-solution-counters", () => {
             const { collection, doc } = require("firebase/firestore");
 
             const ref = doc(collection(db, 'counters'));
-            await createCounter(ref, 10)
+            await createCounter(ref, 10);
             await incrementCounter(db, ref, 10);
         });
 

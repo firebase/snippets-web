@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 
-let postsWithArray = [
+const postsWithArray = [
     // [START post_with_array]
     // Sample document in the 'posts' collection.
     {
@@ -15,7 +15,7 @@ let postsWithArray = [
     // [END post_with_array]
 ];
 
-let postsWithMap = [
+const postsWithMap = [
     // [START post_with_map]
     // Sample document in the 'posts' collection
     {
@@ -29,7 +29,7 @@ let postsWithMap = [
     // [END post_with_map]
 ];
 
-let postsWithMapAdvanced = [
+const postsWithMapAdvanced = [
     // [START post_with_map_advanced]
     // The value of each entry in 'categories' is a unix timestamp
     {
@@ -41,7 +41,7 @@ let postsWithMapAdvanced = [
       }
     }
     // [END post_with_map_advanced]
-]
+];
 
 describe("firestore-solution-arrays", () => {
     var db;

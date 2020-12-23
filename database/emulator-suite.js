@@ -6,7 +6,7 @@ import firebase from "firebase/app";
 import "firebase/database";
 
 function onDocumentReady() {
-  //[START rtdb_emulator_connect]
+  // [START rtdb_emulator_connect]
   var db = firebase.database();
   if (location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
@@ -16,7 +16,7 @@ function onDocumentReady() {
 }
 
 function flushRealtimeDatabase() {
-  //[START rtdb_emulator_flush]
+  // [START rtdb_emulator_flush]
   // With a database Reference, write null to clear the database.
   firebase.database().ref().set(null);
   // [END rtdb_emulator_flush]

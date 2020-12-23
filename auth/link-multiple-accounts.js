@@ -13,21 +13,21 @@ MyUserDataRepo.prototype.merge = function(data1, data2) {
   return {
     ...data1,
     ...data2,
-  }
-}
+  };
+};
 
 MyUserDataRepo.prototype.set = function(user, data) {
   // TODO(you): How you implement this is specific to your application!
-}
+};
 
 MyUserDataRepo.prototype.delete = function(user) {
   // TODO(you): How you implement this is specific to your application!
-}
+};
 
 MyUserDataRepo.prototype.get = function(user) {
   // TODO(you): How you implement this is specific to your application!
   return {};
-}
+};
 
 function getProviders() {
   // [START auth_get_providers]

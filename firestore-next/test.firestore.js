@@ -22,13 +22,13 @@ var cityConverter = {
             name: city.name,
             state: city.state,
             country: city.country
-            }
+            };
     },
     fromFirestore: function(snapshot, options){
         const data = snapshot.data(options);
-        return new City(data.name, data.state, data.country)
+        return new City(data.name, data.state, data.country);
     }
-}
+};
 // [END city_custom_object]
 
 describe("firestore", () => {
@@ -107,7 +107,7 @@ describe("firestore", () => {
       // [START enable_network]
       const { enableNetwork } = require("firebase/firestore"); 
 
-      await enableNetwork(db)
+      await enableNetwork(db);
       // Do online actions
       // [START_EXCLUDE]
       console.log("Network enabled!");
@@ -191,7 +191,7 @@ describe("firestore", () => {
             const unsubscribe = onSnapshot(q, (snapshot) => {
                 console.log("Current users born before 1900:");
                 snapshot.forEach(function (userSnapshot) {
-                    console.log(userSnapshot.data())
+                    console.log(userSnapshot.data());
                 });
             });
             // [END listen_for_users]
@@ -224,7 +224,7 @@ describe("firestore", () => {
 
             const alovelaceDocumentRef = doc(db, 'users/alovelace');
             // [END doc_reference_alternative]
-        })
+        });
 
         it("should reference a document in a subcollection", () => {
             // [START subcollection_reference]
@@ -269,7 +269,7 @@ describe("firestore", () => {
               // Use a City instance method
               console.log(city.toString());
             } else {
-              console.log("No such document!")
+              console.log("No such document!");
             }
             // [END get_custom_object]
         });
@@ -358,7 +358,7 @@ describe("firestore", () => {
             const { collection, query, orderBy, limit, getDocs, writeBatch } = require("firebase/firestore"); 
 
             function deleteCollection(db, collectionRef, batchSize) {
-              const q = query(collectionRef, orderBy('__name__'), limit(batchSize))
+              const q = query(collectionRef, orderBy('__name__'), limit(batchSize));
 
               return new Promise(function(resolve) {
                   deleteQueryBatch(db, q, batchSize, resolve);
@@ -506,7 +506,7 @@ describe("firestore", () => {
                 population: increment(50)
             });
             // [END update_document_increment]
-        })
+        });
 
         it("should delete a document", async () => {
             // [START delete_document]
