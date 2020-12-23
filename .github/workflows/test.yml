@@ -31,6 +31,9 @@ jobs:
           npm install
           npm run lerna-bootstrap
 
+      - name: Lint snippets
+        run: npm run lint
+
       - name: Compile snippets
         run: npm run lerna-compile
 
