@@ -3,15 +3,20 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START auth_facebook_signin_credential_modular]
-import { getAuth, signInWithCredential, FacebookAuthProvider } from "firebase/auth";
+// [START auth_facebook_signin_popup_modular]
+import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
 
-// Sign in with the credential from the Facebook user.
 const auth = getAuth(firebaseApp);
-signInWithCredential(auth, credential)
+signInWithPopup(auth, provider)
   .then((result) => {
-    // Signed in 
+    // The signed-in user info.
+    const user = result.user;
+
+    // This gives you a Facebook Access Token. You can use it to access the Facebook API.
     const credential = FacebookAuthProvider.credentialFromResult(result);
+    const accessToken = credential.accessToken;
+
+    // ...
   })
   .catch((error) => {
     // Handle Errors here.
@@ -21,6 +26,7 @@ signInWithCredential(auth, credential)
     const email = error.email;
     // The AuthCredential type that was used.
     const credential = FacebookAuthProvider.credentialFromError(error);
+
     // ...
   });
-// [END auth_facebook_signin_credential_modular]
+// [END auth_facebook_signin_popup_modular]

@@ -11,6 +11,76 @@ const firebaseApp = initializeApp({
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/google-signin.md
 
+function googleProvider() {
+  // [START auth_google_provider_create]
+  const { GoogleAuthProvider } = require("firebase/auth");
+
+  const provider = new GoogleAuthProvider();
+  // [END auth_google_provider_create]
+
+  // [START auth_google_provider_scopes]
+  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  // [END auth_google_provider_scopes]
+  
+  // [START auth_google_provider_params]
+  provider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+  // [END auth_google_provider_params]
+}
+
+function googleSignInPopup(provider) {
+  // [START auth_google_signin_popup]
+  const { getAuth, signInWithPopup, GoogleAuthProvider } = require("firebase/auth");
+  
+  const auth = getAuth(firebaseApp);
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  // [END auth_google_signin_popup]
+}
+
+function googleSignInRedirectResult() {
+  // [START auth_google_signin_redirect_result]
+  const { getAuth, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
+
+  const auth = getAuth(firebaseApp);
+  getRedirectResult(auth)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access Google APIs.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+
+      // The signed-in user info.
+      const user = result.user;
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  // [END auth_google_signin_redirect_result]
+}
+
 function googleBuildAndSignIn(id_token) {
   // [START auth_google_build_signin]
   const { getAuth, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");

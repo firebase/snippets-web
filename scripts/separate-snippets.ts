@@ -92,7 +92,7 @@ function removeFirstLineAfterComments(lines: string[]) {
   const firstNonComment = outputLines.findIndex(
     (l) => !l.startsWith("//")
   );
-  if (isBlank(outputLines[firstNonComment])) {
+  if (firstNonComment >= 0 && isBlank(outputLines[firstNonComment])) {
     outputLines.splice(firstNonComment, 1);
   }
 
@@ -186,6 +186,10 @@ function collectSnippets(filePath: string): SnippetsConfig {
       // Until we find an [END foo] tag. All lines we see between now and then
       // are part of the snippet content.
       const snippetName = startMatch[1];
+      if (config.map[snippetName] !== undefined) {
+        throw new Error(`Detected more than one snippet with the tag ${snippetName}!`);
+      }
+
       config.map[snippetName] = [line];
       inSnippetNames.push(snippetName);
     } else if (endMatch) {

@@ -6,16 +6,16 @@ import "firebase/auth";
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/microsoft-oauth.md
 
-function msftCreateProvider() {
-  // [START auth_msft_create_provider]
+function microsoftProvider() {
+  // [START auth_msft_provider_create]
   var provider = new firebase.auth.OAuthProvider('microsoft.com');
-  // [END auth_msft_create_provider]
+  // [END auth_msft_provider_create]
 
-  return provider;
-}
+  // [START auth_msft_provider_scopes]
+  provider.addScope('mail.read');
+  provider.addScope('calendars.read');
+  // [END auth_msft_provider_scopes]
 
-function msftProviderParams() {
-  var provider = msftCreateProvider();
   // [START auth_msft_provider_params]
   provider.setCustomParameters({
     // Force re-consent.
@@ -24,10 +24,7 @@ function msftProviderParams() {
     login_hint: 'user@firstadd.onmicrosoft.com'
   });
   // [END auth_msft_provider_params]
-}
 
-function msftProviderParamsTenant() {
-  var provider = msftCreateProvider();
   // [START auth_msft_provider_params_tenant]
   provider.setCustomParameters({
     // Optional "tenant" parameter in case you are using an Azure AD tenant.
@@ -39,25 +36,19 @@ function msftProviderParamsTenant() {
   // [END auth_msft_provider_params_tenant]
 }
 
-function msftProviderScopes() {
-  var provider = msftCreateProvider();
-  // [START auth_msft_provider_scopes
-  provider.addScope('mail.read');
-  provider.addScope('calendars.read');
-  // [END auth_msft_provider_scopes
-}
-
-function msftSigninPopup() {
-  var provider = msftCreateProvider();
+function msftSignInPopup(provider) {
   // [START auth_msft_signin_popup]
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
-      // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+      // ...
+
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // OAuth access and id tokens can also be retrieved:
+      var accessToken = credential.accessToken;
+      var idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -65,28 +56,30 @@ function msftSigninPopup() {
   // [END auth_msft_signin_popup]
 }
 
-function msftSignInRedirect() {
-  var provider = msftCreateProvider();
+function msftSignInRedirect(provider) {
   // [START auth_msft_signin_redirect]
   firebase.auth().signInWithRedirect(provider);
   // [END auth_msft_signin_redirect]
 }
 
-function msftRedirectResult() {
-  // [START auth_msf_redirect_result]
+function msftSignInRedirectResult() {
+  // [START auth_msft_signin_redirect_result]
   firebase.auth().getRedirectResult()
     .then((result) => {
-      // User is signed in.
       // IdP data available in result.additionalUserInfo.profile.
-      // OAuth access token can also be retrieved:
-      // result.credential.accessToken
-      // OAuth ID token can also be retrieved:
-      // result.credential.idToken
+      // ...
+
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // OAuth access and id tokens can also be retrieved:
+      var accessToken = credential.accessToken;
+      var idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
     });
-  // [END auth_msf_redirect_result]
+  // [END auth_msft_signin_redirect_result]
 }
 
 function msftLinkWithPopup() {

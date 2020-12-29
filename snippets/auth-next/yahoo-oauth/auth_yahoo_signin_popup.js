@@ -4,15 +4,15 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START auth_yahoo_signin_popup_modular]
-import { getAuth, signInWithPopup,OAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
 signInWithPopup(auth, provider)
   .then((result) => {
-    // User is signed in.
-    // IdP data available in result.additionalUserInfo.profile.
+    // IdP data available in result.additionalUserInfo.profile
+    // ...
 
-    // Get the OAuth access token and ID Token
+    // Yahoo OAuth access token and ID token can be retrieved by calling:
     const credential = OAuthProvider.credentialFromResult(result);
     const accessToken = credential.accessToken;
     const idToken = credential.idToken;

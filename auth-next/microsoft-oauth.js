@@ -18,11 +18,11 @@ function msftCreateProvider() {
   const provider = new OAuthProvider('microsoft.com');
   // [END auth_msft_create_provider]
 
-  return provider;
-}
+  // [START auth_msft_provider_scopes]
+  provider.addScope('mail.read');
+  provider.addScope('calendars.read');
+  // [END auth_msft_provider_scopes]
 
-function msftProviderParams() {
-  const provider = msftCreateProvider();
   // [START auth_msft_provider_params]
   provider.setCustomParameters({
     // Force re-consent.
@@ -31,10 +31,7 @@ function msftProviderParams() {
     login_hint: 'user@firstadd.onmicrosoft.com'
   });
   // [END auth_msft_provider_params]
-}
 
-function msftProviderParamsTenant() {
-  const provider = msftCreateProvider();
   // [START auth_msft_provider_params_tenant]
   provider.setCustomParameters({
     // Optional "tenant" parameter in case you are using an Azure AD tenant.
@@ -46,16 +43,7 @@ function msftProviderParamsTenant() {
   // [END auth_msft_provider_params_tenant]
 }
 
-function msftProviderScopes() {
-  const provider = msftCreateProvider();
-  // [START auth_msft_provider_scopes
-  provider.addScope('mail.read');
-  provider.addScope('calendars.read');
-  // [END auth_msft_provider_scopes
-}
-
-function msftSigninPopup() {
-  const provider = msftCreateProvider();
+function msftSignInPopup(provider) {
   // [START auth_msft_signin_popup]
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
@@ -76,9 +64,7 @@ function msftSigninPopup() {
   // [END auth_msft_signin_popup]
 }
 
-function msftSignInRedirect() {
-  const provider = msftCreateProvider();
-
+function msftSignInRedirect(provider) {
   // [START auth_msft_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
@@ -87,8 +73,8 @@ function msftSignInRedirect() {
   // [END auth_msft_signin_redirect]
 }
 
-function msftRedirectResult() {
-  // [START auth_msf_redirect_result]
+function msftSignInRedirectResult() {
+  // [START auth_msft_signin_redirect_result]
   const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
     
   const auth = getAuth(firebaseApp);
@@ -105,7 +91,7 @@ function msftRedirectResult() {
     .catch((error) => {
       // Handle error.
     });
-  // [END auth_msf_redirect_result]
+  // [END auth_msft_signin_redirect_result]
 }
 
 function msftLinkWithPopup() {

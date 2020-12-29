@@ -6,48 +6,42 @@ import "firebase/auth";
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/yahoo-oauth.md
 
-function yahooCreateProvider() {
-  // [START auth_yahoo_create_provider]
+function yahooProvider() {
+  // [START auth_yahoo_provider_create]
   var provider = new firebase.auth.OAuthProvider('yahoo.com');
-  // [END auth_yahoo_create_provider]
+  // [END auth_yahoo_provider_create]
 
-  return provider;
-}
+  // [START auth_yahoo_provider_scopes]
+  // Request access to Yahoo Mail API.
+  provider.addScope('mail-r');
+  // Request read/write access to user contacts.
+  // This must be preconfigured in the app's API permissions.
+  provider.addScope('sdct-w');
+  // [END auth_yahoo_provider_scopes]
 
-function yahooCreateProviderParams() {
-  var provider = yahooCreateProvider();
-  // [START auth_yahoo_create_provider_params]
+  // [START auth_yahoo_provider_params]
   provider.setCustomParameters({
     // Prompt user to re-authenticate to Yahoo.
     prompt: 'login',
     // Localize to French.
     language: 'fr'
   });  
-  // [END auth_yahoo_create_provider_params]
+  // [END auth_yahoo_provider_params]
 }
 
-function yahooCreateProviderScopes() {
-  var provider = yahooCreateProvider();
-  // [START auth_yahoo_create_provider_scopes]
-  // Request access to Yahoo Mail API.
-  provider.addScope('mail-r');
-  // Request read/write access to user contacts.
-  // This must be preconfigured in the app's API permissions.
-  provider.addScope('sdct-w');
-  // [END auth_yahoo_create_provider_scopes]
-}
-
-function yahooSignInPopup() {
-  var provider = yahooCreateProvider();
+function yahooSignInPopup(provider) {
   // [START auth_yahoo_signin_popup]
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
-      // User is signed in.
-      // IdP data available in result.additionalUserInfo.profile.
-      // Yahoo OAuth access token can be retrieved by calling:
-      // result.credential.accessToken
-      // Yahoo OAuth ID token can be retrieved by calling:
-      // result.credential.idToken
+      // IdP data available in result.additionalUserInfo.profile
+      // ...
+
+      /** @type {firebase.auth.OAuthCredential} */
+      const credential = result.credential;
+
+      // Yahoo OAuth access token and ID token can be retrieved by calling:
+      var accessToken = credential.accessToken;
+      var idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
@@ -55,28 +49,30 @@ function yahooSignInPopup() {
   // [END auth_yahoo_signin_popup]
 }
 
-function yahooSignInRedirect() {
-  var provider = yahooCreateProvider();
+function yahooSignInRedirect(provider) {
   // [START auth_yahoo_signin_redirect]
   firebase.auth().signInWithRedirect(provider);
   // [END auth_yahoo_signin_redirect]
 }
 
-function yahooRedirectResult() {
-  // [START auth_yahoo_redirect_result]
+function yahooSigninRedirectResult() {
+  // [START auth_yahoo_signin_redirect_result]
   firebase.auth().getRedirectResult()
     .then((result) => {
-      // User is signed in.
-      // IdP data available in result.additionalUserInfo.profile.
-      // Yahoo OAuth access token can be retrieved by calling:
-      // result.credential.accessToken
-      // Yahoo OAuth ID token can be retrieved by calling:
-      // result.credential.idToken
+      // IdP data available in result.additionalUserInfo.profile
+      // ...
+
+      /** @type {firebase.auth.OAuthCredential} */
+      const credential = result.credential;
+
+      // Yahoo OAuth access token and ID token can be retrieved by calling:
+      var accessToken = credential.accessToken;
+      var idToken = credential.idToken;
     })
     .catch((error) => {
       // Handle error.
     });
-  // [END auth_yahoo_redirect_result]
+  // [END auth_yahoo_signin_redirect_result]
 }
 
 function yahooLinkPopup() {

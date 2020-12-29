@@ -14,17 +14,6 @@ const window = {
   recaptchaVerifier: undefined
 };
 
-function setLanguageCode() {
-  // [START auth_set_language_code]
-  const { getAuth } = require("firebase/auth");
-
-  const auth = getAuth(firebaseApp);
-  auth.languageCode = 'it';
-  // To apply the default browser preference instead of explicitly setting it.
-  // firebase.auth().useDeviceLanguage();
-  // [END auth_set_language_code]
-}
-
 function recaptchaVerifierInvisible() {
   function onSignInSubmit() {
     // TODO(you): Implement
