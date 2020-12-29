@@ -2,7 +2,7 @@
   "name": "snippets-web",
   "version": "1.0.0",
   "scripts": {
-    "snippets": "npx ts-node scripts/separate-snippets.ts",
+    "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
     "lerna-bootstrap": "lerna bootstrap --no-ci",
@@ -12,6 +12,7 @@
   "devDependencies": {
     "eslint": "^7.16.0",
     "lerna": "^3.22.1",
+    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^3.8.3"
   }
