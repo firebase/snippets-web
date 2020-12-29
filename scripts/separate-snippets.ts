@@ -92,7 +92,7 @@ function removeFirstLineAfterComments(lines: string[]) {
   const firstNonComment = outputLines.findIndex(
     (l) => !l.startsWith("//")
   );
-  if (isBlank(outputLines[firstNonComment])) {
+  if (firstNonComment >= 0 && isBlank(outputLines[firstNonComment])) {
     outputLines.splice(firstNonComment, 1);
   }
 
