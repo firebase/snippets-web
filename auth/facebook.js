@@ -4,6 +4,81 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
+function facebookProvider() {
+  // [START auth_facebook_provider_create]
+  var provider = new firebase.auth.FacebookAuthProvider();
+  // [END auth_facebook_provider_create]
+
+  // / [START auth_facebook_provider_scopes]
+  provider.addScope('user_birthday');
+  // [END auth_facebook_provider_scopes]
+
+  // [START auth_facebook_provider_params]
+  provider.setCustomParameters({
+    'display': 'popup'
+  });
+  // [END auth_facebook_provider_params]
+}
+
+function facebookSignInPopup(provider) {
+  // [START auth_facebook_signin_popup]
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // The signed-in user info.
+      var user = result.user;
+
+      // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+      var accessToken = credential.accessToken;
+
+      // ...
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+
+      // ...
+    });
+  // [END auth_facebook_signin_popup]
+}
+
+function facebookSignInRedirectResult() {
+  // [START auth_facebook_signin_redirect_result]
+  firebase.auth()
+    .getRedirectResult()
+    .then((result) => {
+      if (result.credential) {
+        /** @type {firebase.auth.OAuthCredential} */
+        var credential = result.credential;
+
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        var token = credential.accessToken;
+        // ...
+      }
+      // The signed-in user info.
+      var user = result.user;
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  // [END auth_facebook_signin_redirect_result]
+}
+
 // [START auth_facebook_callback]
 function checkLoginState(response) {
   if (response.authResponse) {

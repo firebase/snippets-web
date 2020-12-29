@@ -6,6 +6,76 @@ import "firebase/auth";
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/google-signin.md
 
+function googleProvider() {
+  // [START auth_google_provider_create]
+  var provider = new firebase.auth.GoogleAuthProvider();
+  // [END auth_google_provider_create]
+
+  // [START auth_google_provider_scopes]
+  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+  // [END auth_google_provider_scopes]
+  
+  // [START auth_google_provider_params]
+  provider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+  // [END auth_google_provider_params]
+}
+
+function googleSignInPopup(provider) {
+  // [START auth_google_signin_popup]
+  firebase.auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      /** @type {firebase.auth.OAuthCredential} */
+      var credential = result.credential;
+
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  // [END auth_google_signin_popup]
+}
+
+function googleSignInRedirectResult() {
+  // [START auth_google_signin_redirect_result]
+  firebase.auth()
+    .getRedirectResult()
+    .then((result) => {
+      if (result.credential) {
+        /** @type {firebase.auth.OAuthCredential} */
+        var credential = result.credential;
+
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = credential.accessToken;
+        // ...
+      }
+      // The signed-in user info.
+      var user = result.user;
+    }).catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  // [END auth_google_signin_redirect_result]
+}
+
 function googleBuildAndSignIn(id_token) {
   // [START auth_google_build_signin]
   // Build Firebase credential with the Google ID token.
