@@ -53,3 +53,37 @@ function authStateListener() {
   });
   // [END auth_state_listener]
 }
+
+function setLanguageCode() {
+  // [START auth_set_language_code]
+  firebase.auth().languageCode = 'it';
+  // To apply the default browser preference instead of explicitly setting it.
+  // firebase.auth().useDeviceLanguage();
+  // [END auth_set_language_code]
+}
+
+function authWithCredential(credential) {
+  // [START auth_signin_credential]
+  // Sign in with the credential from the user.
+  firebase.auth()
+    .signInWithCredential(credential)
+    .then((result) => {
+      // Signed in 
+      // ...
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // ...
+    });
+  // [END auth_signin_credential]
+}
+
+function signInRedirect(provider) {
+  // [START auth_signin_redirect]
+  firebase.auth().signInWithRedirect(provider);
+  // [END auth_signin_redirect]
+}

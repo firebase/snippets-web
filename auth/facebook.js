@@ -92,7 +92,6 @@ function checkLoginState(response) {
             response.authResponse.accessToken);
         
         // Sign in with the credential from the Facebook user.
-        // [START auth_facebook_signin_credential]
         firebase.auth().signInWithCredential(credential)
           .catch((error) => {
             // Handle Errors here.
@@ -104,7 +103,6 @@ function checkLoginState(response) {
             var credential = error.credential;
             // ...
           });
-        // [END auth_facebook_signin_credential]
       } else {
         // User is already signed-in Firebase with the correct user.
       }
@@ -136,8 +134,9 @@ function authWithCredential(credential) {
   // [START auth_facebook_signin_credential]
   // Sign in with the credential from the Facebook user.
   firebase.auth().signInWithCredential(credential)
-    .then((cred) => {
-      // Signed in 
+    .then((result) => {
+      // Signed in       
+      var credential = result.credential;
       // ...
     })
     .catch((error) => {
