@@ -56,7 +56,7 @@ describe("firestore", () => {
       firebase.initializeApp({
         apiKey: '### FIREBASE API KEY ###',
         authDomain: '### FIREBASE AUTH DOMAIN ###',
-        projectId: '### CLOUD FIRESTORE PROJECT ID ###',
+        projectId: '### FIREBASE PROJECT ID ###',
       } ,"persisted_app");
 
       // [START initialize_persistence]
