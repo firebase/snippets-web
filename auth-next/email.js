@@ -29,7 +29,7 @@ function signInWithEmailPassword() {
   // [END auth_signin_password]
 }
 
-function signUpWithEmailPasswoerd() {
+function signUpWithEmailPassword() {
   const email = "test@example.com";
   const password = "hunter2";
 
