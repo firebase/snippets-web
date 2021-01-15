@@ -1,15 +1,14 @@
 import firebase from "firebase/app";
 import "firebase/storage";
 
-function storageOnComplete() {
-  // This variable is just put here to make the code sensible, in reality
-  // this would be a File object from a file selection event in the browser.
+/**
+ * @param {File} file 
+ */
+function storageOnComplete(file) {
+  // The file param would be a File object from a file selection event in the browser.
   // See:
   // - https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
   // - https://developer.mozilla.org/en-US/docs/Web/API/File
-
-  /** @type {File} **/
-  const file;
 
   const metadata = {
     'contentType': file.type
