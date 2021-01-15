@@ -9,10 +9,7 @@ function storageOnComplete() {
   // - https://developer.mozilla.org/en-US/docs/Web/API/File
 
   /** @type {File} **/
-  const file = {
-    name: 'foo.txt',
-    type: 'text/plain'
-  };
+  const file;
 
   const metadata = {
     'contentType': file.type
