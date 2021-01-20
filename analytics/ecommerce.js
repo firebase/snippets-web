@@ -78,10 +78,10 @@ function ecommerceViewItemDetails() {
 function ecommerceAddCart() {
   // [START analytics_ecommerce_add_cart]
   // Specify order quantity
-  let item_jeggings_quantity = {
+  const item_jeggings_quantity = {
     ...item_jeggings,
     quantity: 2
-  }
+  };
 
   // Prepare ecommerce bundle
   const params4 = {
@@ -101,12 +101,12 @@ function ecommerceAddCart() {
 function ecommerceViewCart() {
   // [START analytics_ecommerce_view_cart]
   // Specify order quantity
-  let item_jeggings_quantity = {
+  const item_jeggings_quantity = {
     ...item_jeggings,
     quantity: 2
   };
 
-  let item_boots_quantity = {
+  const item_boots_quantity = {
     ...item_boots,
     quantity: 1
   };
