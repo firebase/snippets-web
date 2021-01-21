@@ -13,8 +13,8 @@ function uploadRef() {
   var mountainImagesRef = storageRef.child('images/mountains.jpg');
 
   // While the file names are the same, the references point to different files
-  mountainsRef.name === mountainImagesRef.name            // true
-  mountainsRef.fullPath === mountainImagesRef.fullPath    // false 
+  mountainsRef.name === mountainImagesRef.name;           // true
+  mountainsRef.fullPath === mountainImagesRef.fullPath;   // false 
   // [END storage_upload_ref]
 }
 
