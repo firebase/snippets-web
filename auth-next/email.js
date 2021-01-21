@@ -18,8 +18,9 @@ function signInWithEmailPassword() {
 
   const auth = getAuth(firebaseApp);
   signInWithEmailAndPassword(auth, email, password)
-    .then((user) => {
+    .then((userCredential) => {
       // Signed in 
+      const user = userCredential.user;
       // ...
     })
     .catch((error) => {
@@ -38,8 +39,9 @@ function signUpWithEmailPassword() {
 
   const auth = getAuth(firebaseApp);
   createUserWithEmailAndPassword(auth, email, password)
-    .then((user) => {
+    .then((userCredential) => {
       // Signed in 
+      const user = userCredential.user;
       // ...
     })
     .catch((error) => {
