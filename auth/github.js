@@ -20,6 +20,12 @@ function githubProvider() {
   // [END auth_github_provider_params]
 }
 
+function githubProviderCredential(token) {
+  // [START auth_github_provider_credential]
+  var credential = firebase.auth.GithubAuthProvider.credential(token);
+  // [END auth_github_provider_credential]
+}
+
 function githubSignInPopup(provider) {
   // [START auth_github_signin_popup]
   firebase
