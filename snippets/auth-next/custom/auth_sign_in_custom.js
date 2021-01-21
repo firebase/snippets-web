@@ -8,8 +8,9 @@ import { getAuth, signInWithCustomToken } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
 signInWithCustomToken(auth, token)
-  .then((user) => {
+  .then((userCredential) => {
     // Signed in
+    const user = userCredential.user;
     // ...
   })
   .catch((error) => {

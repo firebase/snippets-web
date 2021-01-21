@@ -8,8 +8,9 @@ function signInCustom() {
   var token = "token123";
   // [START auth_sign_in_custom]
   firebase.auth().signInWithCustomToken(token)
-    .then((user) => {
+    .then((userCredential) => {
       // Signed in
+      var user = userCredential.user;
       // ...
     })
     .catch((error) => {

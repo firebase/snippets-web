@@ -8,8 +8,9 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
 createUserWithEmailAndPassword(auth, email, password)
-  .then((user) => {
+  .then((userCredential) => {
     // Signed in 
+    const user = userCredential.user;
     // ...
   })
   .catch((error) => {

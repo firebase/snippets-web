@@ -9,8 +9,9 @@ function signInWithEmailPassword() {
   var password = "hunter2";
   // [START auth_signin_password]
   firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((user) => {
-      // Signed in 
+    .then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
       // ...
     })
     .catch((error) => {
@@ -25,8 +26,9 @@ function signUpWithEmailPasswoerd() {
   var password = "hunter2";
   // [START auth_signup_password]
   firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((user) => {
+    .then((userCredential) => {
       // Signed in 
+      var user = userCredential.user;
       // ...
     })
     .catch((error) => {
