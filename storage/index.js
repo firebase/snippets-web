@@ -1,6 +1,44 @@
 import firebase from "firebase/app";
 import "firebase/storage";
 
+function initialize() {
+  // [START storage_initialize]
+  // Set the configuration for your app
+  // TODO: Replace with your app's config object
+  var firebaseConfig = {
+    apiKey: '<your-api-key>',
+    authDomain: '<your-auth-domain>',
+    databaseURL: '<your-database-url>',
+    storageBucket: '<your-storage-bucket-url>'
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // Get a reference to the storage service, which is used to create references in your storage bucket
+  var storage = firebase.storage();
+  // [END storage_initialize]
+}
+
+function multipleBuckets() {
+  // [START storage_multiple_buckets]
+  // Get a non-default Storage bucket
+  var storage = firebase.app().storage("gs://my-custom-bucket");
+  // [END storage_multiple_buckets]
+}
+
+function storageCustomApp() {
+  const customApp = firebase.initializeApp({
+    // ... custom stuff
+  });
+
+  // [START storage_custom_app]
+  // Get the default bucket from a custom firebase.app.App
+  var storage = customApp.storage();
+
+  // Get a non-default bucket from a custom firebase.app.App
+  var storage = customApp.storage("gs://my-custom-bucket");
+  // [END storage_custom_app]
+}
+
 /**
  * @param {File} file 
  */
