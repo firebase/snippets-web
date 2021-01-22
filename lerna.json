@@ -2,6 +2,7 @@
   "lerna": "2.8.0",
   "packages": [
     "analytics",
+    "analytics-next",
     "auth",
     "auth-next",
     "database",
