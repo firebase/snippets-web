@@ -30,7 +30,7 @@ function initInSw() {
     messagingSenderId: 'sender-id',
     appId: 'app-id',
     measurementId: 'G-measurement-id',
-  })
+  });
 
   // Retrieve an instance of Firebase Messaging so that it can handle background
   // messages.
