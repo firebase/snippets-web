@@ -6,6 +6,7 @@
     "auth",
     "auth-next",
     "database",
+    "database-next",
     "firebaseapp",
     "firestore",
     "firestore-next",
