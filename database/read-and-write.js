@@ -27,7 +27,7 @@ function writeUserDataWithCompletion(userId, name, email, imageUrl) {
       // Data saved successfully!
     }
   });
-  // [START rtdb_write_new_user_completion]
+  // [END rtdb_write_new_user_completion]
 }
 
 function socialListenStarCount() {

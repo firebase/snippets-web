@@ -2,9 +2,11 @@
   "lerna": "2.8.0",
   "packages": [
     "analytics",
+    "analytics-next",
     "auth",
     "auth-next",
     "database",
+    "database-next",
     "firebaseapp",
     "firestore",
     "firestore-next",
@@ -12,11 +14,13 @@
     "functions-next",
     "installations",
     "messaging",
+    "messaging-next",
     "perf",
     "perf-next",
     "remoteconfig",
     "remoteconfig-next",
-    "storage"
+    "storage",
+    "storage-next"
   ],
   "version": "1.0.0"
 }
