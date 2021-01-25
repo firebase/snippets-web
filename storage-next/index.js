@@ -1,0 +1,77 @@
+// [SNIPPET_REGISTRY disabled]
+// [SNIPPETS_SEPARATION enabled]
+
+import { initializeApp } from "firebase/app";
+
+const firebaseApp = initializeApp({
+  apiKey: '### FIREBASE API KEY ###',
+  appId: '### FIREBASE APP ID ###',
+  projectId: '### FIREBASE PROJECT ID ###'
+});
+
+function initialize() {
+  // [START storage_initialize]
+  const { initializeApp } = require("firebase/app");
+  const { getStorage, uploadBytesResumable } = require("firebase/storage");
+
+  // Set the configuration for your app
+  // TODO: Replace with your app's config object
+  const firebaseConfig = {
+    apiKey: '<your-api-key>',
+    authDomain: '<your-auth-domain>',
+    databaseURL: '<your-database-url>',
+    storageBucket: '<your-storage-bucket-url>'
+  };
+  const firebaseApp = initializeApp(firebaseConfig);
+
+  // Get a reference to the storage service, which is used to create references in your storage bucket
+  const storage = getStorage(firebaseApp);
+  // [END storage_initialize]
+}
+
+function multipleBuckets() {
+  // [START storage_multiple_buckets]
+  // TODO: Snippet not yet written...
+  // [END storage_multiple_buckets]
+}
+
+function storageCustomApp() {
+  // [START storage_custom_app]
+  // TODO: Snippet not yet written...
+  // [END storage_custom_app]
+}
+
+/**
+ * @param {File} file 
+ */
+function storageOnComplete(file) {
+  // The file param would be a File object from a file selection event in the browser.
+  // See:
+  // - https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+  // - https://developer.mozilla.org/en-US/docs/Web/API/File
+
+  /** @type {any} */
+  const metadata = {
+    'contentType': file.type
+  };
+
+  // [START storage_on_complete]
+  const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
+
+  const storage = getStorage(firebaseApp);
+  const imageRef = ref(storage, 'images/' + file.name);
+  uploadBytesResumable(imageRef, file, metadata)
+    .then((snapshot) => {
+      console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+      console.log('File metadata:', snapshot.metadata);
+      // Let's get a download URL for the file.
+      getDownloadURL(snapshot.ref).then((url) => {
+        console.log('File available at', url);
+        // ...
+      });
+    }).catch((error) => {
+      console.error('Upload failed', error);
+      // ...
+    });
+  // [END storage_on_complete]
+}

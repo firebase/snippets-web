@@ -18,7 +18,8 @@
     "perf-next",
     "remoteconfig",
     "remoteconfig-next",
-    "storage"
+    "storage",
+    "storage-next"
   ],
   "version": "1.0.0"
 }
