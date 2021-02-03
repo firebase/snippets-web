@@ -13,7 +13,7 @@ import { collection, query, orderBy, limit, getDocs, writeBatch } from "firebase
 function deleteCollection(db, collectionRef, batchSize) {
   const q = query(collectionRef, orderBy('__name__'), limit(batchSize));
 
-  return new Promise(function(resolve) {
+  return new Promise((resolve) => {
       deleteQueryBatch(db, q, batchSize, resolve);
   });
 }

@@ -61,7 +61,7 @@ describe("firestore", () => {
 
       // [START initialize_persistence]
       firebase.firestore().enablePersistence()
-        .catch(function(err) {
+        .catch((err) => {
             if (err.code == 'failed-precondition') {
                 // Multiple tabs open, persistence can only be enabled
                 // in one tab at a a time.
@@ -80,7 +80,7 @@ describe("firestore", () => {
         var disable =
         // [START disable_network]
         firebase.firestore().disableNetwork()
-            .then(function() {
+            .then(() => {
                 // Do offline actions
                 // [START_EXCLUDE]
                 console.log("Network disabled!");
@@ -91,7 +91,7 @@ describe("firestore", () => {
         var enable =
         // [START enable_network]
         firebase.firestore().enableNetwork()
-            .then(function() {
+            .then(() => {
                 // Do online actions
                 // [START_EXCLUDE]
                 console.log("Network enabled!");
@@ -105,8 +105,8 @@ describe("firestore", () => {
     it("should reply with .fromCache fields", () => {
       // [START use_from_cache]
       db.collection("cities").where("state", "==", "CA")
-        .onSnapshot({ includeMetadataChanges: true }, function(snapshot) {
-            snapshot.docChanges().forEach(function(change) {
+        .onSnapshot({ includeMetadataChanges: true }, (snapshot) => {
+            snapshot.docChanges().forEach((change) => {
                 if (change.type === "added") {
                     console.log("New city: ", change.doc.data());
                 }
@@ -127,10 +127,10 @@ describe("firestore", () => {
                 last: "Lovelace",
                 born: 1815
             })
-            .then(function(docRef) {
+            .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
             })
-            .catch(function(error) {
+            .catch((error) => {
                 console.error("Error adding document: ", error);
             });
             // [END add_ada_lovelace]
@@ -159,10 +159,10 @@ describe("firestore", () => {
                 last: "Turing",
                 born: 1912
             })
-            .then(function(docRef) {
+            .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
             })
-            .catch(function(error) {
+            .catch((error) => {
                 console.error("Error adding document: ", error);
             });
             // [END add_alan_turing]
@@ -176,9 +176,9 @@ describe("firestore", () => {
             // [START listen_for_users]
             db.collection("users")
                 .where("born", "<", 1900)
-                .onSnapshot(function(snapshot) {
+                .onSnapshot((snapshot) => {
                     console.log("Current users born before 1900:");
-                    snapshot.forEach(function (userSnapshot) {
+                    snapshot.forEach((userSnapshot) => {
                         console.log(userSnapshot.data());
                     });
                 });
@@ -224,10 +224,10 @@ describe("firestore", () => {
                 state: "CA",
                 country: "USA"
             })
-            .then(function() {
+            .then(() => {
                 console.log("Document successfully written!");
             })
-            .catch(function(error) {
+            .catch((error) => {
                 console.error("Error writing document: ", error);
             });
             // [END set_document]
@@ -250,7 +250,7 @@ describe("firestore", () => {
             // [START get_custom_object]
             db.collection("cities").doc("LA")
               .withConverter(cityConverter)
-              .get().then(function(doc) {
+              .get().then((doc) => {
                 if (doc.exists){
                   // Convert to City object
                   var city = doc.data();
@@ -258,7 +258,7 @@ describe("firestore", () => {
                   console.log(city.toString());
                 } else {
                   console.log("No such document!");
-                }}).catch(function(error) {
+                }}).catch((error) => {
                   console.log("Error getting document:", error);
                 });
             // [END get_custom_object]
@@ -283,7 +283,7 @@ describe("firestore", () => {
             batch.delete(laRef);
 
             // Commit the batch
-            batch.commit().then(function () {
+            batch.commit().then(() => {
                 // [START_EXCLUDE]
                 done();
                 // [END_EXCLUDE]
@@ -307,7 +307,7 @@ describe("firestore", () => {
                     }
                 }
             };
-            db.collection("data").doc("one").set(docData).then(function() {
+            db.collection("data").doc("one").set(docData).then(() => {
                 console.log("Document successfully written!");
             });
             // [END data_types]
@@ -339,7 +339,7 @@ describe("firestore", () => {
                 "age": 13,
                 "favorites.color": "Red"
             })
-            .then(function() {
+            .then(() => {
                 console.log("Document successfully updated!");
             });
             // [END update_document_nested]
@@ -354,7 +354,7 @@ describe("firestore", () => {
             function deleteCollection(db, collectionRef, batchSize) {
                 var query = collectionRef.orderBy('__name__').limit(batchSize);
 
-                return new Promise(function(resolve, reject) {
+                return new Promise((resolve, reject) => {
                     deleteQueryBatch(db, query, batchSize, resolve, reject);
                 });
             }
@@ -369,14 +369,14 @@ describe("firestore", () => {
 
                         // Delete documents in a batch
                         var batch = db.batch();
-                        snapshot.docs.forEach(function(doc) {
+                        snapshot.docs.forEach((doc) => {
                             batch.delete(doc.ref);
                         });
 
-                        return batch.commit().then(function() {
+                        return batch.commit().then(() => {
                             return snapshot.size;
                         });
-                    }).then(function(numDeleted) {
+                    }).then((numDeleted) => {
                         if (numDeleted < batchSize) {
                             resolve();
                             return;
@@ -384,7 +384,7 @@ describe("firestore", () => {
 
                         // Recurse on the next process tick, to avoid
                         // exploding the stack.
-                        setTimeout(function() {
+                        setTimeout(() => {
                             deleteQueryBatch(db, query, batchSize, resolve, reject);
                         }, 0);
                     })
@@ -440,10 +440,10 @@ describe("firestore", () => {
                 name: "Tokyo",
                 country: "Japan"
             })
-            .then(function(docRef) {
+            .then((docRef) => {
                 console.log("Document written with ID: ", docRef.id);
             })
-            .catch(function(error) {
+            .catch((error) => {
                 console.error("Error adding document: ", error);
             });
             // [END add_document]
@@ -470,10 +470,10 @@ describe("firestore", () => {
             return washingtonRef.update({
                 capital: true
             })
-            .then(function() {
+            .then(() => {
                 console.log("Document successfully updated!");
             })
-            .catch(function(error) {
+            .catch((error) => {
                 // The document probably doesn't exist.
                 console.error("Error updating document: ", error);
             });
@@ -510,9 +510,9 @@ describe("firestore", () => {
         it("should delete a document", () => {
             var output =
             // [START delete_document]
-            db.collection("cities").doc("DC").delete().then(function() {
+            db.collection("cities").doc("DC").delete().then(() => {
                 console.log("Document successfully deleted!");
-            }).catch(function(error) {
+            }).catch((error) => {
                 console.error("Error removing document: ", error);
             });
             // [END delete_document]
@@ -528,9 +528,9 @@ describe("firestore", () => {
                 // Uncomment to initialize the doc.
                 // sfDocRef.set({ population: 0 });
 
-                return db.runTransaction(function(transaction) {
+                return db.runTransaction((transaction) => {
                     // This code may get re-run multiple times if there are conflicts.
-                    return transaction.get(sfDocRef).then(function(sfDoc) {
+                    return transaction.get(sfDocRef).then((sfDoc) => {
                         if (!sfDoc.exists) {
                             throw "Document does not exist!";
                         }
@@ -541,9 +541,9 @@ describe("firestore", () => {
                         var newPopulation = sfDoc.data().population + 1;
                         transaction.update(sfDocRef, { population: newPopulation });
                     });
-                }).then(function() {
+                }).then(() => {
                     console.log("Transaction successfully committed!");
-                }).catch(function(error) {
+                }).catch((error) => {
                     console.log("Transaction failed: ", error);
                 });
                 // [END transaction]
@@ -555,8 +555,8 @@ describe("firestore", () => {
             // Create a reference to the SF doc.
             var sfDocRef = db.collection("cities").doc("SF");
 
-            db.runTransaction(function(transaction) {
-                return transaction.get(sfDocRef).then(function(sfDoc) {
+            db.runTransaction((transaction) => {
+                return transaction.get(sfDocRef).then((sfDoc) => {
                     if (!sfDoc.exists) {
                         throw "Document does not exist!";
                     }
@@ -569,9 +569,9 @@ describe("firestore", () => {
                         return Promise.reject("Sorry! Population is too big.");
                     }
                 });
-            }).then(function(newPopulation) {
+            }).then((newPopulation) => {
                 console.log("Population increased to ", newPopulation);
-            }).catch(function(err) {
+            }).catch((err) => {
                 // This will be an "population is too big" error.
                 console.error(err);
             });
@@ -582,14 +582,14 @@ describe("firestore", () => {
             // [START get_document]
             var docRef = db.collection("cities").doc("SF");
 
-            docRef.get().then(function(doc) {
+            docRef.get().then((doc) => {
                 if (doc.exists) {
                     console.log("Document data:", doc.data());
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such document!");
                 }
-            }).catch(function(error) {
+            }).catch((error) => {
                 console.log("Error getting document:", error);
             });
             // [END get_document]
@@ -607,11 +607,11 @@ describe("firestore", () => {
             };
 
             // Get a document, forcing the SDK to fetch from the offline cache.
-            docRef.get(getOptions).then(function(doc) {
+            docRef.get(getOptions).then((doc) => {
                 // Document was found in the cache. If no cached document exists,
                 // an error will be returned to the 'catch' block below.
                 console.log("Cached document data:", doc.data());
-            }).catch(function(error) {
+            }).catch((error) => {
                 console.log("Error getting cached document:", error);
             });
             // [END get_document_options]
@@ -621,12 +621,12 @@ describe("firestore", () => {
             var unsub =
             // [START listen_document]
             db.collection("cities").doc("SF")
-                .onSnapshot(function(doc) {
+                .onSnapshot((doc) => {
                     console.log("Current data: ", doc.data());
                 });
             // [END listen_document]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -636,13 +636,13 @@ describe("firestore", () => {
             var unsub =
             // [START listen_document_local]
             db.collection("cities").doc("SF")
-                .onSnapshot(function(doc) {
+                .onSnapshot((doc) => {
                     var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
                     console.log(source, " data: ", doc.data());
                 });
             // [END listen_document_local]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -655,12 +655,12 @@ describe("firestore", () => {
                 .onSnapshot({
                     // Listen for document metadata changes
                     includeMetadataChanges: true
-                }, function(doc) {
+                }, (doc) => {
                     // ...
                 });
             // [END listen_with_metadata]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -671,13 +671,13 @@ describe("firestore", () => {
             // [START get_multiple]
             db.collection("cities").where("capital", "==", true)
                 .get()
-                .then(function(querySnapshot) {
-                    querySnapshot.forEach(function(doc) {
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
                         // doc.data() is never undefined for query doc snapshots
                         console.log(doc.id, " => ", doc.data());
                     });
                 })
-                .catch(function(error) {
+                .catch((error) => {
                     console.log("Error getting documents: ", error);
                 });
             // [END get_multiple]
@@ -687,8 +687,8 @@ describe("firestore", () => {
         it("should get all documents from a collection", () => {
             var output =
             // [START get_multiple_all]
-            db.collection("cities").get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
+            db.collection("cities").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
                     // doc.data() is never undefined for query doc snapshots
                     console.log(doc.id, " => ", doc.data());
                 });
@@ -701,15 +701,15 @@ describe("firestore", () => {
             var unsubscribe =
             // [START listen_multiple]
             db.collection("cities").where("state", "==", "CA")
-                .onSnapshot(function(querySnapshot) {
+                .onSnapshot((querySnapshot) => {
                     var cities = [];
-                    querySnapshot.forEach(function(doc) {
+                    querySnapshot.forEach((doc) => {
                         cities.push(doc.data().name);
                     });
                     console.log("Current cities in CA: ", cities.join(", "));
                 });
             // [END listen_multiple]
-            setTimeout(function() {
+            setTimeout(() => {
                 unsubscribe();
                 done();
             }, 2500);
@@ -719,8 +719,8 @@ describe("firestore", () => {
             var unsubscribe =
             // [START listen_diffs]
             db.collection("cities").where("state", "==", "CA")
-                .onSnapshot(function(snapshot) {
-                    snapshot.docChanges().forEach(function(change) {
+                .onSnapshot((snapshot) => {
+                    snapshot.docChanges().forEach((change) => {
                         if (change.type === "added") {
                             console.log("New city: ", change.doc.data());
                         }
@@ -733,7 +733,7 @@ describe("firestore", () => {
                     });
                 });
             // [END listen_diffs]
-            setTimeout(function() {
+            setTimeout(() => {
                 unsubscribe();
                 done();
             }, 2500);
@@ -742,7 +742,7 @@ describe("firestore", () => {
         it("should unsubscribe a listener", () => {
             // [START detach_listener]
             var unsubscribe = db.collection("cities")
-                .onSnapshot(function (){
+                .onSnapshot(() => {
                   // Respond to data
                   // ...
                 });
@@ -758,9 +758,9 @@ describe("firestore", () => {
             var unsubscribe =
             // [START handle_listen_errors]
             db.collection("cities")
-                .onSnapshot(function(snapshot) {
+                .onSnapshot((snapshot) => {
                     // ...
-                }, function(error) {
+                }, (error) => {
                     // ...
                 });
             // [END handle_listen_errors]
@@ -803,7 +803,7 @@ describe("firestore", () => {
             docRef.update({
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
-            docRef.onSnapshot(function(snapshot) {
+            docRef.onSnapshot((snapshot) => {
                 var data = snapshot.data(options);
                 console.log(
                     'Timestamp: ' + data.timestamp +
@@ -984,7 +984,7 @@ describe("firestore", () => {
                 // [START start_doc]
                 var citiesRef = db.collection("cities");
 
-                return citiesRef.doc("SF").get().then(function(doc) {
+                return citiesRef.doc("SF").get().then((doc) => {
                     // Get all cities with a population bigger than San Francisco
                     var biggerThanSf = citiesRef
                         .orderBy("population")
@@ -1017,7 +1017,7 @@ describe("firestore", () => {
                       .orderBy("population")
                       .limit(25);
 
-              return first.get().then(function (documentSnapshots) {
+              return first.get().then((documentSnapshots) => {
                 // Get the last visible document
                 var lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
                 console.log("last", lastVisible);
@@ -1087,8 +1087,8 @@ describe("firestore", () => {
             it("should query a collection group", () => {
                 // [START fs_collection_group_query]
                 var museums = db.collectionGroup('landmarks').where('type', '==', 'museum');
-                museums.get().then(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
+                museums.get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
                         console.log(doc.id, ' => ', doc.data());
                     });
                 });
