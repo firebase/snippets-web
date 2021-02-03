@@ -14,7 +14,7 @@ function createGoogleProvider() {
 
 function cordovaSignInRedirect(provider) {
   // [START auth_cordova_sign_in_redirect]
-  firebase.auth().signInWithRedirect(provider).then(function() {
+  firebase.auth().signInWithRedirect(provider).then(() => {
     return firebase.auth().getRedirectResult();
   }).then((result) => {
     /** @type {firebase.auth.OAuthCredential} */

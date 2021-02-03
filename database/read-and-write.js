@@ -20,7 +20,7 @@ function writeUserDataWithCompletion(userId, name, email, imageUrl) {
     username: name,
     email: email,
     profile_picture : imageUrl
-  }, function(error) {
+  }, (error) => {
     if (error) {
       // The write failed...
     } else {
