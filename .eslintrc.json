@@ -13,6 +13,7 @@
         "arrow-spacing": ["error"],
         "no-const-assign": ["error"],
         "prefer-const": ["error"],
+        "prefer-arrow-callback": ["error"],
         "spaced-comment": ["error", "always"],
         "semi": ["error", "always"]
     }
