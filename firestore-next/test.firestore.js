@@ -16,15 +16,15 @@ class City {
 }
     
 // Firestore data converter
-var cityConverter = {
-    toFirestore: function(city) {
+const cityConverter = {
+    toFirestore: (city) => {
         return {
             name: city.name,
             state: city.state,
             country: city.country
             };
     },
-    fromFirestore: function(snapshot, options){
+    fromFirestore: (snapshot, options) => {
         const data = snapshot.data(options);
         return new City(data.name, data.state, data.country);
     }
@@ -190,7 +190,7 @@ describe("firestore", () => {
             const q = query(collection(db, "users"), where("born", "<", 1900));
             const unsubscribe = onSnapshot(q, (snapshot) => {
                 console.log("Current users born before 1900:");
-                snapshot.forEach(function (userSnapshot) {
+                snapshot.forEach((userSnapshot) => {
                     console.log(userSnapshot.data());
                 });
             });
@@ -360,7 +360,7 @@ describe("firestore", () => {
             function deleteCollection(db, collectionRef, batchSize) {
               const q = query(collectionRef, orderBy('__name__'), limit(batchSize));
 
-              return new Promise(function(resolve) {
+              return new Promise((resolve) => {
                   deleteQueryBatch(db, q, batchSize, resolve);
               });
             }
@@ -616,7 +616,7 @@ describe("firestore", () => {
             });
             // [END listen_document]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -632,7 +632,7 @@ describe("firestore", () => {
             });
             // [END listen_document_local]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -650,7 +650,7 @@ describe("firestore", () => {
               });
             // [END listen_with_metadata]
 
-            setTimeout(function() {
+            setTimeout(() => {
                 unsub();
                 done();
             }, 3000);
@@ -695,7 +695,7 @@ describe("firestore", () => {
               console.log("Current cities in CA: ", cities.join(", "));
             });
             // [END listen_multiple]
-            setTimeout(function() {
+            setTimeout(() => {
                 unsubscribe();
                 done();
             }, 2500);
@@ -720,7 +720,7 @@ describe("firestore", () => {
               });
             });
             // [END listen_diffs]
-            setTimeout(function() {
+            setTimeout(() => {
                 unsubscribe();
                 done();
             }, 2500);
