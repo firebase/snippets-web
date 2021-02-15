@@ -12,7 +12,7 @@ const firebaseApp = initializeApp({
 function initialize() {
   // [START storage_initialize]
   const { initializeApp } = require("firebase/app");
-  const { getStorage, uploadBytesResumable } = require("firebase/storage");
+  const { getStorage } = require("firebase/storage");
 
   // Set the configuration for your app
   // TODO: Replace with your app's config object
@@ -31,13 +31,28 @@ function initialize() {
 
 function multipleBuckets() {
   // [START storage_multiple_buckets]
-  // TODO: Snippet not yet written...
+  const { getStorage } = require("firebase/storage");
+
+  // Get a non-default Storage bucket
+  const storage = getStorage(firebaseApp, "gs://my-custom-bucket");
   // [END storage_multiple_buckets]
 }
 
 function storageCustomApp() {
+  const { initializeApp } = require("firebase/app");
+
+  const customApp = initializeApp({
+    // ... custom stuff
+  });
+
   // [START storage_custom_app]
-  // TODO: Snippet not yet written...
+  const { getStorage } = require("firebase/storage");
+
+  // Get the default bucket from a custom firebase.app.App
+  const storage1 = getStorage(customApp);
+
+  // Get a non-default bucket from a custom firebase.app.App
+  const storage2 = getStorage(customApp, "gs://my-custom-bucket");
   // [END storage_custom_app]
 }
 

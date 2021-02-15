@@ -5,7 +5,7 @@
 
 // [START storage_initialize_modular]
 import { initializeApp } from "firebase/app";
-import { getStorage, uploadBytesResumable } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 
 // Set the configuration for your app
 // TODO: Replace with your app's config object

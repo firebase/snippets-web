@@ -4,5 +4,8 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START storage_multiple_buckets_modular]
-// TODO: Snippet not yet written...
+import { getStorage } from "firebase/storage";
+
+// Get a non-default Storage bucket
+const storage = getStorage(firebaseApp, "gs://my-custom-bucket");
 // [END storage_multiple_buckets_modular]
