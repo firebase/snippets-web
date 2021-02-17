@@ -21,7 +21,7 @@ function signInWithEmailPassword() {
   // [END auth_signin_password]
 }
 
-function signUpWithEmailPasswoerd() {
+function signUpWithEmailPassword() {
   var email = "test@example.com";
   var password = "hunter2";
   // [START auth_signup_password]
