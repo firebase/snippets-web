@@ -3,17 +3,10 @@
 
 function onDocumentReady(firebaseApp) {
   // [START fs_emulator_connect]
-  const { initializeFirestore } = require("firebase/firestore");
-
-  let settings = {};
-  if (location.hostname === "localhost") {
-    settings = {
-      host: "localhost:8080",
-      ssl: false
-    };
-  }
+  const { getFirestore, useFirestoreEmulator } = require("firebase/firestore");
 
   // firebaseApps previously initialized using initializeApp()
-  const db = initializeFirestore(firebaseApp, settings);
+  const db = getFirestore(firebaseApp);
+  useFirestoreEmulator(db, 'localhost', 8080);
   // [END fs_emulator_connect]
 }
