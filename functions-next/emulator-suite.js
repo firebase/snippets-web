@@ -28,7 +28,9 @@ export async function callFunction() {
   const addMessage = httpsCallable(functions, 'addMessage');
 
   const result = await addMessage({ text: '<message text>'});
-  const sanitizedMessage = result.data.text;
+  /** @type {any} */
+  const data = result.data;
+  const sanitizedMessage = data.text;
   // ...
   // [END functions_callable_call]
 }

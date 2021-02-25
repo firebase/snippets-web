@@ -11,6 +11,8 @@ const addMessage = httpsCallable(functions, 'addMessage');
 addMessage({ text: messageText })
   .then((result) => {
     // Read result of the Cloud Function.
-    const sanitizedMessage = result.data.text;
+    /** @type {any} */
+    const data = result.data;
+    const sanitizedMessage = data.text;
   });
 // [END functions_call_add_message_modular]

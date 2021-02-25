@@ -4,16 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START fs_emulator_connect_modular]
-import { initializeFirestore } from "firebase/firestore";
-
-let settings = {};
-if (location.hostname === "localhost") {
-  settings = {
-    host: "localhost:8080",
-    ssl: false
-  };
-}
+import { getFirestore, useFirestoreEmulator } from "firebase/firestore";
 
 // firebaseApps previously initialized using initializeApp()
-const db = initializeFirestore(firebaseApp, settings);
+const db = getFirestore(firebaseApp);
+useFirestoreEmulator(db, 'localhost', 8080);
 // [END fs_emulator_connect_modular]

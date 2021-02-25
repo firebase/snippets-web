@@ -12,7 +12,9 @@ export function callAddMessage(firebaseApp) {
   addMessage({ text: messageText })
     .then((result) => {
       // Read result of the Cloud Function.
-      const sanitizedMessage = result.data.text;
+      /** @type {any} */
+      const data = result.data;
+      const sanitizedMessage = data.text;
     });
   // [END functions_call_add_message]
 }
@@ -28,7 +30,9 @@ export function callAddMessageError(firebaseApp) {
   addMessage({ text: messageText })
     .then((result) => {
       // Read result of the Cloud Function.
-      const sanitizedMessage = result.data.text;
+      /** @type {any} */
+      const data = result.data;
+      const sanitizedMessage = data.text;
     })
     .catch((error) => {
       // Getting the Error details.
