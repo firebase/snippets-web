@@ -7,6 +7,6 @@
   "license": "Apache 2.0",
   "dependencies": {
     "firebase": "^8.2.10",
-    "firebaseui": "^4.7.3"
+    "firebaseui": "^4.8.0"
   }
 }
