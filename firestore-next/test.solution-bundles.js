@@ -20,8 +20,6 @@ async function fetchFromBundle() {
   await loadBundle(db, resp.body);
 
   // Query the results from the cache
-  // Note: omitting "source: cache" will query the Firestore backend.
-  
   const query = await namedQuery(db, 'latest-stories-query');
   const storiesSnap = await getDocsFromCache(query);
 
