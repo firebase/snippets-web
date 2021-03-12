@@ -1,16 +1,16 @@
-// [START fs_bundle_imports]
+// [START fs_bundle_load]
 // If you are using module bundlers.
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/firestore/bundle"; // This line enables bundle loading as a side effect.
-// [END fs_bundle_imports]
 
+// [START_EXCLUDE]
 /**
  * @type firebase.firestore.Firestore
  */
 var db;
+// [END_EXCLUDE]
 
-// [START fs_bundle_load]
 async function fetchFromBundle() {
   // Fetch the bundle from Firebase Hosting, if the CDN cache is hit the 'X-Cache'
   // response header will be set to 'HIT'
