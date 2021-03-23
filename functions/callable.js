@@ -4,20 +4,20 @@ import "firebase/functions";
 function callAddMessage() {
   const messageText = "Hello, World!";
 
-  // [START functions_call_add_message]
+  // [START fb_functions_call_add_message]
   var addMessage = firebase.functions().httpsCallable('addMessage');
   addMessage({ text: messageText })
     .then((result) => {
       // Read result of the Cloud Function.
       var sanitizedMessage = result.data.text;
     });
-  // [END functions_call_add_message]
+  // [END fb_functions_call_add_message]
 }
 
 function callAddMessageError() {
   const messageText = "Hello, World!";
 
-  // [START functions_call_add_message_error]
+  // [START fb_functions_call_add_message_error]
   var addMessage = firebase.functions().httpsCallable('addMessage');
   addMessage({ text: messageText })
     .then((result) => {
@@ -31,5 +31,5 @@ function callAddMessageError() {
       var details = error.details;
       // ...
     });
-  // [END functions_call_add_message_error]
+  // [END fb_functions_call_add_message_error]
 }

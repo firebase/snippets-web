@@ -4,7 +4,7 @@
 export function callAddMessage(firebaseApp) {
   const messageText = "Hello, World!";
 
-  // [START functions_call_add_message]
+  // [START fb_functions_call_add_message]
   const { getFunctions, httpsCallable } = require("firebase/functions");
 
   const functions = getFunctions(firebaseApp);
@@ -16,13 +16,13 @@ export function callAddMessage(firebaseApp) {
       const data = result.data;
       const sanitizedMessage = data.text;
     });
-  // [END functions_call_add_message]
+  // [END fb_functions_call_add_message]
 }
 
 export function callAddMessageError(firebaseApp) {
   const messageText = "Hello, World!";
 
-  // [START functions_call_add_message_error]
+  // [START fb_functions_call_add_message_error]
   const { getFunctions, httpsCallable } = require("firebase/functions");
 
   const functions = getFunctions(firebaseApp);
@@ -41,5 +41,5 @@ export function callAddMessageError(firebaseApp) {
       const details = error.details;
       // ...
     });
-  // [END functions_call_add_message_error]
+  // [END fb_functions_call_add_message_error]
 }

@@ -3,7 +3,7 @@
 //
 // To make edits to the snippets in this file, please edit the source
 
-// [START functions_call_add_message_modular]
+// [START fb_functions_call_add_message_modular]
 import { getFunctions, httpsCallable } from "firebase/functions";
 
 const functions = getFunctions(firebaseApp);
@@ -15,4 +15,4 @@ addMessage({ text: messageText })
     const data = result.data;
     const sanitizedMessage = data.text;
   });
-// [END functions_call_add_message_modular]
+// [END fb_functions_call_add_message_modular]
