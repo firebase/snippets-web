@@ -132,9 +132,9 @@ function toggleStar(postRef, uid) {
 function addStar(uid, key) {
   const updates = {};
   updates[`posts/${key}/stars/${uid}`] = true;
-  updates[`posts/${key}/starCount`] = ServerValue.increment(1);
+  updates[`posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
   updates[`user-posts/${key}/stars/${uid}`] = true;
-  updates[`user-posts/${key}/starCount`] = ServerValue.increment(1);
+  updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
   firebase.database().ref().update(updates);
 }
 // [END rtdb_social_star_increment]
