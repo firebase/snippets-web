@@ -5,14 +5,14 @@
 
 // [START rtdb_social_star_increment_modular]
 function addStar(uid, key) {
-  import { getDatabase, ServerValue } from "firebase/database";
-  const db = getDatabase();
+  import { getDatabase, increment, ref, update } from "firebase/database";
+  const dbRef = ref(getDatabase());
 
   const updates = {};
   updates[`posts/${key}/stars/${uid}`] = true;
-  updates[`posts/${key}/starCount`] = ServerValue.increment(1);
+  updates[`posts/${key}/starCount`] = increment(1);
   updates[`user-posts/${key}/stars/${uid}`] = true;
-  updates[`user-posts/${key}/starCount`] = ServerValue.increment(1);
-  db.ref().update(updates);
+  updates[`user-posts/${key}/starCount`] = increment(1);
+  update(dbRef, updates);
 }
 // [END rtdb_social_star_increment_modular]

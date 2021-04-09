@@ -159,7 +159,7 @@ function toggleStar_wrapped() {
  */
 // [START rtdb_social_star_increment]
 function addStar(uid, key) {
-  const { getDatabase, increment, ref } = require("firebase/database");
+  const { getDatabase, increment, ref, update } = require("firebase/database");
   const dbRef = ref(getDatabase());
 
   const updates = {};
@@ -167,7 +167,7 @@ function addStar(uid, key) {
   updates[`posts/${key}/starCount`] = increment(1);
   updates[`user-posts/${key}/stars/${uid}`] = true;
   updates[`user-posts/${key}/starCount`] = increment(1);
-  dbRef.update(updates);
+  update(dbRef, updates);
 }
 // [END rtdb_social_star_increment]
 
