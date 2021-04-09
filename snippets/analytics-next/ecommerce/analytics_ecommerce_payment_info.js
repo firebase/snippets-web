@@ -16,6 +16,6 @@ const params9 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'add_payment_info', params9);  
 // [END analytics_ecommerce_payment_info_modular]

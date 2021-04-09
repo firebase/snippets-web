@@ -6,5 +6,5 @@
 // [START rc_get_instance_modular]
 import { getRemoteConfig } from "firebase/remote-config";
 
-const remoteConfig = getRemoteConfig(firebaseApp);
+const remoteConfig = getRemoteConfig();
 // [END rc_get_instance_modular]

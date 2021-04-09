@@ -7,6 +7,6 @@
 import { getDatabase, ref, set } from "firebase/database";
 
 // With a database Reference, write null to clear the database.
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 set(ref(db), null);
 // [END rtdb_emulator_flush_modular]

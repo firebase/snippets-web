@@ -7,7 +7,7 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Sign in screen.
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithEmailAndPassword(auth, email, password)
   .then((result) => {
     // Redirect to profile page after sign-in. The service worker will detect

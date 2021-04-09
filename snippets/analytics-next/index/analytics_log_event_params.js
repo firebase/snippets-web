@@ -6,7 +6,7 @@
 // [START analytics_log_event_params_modular]
 import { getAnalytics, logEvent } from "firebase/analytics";
 
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'select_content', {
   content_type: 'image',
   content_id: 'P12453',

@@ -7,7 +7,7 @@
 import { getAuth, signInWithCredential } from "firebase/auth";
 
 // Sign in with the credential from the user.
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithCredential(auth, credential)
   .then((result) => {
     // Signed in 

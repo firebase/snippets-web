@@ -6,7 +6,7 @@
 // [START storage_ref_full_example_modular]
 import { getStorage, ref } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Points to the root reference
 const storageRef = ref(storage);

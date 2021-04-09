@@ -6,7 +6,7 @@
 // [START messaging_delete_token_modular]
 import { getMessaging, deleteToken } from "firebase/messaging";
 
-const messaging = getMessaging(firebaseApp);
+const messaging = getMessaging();
 deleteToken(messaging).then(() => {
   console.log('Token deleted.');
   // ...

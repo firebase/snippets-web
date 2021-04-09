@@ -6,7 +6,7 @@
 // [START storage_delete_metadata_modular]
 import { getStorage, ref, updateMetadata } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const forestRef = ref(storage, 'images/forest.jpg');
 
 // Create file metadata with property to delete

@@ -1,13 +1,13 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-export function callAddMessage(firebaseApp) {
+export function callAddMessage() {
   const messageText = "Hello, World!";
 
   // [START fb_functions_call_add_message]
   const { getFunctions, httpsCallable } = require("firebase/functions");
 
-  const functions = getFunctions(firebaseApp);
+  const functions = getFunctions();
   const addMessage = httpsCallable(functions, 'addMessage');
   addMessage({ text: messageText })
     .then((result) => {
@@ -25,7 +25,7 @@ export function callAddMessageError(firebaseApp) {
   // [START fb_functions_call_add_message_error]
   const { getFunctions, httpsCallable } = require("firebase/functions");
 
-  const functions = getFunctions(firebaseApp);
+  const functions = getFunctions();
   const addMessage = httpsCallable(functions, 'addMessage');
   addMessage({ text: messageText })
     .then((result) => {

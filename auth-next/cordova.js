@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/cordova.md
 
 function createGoogleProvider() {
@@ -23,7 +15,7 @@ function cordovaSignInRedirect() {
   // [START auth_cordova_sign_in_redirect]
   const { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithRedirect(auth, new GoogleAuthProvider())
     .then(() => {
       return getRedirectResult(auth);
@@ -50,7 +42,7 @@ function cordovaRedirectResult() {
   // [START auth_cordova_redirect_result]
   const { getAuth, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);

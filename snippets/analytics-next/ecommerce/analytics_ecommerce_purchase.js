@@ -19,6 +19,6 @@ const params10 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'purchase', params10);
 // [END analytics_ecommerce_purchase_modular]

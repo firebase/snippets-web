@@ -10,7 +10,7 @@ import { getAuth, signInWithCredential, GoogleAuthProvider } from "firebase/auth
 const credential = GoogleAuthProvider.credential(id_token);
 
 // Sign in with credential from the Google user.
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithCredential(auth, credential).catch((error) => {
   // Handle Errors here.
   const errorCode = error.code;

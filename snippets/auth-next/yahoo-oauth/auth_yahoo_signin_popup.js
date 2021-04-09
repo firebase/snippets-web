@@ -6,7 +6,7 @@
 // [START auth_yahoo_signin_popup_modular]
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithPopup(auth, provider)
   .then((result) => {
     // IdP data available in result.additionalUserInfo.profile

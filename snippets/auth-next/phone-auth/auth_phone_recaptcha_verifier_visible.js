@@ -6,7 +6,7 @@
 // [START auth_phone_recaptcha_verifier_visible_modular]
 import { getAuth, RecaptchaVerifier } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
   'size': 'normal',
   'callback': (response) => {

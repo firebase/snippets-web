@@ -7,7 +7,7 @@
 import { getStorage, ref } from "firebase/storage";
 
 // Create a root reference
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Create a reference to 'mountains.jpg'
 const mountainsRef = ref(storage, 'mountains.jpg');

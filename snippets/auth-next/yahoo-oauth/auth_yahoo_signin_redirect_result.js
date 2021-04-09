@@ -6,7 +6,7 @@
 // [START auth_yahoo_signin_redirect_result_modular]
 import { getAuth, getRedirectResult, OAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getRedirectResult(auth)
   .then((result) => {
     // IdP data available in result.additionalUserInfo.profile

@@ -6,6 +6,6 @@
 // [START analytics_log_event_custom_params_modular]
 import { getAnalytics, logEvent } from "firebase/analytics";
 
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'goal_completion', { name: 'lever_puzzle'});
 // [END analytics_log_event_custom_params_modular]

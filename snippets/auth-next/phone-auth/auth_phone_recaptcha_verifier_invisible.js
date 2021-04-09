@@ -6,7 +6,7 @@
 // [START auth_phone_recaptcha_verifier_invisible_modular]
 import { getAuth, RecaptchaVerifier } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
   'size': 'invisible',
   'callback': (response) => {

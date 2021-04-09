@@ -7,7 +7,7 @@
 import { getDatabase, ref, runTransaction } from "firebase/database";
 
 function toggleStar(uid) {
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const postRef = ref(db, '/posts/foo-bar-123');
 
   runTransaction(postRef, (post) => {

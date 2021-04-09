@@ -6,7 +6,7 @@
 // [START rtdb_social_listen_children_modular]
 import { getDatabase, ref, onChildAdded, onChildChanged, onChildRemoved } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const commentsRef = ref(db, 'post-comments/' + postId);
 onChildAdded(commentsRef, (data) => {
   addCommentElement(postElement, data.key, data.val().text, data.val().author);

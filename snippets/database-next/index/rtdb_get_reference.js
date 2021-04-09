@@ -6,5 +6,5 @@
 // [START rtdb_get_reference_modular]
 import { getDatabase } from "firebase/database";
 
-const database = getDatabase(firebaseApp);
+const database = getDatabase();
 // [END rtdb_get_reference_modular]

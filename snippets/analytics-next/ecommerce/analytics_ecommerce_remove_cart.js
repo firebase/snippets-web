@@ -14,6 +14,6 @@ const params6 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'remove_from_cart', params6);
 // [END analytics_ecommerce_remove_cart_modular]

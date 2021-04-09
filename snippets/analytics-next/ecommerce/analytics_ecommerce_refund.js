@@ -24,6 +24,6 @@ const refundedProduct = {
 params11.items.push(refundedProduct);
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'refund', params11);
 // [END analytics_ecommerce_refund_modular]

@@ -6,7 +6,7 @@
 // [START auth_github_signin_redirect_result_modular]
 import { getAuth, getRedirectResult, GithubAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getRedirectResult(auth)
   .then((result) => {
     const credential = GithubAuthProvider.credentialFromResult(result);

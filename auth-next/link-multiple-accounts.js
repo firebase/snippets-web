@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 const MyUserDataRepo = function() {};
 
 MyUserDataRepo.prototype.merge = function(data1, data2) {
@@ -47,7 +39,7 @@ function simpleLink(credential) {
   // [START auth_simple_link]
   const { getAuth, linkWithCredential } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       const user = usercred.user;
@@ -62,7 +54,7 @@ function anonymousLink(credential) {
   // [START auth_anonymous_link]
   const { getAuth, linkWithCredential } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       const user = usercred.user;
@@ -78,7 +70,7 @@ function linkWithPopup() {
   const { getAuth, linkWithPopup, GoogleAuthProvider } = require("firebase/auth");
   const provider = new GoogleAuthProvider();
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithPopup(auth.currentUser, provider).then((result) => {
     // Accounts successfully linked.
     const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -96,7 +88,7 @@ function linkWithRedirect() {
   const { getAuth, linkWithRedirect, GoogleAuthProvider } = require("firebase/auth");
   const provider = new GoogleAuthProvider();
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithRedirect(auth.currentUser, provider)
     .then(/* ... */)
     .catch(/* ... */);
@@ -126,7 +118,7 @@ function mergeAccounts(newCredential) {
   const repo = new MyUserDataRepo();
 
   // Get reference to the currently signed-in user
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   const prevUser = auth.currentUser;
 
   // Get the data which you will want to merge. This should be done now
@@ -180,7 +172,7 @@ function unlink(providerId) {
   // [START auth_unlink_provider]
   const { getAuth, unlink } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   unlink(auth.currentUser, providerId).then(() => {
     // Auth provider unlinked from account
     // ...

@@ -6,7 +6,7 @@
 // [START auth_github_signin_popup_modular]
 import { getAuth, signInWithPopup, GithubAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a GitHub Access Token. You can use it to access the GitHub API.

@@ -6,7 +6,7 @@
 // [START rtdb_read_once_get_modular]
 import { getDatabase, ref, child, get } from "firebase/database";
 
-const dbRef = ref(getDatabase(firebaseApp));
+const dbRef = ref(getDatabase());
 get(child(dbRef, `users/${userId}`)).then((snapshot) => {
   if (snapshot.exists()) {
     console.log(snapshot.val());

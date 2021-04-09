@@ -5,7 +5,7 @@
 
 // [START rtdb_social_write_fan_out_modular]
 function writeNewPost(uid, username, picture, title, body) {
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
 
   // A post entry.
   const postData = {
