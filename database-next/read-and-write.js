@@ -157,22 +157,19 @@ function toggleStar_wrapped() {
  * @param {string} uid 
  * @param {string} key 
  */
-function addStar_wrapped(uid, key) {
-  // [START rtdb_social_star_increment]
+// [START rtdb_social_star_increment]
+function addStar(uid, key) {
   const { getDatabase } = require("firebase/database");
+  const db = getDatabase(firebaseApp);
 
-  function addStar(uid, key) {  
-    const db = getDatabase(firebaseApp);
-
-    const updates = {};
-    updates[`posts/${key}/stars/${uid}`] = true;
-    updates[`posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
-    updates[`user-posts/${key}/stars/${uid}`] = true;
-    updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
-    db.ref().update(updates);
-  }
-  // [END rtdb_social_star_increment]
+  const updates = {};
+  updates[`posts/${key}/stars/${uid}`] = true;
+  updates[`posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+  updates[`user-posts/${key}/stars/${uid}`] = true;
+  updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+  db.ref().update(updates);
 }
+// [END rtdb_social_star_increment]
 
 function readOnceWithGet(userId) {
   // [START rtdb_read_once_get]
