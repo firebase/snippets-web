@@ -1,20 +1,12 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function createRef() {
   // [START storage_create_ref]
   const { getStorage, ref } = require("firebase/storage");
 
   // Get a reference to the storage service, which is used to create references in your storage bucket
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Create a storage reference from our storage service
   const storageRef = ref(storage);
@@ -25,7 +17,7 @@ function createRefChild() {
   // [START storage_create_ref_child]
   const { getStorage, ref } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Create a child reference
   const imagesRef = ref(storage, 'images');
@@ -42,7 +34,7 @@ function navigateRef() {
   // [START storage_navigate_ref]
   const { getStorage, ref } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const spaceRef = ref(storage, 'images/space.jpg');
 
   // Parent allows us to move to the parent of a reference
@@ -59,7 +51,7 @@ function navigateRefChain() {
   // [START storage_navigate_ref_chain]
   const { getStorage, ref } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const spaceRef = ref(storage, 'images/space.jpg');
 
   // References can be chained together multiple times
@@ -75,7 +67,7 @@ function refProperties() {
   // [START storage_ref_properties]
   const { getStorage, ref } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const spaceRef = ref(storage, 'images/space.jpg');
 
   // Reference's path is: 'images/space.jpg'
@@ -95,7 +87,7 @@ function refFullExample() {
   // [START storage_ref_full_example]
   const { getStorage, ref } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Points to the root reference
   const storageRef = ref(storage);

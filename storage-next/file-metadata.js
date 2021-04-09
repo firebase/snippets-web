@@ -1,20 +1,12 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function getMetadata() {
   // [START storage_get_metadata]
   const { getStorage, ref, getMetadata } = require("firebase/storage");
 
   // Create a reference to the file whose metadata we want to retrieve
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const forestRef = ref(storage, 'images/forest.jpg');
 
   // Get metadata properties
@@ -33,7 +25,7 @@ function updateMetadata() {
   const { getStorage, ref, updateMetadata } = require("firebase/storage");
 
   // Create a reference to the file whose metadata we want to change
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const forestRef = ref(storage, 'images/forest.jpg');
 
   // Create file metadata to update
@@ -56,7 +48,7 @@ function deleteMetadata() {
   // [START storage_delete_metadata]
   const { getStorage, ref, updateMetadata } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const forestRef = ref(storage, 'images/forest.jpg');
 
   // Create file metadata with property to delete

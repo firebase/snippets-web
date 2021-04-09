@@ -1,20 +1,12 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function writeUserData_wrapped() {
   // [START rtdb_write_new_user]
-  const { getDatabase, ref, set} = require("firebase/database");
+  const { getDatabase, ref, set } = require("firebase/database");
 
   function writeUserData(userId, name, email, imageUrl) {
-    const db = getDatabase(firebaseApp);
+    const db = getDatabase();
     set(ref(db, 'users/' + userId), {
       username: name,
       email: email,
@@ -29,7 +21,7 @@ function writeUserDataWithCompletion(userId, name, email, imageUrl) {
   // [START rtdb_write_new_user_completion]
   const { getDatabase, ref, set } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   set(ref(db, 'users/' + userId), {
     username: name,
     email: email,
@@ -54,7 +46,7 @@ function socialListenStarCount() {
   // [START rtdb_social_listen_star_count]
   const { getDatabase, ref, onValue} = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const starCountRef = ref(db, 'posts/' + postId + '/starCount');
   onValue(starCountRef, (snapshot) => {
     const data = snapshot.val();
@@ -68,8 +60,8 @@ function socialSingleValueRead() {
   const { getDatabase, ref, onValue } = require("firebase/database");
   const { getAuth } = require("firebase/auth");
 
-  const db = getDatabase(firebaseApp);
-  const auth = getAuth(firebaseApp);
+  const db = getDatabase();
+  const auth = getAuth();
 
   const userId = auth.currentUser.uid;
   return onValue(ref(db, '/users/' + userId), (snapshot) => {
@@ -86,7 +78,7 @@ function writeNewPost_wrapped() {
 
   // [START rtdb_social_write_fan_out]
   function writeNewPost(uid, username, picture, title, body) {
-    const db = getDatabase(firebaseApp);
+    const db = getDatabase();
 
     // A post entry.
     const postData = {
@@ -119,7 +111,7 @@ function socialCompletionCallback() {
   // [START rtdb_social_completion_callback]
   const { getDatabase, ref, set } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   set(ref(db, 'users/' + userId), {
     username: name,
     email: email,
@@ -139,7 +131,7 @@ function toggleStar_wrapped() {
   const { getDatabase, ref, runTransaction } = require("firebase/database");
 
   function toggleStar(uid) {
-    const db = getDatabase(firebaseApp);
+    const db = getDatabase();
     const postRef = ref(db, '/posts/foo-bar-123');
 
     runTransaction(postRef, (post) => {
@@ -165,7 +157,7 @@ function readOnceWithGet(userId) {
   // [START rtdb_read_once_get]
   const { getDatabase, ref, child, get } = require("firebase/database");
 
-  const dbRef = ref(getDatabase(firebaseApp));
+  const dbRef = ref(getDatabase());
   get(child(dbRef, `users/${userId}`)).then((snapshot) => {
     if (snapshot.exists()) {
       console.log(snapshot.val());

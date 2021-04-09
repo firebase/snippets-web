@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function initialize() {
   // [START storage_initialize]
   const { initializeApp } = require("firebase/app");
@@ -31,9 +23,11 @@ function initialize() {
 
 function multipleBuckets() {
   // [START storage_multiple_buckets]
+  const { getApp } = require("firebase/app");
   const { getStorage } = require("firebase/storage");
 
   // Get a non-default Storage bucket
+  const firebaseApp = getApp();
   const storage = getStorage(firebaseApp, "gs://my-custom-bucket");
   // [END storage_multiple_buckets]
 }
@@ -73,7 +67,7 @@ function storageOnComplete(file) {
   // [START storage_on_complete]
   const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const imageRef = ref(storage, 'images/' + file.name);
   uploadBytesResumable(imageRef, file, metadata)
     .then((snapshot) => {

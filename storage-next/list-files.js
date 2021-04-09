@@ -1,19 +1,11 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function listAll() {
   // [START storage_list_all]
   const { getStorage, ref, listAll } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Create a reference under which you want to list
   const listRef = ref(storage, 'files/uid');
@@ -40,7 +32,7 @@ function listPaginate() {
 
   async function pageTokenExample(){
     // Create a reference under which you want to list
-    const storage = getStorage(firebaseApp);
+    const storage = getStorage();
     const listRef = ref(storage, 'files/uid');
 
     // Fetch the first page of 100.

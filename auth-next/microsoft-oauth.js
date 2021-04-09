@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/microsoft-oauth.md
 
 function msftCreateProvider() {
@@ -47,7 +39,7 @@ function msftSignInPopup(provider) {
   // [START auth_msft_signin_popup]
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
@@ -68,7 +60,7 @@ function msftSignInRedirect(provider) {
   // [START auth_msft_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithRedirect(auth, provider);
   // [END auth_msft_signin_redirect]
 }
@@ -77,7 +69,7 @@ function msftSignInRedirectResult() {
   // [START auth_msft_signin_redirect_result]
   const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
     
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       // User is signed in.
@@ -99,7 +91,7 @@ function msftLinkWithPopup() {
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('microsoft.com');
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
 
   linkWithPopup(auth.currentUser, provider)
       .then((result) => {
@@ -122,7 +114,7 @@ function msftReauthPopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('microsoft.com');
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   reauthenticateWithPopup(auth.currentUser, provider)
       .then((result) => {
         // User is re-authenticated with fresh tokens minted and

@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // ==========================================================================================
 // Docs: Snippets in this file are "general purpose" and are used on more than one docs page
 // ==========================================================================================
@@ -43,7 +35,7 @@ function signOut() {
   // [START auth_sign_out]
   const { getAuth, signOut } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signOut(auth).then(() => {
     // Sign-out successful.
   }).catch((error) => {
@@ -56,7 +48,7 @@ function authStateListener() {
   // [START auth_state_listener]
   const { getAuth, onAuthStateChanged } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -75,7 +67,7 @@ function setLanguageCode() {
   // [START auth_set_language_code]
   const { getAuth } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   auth.languageCode = 'it';
   // To apply the default browser preference instead of explicitly setting it.
   // firebase.auth().useDeviceLanguage();
@@ -87,7 +79,7 @@ function authWithCredential(credential) {
   const { getAuth, signInWithCredential } = require("firebase/auth");
 
   // Sign in with the credential from the user.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithCredential(auth, credential)
     .then((result) => {
       // Signed in 
@@ -108,7 +100,7 @@ function signInRedirect(provider) {
   // [START auth_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithRedirect(auth, provider);
   // [END auth_signin_redirect]
 }
