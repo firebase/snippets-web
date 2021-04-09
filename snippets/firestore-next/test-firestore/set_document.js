@@ -4,10 +4,10 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START set_document_modular]
-import { doc, collection, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 
 // Add a new document in collection "cities"
-await setDoc(doc(collection(db, "cities"), "LA"), {
+await setDoc(doc(db, "cities", "LA"), {
   name: "Los Angeles",
   state: "CA",
   country: "USA"

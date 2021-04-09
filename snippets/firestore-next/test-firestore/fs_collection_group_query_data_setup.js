@@ -9,43 +9,43 @@ import { collection, doc, setDoc } from "firebase/firestore";
 const citiesRef = collection(db, 'cities');
 
 await Promise.all([
-    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
         name: 'Golden Gate Bridge',
         type: 'bridge'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
         name: 'Legion of Honor',
         type: 'museum'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
         name: 'Griffith Park',
         type: 'park'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
         name: 'The Getty',
         type: 'museum'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
         name: 'Lincoln Memorial',
         type: 'memorial'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
         name: 'National Air and Space Museum',
         type: 'museum'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
         name: 'Ueno Park',
         type: 'park'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
         name: 'National Museum of Nature and Science',
         type: 'museum'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
         name: 'Jingshan Park',
         type: 'park'
     }),
-    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
+    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
         name: 'Beijing Ancient Observatory',
         type: 'museum'
     })

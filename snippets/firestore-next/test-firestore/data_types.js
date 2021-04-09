@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START data_types_modular]
-import { doc, collection, setDoc, Timestamp } from "firebase/firestore"; 
+import { doc, setDoc, Timestamp } from "firebase/firestore"; 
 
 const docData = {
     stringExample: "Hello world!",
@@ -20,5 +20,5 @@ const docData = {
         }
     }
 };
-await setDoc(doc(collection(db, "data"), "one"), docData);
+await setDoc(doc(db, "data", "one"), docData);
 // [END data_types_modular]

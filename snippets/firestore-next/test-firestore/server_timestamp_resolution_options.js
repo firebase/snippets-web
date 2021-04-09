@@ -4,12 +4,12 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START server_timestamp_resolution_options_modular]
-import { collection, doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 // Perform an update followed by an immediate read without
 // waiting for the update to complete. Due to the snapshot
 // options we will get two results: one with an estimate
 // timestamp and one with the resolved server timestamp.
-const docRef = doc(collection(db, 'objects'), 'some-id');
+const docRef = doc(db, 'objects', 'some-id');
 updateDoc(docRef, {
     timestamp: serverTimestamp()
 });

@@ -27,15 +27,15 @@ describe("firestore-solution-arrays", () => {
       const app = initializeApp(config, "solution-arrays");
       db = getFirestore(app);
 
-      await setDoc(doc(collection(db, "restaurants"), "arinell-pizza"), arinellDoc);
+      await setDoc(doc(db, "restaurants", "arinell-pizza"), arinellDoc);
     });
 
     describe("solution-arrays", () => {
         it("should get a collection of ratings", async () => {
           // [START get_collection_ratings]
-          const { collection, doc, getDocs } = require("firebase/firestore");
+          const { collection, getDocs } = require("firebase/firestore");
 
-          const ratingsRef = collection(doc(collection(db, "restaurants"), "arinell-pizza"), "ratings");
+          const ratingsRef = collection(db, "restaurants", "arinell-pizza", "ratings");
           const ratingsDocs = await getDocs(ratingsRef);
           // [END get_collection_ratings]
         });

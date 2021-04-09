@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START update_document_increment_modular]
-import { collection, doc, updateDoc, increment } from "firebase/firestore";
+import { doc, updateDoc, increment } from "firebase/firestore";
 
-const washingtonRef = doc(collection(db, "cities"), "DC");
+const washingtonRef = doc(db, "cities", "DC");
 
 // Atomically increment the population of the city by 50.
 await updateDoc(washingtonRef, {

@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START doc_reference_modular]
-import { collection, doc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 
-const alovelaceDocumentRef = doc(collection(db, 'users'), 'alovelace');
+const alovelaceDocumentRef = doc(db, 'users', 'alovelace');
 // [END doc_reference_modular]

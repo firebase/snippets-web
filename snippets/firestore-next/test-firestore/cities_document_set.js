@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START cities_document_set_modular]
-import { collection, doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 
-await setDoc(doc(collection(db, "cities"), "new-city-id"), data);
+await setDoc(doc(db, "cities", "new-city-id"), data);
 // [END cities_document_set_modular]
