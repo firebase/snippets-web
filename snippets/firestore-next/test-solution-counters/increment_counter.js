@@ -9,7 +9,7 @@ function incrementCounter(db, ref, num_shards) {
 
     // Select a shard of the counter at random
     const shardId = Math.floor(Math.random() * num_shards).toString();
-    const shardRef = doc(collection(ref, 'shards'), shardId);
+    const shardRef = doc(ref, 'shards', shardId);
 
     // Update count
     return updateDoc(shardRef, "count", increment(1));

@@ -204,9 +204,9 @@ describe("firestore", () => {
 
         it("should reference a specific document", () => {
             // [START doc_reference]
-            const { collection, doc } = require("firebase/firestore");
+            const { doc } = require("firebase/firestore");
 
-            const alovelaceDocumentRef = doc(collection(db, 'users'), 'alovelace');
+            const alovelaceDocumentRef = doc(db, 'users', 'alovelace');
             // [END doc_reference]
         });
 
@@ -228,18 +228,18 @@ describe("firestore", () => {
 
         it("should reference a document in a subcollection", () => {
             // [START subcollection_reference]
-            const { doc, collection } = require("firebase/firestore"); 
+            const { doc } = require("firebase/firestore"); 
 
-            const messageRef = doc(collection(doc(collection(db, "rooms"), "roomA"), "messages"), "message1");
+            const messageRef = doc(db, "rooms", "roomA", "messages", "message1");
             // [END subcollection_reference]
         });
 
         it("should set a document", async () => {
             // [START set_document]
-            const { doc, collection, setDoc } = require("firebase/firestore"); 
+            const { doc, setDoc } = require("firebase/firestore"); 
 
             // Add a new document in collection "cities"
-            await setDoc(doc(collection(db, "cities"), "LA"), {
+            await setDoc(doc(db, "cities", "LA"), {
               name: "Los Angeles",
               state: "CA",
               country: "USA"
@@ -249,19 +249,19 @@ describe("firestore", () => {
 
         it("should set document with a custom object converter", async () => {
             // [START set_custom_object]
-            const { doc, collection, setDoc } = require("firebase/firestore"); 
+            const { doc, setDoc } = require("firebase/firestore"); 
             
             // Set with cityConverter
-            const ref = doc(collection(db, "cities"), "LA").withConverter(cityConverter);
+            const ref = doc(db, "cities", "LA").withConverter(cityConverter);
             await setDoc(ref, new City("Los Angeles", "CA", "USA"));
             // [END set_custom_object]
         });
 
         it("should get document with a custom object converter", async () => {
             // [START get_custom_object]
-            const { doc, collection, getDoc} = require("firebase/firestore"); 
+            const { doc, getDoc} = require("firebase/firestore"); 
 
-            const ref = doc(collection(db, "cities"), "LA").withConverter(cityConverter);
+            const ref = doc(db, "cities", "LA").withConverter(cityConverter);
             const docSnap = await getDoc(ref);
             if (docSnap.exists()) {
               // Convert to City object
@@ -276,21 +276,21 @@ describe("firestore", () => {
 
         it("should support batch writes", async () => {
             // [START write_batch]
-            const { writeBatch, doc, collection } = require("firebase/firestore"); 
+            const { writeBatch, doc } = require("firebase/firestore"); 
 
             // Get a new write batch
             const batch = writeBatch(db);
 
             // Set the value of 'NYC'
-            const nycRef = doc(collection(db, "cities"), "NYC");
+            const nycRef = doc(db, "cities", "NYC");
             batch.set(nycRef, {name: "New York City"});
 
             // Update the population of 'SF'
-            const sfRef = doc(collection(db, "cities"), "SF");
+            const sfRef = doc(db, "cities", "SF");
             batch.update(sfRef, {"population": 1000000});
 
             // Delete the city 'LA'
-            const laRef = doc(collection(db, "cities"), "LA");
+            const laRef = doc(db, "cities", "LA");
             batch.delete(laRef);
 
             // Commit the batch
@@ -300,7 +300,7 @@ describe("firestore", () => {
 
         it("should set a document with every datatype #UNVERIFIED", async () => {
             // [START data_types]
-            const { doc, collection, setDoc, Timestamp } = require("firebase/firestore"); 
+            const { doc, setDoc, Timestamp } = require("firebase/firestore"); 
 
             const docData = {
                 stringExample: "Hello world!",
@@ -316,25 +316,25 @@ describe("firestore", () => {
                     }
                 }
             };
-            await setDoc(doc(collection(db, "data"), "one"), docData);
+            await setDoc(doc(db, "data", "one"), docData);
             // [END data_types]
         });
 
         it("should allow set with merge", async () => {
             // [START set_with_merge]
-            const { doc, collection, setDoc } = require("firebase/firestore"); 
+            const { doc, setDoc } = require("firebase/firestore"); 
 
-            const cityRef = doc(collection(db, 'cities'), 'BJ');
+            const cityRef = doc(db, 'cities', 'BJ');
             setDoc(cityRef, { capital: true }, { merge: true });
             // [END set_with_merge]
         });
 
         it("should update a document's nested fields #UNVERIFIED", async () => {
             // [START update_document_nested]
-            const { doc, collection, setDoc, updateDoc } = require("firebase/firestore"); 
+            const { doc, setDoc, updateDoc } = require("firebase/firestore"); 
 
             // Create an initial document to update.
-            const frankDocRef = doc(collection(db, "users"), "frank");
+            const frankDocRef = doc(db, "users", "frank");
             await setDoc(frankDocRef, {
                 name: "Frank",
                 favorites: { food: "Pizza", color: "Blue", subject: "recess" },
@@ -431,9 +431,9 @@ describe("firestore", () => {
             const data = {};
 
             // [START cities_document_set]
-            const { collection, doc, setDoc } = require("firebase/firestore"); 
+            const { doc, setDoc } = require("firebase/firestore"); 
 
-            await setDoc(doc(collection(db, "cities"), "new-city-id"), data);
+            await setDoc(doc(db, "cities", "new-city-id"), data);
             // [END cities_document_set]
         });
 
@@ -466,9 +466,9 @@ describe("firestore", () => {
         it("should update a document", async () => {
             const data = {};
             // [START update_document]
-            const { collection, doc, updateDoc } = require("firebase/firestore");
+            const { doc, updateDoc } = require("firebase/firestore");
 
-            const washingtonRef = doc(collection(db, "cities"), "DC");
+            const washingtonRef = doc(db, "cities", "DC");
 
             // Set the "capital" field of the city 'DC'
             await updateDoc(washingtonRef, {
@@ -479,9 +479,9 @@ describe("firestore", () => {
 
         it("should update an array field in a document", async () => {
             // [START update_document_array]
-            const { collection, doc, updateDoc, arrayUnion, arrayRemove } = require("firebase/firestore");
+            const { doc, updateDoc, arrayUnion, arrayRemove } = require("firebase/firestore");
 
-            const washingtonRef = doc(collection(db, "cities"), "DC");
+            const washingtonRef = doc(db, "cities", "DC");
 
             // Atomically add a new region to the "regions" array field.
             await updateDoc(washingtonRef, {
@@ -497,9 +497,9 @@ describe("firestore", () => {
 
         it("should update a document using numeric transforms", async () => {
             // [START update_document_increment]
-            const { collection, doc, updateDoc, increment } = require("firebase/firestore");
+            const { doc, updateDoc, increment } = require("firebase/firestore");
 
-            const washingtonRef = doc(collection(db, "cities"), "DC");
+            const washingtonRef = doc(db, "cities", "DC");
 
             // Atomically increment the population of the city by 50.
             await updateDoc(washingtonRef, {
@@ -510,16 +510,16 @@ describe("firestore", () => {
 
         it("should delete a document", async () => {
             // [START delete_document]
-            const { collection, doc, deleteDoc } = require("firebase/firestore");
+            const { doc, deleteDoc } = require("firebase/firestore");
 
-            await deleteDoc(doc(collection(db, "cities"), "DC"));
+            await deleteDoc(doc(db, "cities", "DC"));
             // [END delete_document]
         });
 
         it("should handle transactions", async () => {
-            const { collection, doc, setDoc } = require("firebase/firestore");
+            const { doc, setDoc } = require("firebase/firestore");
 
-            const sfDocRef = doc(collection(db, "cities"), "SF");
+            const sfDocRef = doc(db, "cities", "SF");
             await setDoc(sfDocRef, { population: 0 });
 
             // [START transaction]
@@ -544,10 +544,10 @@ describe("firestore", () => {
 
         it("should handle transaction which bubble out data", async () => {
             // [START transaction_promise]
-            const { collection, doc, runTransaction } = require("firebase/firestore");
+            const { doc, runTransaction } = require("firebase/firestore");
 
             // Create a reference to the SF doc.
-            const sfDocRef = doc(collection(db, "cities"), "SF");
+            const sfDocRef = doc(db, "cities", "SF");
 
             try {
               const newPopulation = await runTransaction(db, async (transaction) => {
@@ -574,9 +574,9 @@ describe("firestore", () => {
 
         it("should get a single document", async () => {
             // [START get_document]
-            const { collection, doc, getDoc } = require("firebase/firestore");
+            const { doc, getDoc } = require("firebase/firestore");
 
-            const docRef = doc(collection(db, "cities"), "SF");
+            const docRef = doc(db, "cities", "SF");
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
@@ -590,9 +590,9 @@ describe("firestore", () => {
 
         it("should get a document with options", async () => {
             // [START get_document_options]
-            const { collection, doc, getDocFromCache } = require("firebase/firestore");
+            const { doc, getDocFromCache } = require("firebase/firestore");
 
-            const docRef = doc(collection(db, "cities"), "SF");
+            const docRef = doc(db, "cities", "SF");
 
             // Get a document, forcing the SDK to fetch from the offline cache.
             try {
@@ -609,9 +609,9 @@ describe("firestore", () => {
 
         it("should listen on a single document", (done) => {
             // [START listen_document]
-            const { collection, doc, onSnapshot } = require("firebase/firestore");
+            const { doc, onSnapshot } = require("firebase/firestore");
 
-            const unsub = onSnapshot(doc(collection(db, "cities"), "SF"), (doc) => {
+            const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
                 console.log("Current data: ", doc.data());
             });
             // [END listen_document]
@@ -624,9 +624,9 @@ describe("firestore", () => {
 
         it("should listen on a single document with metadata", (done) => {
             // [START listen_document_local]
-            const { collection, doc, onSnapshot } = require("firebase/firestore");
+            const { doc, onSnapshot } = require("firebase/firestore");
 
-            const unsub = onSnapshot(doc(collection(db, "cities"), "SF"), (doc) => {
+            const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
               const source = doc.metadata.hasPendingWrites ? "Local" : "Server";
               console.log(source, " data: ", doc.data());
             });
@@ -640,10 +640,10 @@ describe("firestore", () => {
 
         it("should listen on a single document with options #UNVERIFIED", (done) => {
             // [START listen_with_metadata]
-            const { collection, doc, onSnapshot } = require("firebase/firestore");
+            const { doc, onSnapshot } = require("firebase/firestore");
 
             const unsub = onSnapshot(
-              doc(collection(db, "cities"), "SF"), 
+              doc(db, "cities", "SF"), 
               { includeMetadataChanges: true }, 
               (doc) => {
                 // ...
@@ -761,9 +761,9 @@ describe("firestore", () => {
         it("should update a document with server timestamp", async () => {
             async function update() {
                 // [START update_with_server_timestamp]
-                const { collection, updateDoc, serverTimestamp } = require("firebase/firestore");
+                const { updateDoc, serverTimestamp } = require("firebase/firestore");
 
-                const docRef = doc(collection(db, 'objects'), 'some-id');
+                const docRef = doc(db, 'objects', 'some-id');
 
                 // Update the timestamp field with the value from the server
                 const updateTimestamp = await updateDoc(docRef, {
@@ -774,21 +774,21 @@ describe("firestore", () => {
                 return updateTimestamp;
             }
 
-            const { collection, doc, setDoc } = require("firebase/firestore");
+            const { doc, setDoc } = require("firebase/firestore");
 
-            await setDoc(doc(collection(db, 'objects'), 'some-id'), {});
+            await setDoc(doc(db, 'objects', 'some-id'), {});
             await update();
             console.log('Document updated with server timestamp');
         });
 
         it("should use options to control server timestamp resolution", async () => {
           // [START server_timestamp_resolution_options]
-          const { collection, doc, updateDoc, serverTimestamp, onSnapshot } = require("firebase/firestore");
+          const { doc, updateDoc, serverTimestamp, onSnapshot } = require("firebase/firestore");
           // Perform an update followed by an immediate read without
           // waiting for the update to complete. Due to the snapshot
           // options we will get two results: one with an estimate
           // timestamp and one with the resolved server timestamp.
-          const docRef = doc(collection(db, 'objects'), 'some-id');
+          const docRef = doc(db, 'objects', 'some-id');
           updateDoc(docRef, {
               timestamp: serverTimestamp()
           });
@@ -808,9 +808,9 @@ describe("firestore", () => {
         it("should delete a document field", async () => {
             async function update() {
               // [START update_delete_field]
-              const { doc, collection, updateDoc, deleteField } = require("firebase/firestore");
+              const { doc, updateDoc, deleteField } = require("firebase/firestore");
 
-              const cityRef = doc(collection(db, 'cities'), 'BJ');
+              const cityRef = doc(db, 'cities', 'BJ');
 
               // Remove the 'capital' field from the document
               await updateDoc(cityRef, {
@@ -819,9 +819,9 @@ describe("firestore", () => {
               // [END update_delete_field]
             }
 
-            const { doc, collection, setDoc } = require("firebase/firestore");
+            const { doc, setDoc } = require("firebase/firestore");
 
-            await setDoc(doc(collection(db,'cities'), 'BJ'), { capital: true });
+            await setDoc(doc(db, 'cities', 'BJ'), { capital: true });
             await update();
         });
 
@@ -1099,43 +1099,43 @@ describe("firestore", () => {
                 const citiesRef = collection(db, 'cities');
 
                 await Promise.all([
-                    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
                         name: 'Golden Gate Bridge',
                         type: 'bridge'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'SF'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
                         name: 'Legion of Honor',
                         type: 'museum'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
                         name: 'Griffith Park',
                         type: 'park'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'LA'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
                         name: 'The Getty',
                         type: 'museum'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
                         name: 'Lincoln Memorial',
                         type: 'memorial'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'DC'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
                         name: 'National Air and Space Museum',
                         type: 'museum'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
                         name: 'Ueno Park',
                         type: 'park'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'TOK'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
                         name: 'National Museum of Nature and Science',
                         type: 'museum'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
                         name: 'Jingshan Park',
                         type: 'park'
                     }),
-                    setDoc(doc(collection(doc(citiesRef, 'BJ'), 'landmarks')), {
+                    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
                         name: 'Beijing Ancient Observatory',
                         type: 'museum'
                     })
@@ -1161,7 +1161,7 @@ describe("firestore", () => {
     describe("solution-aggregation", () => {
         it("should update a restaurant in a transaction #UNVERIFIED", async () => {
             // [START add_rating_transaction]
-            const { collection, doc, runTransaction} = require("firebase/firestore");  
+            const { collection, doc, runTransaction } = require("firebase/firestore");  
 
             async function addRating(restaurantRef, rating) {
                 // Create a reference for a new rating, for use inside the transaction
@@ -1193,7 +1193,7 @@ describe("firestore", () => {
 
             // Create document and add a rating
             const { setDoc } = require("firebase/firestore");
-            const ref = doc(collection(db, 'restaurants'), ('arinell-pizza'));
+            const ref = doc(db, 'restaurants', 'arinell-pizza');
             await setDoc(ref, {
                 name: 'Arinell Pizza',
                 avgRating: 4.63,

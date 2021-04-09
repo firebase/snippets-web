@@ -4,10 +4,10 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START transaction_promise_modular]
-import { collection, doc, runTransaction } from "firebase/firestore";
+import { doc, runTransaction } from "firebase/firestore";
 
 // Create a reference to the SF doc.
-const sfDocRef = doc(collection(db, "cities"), "SF");
+const sfDocRef = doc(db, "cities", "SF");
 
 try {
   const newPopulation = await runTransaction(db, async (transaction) => {

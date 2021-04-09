@@ -5,7 +5,7 @@
 
 // [START create_counter_modular]
 function createCounter(ref, num_shards) {
-    import { collection, doc, writeBatch } from "firebase/firestore";
+    import { doc, writeBatch } from "firebase/firestore";
 
     const batch = writeBatch(db);
 
@@ -14,7 +14,7 @@ function createCounter(ref, num_shards) {
 
     // Initialize each shard with count=0
     for (let i = 0; i < num_shards; i++) {
-        const shardRef = doc(collection(ref, 'shards'), i.toString());
+        const shardRef = doc(ref, 'shards', i.toString());
         batch.set(shardRef, { count: 0 });
     }
 

@@ -8,7 +8,7 @@ let db;
 
 // [START create_counter]
 function createCounter(ref, num_shards) {
-    const { collection, doc, writeBatch } = require("firebase/firestore");
+    const { doc, writeBatch } = require("firebase/firestore");
 
     const batch = writeBatch(db);
 
@@ -17,7 +17,7 @@ function createCounter(ref, num_shards) {
 
     // Initialize each shard with count=0
     for (let i = 0; i < num_shards; i++) {
-        const shardRef = doc(collection(ref, 'shards'), i.toString());
+        const shardRef = doc(ref, 'shards', i.toString());
         batch.set(shardRef, { count: 0 });
     }
 
@@ -32,7 +32,7 @@ function incrementCounter(db, ref, num_shards) {
 
     // Select a shard of the counter at random
     const shardId = Math.floor(Math.random() * num_shards).toString();
-    const shardRef = doc(collection(ref, 'shards'), shardId);
+    const shardRef = doc(ref, 'shards', shardId);
 
     // Update count
     return updateDoc(shardRef, "count", increment(1));

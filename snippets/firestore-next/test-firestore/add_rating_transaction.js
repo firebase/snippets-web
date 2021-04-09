@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START add_rating_transaction_modular]
-import { collection, doc, runTransaction} from "firebase/firestore";  
+import { collection, doc, runTransaction } from "firebase/firestore";  
 
 async function addRating(restaurantRef, rating) {
     // Create a reference for a new rating, for use inside the transaction
