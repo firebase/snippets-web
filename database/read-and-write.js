@@ -137,6 +137,7 @@ function addStar(uid, key) {
   updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
   firebase.database().ref().update(updates);
 }
+// [END rtdb_social_star_increment]
 
 function readOnceWithGet(userId) {
   // [START rtdb_read_once_get]
