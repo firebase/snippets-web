@@ -4,8 +4,8 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_most_viewed_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, query, orderByChild } from "firebase/database";
 
 const db = getDatabase(firebaseApp);
-const mostViewedPosts = db.ref('posts').orderByChild('metrics/views');
+const mostViewedPosts = query(ref(db, 'posts'), orderByChild('metrics/views'));
 // [END rtdb_social_most_viewed_modular]

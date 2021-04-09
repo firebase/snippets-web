@@ -4,19 +4,19 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_listen_children_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, onChildAdded, onChildChanged, onChildRemoved } from "firebase/database";
 
 const db = getDatabase(firebaseApp);
-const commentsRef = db.ref('post-comments/' + postId);
-commentsRef.on('child_added', (data) => {
+const commentsRef = ref(db, 'post-comments/' + postId);
+onChildAdded(commentsRef, (data) => {
   addCommentElement(postElement, data.key, data.val().text, data.val().author);
 });
 
-commentsRef.on('child_changed', (data) => {
+onChildChanged(commentsRef, (data) => {
   setCommentValues(postElement, data.key, data.val().text, data.val().author);
 });
 
-commentsRef.on('child_removed', (data) => {
+onChildRemoved(commentsRef, (data) => {
   deleteComment(postElement, data.key);
 });
 // [END rtdb_social_listen_children_modular]

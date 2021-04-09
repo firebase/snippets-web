@@ -11,22 +11,22 @@ const firebaseApp = initializeApp({
 
 function onDocumentReady() {
   // [START rtdb_emulator_connect]
-  const { getDatabase } = require("firebase/database");
+  const { getDatabase, useDatabaseEmulator } = require("firebase/database");
 
   const db = getDatabase(firebaseApp);
   if (location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
-    db.useEmulator("localhost", 9000);
+    useDatabaseEmulator(db, "localhost", 9000);
   } 
   // [END rtdb_emulator_connect]
 }
 
 function flushRealtimeDatabase() {
   // [START rtdb_emulator_flush]
-  const { getDatabase } = require("firebase/database");
+  const { getDatabase, ref, set } = require("firebase/database");
 
   // With a database Reference, write null to clear the database.
   const db = getDatabase(firebaseApp);
-  db.ref().set(null);
+  set(ref(db), null);
   // [END rtdb_emulator_flush]
 }

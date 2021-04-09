@@ -4,13 +4,13 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_push_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, push, set } from "firebase/database";
 
 // Create a new post reference with an auto-generated id
 const db = getDatabase(firebaseApp);
-const postListRef = db.ref('posts');
-const newPostRef = postListRef.push();
-newPostRef.set({
+const postListRef = ref(db, 'posts');
+const newPostRef = push(postListRef);
+set(newPostRef, {
     // ...
 });
 // [END rtdb_social_push_modular]
