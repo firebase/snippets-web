@@ -124,6 +124,20 @@ function toggleStar(postRef, uid) {
 }
 // [END rtdb_social_star_transaction]
 
+/**
+ * @param {string} uid 
+ * @param {string} key 
+ */
+// [START rtdb_social_star_increment]
+function addStar(uid, key) {
+  const updates = {};
+  updates[`posts/${key}/stars/${uid}`] = true;
+  updates[`posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+  updates[`user-posts/${key}/stars/${uid}`] = true;
+  updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+  firebase.database().ref().update(updates);
+}
+
 function readOnceWithGet(userId) {
   // [START rtdb_read_once_get]
   const dbRef = firebase.database().ref();
