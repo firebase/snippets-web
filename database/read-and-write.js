@@ -123,3 +123,18 @@ function toggleStar(postRef, uid) {
   });
 }
 // [END rtdb_social_star_transaction]
+
+function readOnceWithGet(userId) {
+  // [START rtdb_read_once_get]
+  const dbRef = firebase.database().ref();
+  dbRef.child("users").child(userId).get().then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log(snapshot.val());
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+  // [END rtdb_read_once_get]
+}
