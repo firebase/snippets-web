@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START update_document_array_modular]
-import { collection, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
-const washingtonRef = doc(collection(db, "cities"), "DC");
+const washingtonRef = doc(db, "cities", "DC");
 
 // Atomically add a new region to the "regions" array field.
 await updateDoc(washingtonRef, {

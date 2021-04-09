@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START delete_document_modular]
-import { collection, doc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc } from "firebase/firestore";
 
-await deleteDoc(doc(collection(db, "cities"), "DC"));
+await deleteDoc(doc(db, "cities", "DC"));
 // [END delete_document_modular]

@@ -4,16 +4,18 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_listen_value_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
-const ref = db.ref('/a/b/c');
+const db = getDatabase();
+const dbRef = ref(db, '/a/b/c');
 
-ref.once('value', (snapshot) => {
+onValue(dbRef, (snapshot) => {
   snapshot.forEach((childSnapshot) => {
     const childKey = childSnapshot.key;
     const childData = childSnapshot.val();
     // ...
   });
+}, {
+  onlyOnce: true
 });
 // [END rtdb_social_listen_value_modular]

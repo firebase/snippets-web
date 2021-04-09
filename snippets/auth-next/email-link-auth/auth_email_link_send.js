@@ -6,7 +6,7 @@
 // [START auth_email_link_send_modular]
 import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 sendSignInLinkToEmail(auth, email, actionCodeSettings)
   .then(() => {
     // The link was successfully sent. Inform the user.

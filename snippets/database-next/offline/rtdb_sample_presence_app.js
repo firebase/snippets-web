@@ -4,31 +4,31 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_sample_presence_app_modular]
-import { getDatabase, ServerValue } from "firebase/database";
+import { getDatabase, ref, onValue, push, onDisconnect, set, serverTimestamp } from "firebase/database";
 
 // Since I can connect from multiple devices or browser tabs, we store each connection instance separately
 // any time that connectionsRef's value is null (i.e. has no children) I am offline
-const db = getDatabase(firebaseApp);
-const myConnectionsRef = db.ref('users/joe/connections');
+const db = getDatabase();
+const myConnectionsRef = ref(db, 'users/joe/connections');
 
 // stores the timestamp of my last disconnect (the last time I was seen online)
-const lastOnlineRef = db.ref('users/joe/lastOnline');
+const lastOnlineRef = ref(db, 'users/joe/lastOnline');
 
-const connectedRef = db.ref('.info/connected');
-connectedRef.on('value', (snap) => {
+const connectedRef = ref(db, '.info/connected');
+onValue(connectedRef, (snap) => {
   if (snap.val() === true) {
     // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-    const con = myConnectionsRef.push();
+    const con = push(myConnectionsRef);
 
     // When I disconnect, remove this device
-    con.onDisconnect().remove();
+    onDisconnect(con).remove();
 
     // Add this device to my connections list
     // this value could contain info about the device or a timestamp too
-    con.set(true);
+    set(con, true);
 
     // When I disconnect, update the last time I was seen online
-    lastOnlineRef.onDisconnect().set(ServerValue.TIMESTAMP);
+    onDisconnect(lastOnlineRef).set(serverTimestamp());
   }
 });
 // [END rtdb_sample_presence_app_modular]

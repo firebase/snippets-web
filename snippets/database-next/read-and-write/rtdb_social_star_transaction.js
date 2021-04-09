@@ -4,13 +4,13 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_star_transaction_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, runTransaction } from "firebase/database";
 
 function toggleStar(uid) {
-  const db = getDatabase(firebaseApp);
-  const postRef = db.ref('/posts/foo-bar-123');
+  const db = getDatabase();
+  const postRef = ref(db, '/posts/foo-bar-123');
 
-  postRef.transaction((post) => {
+  runTransaction(postRef, (post) => {
     if (post) {
       if (post.stars && post.stars[uid]) {
         post.starCount--;

@@ -6,7 +6,7 @@
 // [START auth_sign_out_modular]
 import { getAuth, signOut } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signOut(auth).then(() => {
   // Sign-out successful.
 }).catch((error) => {

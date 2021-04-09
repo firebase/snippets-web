@@ -6,7 +6,7 @@
 // [START storage_upload_blob_modular]
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const storageRef = ref(storage, 'some-child');
 
 // 'file' comes from the Blob or File API

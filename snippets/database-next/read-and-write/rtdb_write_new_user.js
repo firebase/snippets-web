@@ -4,11 +4,11 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_write_new_user_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, set } from "firebase/database";
 
 function writeUserData(userId, name, email, imageUrl) {
-  const db = getDatabase(firebaseApp);
-  db.ref('users/' + userId).set({
+  const db = getDatabase();
+  set(ref(db, 'users/' + userId), {
     username: name,
     email: email,
     profile_picture : imageUrl

@@ -4,11 +4,11 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_detect_connection_state_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
-const connectedRef = db.ref(".info/connected");
-connectedRef.on("value", (snap) => {
+const db = getDatabase();
+const connectedRef = ref(db, ".info/connected");
+onValue(connectedRef, (snap) => {
   if (snap.val() === true) {
     console.log("connected");
   } else {

@@ -16,6 +16,6 @@ const params8 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'add_shipping_info', params8);
 // [END analytics_ecommerce_shipping_info_modular]

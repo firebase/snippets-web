@@ -7,7 +7,7 @@
 import { getStorage, ref, updateMetadata } from "firebase/storage";
 
 // Create a reference to the file whose metadata we want to change
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const forestRef = ref(storage, 'images/forest.jpg');
 
 // Create file metadata to update

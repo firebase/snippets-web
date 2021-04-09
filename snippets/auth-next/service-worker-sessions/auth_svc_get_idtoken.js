@@ -6,7 +6,7 @@
 // [START auth_svc_get_idtoken_modular]
 import { getAuth, getIdToken } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getIdToken(auth.currentUser)
   .then((idToken) => {
     // idToken can be passed back to server.

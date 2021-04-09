@@ -6,7 +6,7 @@
 // [START storage_delete_file_modular]
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Create a reference to the file to delete
 const desertRef = ref(storage, 'images/desert.jpg');

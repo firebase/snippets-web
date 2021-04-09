@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 function githubProvider() {
   // [START auth_github_provider_create]
   const { GithubAuthProvider } = require("firebase/auth");
@@ -39,7 +31,7 @@ function githubSignInPopup(provider) {
   // [START auth_github_signin_popup]
   const { getAuth, signInWithPopup, GithubAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -66,7 +58,7 @@ function githubSignInRedirectResult() {
   // [START auth_github_signin_redirect_result]
   const { getAuth, getRedirectResult, GithubAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       const credential = GithubAuthProvider.credentialFromResult(result);

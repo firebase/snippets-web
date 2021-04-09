@@ -6,7 +6,7 @@
 // [START auth_twitter_signin_popup_modular]
 import { getAuth, signInWithPopup, TwitterAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a the Twitter OAuth 1.0 Access Token and Secret.

@@ -6,7 +6,7 @@
 // [START auth_send_password_reset_modular]
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 sendPasswordResetEmail(auth, email)
   .then(() => {
     // Password reset email sent!

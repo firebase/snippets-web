@@ -4,8 +4,8 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START set_with_merge_modular]
-import { doc, collection, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore"; 
 
-const cityRef = doc(collection(db, 'cities'), 'BJ');
+const cityRef = doc(db, 'cities', 'BJ');
 setDoc(cityRef, { capital: true }, { merge: true });
 // [END set_with_merge_modular]

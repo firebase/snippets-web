@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START get_document_options_modular]
-import { collection, doc, getDocFromCache } from "firebase/firestore";
+import { doc, getDocFromCache } from "firebase/firestore";
 
-const docRef = doc(collection(db, "cities"), "SF");
+const docRef = doc(db, "cities", "SF");
 
 // Get a document, forcing the SDK to fetch from the offline cache.
 try {

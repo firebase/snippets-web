@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START update_document_modular]
-import { collection, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
-const washingtonRef = doc(collection(db, "cities"), "DC");
+const washingtonRef = doc(db, "cities", "DC");
 
 // Set the "capital" field of the city 'DC'
 await updateDoc(washingtonRef, {

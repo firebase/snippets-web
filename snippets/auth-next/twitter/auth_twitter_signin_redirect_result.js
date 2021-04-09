@@ -6,7 +6,7 @@
 // [START auth_twitter_signin_redirect_result_modular]
 import { getAuth, getRedirectResult, TwitterAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getRedirectResult(auth)
   .then((result) => {
     // This gives you a the Twitter OAuth 1.0 Access Token and Secret.

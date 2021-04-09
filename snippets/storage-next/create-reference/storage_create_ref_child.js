@@ -6,7 +6,7 @@
 // [START storage_create_ref_child_modular]
 import { getStorage, ref } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Create a child reference
 const imagesRef = ref(storage, 'images');

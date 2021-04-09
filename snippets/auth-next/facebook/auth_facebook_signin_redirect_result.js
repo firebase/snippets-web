@@ -6,7 +6,7 @@
 // [START auth_facebook_signin_redirect_result_modular]
 import { getAuth, getRedirectResult, FacebookAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getRedirectResult(auth)
   .then((result) => {
     // This gives you a Facebook Access Token. You can use it to access the Facebook API.

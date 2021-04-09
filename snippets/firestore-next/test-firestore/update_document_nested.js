@@ -4,10 +4,10 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START update_document_nested_modular]
-import { doc, collection, setDoc, updateDoc } from "firebase/firestore"; 
+import { doc, setDoc, updateDoc } from "firebase/firestore"; 
 
 // Create an initial document to update.
-const frankDocRef = doc(collection(db, "users"), "frank");
+const frankDocRef = doc(db, "users", "frank");
 await setDoc(frankDocRef, {
     name: "Frank",
     favorites: { food: "Pizza", color: "Blue", subject: "recess" },

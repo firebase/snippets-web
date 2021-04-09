@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 function facebookProvider() {
   // [START auth_facebook_provider_create]
   const { FacebookAuthProvider } = require("firebase/auth");
@@ -31,7 +23,7 @@ function facebookSignInPopup(provider) {
   // [START auth_facebook_signin_popup]
   const { getAuth, signInWithPopup, FacebookAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // The signed-in user info.
@@ -61,7 +53,7 @@ function facebookSignInRedirectResult() {
   // [START auth_facebook_signin_redirect_result]
   const { getAuth, getRedirectResult, FacebookAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
@@ -90,7 +82,7 @@ function checkLoginState_wrapper() {
 
   // [START auth_facebook_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, signOut, FacebookAuthProvider } = require("firebase/auth");
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
 
   function checkLoginState(response) {
     if (response.authResponse) {
@@ -153,7 +145,7 @@ function authWithCredential(credential) {
   const { getAuth, signInWithCredential, FacebookAuthProvider } = require("firebase/auth");
 
   // Sign in with the credential from the Facebook user.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithCredential(auth, credential)
     .then((result) => {
       // Signed in 

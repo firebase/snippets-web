@@ -6,6 +6,6 @@
 // [START auth_apple_signin_redirect_modular]
 import { getAuth, signInWithRedirect } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithRedirect(auth, provider);
 // [END auth_apple_signin_redirect_modular]

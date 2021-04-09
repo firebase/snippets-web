@@ -6,7 +6,7 @@
 // [START storage_upload_metadata_modular]
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const storageRef = ref(storage, 'images/mountains.jpg');
 
 // Create file metadata including the content type

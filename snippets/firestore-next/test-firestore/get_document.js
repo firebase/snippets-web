@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START get_document_modular]
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
-const docRef = doc(collection(db, "cities"), "SF");
+const docRef = doc(db, "cities", "SF");
 const docSnap = await getDoc(docRef);
 
 if (docSnap.exists()) {

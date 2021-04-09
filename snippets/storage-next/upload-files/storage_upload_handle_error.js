@@ -6,7 +6,7 @@
 // [START storage_upload_handle_error_modular]
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Create the file metadata
 /** @type {any} */

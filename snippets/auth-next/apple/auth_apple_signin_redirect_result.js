@@ -7,7 +7,7 @@
 import { getAuth, getRedirectResult, OAuthProvider } from "firebase/auth";
 
 // Result from Redirect auth flow.
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 getRedirectResult(auth)
   .then((result) => {
     const credential = OAuthProvider.credentialFromResult(result);

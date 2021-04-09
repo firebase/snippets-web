@@ -6,7 +6,7 @@
 // [START storage_ref_properties_modular]
 import { getStorage, ref } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const spaceRef = ref(storage, 'images/space.jpg');
 
 // Reference's path is: 'images/space.jpg'

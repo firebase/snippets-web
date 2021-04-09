@@ -5,7 +5,7 @@
 
 // [START auth_facebook_callback_modular]
 import { getAuth, onAuthStateChanged, signInWithCredential, signOut, FacebookAuthProvider } from "firebase/auth";
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 
 function checkLoginState(response) {
   if (response.authResponse) {

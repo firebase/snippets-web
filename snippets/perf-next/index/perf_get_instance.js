@@ -5,5 +5,5 @@
 
 // [START perf_get_instance_modular]
 import { getPerformance } from "firebase/performance";
-const perf = getPerformance(firebaseApp);
+const perf = getPerformance();
 // [END perf_get_instance_modular]
