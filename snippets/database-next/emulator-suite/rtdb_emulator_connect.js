@@ -4,11 +4,11 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_emulator_connect_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, useDatabaseEmulator } from "firebase/database";
 
 const db = getDatabase(firebaseApp);
 if (location.hostname === "localhost") {
   // Point to the RTDB emulator running on localhost.
-  db.useEmulator("localhost", 9000);
+  useDatabaseEmulator(db, "localhost", 9000);
 } 
 // [END rtdb_emulator_connect_modular]

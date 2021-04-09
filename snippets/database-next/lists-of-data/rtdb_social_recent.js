@@ -4,8 +4,8 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_recent_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, query, limitToLast } from "firebase/database";
 
 const db = getDatabase(firebaseApp);
-const recentPostsRef = db.ref('posts').limitToLast(100);
+const recentPostsRef = query(ref(db, 'posts'), limitToLast(100));
 // [END rtdb_social_recent_modular]

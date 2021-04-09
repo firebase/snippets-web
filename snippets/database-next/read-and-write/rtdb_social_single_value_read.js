@@ -4,15 +4,17 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START rtdb_social_single_value_read_modular]
-import { getDatabase } from "firebase/database";
+import { getDatabase, ref, onValue } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
 const db = getDatabase(firebaseApp);
 const auth = getAuth(firebaseApp);
 
 const userId = auth.currentUser.uid;
-return db.ref('/users/' + userId).once('value').then((snapshot) => {
+return onValue(ref(db, '/users/' + userId), (snapshot) => {
   const username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
   // ...
+}, {
+  onlyOnce: true
 });
 // [END rtdb_social_single_value_read_modular]

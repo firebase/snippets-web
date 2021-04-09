@@ -18,13 +18,13 @@ function writeNewPost(uid, username, picture, title, body) {
   };
 
   // Get a key for a new Post.
-  const newPostKey = db.ref().child('posts').push().key;
+  const newPostKey = push(child(ref(db), 'posts')).key;
 
   // Write the new post's data simultaneously in the posts list and the user's post list.
   const updates = {};
   updates['/posts/' + newPostKey] = postData;
   updates['/user-posts/' + uid + '/' + newPostKey] = postData;
 
-  return db.ref().update(updates);
+  return update(ref(db), updates);
 }
 // [END rtdb_social_write_fan_out_modular]
