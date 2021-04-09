@@ -20,7 +20,7 @@ const params4 = {
 };
 
 // Log event when a product is added to a wishlist
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'add_to_wishlist', params4);
 
 // Log event when a product is added to the cart

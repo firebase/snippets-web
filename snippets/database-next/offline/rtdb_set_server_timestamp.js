@@ -6,7 +6,7 @@
 // [START rtdb_set_server_timestamp_modular]
 import { getDatabase, ref, onDisconnect, serverTimestamp } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const userLastOnlineRef = ref(db, "users/joe/lastOnline");
 onDisconnect(userLastOnlineRef).set(serverTimestamp());
 // [END rtdb_set_server_timestamp_modular]

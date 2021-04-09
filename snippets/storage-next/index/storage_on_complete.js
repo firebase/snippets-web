@@ -6,7 +6,7 @@
 // [START storage_on_complete_modular]
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const imageRef = ref(storage, 'images/' + file.name);
 uploadBytesResumable(imageRef, file, metadata)
   .then((snapshot) => {

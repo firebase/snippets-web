@@ -1,19 +1,11 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function getMessagingObject() {
   // [START messaging_get_messaging_object]
   const { getMessaging } = require("firebase/messaging");
 
-  const messaging = getMessaging(firebaseApp);
+  const messaging = getMessaging();
   // [END messaging_get_messaging_object]
 }
 
@@ -25,7 +17,7 @@ function receiveMessage() {
   //   `messaging.onBackgroundMessage` handler.
   const { getMessaging, onMessage } = require("firebase/messaging");
 
-  const messaging = getMessaging(firebaseApp);
+  const messaging = getMessaging();
   onMessage(messaging, (payload) => {
     console.log('Message received. ', payload);
     // ...
@@ -39,7 +31,7 @@ function getToken() {
 
   // Get registration token. Initially this makes a network call, once retrieved
   // subsequent calls to getToken will return from cache.
-  const messaging = getMessaging(firebaseApp);
+  const messaging = getMessaging();
   getToken(messaging, { vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>' }).then((currentToken) => {
     if (currentToken) {
       // Send the token to your server and update the UI if necessary
@@ -74,7 +66,7 @@ function deleteToken() {
   // [START messaging_delete_token]
   const { getMessaging, deleteToken } = require("firebase/messaging");
 
-  const messaging = getMessaging(firebaseApp);
+  const messaging = getMessaging();
   deleteToken(messaging).then(() => {
     console.log('Token deleted.');
     // ...

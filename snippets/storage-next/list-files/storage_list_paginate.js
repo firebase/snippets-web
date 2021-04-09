@@ -8,7 +8,7 @@ import { getStorage, ref, list } from "firebase/storage";
 
 async function pageTokenExample(){
   // Create a reference under which you want to list
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const listRef = ref(storage, 'files/uid');
 
   // Fetch the first page of 100.

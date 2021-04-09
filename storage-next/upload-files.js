@@ -1,20 +1,12 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function uploadRef() {
   // [START storage_upload_ref]
   const { getStorage, ref } = require("firebase/storage");
 
   // Create a root reference
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Create a reference to 'mountains.jpg'
   const mountainsRef = ref(storage, 'mountains.jpg');
@@ -35,7 +27,7 @@ function uploadBlob(file) {
   // [START storage_upload_blob]
   const { getStorage, ref, uploadBytes } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'some-child');
 
   // 'file' comes from the Blob or File API
@@ -49,7 +41,7 @@ function uploadBytes() {
   // [START storage_upload_bytes]
   const { getStorage, ref, uploadBytes } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'some-child');
 
   const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
@@ -63,7 +55,7 @@ function uploadString() {
   // [START storage_upload_string]
   const { getStorage, ref, uploadString } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'some-child');
 
   // Raw string is the default if no format is provided
@@ -99,7 +91,7 @@ function uploadMetadata(file) {
   // [START storage_upload_metadata]
   const { getStorage, ref, uploadBytes } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'images/mountains.jpg');
 
   // Create file metadata including the content type
@@ -120,7 +112,7 @@ function manageUploads(file) {
   // [START storage_manage_uploads]
   const { getStorage, ref, uploadBytesResumable } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'images/mountains.jpg');
 
   // Upload the file and metadata
@@ -144,7 +136,7 @@ function monitorUpload(file) {
   // [START storage_monitor_upload]
   const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const storageRef = ref(storage, 'images/rivers.jpg');
 
   const uploadTask = uploadBytesResumable(storageRef, file);
@@ -189,7 +181,7 @@ function uploadHandleError(file) {
   // [START storage_upload_handle_error]
   const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
 
   // Create the file metadata
   /** @type {any} */

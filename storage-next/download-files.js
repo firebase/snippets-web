@@ -1,20 +1,12 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function downloadCreateRef() {
   // [START storage_download_create_ref]
   const { getStorage, ref } = require("firebase/storage");
 
   // Create a reference with an initial file path and name
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const pathReference = ref(storage, 'images/stars.jpg');
 
   // Create a reference from a Google Cloud Storage URI
@@ -30,7 +22,7 @@ function downloadViaUrl() {
   // [START storage_download_via_url]
   const { getStorage, ref, getDownloadURL } = require("firebase/storage");
 
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   getDownloadURL(ref(storage, 'images/stars.jpg'))
     .then((url) => {
       // `url` is the download URL for 'images/stars.jpg'
@@ -59,7 +51,7 @@ function downloadFullExample() {
   const { getStorage, ref, getDownloadURL } = require("firebase/storage");
 
   // Create a reference to the file we want to download
-  const storage = getStorage(firebaseApp);
+  const storage = getStorage();
   const starsRef = ref(storage, 'images/stars.jpg');
 
   // Get the download URL

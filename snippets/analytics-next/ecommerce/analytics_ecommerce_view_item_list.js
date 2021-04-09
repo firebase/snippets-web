@@ -14,6 +14,6 @@ const params1 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'view_item_list', params1);
 // [END analytics_ecommerce_view_item_list_modular]

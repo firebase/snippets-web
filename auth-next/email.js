@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 function signInWithEmailPassword() {
   const email = "test@example.com";
   const password = "hunter2";
@@ -16,7 +8,7 @@ function signInWithEmailPassword() {
   // [START auth_signin_password]
   const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
@@ -37,7 +29,7 @@ function signUpWithEmailPassword() {
   // [START auth_signup_password]
   const { getAuth, createUserWithEmailAndPassword } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in 
@@ -56,7 +48,7 @@ function sendEmailVerification() {
   // [START auth_send_email_verification]
   const { getAuth, sendEmailVerification } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   sendEmailVerification(auth.currentUser)
     .then(() => {
       // Email verification sent!
@@ -71,7 +63,7 @@ function sendPasswordReset() {
   // [START auth_send_password_reset]
   const { getAuth, sendPasswordResetEmail } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   sendPasswordResetEmail(auth, email)
     .then(() => {
       // Password reset email sent!

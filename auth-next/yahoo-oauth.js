@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/yahoo-oauth.md
 
 function yahooProvider() {
@@ -40,7 +32,7 @@ function yahooSignInPopup(provider) {
   // [START auth_yahoo_signin_popup]
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // IdP data available in result.additionalUserInfo.profile
@@ -61,7 +53,7 @@ function yahooSignInRedirect(provider) {
   // [START auth_yahoo_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithRedirect(auth, provider);
   // [END auth_yahoo_signin_redirect]
 }
@@ -70,7 +62,7 @@ function yahooSigninRedirectResult() {
   // [START auth_yahoo_signin_redirect_result]
   const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       // IdP data available in result.additionalUserInfo.profile
@@ -92,7 +84,7 @@ function yahooLinkPopup() {
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('yahoo.com');
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithPopup(auth.currentUser, provider)
       .then((result) => {
         // Yahoo credential is linked to the current user.
@@ -114,7 +106,7 @@ function yahooReauthPopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   const provider = new OAuthProvider('yahoo.com');
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   reauthenticateWithPopup(auth.currentUser, provider)
       .then((result) => {
         // User is re-authenticated with fresh tokens minted and

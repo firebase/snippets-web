@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/apple.md
 
 function appleProvider() {
@@ -35,7 +27,7 @@ function appleSignInPopup(provider) {
   // [START auth_apple_signin_popup]
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // The signed-in user info.
@@ -66,7 +58,7 @@ function appleSignInRedirect(provider) {
   // [START auth_apple_signin_redirect]
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithRedirect(auth, provider);
   // [END auth_apple_signin_redirect]
 }
@@ -76,7 +68,7 @@ function appleSignInRedirectResult() {
   const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
 
   // Result from Redirect auth flow.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       const credential = OAuthProvider.credentialFromResult(result);
@@ -107,7 +99,7 @@ function appleReauthenticatePopup() {
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   // Result from Redirect auth flow.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   const provider = new OAuthProvider('apple.com');
 
   reauthenticateWithPopup(auth.currentUser, provider)
@@ -144,7 +136,7 @@ function appleLinkFacebook() {
   // [START auth_apple_link_facebook]
   const { getAuth, linkWithPopup, FacebookAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   const provider = new FacebookAuthProvider();
   provider.addScope('user_birthday');
 
@@ -192,7 +184,7 @@ function appleSignInNonce(appleIdToken, unhashedNonce,) {
   // [START auth_apple_signin_nonce]
   const { getAuth, signInWithCredential, OAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
 
   // Build Firebase credential with the Apple ID token.
   const provider = new OAuthProvider('apple.com');

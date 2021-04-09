@@ -6,5 +6,5 @@
 // [START analytics_initialize_modular]
 import { getAnalytics } from "firebase/analytics";
 
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 // [END analytics_initialize_modular]

@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/google-signin.md
 
 function googleProvider() {
@@ -33,7 +25,7 @@ function googleSignInPopup(provider) {
   // [START auth_google_signin_popup]
   const { getAuth, signInWithPopup, GoogleAuthProvider } = require("firebase/auth");
   
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
@@ -59,7 +51,7 @@ function googleSignInRedirectResult() {
   // [START auth_google_signin_redirect_result]
   const { getAuth, getRedirectResult, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access Google APIs.
@@ -89,7 +81,7 @@ function googleBuildAndSignIn(id_token) {
   const credential = GoogleAuthProvider.credential(id_token);
 
   // Sign in with credential from the Google user.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithCredential(auth, credential).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
@@ -111,7 +103,7 @@ function onSignIn_wrapper() {
 
   // [START auth_google_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
 
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);

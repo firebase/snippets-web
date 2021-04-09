@@ -17,7 +17,7 @@ const params12 = {
 };
 
 // Log event when a promotion is displayed
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'view_promotion', params12);
 
 // Log event when a promotion is selected

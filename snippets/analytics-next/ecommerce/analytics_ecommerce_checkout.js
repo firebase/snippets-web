@@ -15,6 +15,6 @@ const params7 = {
 };
 
 // Log event
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'begin_checkout', params7);
 // [END analytics_ecommerce_checkout_modular]

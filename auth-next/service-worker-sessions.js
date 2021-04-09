@@ -1,21 +1,13 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/service-worker-sessions.md
 
 function svcGetIdToken() {
   // [START auth_svc_get_idtoken]
   const { getAuth, getIdToken } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getIdToken(auth.currentUser)
     .then((idToken) => {
       // idToken can be passed back to server.
@@ -39,7 +31,7 @@ function svcSubscribe(config) {
    * @return {!Promise<?string>} The promise that resolves with an ID token if
    *     available. Otherwise, the promise resolves with null.
    */
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   const getIdTokenPromise = () => {
     return new Promise((resolve, reject) => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -165,7 +157,7 @@ function svcSignInEmail(email, password) {
   const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 
   // Sign in screen.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithEmailAndPassword(auth, email, password)
     .then((result) => {
       // Redirect to profile page after sign-in. The service worker will detect

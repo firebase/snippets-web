@@ -1,19 +1,11 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function getInstance() {
   // [START rc_get_instance]
   const { getRemoteConfig } = require("firebase/remote-config");
 
-  const remoteConfig = getRemoteConfig(firebaseApp);
+  const remoteConfig = getRemoteConfig();
   // [END rc_get_instance]
 
   return remoteConfig;

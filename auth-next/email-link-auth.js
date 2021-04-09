@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/email-link-auth.md
 
 function emailLinkActionCodeSettings() {
@@ -36,7 +28,7 @@ function emailLinkSend(email, actionCodeSettings) {
   // [START auth_email_link_send]
   const { getAuth, sendSignInLinkToEmail } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   sendSignInLinkToEmail(auth, email, actionCodeSettings)
     .then(() => {
       // The link was successfully sent. Inform the user.
@@ -58,7 +50,7 @@ function emailLinkComplete() {
   const { getAuth, isSignInWithEmailLink, signInWithEmailLink } = require("firebase/auth");
 
   // Confirm the link is a sign-in with email link.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   if (isSignInWithEmailLink(auth, window.location.href)) {
     // Additional state parameters can also be passed via URL.
     // This can be used to continue the user's intended action before triggering
@@ -99,7 +91,7 @@ function emailLinkLink(email) {
     email, window.location.href);
 
   // Link the credential to the current user.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   linkWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       // The provider is now successfully linked.
@@ -120,7 +112,7 @@ function emailLinkReauth(email) {
     email, window.location.href);
 
   // Re-authenticate the user with this credential.
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   reauthenticateWithCredential(auth.currentUser, credential)
     .then((usercred) => {
       // The user is now successfully re-authenticated and can execute sensitive
@@ -139,7 +131,7 @@ function emailLinkDifferentiate() {
   // After asking the user for their email.
   const email = window.prompt('Please provide your email');
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   fetchSignInMethodsForEmail(auth, email)
     .then((signInMethods) => {
       // This returns the same array as fetchProvidersForEmail but for email

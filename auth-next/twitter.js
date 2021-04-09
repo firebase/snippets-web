@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 function twitterProvider() {
   // [START auth_twitter_provider_create]
   const { TwitterAuthProvider } = require("firebase/auth");
@@ -27,7 +19,7 @@ function twitterSignInPopup(provider) {
   // [START auth_twitter_signin_popup]
   const { getAuth, signInWithPopup, TwitterAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
@@ -56,7 +48,7 @@ function twitterSignInRedirectResult() {
   // [START auth_twitter_signin_redirect_result]
   const { getAuth, getRedirectResult, TwitterAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
       // This gives you a the Twitter OAuth 1.0 Access Token and Secret.

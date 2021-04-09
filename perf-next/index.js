@@ -1,14 +1,7 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-const perf = getInstance(firebaseApp);
+const perf = getInstance();
 
 function intialize() {
   // [START perf_initialize]
@@ -29,10 +22,10 @@ function intialize() {
   // [END perf_initialize]
 }
 
-export function getInstance(firebaseApp) {
+export function getInstance() {
   // [START perf_get_instance]
   const { getPerformance } = require("firebase/performance");
-  const perf = getPerformance(firebaseApp);
+  const perf = getPerformance();
   // [END perf_get_instance]
 
   return perf;

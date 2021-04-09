@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 function setPersistenceSession() {
   const email = "...";
   const password = "...";
@@ -16,7 +8,7 @@ function setPersistenceSession() {
   // [START auth_set_persistence_session]
   const { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   setPersistence(auth, browserSessionPersistence)
     .then(() => {
       // Existing and future Auth states are now persisted in the current
@@ -38,7 +30,7 @@ function setPersistenceNone() {
   // [START auth_set_persistence_none]
   const { getAuth, setPersistence, signInWithRedirect, inMemoryPersistence, GoogleAuthProvider } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   setPersistence(auth, inMemoryPersistence)
     .then(() => {
       const provider = new GoogleAuthProvider();

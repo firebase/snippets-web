@@ -1,19 +1,11 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
 function onDisconnectSimple() {
   // [START rtdb_ondisconnect_simple]
   const { getDatabase, ref, onDisconnect } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const presenceRef = ref(db, "disconnectmessage");
   // Write a string when this client loses connection
   onDisconnect(presenceRef).set("I disconnected!");
@@ -23,7 +15,7 @@ function onDisconnectSimple() {
 function onDisconnectCallback() {
   const { getDatabase, ref, onDisconnect } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const presenceRef = ref(db, "disconnectmessage");
 
   // [START rtdb_ondisconnect_callback]
@@ -38,7 +30,7 @@ function onDisconnectCallback() {
 function onDisconnectCancel() {
   const { getDatabase, ref, onDisconnect } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const presenceRef = ref(db, "disconnectmessage");
 
   // [START rtdb_ondisconnect_cancel]
@@ -53,7 +45,7 @@ function detectConnectionState() {
   // [START rtdb_detect_connection_state]
   const { getDatabase, ref, onValue } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const connectedRef = ref(db, ".info/connected");
   onValue(connectedRef, (snap) => {
     if (snap.val() === true) {
@@ -69,7 +61,7 @@ function setServerTimestamp() {
   // [START rtdb_set_server_timestamp]
   const { getDatabase, ref, onDisconnect, serverTimestamp } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const userLastOnlineRef = ref(db, "users/joe/lastOnline");
   onDisconnect(userLastOnlineRef).set(serverTimestamp());
   // [END rtdb_set_server_timestamp]
@@ -79,7 +71,7 @@ function estimateClockSkew() {
   // [START rtdb_estimate_clock_skew]
   const { getDatabase, ref, onValue } = require("firebase/database");
 
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const offsetRef = ref(db, ".info/serverTimeOffset");
   onValue(offsetRef, (snap) => {
     const offset = snap.val();
@@ -94,7 +86,7 @@ function samplePresenceApp() {
 
   // Since I can connect from multiple devices or browser tabs, we store each connection instance separately
   // any time that connectionsRef's value is null (i.e. has no children) I am offline
-  const db = getDatabase(firebaseApp);
+  const db = getDatabase();
   const myConnectionsRef = ref(db, 'users/joe/connections');
 
   // stores the timestamp of my last disconnect (the last time I was seen online)

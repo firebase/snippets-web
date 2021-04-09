@@ -1,15 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  apiKey: '### FIREBASE API KEY ###',
-  appId: '### FIREBASE APP ID ###',
-  projectId: '### FIREBASE PROJECT ID ###'
-});
-
-
 // [START analytics_ecommerce_items]
 // A pair of jeggings
 const item_jeggings = {
@@ -54,7 +45,7 @@ function ecommerceViewItemList() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'view_item_list', params1);
   // [END analytics_ecommerce_view_item_list]
 }
@@ -71,7 +62,7 @@ function ecommerceSelectItem() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'select_item', params2);
   // [END analytics_ecommerce_select_item]
 }
@@ -88,7 +79,7 @@ function ecommerceViewItemDetails() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'view_item', params3);
   // [END analytics_ecommerce_view_item_details]
 }
@@ -111,7 +102,7 @@ function ecommerceAddCart() {
   };
 
   // Log event when a product is added to a wishlist
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'add_to_wishlist', params4);
 
   // Log event when a product is added to the cart
@@ -142,7 +133,7 @@ function ecommerceViewCart() {
   };
 
   // Log event when the cart is viewed
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'view_cart', params5);
   // [END analytics_ecommerce_view_cart]
 }
@@ -159,7 +150,7 @@ function ecommerceRemoveCart() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'remove_from_cart', params6);
   // [END analytics_ecommerce_remove_cart]
 }
@@ -177,7 +168,7 @@ function ecommerceCheckout() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'begin_checkout', params7);
   // [END analytics_ecommerce_checkout]
 }
@@ -196,7 +187,7 @@ function ecommerceShippingInfo() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'add_shipping_info', params8);
   // [END analytics_ecommerce_shipping_info]
 }
@@ -215,7 +206,7 @@ function ecommercePaymentInfo() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'add_payment_info', params9);  
   // [END analytics_ecommerce_payment_info]
 }
@@ -237,7 +228,7 @@ function ecommercePurchase() {
   };
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'purchase', params10);
   // [END analytics_ecommerce_purchase]
 }
@@ -264,7 +255,7 @@ function ecommerceRefund() {
   params11.items.push(refundedProduct);
 
   // Log event
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'refund', params11);
   // [END analytics_ecommerce_refund]
 }
@@ -284,7 +275,7 @@ function ecommercePromotions() {
   };
 
   // Log event when a promotion is displayed
-  const analytics = getAnalytics(firebaseApp);
+  const analytics = getAnalytics();
   logEvent(analytics, 'view_promotion', params12);
 
   // Log event when a promotion is selected

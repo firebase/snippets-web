@@ -6,7 +6,7 @@
 // [START auth_anonymous_link_modular]
 import { getAuth, linkWithCredential } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 linkWithCredential(auth.currentUser, credential)
   .then((usercred) => {
     const user = usercred.user;

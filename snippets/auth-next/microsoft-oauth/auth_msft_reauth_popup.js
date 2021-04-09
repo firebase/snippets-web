@@ -7,7 +7,7 @@
 import { getAuth, reauthenticateWithPopup, OAuthProvider } from "firebase/auth";
 
 const provider = new OAuthProvider('microsoft.com');
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 reauthenticateWithPopup(auth.currentUser, provider)
     .then((result) => {
       // User is re-authenticated with fresh tokens minted and

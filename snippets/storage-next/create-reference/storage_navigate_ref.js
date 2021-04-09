@@ -6,7 +6,7 @@
 // [START storage_navigate_ref_modular]
 import { getStorage, ref } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const spaceRef = ref(storage, 'images/space.jpg');
 
 // Parent allows us to move to the parent of a reference

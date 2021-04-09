@@ -1,14 +1,6 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-import { initializeApp } from "firebase/app";
-
-const firebaseApp = initializeApp({
-  projectId: '### PROJECT ID ###',
-  apiKey: '### FIREBASE API KEY ###',
-  authDomain: '### FIREBASE AUTH DOMAIN ###',
-});
-
 // Mask the global 'window' for this snippet file
 const window = {
   recaptchaVerifier: undefined
@@ -22,7 +14,7 @@ function recaptchaVerifierInvisible() {
   // [START auth_phone_recaptcha_verifier_invisible]
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
     'size': 'invisible',
     'callback': (response) => {
@@ -37,7 +29,7 @@ function recaptchaVerifierVisible() {
   // [START auth_phone_recaptcha_verifier_visible]
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
     'size': 'normal',
     'callback': (response) => {
@@ -56,7 +48,7 @@ function recaptchaVerifierSimple() {
   // [START auth_phone_recaptcha_verifier_simple]
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
   // [END auth_phone_recaptcha_verifier_simple]
 }
@@ -85,7 +77,7 @@ function phoneSignIn() {
   const phoneNumber = getPhoneNumberFromUserInput();
   const appVerifier = window.recaptchaVerifier;
 
-  const auth = getAuth(firebaseApp);
+  const auth = getAuth();
   signInWithPhoneNumber(auth, phoneNumber, appVerifier)
       .then((confirmationResult) => {
         // SMS sent. Prompt user to type the code from the message, then sign the

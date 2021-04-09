@@ -6,7 +6,7 @@
 // [START auth_apple_link_facebook_modular]
 import { getAuth, linkWithPopup, FacebookAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 const provider = new FacebookAuthProvider();
 provider.addScope('user_birthday');
 

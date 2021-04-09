@@ -25,6 +25,6 @@ const params5 = {
 };
 
 // Log event when the cart is viewed
-const analytics = getAnalytics(firebaseApp);
+const analytics = getAnalytics();
 logEvent(analytics, 'view_cart', params5);
 // [END analytics_ecommerce_view_cart_modular]

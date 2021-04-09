@@ -6,7 +6,7 @@
 // [START storage_download_via_url_modular]
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 getDownloadURL(ref(storage, 'images/stars.jpg'))
   .then((url) => {
     // `url` is the download URL for 'images/stars.jpg'
