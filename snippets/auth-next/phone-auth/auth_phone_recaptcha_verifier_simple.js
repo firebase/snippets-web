@@ -6,6 +6,6 @@
 // [START auth_phone_recaptcha_verifier_simple_modular]
 import { getAuth, RecaptchaVerifier } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
 // [END auth_phone_recaptcha_verifier_simple_modular]

@@ -6,7 +6,7 @@
 // [START rtdb_social_listen_value_modular]
 import { getDatabase, ref, onValue } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const dbRef = ref(db, '/a/b/c');
 
 onValue(dbRef, (snapshot) => {

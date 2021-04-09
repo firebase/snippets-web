@@ -6,7 +6,7 @@
 // [START rtdb_write_new_user_completion_modular]
 import { getDatabase, ref, set } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 set(ref(db, 'users/' + userId), {
   username: name,
   email: email,

@@ -7,7 +7,7 @@
 import { getAuth, signInWithCredential, FacebookAuthProvider } from "firebase/auth";
 
 // Sign in with the credential from the Facebook user.
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 signInWithCredential(auth, credential)
   .then((result) => {
     // Signed in 

@@ -6,7 +6,7 @@
 // [START auth_unlink_provider_modular]
 import { getAuth, unlink } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 unlink(auth.currentUser, providerId).then(() => {
   // Auth provider unlinked from account
   // ...

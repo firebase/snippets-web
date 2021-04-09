@@ -6,7 +6,7 @@
 // [START storage_list_all_modular]
 import { getStorage, ref, listAll } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 
 // Create a reference under which you want to list
 const listRef = ref(storage, 'files/uid');

@@ -6,7 +6,7 @@
 // [START fb_functions_call_add_message_modular]
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-const functions = getFunctions(firebaseApp);
+const functions = getFunctions();
 const addMessage = httpsCallable(functions, 'addMessage');
 addMessage({ text: messageText })
   .then((result) => {

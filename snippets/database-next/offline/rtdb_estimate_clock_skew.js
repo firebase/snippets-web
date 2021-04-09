@@ -6,7 +6,7 @@
 // [START rtdb_estimate_clock_skew_modular]
 import { getDatabase, ref, onValue } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const offsetRef = ref(db, ".info/serverTimeOffset");
 onValue(offsetRef, (snap) => {
   const offset = snap.val();

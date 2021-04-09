@@ -5,7 +5,7 @@
 
 // [START auth_google_callback_modular]
 import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 
 function onSignIn(googleUser) {
   console.log('Google Auth Response', googleUser);

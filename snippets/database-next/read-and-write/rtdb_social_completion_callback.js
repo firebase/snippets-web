@@ -6,7 +6,7 @@
 // [START rtdb_social_completion_callback_modular]
 import { getDatabase, ref, set } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 set(ref(db, 'users/' + userId), {
   username: name,
   email: email,

@@ -10,7 +10,7 @@ import { getAuth, signInWithCredential, linkWithCredential, OAuthProvider } from
 const repo = new MyUserDataRepo();
 
 // Get reference to the currently signed-in user
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 const prevUser = auth.currentUser;
 
 // Get the data which you will want to merge. This should be done now

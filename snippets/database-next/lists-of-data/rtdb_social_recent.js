@@ -6,6 +6,6 @@
 // [START rtdb_social_recent_modular]
 import { getDatabase, ref, query, limitToLast } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const recentPostsRef = query(ref(db, 'posts'), limitToLast(100));
 // [END rtdb_social_recent_modular]

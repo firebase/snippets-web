@@ -6,7 +6,7 @@
 // [START rtdb_ondisconnect_simple_modular]
 import { getDatabase, ref, onDisconnect } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const presenceRef = ref(db, "disconnectmessage");
 // Write a string when this client loses connection
 onDisconnect(presenceRef).set("I disconnected!");

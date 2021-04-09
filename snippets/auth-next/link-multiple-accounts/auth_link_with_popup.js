@@ -7,7 +7,7 @@
 import { getAuth, linkWithPopup, GoogleAuthProvider } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 linkWithPopup(auth.currentUser, provider).then((result) => {
   // Accounts successfully linked.
   const credential = GoogleAuthProvider.credentialFromResult(result);

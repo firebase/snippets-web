@@ -7,7 +7,7 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 // Create a reference to the file we want to download
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const starsRef = ref(storage, 'images/stars.jpg');
 
 // Get the download URL

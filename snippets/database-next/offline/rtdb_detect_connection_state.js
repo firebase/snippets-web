@@ -6,7 +6,7 @@
 // [START rtdb_detect_connection_state_modular]
 import { getDatabase, ref, onValue } from "firebase/database";
 
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const connectedRef = ref(db, ".info/connected");
 onValue(connectedRef, (snap) => {
   if (snap.val() === true) {

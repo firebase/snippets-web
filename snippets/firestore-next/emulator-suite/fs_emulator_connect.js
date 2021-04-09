@@ -7,6 +7,6 @@
 import { getFirestore, useFirestoreEmulator } from "firebase/firestore";
 
 // firebaseApps previously initialized using initializeApp()
-const db = getFirestore(firebaseApp);
+const db = getFirestore();
 useFirestoreEmulator(db, 'localhost', 8080);
 // [END fs_emulator_connect_modular]

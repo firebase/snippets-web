@@ -7,7 +7,7 @@
 import { getStorage, ref } from "firebase/storage";
 
 // Create a reference with an initial file path and name
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const pathReference = ref(storage, 'images/stars.jpg');
 
 // Create a reference from a Google Cloud Storage URI

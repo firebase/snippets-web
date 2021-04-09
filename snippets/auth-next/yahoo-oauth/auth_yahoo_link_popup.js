@@ -7,7 +7,7 @@
 import { getAuth, linkWithPopup, OAuthProvider } from "firebase/auth";
 
 const provider = new OAuthProvider('yahoo.com');
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 linkWithPopup(auth.currentUser, provider)
     .then((result) => {
       // Yahoo credential is linked to the current user.

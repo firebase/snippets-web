@@ -6,7 +6,7 @@
 // [START auth_apple_signin_nonce_modular]
 import { getAuth, signInWithCredential, OAuthProvider } from "firebase/auth";
 
-const auth = getAuth(firebaseApp);
+const auth = getAuth();
 
 // Build Firebase credential with the Apple ID token.
 const provider = new OAuthProvider('apple.com');

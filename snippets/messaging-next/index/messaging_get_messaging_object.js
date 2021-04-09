@@ -6,5 +6,5 @@
 // [START messaging_get_messaging_object_modular]
 import { getMessaging } from "firebase/messaging";
 
-const messaging = getMessaging(firebaseApp);
+const messaging = getMessaging();
 // [END messaging_get_messaging_object_modular]

@@ -8,7 +8,7 @@ import { getDatabase, ref, onValue, push, onDisconnect, set, serverTimestamp } f
 
 // Since I can connect from multiple devices or browser tabs, we store each connection instance separately
 // any time that connectionsRef's value is null (i.e. has no children) I am offline
-const db = getDatabase(firebaseApp);
+const db = getDatabase();
 const myConnectionsRef = ref(db, 'users/joe/connections');
 
 // stores the timestamp of my last disconnect (the last time I was seen online)

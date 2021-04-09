@@ -6,7 +6,7 @@
 // [START storage_monitor_upload_modular]
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-const storage = getStorage(firebaseApp);
+const storage = getStorage();
 const storageRef = ref(storage, 'images/rivers.jpg');
 
 const uploadTask = uploadBytesResumable(storageRef, file);
