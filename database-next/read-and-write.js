@@ -159,3 +159,23 @@ function toggleStar_wrapped() {
   // [END rtdb_social_star_transaction]
 }
 
+/**
+ * @param {string} uid 
+ * @param {string} key 
+ */
+function addStar_wrapped(uid, key) {
+  // [START rtdb_social_star_increment]
+  const { getDatabase } = require("firebase/database");
+
+  function addStar(uid, key) {  
+    const db = getDatabase(firebaseApp);
+
+    const updates = {};
+    updates[`posts/${key}/stars/${uid}`] = true;
+    updates[`posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+    updates[`user-posts/${key}/stars/${uid}`] = true;
+    updates[`user-posts/${key}/starCount`] = firebase.database.ServerValue.increment(1);
+    db.ref().update(updates);
+  }
+  // [END rtdb_social_star_increment]
+}
