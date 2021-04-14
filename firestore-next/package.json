@@ -6,7 +6,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "exp",
+    "firebase": "9.0.0-beta.1",
     "geofire-common": "^5.1.0"
   },
   "devDependencies": {
