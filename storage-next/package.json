@@ -6,6 +6,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "firebase": "exp"
+    "firebase": "9.0.0-beta.1"
   }
 }
