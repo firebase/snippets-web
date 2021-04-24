@@ -14,7 +14,7 @@ class City {
         return this.name + ', ' + this.state + ', ' + this.country;
     }
 }
-    
+
 // Firestore data converter
 var cityConverter = {
     toFirestore: function(city) {
@@ -300,6 +300,8 @@ describe("firestore", () => {
                 dateExample: firebase.firestore.Timestamp.fromDate(new Date("December 10, 1815")),
                 arrayExample: [5, true, "hello"],
                 nullExample: null,
+                locationExample: new firebase.firestore.GeoPoint(15.33, 35.55),
+                referenceExample: db.collection("data").doc("one"),
                 objectExample: {
                     a: 5,
                     b: {
@@ -746,7 +748,7 @@ describe("firestore", () => {
                   // Respond to data
                   // ...
                 });
-            
+
             // Later ...
 
             // Stop listening to changes
@@ -1083,7 +1085,7 @@ describe("firestore", () => {
                 // [END fs_collection_group_query_data_setup]
                 return landmarks;
             });
-            
+
             it("should query a collection group", () => {
                 // [START fs_collection_group_query]
                 var museums = db.collectionGroup('landmarks').where('type', '==', 'museum');
