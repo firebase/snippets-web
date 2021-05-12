@@ -6,7 +6,7 @@
   },
   "license": "Apache 2.0",
   "dependencies": {
-    "firebase": "^8.5.0",
+    "firebase": "^8.6.0",
     "firebaseui": "^4.8.0"
   }
 }
