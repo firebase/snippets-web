@@ -4,3 +4,4 @@ node_modules
 tsconfig.json
 dist/
 .DS_Store
+.idea
