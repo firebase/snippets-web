@@ -149,7 +149,7 @@ function reauthenticateWithCredential() {
     return {};
   }
 
-  // [START auth_reauth_with-credential]
+  // [START auth_reauth_with_credential]
   const { getAuth, reauthenticateWithCredential } = require("firebase/auth");
   
   const auth = getAuth();
@@ -164,5 +164,5 @@ function reauthenticateWithCredential() {
     // An error ocurred
     // ...
   });
-  // [END auth_reauth_with-credential]
+  // [END auth_reauth_with_credential]
 }

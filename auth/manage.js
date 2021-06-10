@@ -135,7 +135,7 @@ function reauthenticateWithCredential() {
     return {};
   }
 
-  // [START auth_reauth_with-credential]
+  // [START auth_reauth_with_credential]
   const user = firebase.auth().currentUser;
 
   // TODO(you): prompt the user to re-provide their sign-in credentials
@@ -147,5 +147,5 @@ function reauthenticateWithCredential() {
     // An error ocurred
     // ...
   });
-  // [END auth_reauth_with-credential]
+  // [END auth_reauth_with_credential]
 }
