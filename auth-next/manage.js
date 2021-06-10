@@ -70,3 +70,99 @@ function updateUserEmail() {
   });
   // [END auth_update_user_email]
 }
+
+function sendEmailVerification() {
+  // [START send_email_verification]
+  const { getAuth, sendEmailVerification } = require("firebase/auth");
+  
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  sendEmailVerification(user).then(() => {
+    // Email sent.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+  // [END send_email_verification]
+}
+
+function updatePassword() {
+  function getASecureRandomPassword() {
+    return "correcthorsebatterystaple";
+  }
+
+  // [START auth_update_password]
+  const { getAuth, updatePassword } = require("firebase/auth");
+  
+  const auth = getAuth();
+
+  const user = auth.currentUser;
+  const newPassword = getASecureRandomPassword();
+
+  updatePassword(user, newPassword).then(() => {
+    // Update successful.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+  // [END auth_update_password]
+}
+
+function sendPasswordReset() {
+  // [START auth_send_password_reset]
+  const { getAuth, sendPasswordResetEmail } = require("firebase/auth");
+  
+  const auth = getAuth();
+  const emailAddress = "user@example.com";
+
+  sendPasswordResetEmail(auth, emailAddress).then(() => {
+    // Email sent.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+  // [END auth_send_password_reset]
+}
+
+function deleteUser() {
+  // [START auth_delete_user]
+  const { getAuth, deleteUser } = require("firebase/auth");
+  
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  deleteUser(user).then(() => {
+    // User deleted.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+  // [END auth_delete_user]
+}
+
+function reauthenticateWithCredential() {
+  /**
+   * @returns {object}
+   */
+  function promptForCredentials() {
+    return {};
+  }
+
+  // [START auth_reauth_with-credential]
+  const { getAuth, reauthenticateWithCredential } = require("firebase/auth");
+  
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  // TODO(you): prompt the user to re-provide their sign-in credentials
+  const credential = promptForCredentials();
+
+  reauthenticateWithCredential(user, credential).then(() => {
+    // User re-authenticated.
+  }).catch((error) => {
+    // An error ocurred
+    // ...
+  });
+  // [END auth_reauth_with-credential]
+}
