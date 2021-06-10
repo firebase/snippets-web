@@ -54,6 +54,20 @@ function authStateListener() {
   // [END auth_state_listener]
 }
 
+function currentUser() {
+  // [START auth_current_user]
+  const user = firebase.auth().currentUser;
+
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    // ...
+  } else {
+    // No user is signed in.
+  }
+  // [END auth_current_user]
+}
+
 function setLanguageCode() {
   // [START auth_set_language_code]
   firebase.auth().languageCode = 'it';
