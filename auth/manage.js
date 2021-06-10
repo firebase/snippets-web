@@ -1,12 +1,12 @@
-// [SNIPPET_REGISTRY disabled]
-// [SNIPPETS_SEPARATION enabled]
+// These samples are intended for Web so this import would normally be
+// done in HTML however using modules here is more convenient for
+// ensuring sample correctness offline.
+import firebase from "firebase/app";
+import "firebase/auth";
 
 function getUserProfile() {
   // [START auth_get_user_profile]
-  const { getAuth } = require("firebase/auth");
-
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const user = firebase.auth().currentUser;
   if (user !== null) {
     // The user object has basic properties such as display name, email, etc.
     const displayName = user.displayName;
@@ -24,10 +24,7 @@ function getUserProfile() {
 
 function getUserProfileProvider() {
   // [START auth_get_user_profile_provider]
-  const { getAuth } = require("firebase/auth");
-
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const user = firebase.auth().currentUser;
 
   if (user !== null) {
     user.providerData.forEach((profile) => {
@@ -43,26 +40,27 @@ function getUserProfileProvider() {
 
 function updateUserProfile() {
   // [START auth_update_user_profile]
-  const { getAuth, updateProfile } = require("firebase/auth");
-  const auth = getAuth();
-  updateProfile(auth.currentUser, {
-    displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
+  const user = firebase.auth().currentUser;
+
+  user.updateProfile({
+    displayName: "Jane Q. User",
+    photoURL: "https://example.com/jane-q-user/profile.jpg"
   }).then(() => {
-    // Profile updated!
+    // Update successful
     // ...
   }).catch((error) => {
     // An error occurred
     // ...
-  });
+  });  
   // [END auth_update_user_profile]
 }
 
 function updateUserEmail() {
   // [START auth_update_user_email]
-  const { getAuth, updateEmail } = require("firebase/auth");
-  const auth = getAuth();
-  updateEmail(auth.currentUser, "user@example.com").then(() => {
-    // Email updated!
+  const user = firebase.auth().currentUser;
+
+  user.updateEmail("user@example.com").then(() => {
+    // Update successful
     // ...
   }).catch((error) => {
     // An error occurred
