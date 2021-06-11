@@ -35,7 +35,7 @@ const item_socks = {
 
 function ecommerceViewItemList() {
   // [START analytics_ecommerce_view_item_list]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params1 = {
@@ -52,7 +52,7 @@ function ecommerceViewItemList() {
 
 function ecommerceSelectItem() {
   // [START analytics_ecommerce_select_item]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce event params
   const params2 = {
@@ -69,7 +69,7 @@ function ecommerceSelectItem() {
 
 function ecommerceViewItemDetails() {
   // [START analytics_ecommerce_view_item_details]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce event params
   const params3 = {
@@ -86,7 +86,7 @@ function ecommerceViewItemDetails() {
 
 function ecommerceAddCart() {
   // [START analytics_ecommerce_add_cart]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Specify order quantity
   const item_jeggings_quantity = {
@@ -112,7 +112,7 @@ function ecommerceAddCart() {
 
 function ecommerceViewCart() {
   // [START analytics_ecommerce_view_cart]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Specify order quantity
   const item_jeggings_quantity = {
@@ -140,7 +140,7 @@ function ecommerceViewCart() {
 
 function ecommerceRemoveCart() {
   // [START analytics_ecommerce_remove_cart]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params6 = {
@@ -157,7 +157,7 @@ function ecommerceRemoveCart() {
 
 function ecommerceCheckout() {
   // [START analytics_ecommerce_checkout]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params7 = {
@@ -175,7 +175,7 @@ function ecommerceCheckout() {
 
 function ecommerceShippingInfo() {
   // [START analytics_ecommerce_shipping_info]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params8 = {
@@ -194,7 +194,7 @@ function ecommerceShippingInfo() {
 
 function ecommercePaymentInfo() {
   // [START analytics_ecommerce_payment_info]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params9 = {
@@ -213,7 +213,7 @@ function ecommercePaymentInfo() {
 
 function ecommercePurchase() {
   // [START analytics_ecommerce_purchase]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce bundle
   const params10 = {
@@ -235,7 +235,7 @@ function ecommercePurchase() {
 
 function ecommerceRefund() {
   // [START analytics_ecommerce_refund]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params11 = {
@@ -262,7 +262,7 @@ function ecommerceRefund() {
 
 function ecommercePromotions() {
   // [START analytics_ecommerce_promotions]
-  const { getAnalytics, logEvent } = require("@firebase/analytics");
+  const { getAnalytics, logEvent } = require("firebase/analytics");
 
   // Prepare ecommerce params
   const params12 = {

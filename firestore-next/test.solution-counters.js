@@ -28,7 +28,7 @@ function createCounter(ref, num_shards) {
 
 // [START increment_counter]
 function incrementCounter(db, ref, num_shards) {
-    const { collection, doc, updateDoc, increment, FirebaseFirestore } = require("@firebase/firestore");
+    const { doc, updateDoc, increment } = require("firebase/firestore");
 
     // Select a shard of the counter at random
     const shardId = Math.floor(Math.random() * num_shards).toString();
@@ -41,7 +41,7 @@ function incrementCounter(db, ref, num_shards) {
 
 // [START get_count]
 async function getCount(ref) {
-    const { collection, getDocs } = require("@firebase/firestore");
+    const { collection, getDocs } = require("firebase/firestore");
 
     // Sum the count of each shard in the subcollection
     const snapshot = await getDocs(collection(ref, 'shards'));
