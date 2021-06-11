@@ -5,13 +5,13 @@
     "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
-    "lerna-bootstrap": "lerna bootstrap --no-ci",
-    "lerna-compile": "lerna run compile"
+    "bootstrap": "pnpm recursive install",
+    "compile": "pnpm recursive run compile --workspace-concurrency=4"
   },
   "license": "Apache-2.0",
   "devDependencies": {
     "eslint": "^7.16.0",
-    "lerna": "^3.22.1",
+    "pnpm": "^6.7.4",
     "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^3.8.3"
