@@ -10,6 +10,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/node": "^15.12.2",
     "eslint": "^7.16.0",
     "pnpm": "^6.7.4",
     "rimraf": "^3.0.2",
