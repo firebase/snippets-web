@@ -5,3 +5,4 @@ tsconfig.json
 dist/
 .DS_Store
 .idea
+pnpm-lock.yaml

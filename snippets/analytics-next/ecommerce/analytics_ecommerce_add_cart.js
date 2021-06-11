@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START analytics_ecommerce_add_cart_modular]
-import { getAnalytics, logEvent } from "@firebase/analytics";
+import { getAnalytics, logEvent } from "firebase/analytics";
 
 // Specify order quantity
 const item_jeggings_quantity = {

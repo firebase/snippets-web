@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 10.x
+          - 12.x
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -29,13 +29,13 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          npm run lerna-bootstrap
+          npm run bootstrap
 
       - name: Lint snippets
         run: npm run lint
 
       - name: Compile snippets
-        run: npm run lerna-compile
+        run: npm run compile
 
       - name: Check generated snippets
         run: |

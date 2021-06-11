@@ -78,7 +78,7 @@ describe("firestore-solution-arrays", () => {
         it("should query in a category by timestamp", () => {
             function queryOne() {
                 // [START query_in_category_timestamp_invalid]
-                const { collection, query, where, orderBy, FirebaseFirestore } = require("@firebase/firestore");
+                const { collection, query, where, orderBy, FirebaseFirestore } = require("firebase/firestore");
 
                 const q = query(collection(db, "posts"),
                     where("categories.cats", "==", true),
@@ -89,7 +89,7 @@ describe("firestore-solution-arrays", () => {
 
             function queryTwo() {
                 // [START query_in_category_timestamp]
-                const { collection, query, where, orderBy } = require("@firebase/firestore");
+                const { collection, query, where, orderBy } = require("firebase/firestore");
 
                 const q = query(collection(db, "posts"),
                     where("categories.cats", ">", 0),

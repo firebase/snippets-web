@@ -5,7 +5,7 @@
 
 // [START increment_counter_modular]
 function incrementCounter(db, ref, num_shards) {
-    import { collection, doc, updateDoc, increment, FirebaseFirestore } from "@firebase/firestore";
+    import { doc, updateDoc, increment } from "firebase/firestore";
 
     // Select a shard of the counter at random
     const shardId = Math.floor(Math.random() * num_shards).toString();

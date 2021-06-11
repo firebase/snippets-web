@@ -4,7 +4,7 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START query_in_category_timestamp_modular]
-import { collection, query, where, orderBy } from "@firebase/firestore";
+import { collection, query, where, orderBy } from "firebase/firestore";
 
 const q = query(collection(db, "posts"),
     where("categories.cats", ">", 0),
