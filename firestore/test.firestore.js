@@ -856,7 +856,7 @@ describe("firestore", () => {
             it("should handle other wheres", () => {
                 var citiesRef = db.collection("cities");
                 // [START example_filters]
-                const nameQuery = citiesRef.where("state", "==", "CA");
+                const stateQuery = citiesRef.where("state", "==", "CA");
                 const populationQuery = citiesRef.where("population", "<", 100000);
                 const nameQuery = citiesRef.where("name", ">=", "San Francisco");
                 // [END example_filters]
