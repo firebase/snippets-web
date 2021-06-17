@@ -851,13 +851,13 @@ describe("firestore", () => {
               const citiesRef = collection(db, "cities");
 
               // [START example_filters]
-              const q1 =  query(citiesRef, where("state", "==", "CA"));
-              const q2 =  query(citiesRef, where("population", "<", 100000));
-              const q3 =  query(citiesRef, where("name", ">=", "San Francisco"));
+              const stateQuery = query(citiesRef, where("state", "==", "CA"));
+              const populationQuery = query(citiesRef, where("population", "<", 100000));
+              const nameQuery = query(citiesRef, where("name", ">=", "San Francisco"));
               // [END example_filters]
 
               // [START simple_query_not_equal]
-              const q4 = query(citiesRef, where("capital", "!=", false));
+              const notCapitalQuery = query(citiesRef, where("capital", "!=", false));
               // [END simple_query_not_equal]
             });
 
