@@ -856,9 +856,9 @@ describe("firestore", () => {
             it("should handle other wheres", () => {
                 var citiesRef = db.collection("cities");
                 // [START example_filters]
-                citiesRef.where("state", "==", "CA");
-                citiesRef.where("population", "<", 100000);
-                citiesRef.where("name", ">=", "San Francisco");
+                const nameQuery = citiesRef.where("state", "==", "CA");
+                const populationQuery = citiesRef.where("population", "<", 100000);
+                const nameQuery = citiesRef.where("name", ">=", "San Francisco");
                 // [END example_filters]
 
                 // [START simple_query_not_equal]
@@ -900,16 +900,16 @@ describe("firestore", () => {
             it("should handle compound queries", () => {
                 var citiesRef = db.collection("cities");
                 // [START chain_filters]
-                citiesRef.where("state", "==", "CO").where("name", "==", "Denver");
-                citiesRef.where("state", "==", "CA").where("population", "<", 1000000);
+                const q1 = citiesRef.where("state", "==", "CO").where("name", "==", "Denver");
+                const q2 = citiesRef.where("state", "==", "CA").where("population", "<", 1000000);
                 // [END chain_filters]
             });
 
             it("should handle range filters on one field", () => {
                 var citiesRef = db.collection("cities");
                 // [START valid_range_filters]
-                citiesRef.where("state", ">=", "CA").where("state", "<=", "IN");
-                citiesRef.where("state", "==", "CA").where("population", ">", 1000000);
+                const q1 = citiesRef.where("state", ">=", "CA").where("state", "<=", "IN");
+                const q2 = citiesRef.where("state", "==", "CA").where("population", ">", 1000000);
                 // [END valid_range_filters]
             });
 
