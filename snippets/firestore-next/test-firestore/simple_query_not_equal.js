@@ -4,5 +4,5 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START simple_query_not_equal_modular]
-const q4 = query(citiesRef, where("capital", "!=", false));
+const notCapitalQuery = query(citiesRef, where("capital", "!=", false));
 // [END simple_query_not_equal_modular]
