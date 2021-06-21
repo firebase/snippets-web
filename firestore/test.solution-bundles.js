@@ -1,8 +1,8 @@
 // [START fs_bundle_load]
 // If you are using module bundlers.
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/firestore/bundle"; // This line enables bundle loading as a side effect.
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/firestore/bundle"; // This line enables bundle loading as a side effect.
 
 // [START_EXCLUDE]
 /**

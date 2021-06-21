@@ -1,4 +1,4 @@
-import firebase  from 'firebase/app';
+import firebase  from 'firebase/compat/app';
 
 function multpleFirebaseApps() {
     // [START firebase_options]

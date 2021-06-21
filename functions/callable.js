@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/functions";
+import firebase from "firebase/compat/app";
+import "firebase/compat/functions";
 
 function callAddMessage() {
   const messageText = "Hello, World!";

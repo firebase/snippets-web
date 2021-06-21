@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/analytics";
+import firebase from "firebase/compat/app";
+import "firebase/compat/analytics";
 
 function initialize() {
   // [START analytics_initialize]
