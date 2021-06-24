@@ -50,3 +50,17 @@ function setUserProperties() {
   setUserProperties(analytics, { favorite_food: 'apples' });
   // [END analytics_set_user_properties]
 }
+
+function recordScreenView() {
+  const screenName = '<SCREEN_NAME>';
+
+  // [START analytics_record_screen_view]
+  const { getAnalytics, logEvent } = require("firebase/analytics");
+
+  const analytics = getAnalytics();
+  logEvent(analytics, 'screen_view', {
+    'firebase_screen': screenName, 
+    'firebase_screen_class': 'Home' 
+  });
+  // [END analytics_record_screen_view]
+}
