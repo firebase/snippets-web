@@ -4,5 +4,20 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START messaging_on_background_message_modular]
-// TODO(snippet): This snippet is not yet translated to the @exp SDK
+import { getMessaging } from "firebase/messaging";
+import { onBackgroundMessage } from "firebase/messaging/sw";
+
+const messaging = getMessaging();
+onBackgroundMessage(messaging, (payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  const notificationTitle = 'Background Message Title';
+  const notificationOptions = {
+    body: 'Background Message body.',
+    icon: '/firebase-logo.png'
+  };
+
+  self.registration.showNotification(notificationTitle,
+    notificationOptions);
+});
 // [END messaging_on_background_message_modular]
