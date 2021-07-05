@@ -22,6 +22,8 @@ try {
     } else {
       return Promise.reject("Sorry! Population is too big");
     }
+    
+    return newPop;
   });
 
   console.log("Population increased to ", newPopulation);
