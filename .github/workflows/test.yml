@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
 
       - name: Install dependencies
         run: |
