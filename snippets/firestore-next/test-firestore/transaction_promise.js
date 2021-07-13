@@ -19,6 +19,7 @@ try {
     const newPop = sfDoc.data().population + 1;
     if (newPop <= 1000000) {
       transaction.update(sfDocRef, { population: newPop });
+      return newPop;
     } else {
       return Promise.reject("Sorry! Population is too big");
     }
