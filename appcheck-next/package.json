@@ -1,5 +1,5 @@
 {
-  "name": "auth-next",
+  "name": "appcheck-next",
   "version": "1.0.0",
   "scripts": {
     "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
