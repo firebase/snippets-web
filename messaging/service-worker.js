@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/messaging";
+import firebase from "firebase/compat/app";
+import "firebase/compat/messaging";
 
 // See: https://github.com/microsoft/TypeScript/issues/14877
 /** @type {ServiceWorkerGlobalScope} */
