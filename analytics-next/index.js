@@ -59,8 +59,10 @@ function recordScreenView() {
 
   const analytics = getAnalytics();
   logEvent(analytics, 'screen_view', {
-    'firebase_screen': screenName, 
-    'firebase_screen_class': 'Home' 
+    app_name: 'My App',
+    screen_name: screenName,
+    firebase_screen: screenName, 
+    firebase_screen_class: 'Home' 
   });
   // [END analytics_record_screen_view]
 }
