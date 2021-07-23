@@ -4,7 +4,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/compat/en/docs/auth/custom-email-handler.md
+// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/custom-email-handler.md
 
 function handleUserManagementQueryParams() {
   // TODO: This helpers should be implemented by the developer
