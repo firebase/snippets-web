@@ -3,12 +3,12 @@
 
 function onDocumentReady() {
   // [START rtdb_emulator_connect]
-  const { getDatabase, useDatabaseEmulator } = require("firebase/database");
+  const { getDatabase, connectDatabaseEmulator } = require("firebase/database");
 
   const db = getDatabase();
   if (location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
-    useDatabaseEmulator(db, "localhost", 9000);
+    connectDatabaseEmulator(db, "localhost", 9000);
   } 
   // [END rtdb_emulator_connect]
 }

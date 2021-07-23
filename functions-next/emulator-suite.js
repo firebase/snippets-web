@@ -12,10 +12,10 @@ initializeApp({
 export function emulatorSettings() {
   // [START fb_functions_emulator_connect]
   const { getApp } = require("firebase/app");
-  const { getFunctions, useFunctionsEmulator } = require("firebase/functions");
+  const { getFunctions, connectFunctionsEmulator } = require("firebase/functions");
 
   const functions = getFunctions(getApp());
-  useFunctionsEmulator(functions, "localhost", 5001);
+  connectFunctionsEmulator(functions, "localhost", 5001);
   // [END fb_functions_emulator_connect]
 }
 
