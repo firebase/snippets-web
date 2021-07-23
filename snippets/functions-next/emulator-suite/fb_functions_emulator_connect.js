@@ -5,8 +5,8 @@
 
 // [START fb_functions_emulator_connect_modular]
 import { getApp } from "firebase/app";
-import { getFunctions, useFunctionsEmulator } from "firebase/functions";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
 
 const functions = getFunctions(getApp());
-useFunctionsEmulator(functions, "localhost", 5001);
+connectFunctionsEmulator(functions, "localhost", 5001);
 // [END fb_functions_emulator_connect_modular]
