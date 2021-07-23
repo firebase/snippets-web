@@ -4,9 +4,9 @@
 // To make edits to the snippets in this file, please edit the source
 
 // [START fs_emulator_connect_modular]
-import { getFirestore, useFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 
 // firebaseApps previously initialized using initializeApp()
 const db = getFirestore();
-useFirestoreEmulator(db, 'localhost', 8080);
+connectFirestoreEmulator(db, 'localhost', 8080);
 // [END fs_emulator_connect_modular]
