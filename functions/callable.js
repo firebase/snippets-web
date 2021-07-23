@@ -1,5 +1,21 @@
+// [START fb_functions_imports]
 import firebase from "firebase/app";
 import "firebase/functions";
+// [END fb_functions_imports]
+
+function initialize() {
+  // [START fb_functions_initialize]
+  firebase.initializeApp({
+    // Your Firebase Web SDK configuration
+    // [START_EXCLUDE]
+    projectId: "<PROJECT_ID>",
+    apiKey: "<API_KEY>",
+    // [END_EXCLUDE]
+  });
+
+  const functions = firebase.functions();
+  // [END fb_functions_initialize]
+}
 
 function callAddMessage() {
   const messageText = "Hello, World!";
