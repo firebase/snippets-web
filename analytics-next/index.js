@@ -52,6 +52,7 @@ function setUserProperties() {
 }
 
 function recordScreenView() {
+  const appName = '<APP_NAME>';
   const screenName = '<SCREEN_NAME>';
 
   // [START analytics_record_screen_view]
@@ -59,7 +60,7 @@ function recordScreenView() {
 
   const analytics = getAnalytics();
   logEvent(analytics, 'screen_view', {
-    app_name: 'My App',
+    app_name: appName,
     screen_name: screenName,
     firebase_screen: screenName, 
     firebase_screen_class: 'Home' 

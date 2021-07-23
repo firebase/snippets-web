@@ -40,12 +40,15 @@ function setUserProperties() {
 }
 
 function recordScreenView() {
+  const appName = '<APP_NAME>';
   const screenName = '<SCREEN_NAME>';
 
   // [START analytics_record_screen_view]
   firebase.analytics().logEvent('screen_view', {
-    'firebase_screen': screenName, 
-    'firebase_screen_class': 'Home' 
+    app_name: appName,
+    screen_name: screenName,
+    firebase_screen: screenName, 
+    firebase_screen_class: 'Home' 
   });
   // [END analytics_record_screen_view]
 }
