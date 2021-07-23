@@ -4,7 +4,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/compat/en/docs/auth/web/yahoo-oauth.md
+// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/yahoo-oauth.md
 
 function yahooProvider() {
   // [START auth_yahoo_provider_create]

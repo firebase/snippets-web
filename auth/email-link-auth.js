@@ -4,7 +4,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/compat/en/docs/auth/web/email-link-auth.md
+// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/email-link-auth.md
 
 function emailLinkActionCodeSettings() {
   // [START auth_email_link_actioncode_settings]

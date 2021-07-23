@@ -4,7 +4,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/compat/en/docs/auth/web/service-worker-sessions.md
+// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/service-worker-sessions.md
 
 function svcGetIdToken() {
   // [START auth_svc_get_idtoken]

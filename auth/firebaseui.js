@@ -6,7 +6,7 @@ import "firebase/compat/auth";
 
 import * as firebaseui from "firebaseui";
 
-// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/compat/en/docs/auth/web/firebaseui.md
+// Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/firebaseui.md
 
 function fuiInit() {
   // [START auth_fui_init]
