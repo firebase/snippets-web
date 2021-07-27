@@ -97,6 +97,6 @@ function nonFirebase() {
     });
 
     // Handle response from your backend.
-  }
+  };
   // [END appcheck_nonfirebase]
 }
