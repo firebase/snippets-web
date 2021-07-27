@@ -28,5 +28,5 @@ const callApiWithAppCheckExample = async () => {
   });
 
   // Handle response from your backend.
-}
+};
 // [END appcheck_nonfirebase_modular]
