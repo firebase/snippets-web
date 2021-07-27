@@ -70,14 +70,14 @@ function nonFirebase() {
     // Your firebase configuration object
   });
   const { ReCaptchaV3Provider } = require('firebase/app-check');
-  const provider = ReCaptchaV3Provider();
+  const provider = new ReCaptchaV3Provider('');
 
   // [START appcheck_nonfirebase]
-  const { intializeAppCheck, getToken } = require('firebase/app-check');
+  const { initializeAppCheck, getToken } = require('firebase/app-check');
 
-  const appCheck = intializeAppCheck(
+  const appCheck = initializeAppCheck(
       app,
-      provider, /* ReCaptchaV3Provider or CustomProvider */
+      { provider: provider } // ReCaptchaV3Provider or CustomProvider
   );
 
   const callApiWithAppCheckExample = async () => {
