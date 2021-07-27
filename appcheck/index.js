@@ -53,3 +53,24 @@ function initializeCustomProvider() {
   appCheck.activate(appCheckCustomProvider);
   // [END appcheck_initialize_custom_provider]
 }
+
+// [START appcheck_nonfirebase]
+const callApiWithAppCheckExample = async () => {
+  let appCheckTokenResponse;
+  try {
+      appCheckTokenResponse = await firebase.appCheck().getToken(/* forceRefresh= */ false);
+  } catch (err) {
+      // Handle any errors if the token was not retrieved.
+      return;
+  }
+
+  // Include the App Check token with requests to your server.
+  const apiResponse = await fetch('https://yourbackend.example.com/yourApiEndpoint', {
+      headers: {
+          'X-Firebase-AppCheck': appCheckTokenResponse.token,
+      }
+  });
+
+  // Handle response from your backend.
+};
+// [END appcheck_nonfirebase]
