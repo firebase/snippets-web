@@ -12,6 +12,10 @@ const app = initializeApp({
 });
 
 const appCheck = initializeAppCheck(app, {
-  provider: appCheckCustomProvider
+  provider: appCheckCustomProvider,
+
+  // Optional argument. If true, the SDK automatically refreshes App Check
+  // tokens as needed.
+  isTokenAutoRefreshEnabled: true    
 });
 // [END appcheck_initialize_custom_provider_modular]
