@@ -1,11 +1,11 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-const { FirebaseFirestore } = require('firebase/firestore');
+const { Firestore } = require('firebase/firestore');
 
 const geofire = require('geofire-common');
 
-/** @type {FirebaseFirestore} */
+/** @type {Firestore} */
 let db;
 
 async function addHash(done) {

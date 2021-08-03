@@ -32,9 +32,9 @@ const cityConverter = {
 // [END city_custom_object]
 
 describe("firestore", () => {
-    const { FirebaseFirestore } = require("firebase/firestore");
+    const { Firestore } = require("firebase/firestore");
 
-    /** @type {FirebaseFirestore} */
+    /** @type {Firestore} */
     let db;
     let app;
 

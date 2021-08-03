@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START query_in_category_timestamp_invalid_modular]
-import { collection, query, where, orderBy, FirebaseFirestore } from "firebase/firestore";
+import { collection, query, where, orderBy, Firestore } from "firebase/firestore";
 
 const q = query(collection(db, "posts"),
     where("categories.cats", "==", true),
