@@ -1,9 +1,9 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-const { FirebaseFirestore } = require('firebase/firestore');
+const { Firestore } = require('firebase/firestore');
 
-/** @type {FirebaseFirestore} */
+/** @type {Firestore} */
 let db;
 
 // [START create_counter]
