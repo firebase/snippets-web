@@ -4,7 +4,7 @@
 This repository holds code snippets used in Web documentation
 on [firebase.google.com](https://firebase.google.com/docs/).
 
-These snippets are part of our documentation and best read in the context of a documentation page rather than used directly. If you're looking to get started with the Firebase Web SDK the best place to start is [quicstart-js](https://github.com/firebase/quickstart-js).
+These snippets are part of our documentation and best read in the context of a documentation page rather than used directly. If you're looking to get started with the Firebase Web SDK the best place to start is [quickstart-js](https://github.com/firebase/quickstart-js).
 
 ## Example
 
