@@ -8,9 +8,7 @@ import { getAnalytics, logEvent } from "firebase/analytics";
 
 const analytics = getAnalytics();
 logEvent(analytics, 'screen_view', {
-  app_name: appName,
-  screen_name: screenName,
   firebase_screen: screenName, 
-  firebase_screen_class: 'Home' 
+  firebase_screen_class: screenClass
 });
 // [END analytics_record_screen_view_modular]
