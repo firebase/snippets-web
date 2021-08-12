@@ -4,10 +4,12 @@
 const perf = getInstance();
 
 function intialize() {
-  // [START perf_initialize]
+  // [START perf_imports]
   const { initializeApp } = require("firebase/app");
   const { getPerformance } = require("firebase/performance");
+  // [END perf_imports]
 
+  // [START perf_initialize]
   // TODO: Replace the following with your app's Firebase project configuration
   // See: https://firebase.google.com/docs/web/setup#config-object
   const firebaseConfig = {
