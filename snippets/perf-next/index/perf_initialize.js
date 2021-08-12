@@ -5,9 +5,6 @@
 // 'npm run snippets'.
 
 // [START perf_initialize_modular]
-import { initializeApp } from "firebase/app";
-import { getPerformance } from "firebase/performance";
-
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/setup#config-object
 const firebaseConfig = {

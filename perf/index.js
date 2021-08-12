@@ -1,5 +1,7 @@
+// [START perf_imports]
 import firebase from "firebase/app";
 import "firebase/performance";
+// [END perf_imports]
 
 const perf = firebase.performance();
 
