@@ -10,9 +10,9 @@ const arinellDoc = {
 // [END sample_doc]
 
 describe("firestore-solution-arrays", () => {
-    const { FirebaseFirestore } = require("firebase/firestore");
+    const { Firestore } = require("firebase/firestore");
 
-    /** @type {FirebaseFirestore} */
+    /** @type {Firestore} */
     let db;
 
     before(async () => {

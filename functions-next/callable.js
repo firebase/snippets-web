@@ -1,6 +1,23 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
+export function initialize() {
+  // [START fb_functions_initialize]
+  const { initializeApp } = require("firebase/app");
+  const { getFunctions } = require("firebase/functions");
+
+  initializeApp({
+    // Your Firebase Web SDK configuration
+    // [START_EXCLUDE]
+    projectId: "<PROJECT_ID>",
+    apiKey: "<API_KEY>",
+    // [END_EXCLUDE]
+  });
+
+  const functions = getFunctions();
+  // [END fb_functions_initialize]
+}
+
 export function callAddMessage() {
   const messageText = "Hello, World!";
 

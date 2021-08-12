@@ -13,7 +13,11 @@ function initialize() {
   // Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this
   // key is the counterpart to the secret key you set in the Firebase console.
   const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd')
+    provider: new ReCaptchaV3Provider('abcdefghijklmnopqrstuvwxy-1234567890abcd'),
+
+    // Optional argument. If true, the SDK automatically refreshes App Check
+    // tokens as needed.
+    isTokenAutoRefreshEnabled: true
   });
   // [END appcheck_initialize]
 }
@@ -59,7 +63,48 @@ function initializeCustomProvider() {
   });
   
   const appCheck = initializeAppCheck(app, {
-    provider: appCheckCustomProvider
+    provider: appCheckCustomProvider,
+
+    // Optional argument. If true, the SDK automatically refreshes App Check
+    // tokens as needed.
+    isTokenAutoRefreshEnabled: true    
   });
   // [END appcheck_initialize_custom_provider]
+}
+
+function nonFirebase() {
+  const { initializeApp } = require("firebase/app");
+  const app = initializeApp({
+    // Your firebase configuration object
+  });
+  const { ReCaptchaV3Provider } = require('firebase/app-check');
+  const provider = new ReCaptchaV3Provider('');
+
+  // [START appcheck_nonfirebase]
+  const { initializeAppCheck, getToken } = require('firebase/app-check');
+
+  const appCheck = initializeAppCheck(
+      app,
+      { provider: provider } // ReCaptchaV3Provider or CustomProvider
+  );
+
+  const callApiWithAppCheckExample = async () => {
+    let appCheckTokenResponse;
+    try {
+        appCheckTokenResponse = await getToken(appCheck, /* forceRefresh= */ false);
+    } catch (err) {
+        // Handle any errors if the token was not retrieved.
+        return;
+    }
+
+    // Include the App Check token with requests to your server.
+    const apiResponse = await fetch('https://yourbackend.example.com/yourApiEndpoint', {
+        headers: {
+            'X-Firebase-AppCheck': appCheckTokenResponse.token,
+        }
+    });
+
+    // Handle response from your backend.
+  };
+  // [END appcheck_nonfirebase]
 }
