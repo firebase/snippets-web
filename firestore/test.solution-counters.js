@@ -22,7 +22,7 @@ function createCounter(ref, num_shards) {
 // [END create_counter]
 
 // [START increment_counter]
-function incrementCounter(db, ref, num_shards) {
+function incrementCounter(ref, num_shards) {
     // Select a shard of the counter at random
     const shard_id = Math.floor(Math.random() * num_shards).toString();
     const shard_ref = ref.collection('shards').doc(shard_id);
