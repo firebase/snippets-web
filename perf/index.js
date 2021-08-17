@@ -1,24 +1,28 @@
-// [START perf_imports]
+// [START perf_import_app]
 import firebase from "firebase/app";
+// [END perf_import_app]
+// [START perf_import]
 import "firebase/performance";
-// [END perf_imports]
+// [END perf_import]
 
 const perf = firebase.performance();
 
 function intialize() {
-  // [START perf_initialize]
+  // [START perf_initialize_app]
   // TODO: Replace the following with your app's Firebase project configuration
   // See: https://firebase.google.com/docs/web/setup#config-object
-  var firebaseConfig = {
+  const firebaseConfig = {
     // ...
   };
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+  // [END perf_initialize_app]
 
+  // [START perf_singleton]
   // Initialize Performance Monitoring and get a reference to the service
-  var perf = firebase.performance();
-  // [END perf_initialize]
+  const perf = firebase.performance();
+  // [END perf_singleton]
 }
 
 function addCustomTrace() {
