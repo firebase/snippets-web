@@ -13,18 +13,18 @@ function intialize() {
 
   // [START perf_initialize_app]
   // TODO: Replace the following with your app's Firebase project configuration
-  // See: https://firebase.google.com/docs/web/setup#config-object
+  // See: https://firebase.google.com/docs/web/learn-more#config-object
   const firebaseConfig = {
     // ...
   };
 
   // Initialize Firebase
-  initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig);
   // [END perf_initialize_app]
 
   // [START perf_singleton]
   // Initialize Performance Monitoring and get a reference to the service
-  const perf = getPerformance();
+  const perf = getPerformance(app);
   // [END perf_singleton]
 }
 
