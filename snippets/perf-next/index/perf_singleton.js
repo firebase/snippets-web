@@ -6,5 +6,5 @@
 
 // [START perf_singleton_modular]
 // Initialize Performance Monitoring and get a reference to the service
-const perf = getPerformance();
+const perf = getPerformance(app);
 // [END perf_singleton_modular]

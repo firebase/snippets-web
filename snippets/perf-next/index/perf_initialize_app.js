@@ -6,11 +6,11 @@
 
 // [START perf_initialize_app_modular]
 // TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/setup#config-object
+// See: https://firebase.google.com/docs/web/learn-more#config-object
 const firebaseConfig = {
   // ...
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 // [END perf_initialize_app_modular]
