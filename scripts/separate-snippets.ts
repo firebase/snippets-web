@@ -171,12 +171,15 @@ function collectSnippets(filePath: string): SnippetsConfig {
   const suffixLine = lines.find((l) => !!l.match(RE_SNIPPETS_SUFFIX));
   if (suffixLine) {
     const m = suffixLine.match(RE_SNIPPETS_SUFFIX);
-    config.suffix = m[1];
+
+    if (m && m[1]) {
+      config.suffix = m[1];
+    }
   }
 
   // A temporary array holding the names of snippets we're currently within.
   // This allows for handling nested snippets.
-  let inSnippetNames = [];
+  let inSnippetNames: string[] = [];
 
   for (const line of lines) {
     const startMatch = line.match(RE_START_SNIPPET);
