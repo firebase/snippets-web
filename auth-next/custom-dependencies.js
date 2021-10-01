@@ -6,8 +6,10 @@
 function getAuthEquivalent() {
   // [START auth_get_auth_equivalent]
   const {initializeAuth, browserLocalPersistence, browserPopupRedirectResolver, browserSessionPersistence, indexedDBLocalPersistence} = require("firebase/auth");
+  const {initializeApp} = require("firebase/app");
 
-  initializeAuth(app, {
+  const app = initializeApp({/** Your app config */});
+  const auth = initializeAuth(app, {
     persistence: [indexedDBLocalPersistence, browserLocalPersistence, browserSessionPersistence],
     popupRedirectResolver: browserPopupRedirectResolver,
   });
@@ -17,8 +19,10 @@ function getAuthEquivalent() {
 function onlyBrowserLocal() {
   // [START auth_only_browser_local]
   const {initializeAuth, browserLocalPersistence} = require("firebase/auth");
+  const {initializeApp} = require("firebase/app");
 
-  initializeAuth(app, {
+  const app = initializeApp({/** Your app config */});
+  const auth = initializeAuth(app, {
     persistence: browserLocalPersistence,
     // No popupRedirectResolver defined
   });
@@ -28,8 +32,10 @@ function onlyBrowserLocal() {
 function onlyIndexedDB() {
   // [START auth_only_indexed_db]
   const {initializeAuth, indexedDBLocalPersistence} = require("firebase/auth");
+  const {initializeApp} = require("firebase/app");
 
-  initializeAuth(app, {
+  const app = initializeApp({/** Your app config */});
+  const auth = initializeAuth(app, {
     persistence: indexedDBLocalPersistence,
     // No popupRedirectResolver defined
   });
@@ -39,7 +45,9 @@ function onlyIndexedDB() {
 function signInRedirectManualDeps() {
   // [START auth_sign_in_redirect_manual_deps]
   const {initializeAuth, browserLocalPersistence, browserPopupRedirectResolver, indexedDBLocalPersistence, signInWithRedirect, GoogleAuthProvider} = require("firebase/auth");
+  const {initializeApp} = require("firebase/app");
 
+  const app = initializeApp({/** Your app config */});
   const auth = initializeAuth(app, {
     persistence: [indexedDBLocalPersistence, browserLocalPersistence],
   });

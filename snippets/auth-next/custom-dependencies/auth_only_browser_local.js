@@ -6,8 +6,10 @@
 
 // [START auth_only_browser_local_modular]
 import {initializeAuth, browserLocalPersistence} from "firebase/auth";
+import {initializeApp} from "firebase/app";
 
-initializeAuth(app, {
+const app = initializeApp({/** Your app config */});
+const auth = initializeAuth(app, {
   persistence: browserLocalPersistence,
   // No popupRedirectResolver defined
 });

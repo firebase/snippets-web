@@ -6,8 +6,10 @@
 
 // [START auth_only_indexed_db_modular]
 import {initializeAuth, indexedDBLocalPersistence} from "firebase/auth";
+import {initializeApp} from "firebase/app";
 
-initializeAuth(app, {
+const app = initializeApp({/** Your app config */});
+const auth = initializeAuth(app, {
   persistence: indexedDBLocalPersistence,
   // No popupRedirectResolver defined
 });

@@ -6,7 +6,9 @@
 
 // [START auth_sign_in_redirect_manual_deps_modular]
 import {initializeAuth, browserLocalPersistence, browserPopupRedirectResolver, indexedDBLocalPersistence, signInWithRedirect, GoogleAuthProvider} from "firebase/auth";
+import {initializeApp} from "firebase/app";
 
+const app = initializeApp({/** Your app config */});
 const auth = initializeAuth(app, {
   persistence: [indexedDBLocalPersistence, browserLocalPersistence],
 });
