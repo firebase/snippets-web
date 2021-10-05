@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START auth_cordova_redirect_result_modular]
-import { getAuth, getRedirectResult, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, getRedirectResult, GoogleAuthProvider } from "firebase/auth/cordova";
 
 const auth = getAuth();
 getRedirectResult(auth)
