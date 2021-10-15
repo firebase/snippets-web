@@ -44,7 +44,7 @@ function samlSignInRedirect(provider) {
 
 function samlSignInRedirectResult(provider) {
   // [START auth_saml_signin_redirect_result]
-  import { getAuth, getRedirectResult, SAMLAuthProvider } from "firebase/auth";
+  const { getAuth, getRedirectResult, SAMLAuthProvider } = require("firebase/auth");
 
   const auth = getAuth();
   getRedirectResult(auth)

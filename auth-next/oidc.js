@@ -44,7 +44,7 @@ function oidcSignInRedirect(provider) {
 
 function oidcSignInRedirectResult(provider) {
   // [START auth_oidc_signin_redirect_result]
-  import { getAuth, getRedirectResult, OAuthProvider } from "firebase/auth";
+  const { getAuth, getRedirectResult, OAuthProvider } = require("firebase/auth");
 
   const auth = getAuth();
   getRedirectResult(auth)
@@ -69,7 +69,7 @@ function oidcSignInRedirectResult(provider) {
 
 function oidcDirectSignIn(provider, oidcIdToken) {
   // [START auth_oidc_direct_sign_in]
-  import { getAuth, OAuthProvider } from "firebase/auth";
+  const { getAuth, OAuthProvider } = require("firebase/auth");
 
   const auth = getAuth();
   const credential = provider.credential({
