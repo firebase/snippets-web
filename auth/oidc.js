@@ -4,9 +4,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-// [SNIPPET_REGISTRY disabled]
-// [SNIPPETS_SEPARATION enabled]
-
 function oidcProvider() {
   // [START auth_oidc_provider_create]
   const provider = new firebase.auth.OAuthProvider('oidc.myProvider');
