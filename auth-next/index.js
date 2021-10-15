@@ -26,7 +26,7 @@ function makeFacebookCredential(response) {
 function makeEmailCredential(email, password) {
   // [START auth_make_email_credential]
   const { EmailAuthProvider } = require("firebase/auth");
-  
+
   const credential = EmailAuthProvider.credential(email, password);
   // [END auth_make_email_credential]
 }
@@ -120,4 +120,18 @@ function signInRedirect(provider) {
   const auth = getAuth();
   signInWithRedirect(auth, provider);
   // [END auth_signin_redirect]
+}
+
+function initializeWithCustomDomain() {
+  // [START auth_init_custom_domain]
+  const { initializeApp } = require("firebase/app");
+
+  const firebaseConfig = {
+    apiKey: "...",
+    // By default, authDomain is '[YOUR_APP].firebaseapp.com'.
+    // You may replace it with a custom domain.
+    authDomain: '[YOUR_CUSTOM_DOMAIN]'
+  };
+  const firebaseApp = initializeApp(firebaseConfig);
+  // [END auth_init_custom_domain]
 }

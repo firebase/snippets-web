@@ -101,3 +101,14 @@ function signInRedirect(provider) {
   firebase.auth().signInWithRedirect(provider);
   // [END auth_signin_redirect]
 }
+
+function initializeWithCustomDomain() {
+  // [START auth_init_custom_domain]
+  firebase.initializeApp({
+    apiKey: '...',
+    // By default, authDomain is '[YOUR_APP].firebaseapp.com'.
+    // You may replace it with a custom domain.
+    authDomain: '[YOUR_CUSTOM_DOMAIN]'
+  });
+  // [END auth_init_custom_domain]
+}
