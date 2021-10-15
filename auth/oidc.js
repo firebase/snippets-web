@@ -1,3 +1,9 @@
+// These samples are intended for Web so this import would normally be
+// done in HTML however using modules here is more convenient for
+// ensuring sample correctness offline.
+import firebase from "firebase/app";
+import "firebase/auth";
+
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
@@ -12,7 +18,7 @@ function oidcSignInPopup(provider) {
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
       // User is signed in.
-      // result.credential is a firebase.auth.OAuthCredential object.
+      // result.credential is a firebase.auth().OAuthCredential object.
       // result.credential.providerId is equal to 'oidc.myProvider'.
       // result.credential.idToken is the OIDC provider's ID token.
     })
@@ -36,7 +42,7 @@ function oidcSignInRedirectResult(provider) {
   firebase.auth().getRedirectResult()
     .then((result) => {
       // User is signed in.
-      // result.credential is a firebase.auth.OAuthCredential object.
+      // result.credential is a firebase.auth().OAuthCredential object.
       // result.credential.providerId is equal to 'oidc.myProvider'.
       // result.credential.idToken is the OIDC provider's ID token.
     })

@@ -17,7 +17,7 @@ function oidcSignInPopup(provider) {
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
-      credential = OAuthProvider.credentialFromResult(result);
+      const credential = OAuthProvider.credentialFromResult(result);
       // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
     }).catch((error) => {
       // Handle Errors here.
@@ -50,7 +50,7 @@ function oidcSignInRedirectResult(provider) {
   getRedirectResult(auth)
     .then((result) => {
       // User is signed in.
-      credential = OAuthProvider.credentialFromResult(result);
+      const credential = OAuthProvider.credentialFromResult(result);
       // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
     })
     .catch((error) => {
@@ -69,7 +69,7 @@ function oidcSignInRedirectResult(provider) {
 
 function oidcDirectSignIn(provider, oidcIdToken) {
   // [START auth_oidc_direct_sign_in]
-  const { getAuth, OAuthProvider } = require("firebase/auth");
+  const { getAuth, OAuthProvider, signInWithCredential } = require("firebase/auth");
 
   const auth = getAuth();
   const credential = provider.credential({
