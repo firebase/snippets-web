@@ -74,11 +74,11 @@ function oidcDirectSignIn(provider, oidcIdToken) {
   const auth = getAuth();
   const credential = provider.credential({
     idToken: oidcIdToken,
-  })
+  });
   signInWithCredential(auth, credential)
     .then((result) => {
       // User is signed in.
-      credential = OAuthProvider.credentialFromResult(result);
+      const newCredential = OAuthProvider.credentialFromResult(result);
       // This gives you a new access token for the OIDC provider. You can use it to directly interact with that provider.
     })
     .catch((error) => {
