@@ -17,6 +17,8 @@ function samlSignInPopup(provider) {
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
+      // Provider data available from the result.user.getIdToken()
+      // or from result.user.providerData
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -25,6 +27,7 @@ function samlSignInPopup(provider) {
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = SAMLAuthProvider.credentialFromError(error);
+      // Handle / display error.
       // ...
     });
   // [END auth_saml_signin_popup]
@@ -46,8 +49,9 @@ function samlSignInRedirectResult(provider) {
   const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
-      credential = SAMLAuthProvider.credentialFromResult(result);
-      // ...
+      // User is signed in.
+      // Provider data available from the result.user.getIdToken()
+      // or from result.user.providerData
     })
     .catch((error) => {
       // Handle Errors here.
@@ -57,8 +61,7 @@ function samlSignInRedirectResult(provider) {
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = SAMLAuthProvider.credentialFromError(error);
-      console.log(error);
-      console.log(credential);
+      // Handle / display error.
       // ...
     });
   // [END auth_saml_signin_redirect_result]

@@ -11,6 +11,7 @@ function oidcSignInPopup(provider) {
   // [START auth_oidc_signin_popup]
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
+      // User is signed in.
       // result.credential is a firebase.auth.OAuthCredential object.
       // result.credential.providerId is equal to 'oidc.myProvider'.
       // result.credential.idToken is the OIDC provider's ID token.
@@ -34,12 +35,14 @@ function oidcSignInRedirectResult(provider) {
   // On return.
   firebase.auth().getRedirectResult()
     .then((result) => {
+      // User is signed in.
       // result.credential is a firebase.auth.OAuthCredential object.
       // result.credential.providerId is equal to 'oidc.myProvider'.
       // result.credential.idToken is the OIDC provider's ID token.
     })
     .catch((error) => {
-      // Handle error.
+      // Handle / display error.
+      // ...
     });
   // [END auth_oidc_signin_redirect_result]
 }
@@ -50,10 +53,12 @@ function oidcDirectSignIn(provider, oidcIdToken) {
 
   firebase.auth().signInWithCredential(credential)
     .then((result) => {
-      // user now has a odic.myProvider UserInfo in providerData.
+      // User is signed in.
+      // User now has a odic.myProvider UserInfo in providerData.
     })
     .catch((error) => {
-      // Handle error.
+      // Handle / display error.
+      // ...
     });
   // [END auth_oidc_direct_sign_in]
 }

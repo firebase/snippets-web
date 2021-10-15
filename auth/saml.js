@@ -19,7 +19,8 @@ function samlSignInPopup(provider) {
       // idTokenResult.claims.firebase.sign_in_attributes.
     })
     .catch((error) => {
-      // Handle error.
+      // Handle / display error.
+      // ...
     });
   // [END auth_saml_signin_popup]
 }
@@ -41,8 +42,9 @@ function samlSignInRedirectResult(provider) {
       // This is also available from result.user.getIdTokenResult()
       // idTokenResult.claims.firebase.sign_in_attributes.
     }).catch((error) => {
-      // Handle error.
-    });    
-    // [END auth_saml_signin_redirect_result]
+      // Handle / display error.
+      // ...
+    });
+  // [END auth_saml_signin_redirect_result]
 }
 

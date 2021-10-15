@@ -17,6 +17,8 @@ function oidcSignInPopup(provider) {
   signInWithPopup(auth, provider)
     .then((result) => {
       // User is signed in.
+      credential = OAuthProvider.credentialFromResult(result);
+      // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
@@ -25,6 +27,7 @@ function oidcSignInPopup(provider) {
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = OAuthProvider.credentialFromError(error);
+      // Handle / display error.
       // ...
     });
   // [END auth_oidc_signin_popup]
@@ -46,8 +49,9 @@ function oidcSignInRedirectResult(provider) {
   const auth = getAuth();
   getRedirectResult(auth)
     .then((result) => {
+      // User is signed in.
       credential = OAuthProvider.credentialFromResult(result);
-      // ...
+      // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
     })
     .catch((error) => {
       // Handle Errors here.
@@ -57,8 +61,7 @@ function oidcSignInRedirectResult(provider) {
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = OAuthProvider.credentialFromError(error);
-      console.log(error);
-      console.log(credential);
+      // Handle / display error.
       // ...
     });
   // [END auth_oidc_signin_redirect_result]
@@ -74,8 +77,9 @@ function oidcDirectSignIn(provider, oidcIdToken) {
   })
   signInWithCredential(auth, credential)
     .then((result) => {
+      // User is signed in.
       credential = OAuthProvider.credentialFromResult(result);
-      // ...
+      // This gives you a new access token for the OIDC provider. You can use it to directly interact with that provider.
     })
     .catch((error) => {
       // Handle Errors here.
@@ -85,8 +89,7 @@ function oidcDirectSignIn(provider, oidcIdToken) {
       const email = error.email;
       // The AuthCredential type that was used.
       const credential = OAuthProvider.credentialFromError(error);
-      console.log(error);
-      console.log(credential);
+      // Handle / display error.
       // ...
     });
   // [END auth_oidc_direct_sign_in]
