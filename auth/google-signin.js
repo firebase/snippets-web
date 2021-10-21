@@ -142,3 +142,9 @@ function isUserEqual(googleUser, firebaseUser) {
   return false;
 }
 // [END auth_google_checksameuser]
+
+function googleProviderCredential(idToken) {
+  // [START auth_google_provider_credential]
+  var credential = firebase.auth.GoogleAuthProvider.credential(idToken);
+  // [END auth_google_provider_credential]
+}

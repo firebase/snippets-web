@@ -163,3 +163,12 @@ function authWithCredential(credential) {
     });
   // [END auth_facebook_signin_credential]
 }
+
+function facebookProviderCredential(accessToken) {
+  // [START auth_facebook_provider_credential]
+  const { FacebookAuthProvider } = require("firebase/auth");
+
+  const credential = FacebookAuthProvider.credential(accessToken);
+  // [END auth_facebook_provider_credential]
+}
+

@@ -23,7 +23,7 @@ function switchTenantSingleAuth() {
   // [END multitenant_switch_tenant]
 }
 
-function switchTenantMultiAuthInstance(config) {
+function switchTenantMultiAuth(config) {
   // [START multitenant_switch_tenant_multiinstance]
   // Multiple Auth instances
   firebase.initializeApp(config, 'app1_for_tenantId1');

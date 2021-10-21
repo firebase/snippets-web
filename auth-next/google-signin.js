@@ -157,4 +157,13 @@ function isUserEqual_wrapper() {
   // [END auth_google_checksameuser]
 }
 
+function googleProviderCredential(idToken) {
+  // [START auth_google_provider_credential]
+  const { GoogleAuthProvider } = require("firebase/auth");
+
+  const credential = GoogleAuthProvider.credential(idToken);
+  // [END auth_google_provider_credential]
+}
+
+
 

@@ -151,3 +151,9 @@ function authWithCredential(credential) {
     });
   // [END auth_facebook_signin_credential]
 }
+
+function facebookProviderCredential(accessToken) {
+  // [START auth_facebook_provider_credential]
+  var credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+  // [END auth_facebook_provider_credential]
+}
