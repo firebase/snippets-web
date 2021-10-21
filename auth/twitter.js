@@ -76,3 +76,9 @@ function twitterSignInRedirectResult() {
     });
   // [END auth_twitter_signin_redirect_result]
 }
+
+function twitterProviderCredential(accessToken, secret) {
+  // [START auth_twitter_provider_credential]
+  var credential = firebase.auth.TwitterAuthProvider.credential(accessToken, secret);
+  // [END auth_twitter_provider_credential]
+}
