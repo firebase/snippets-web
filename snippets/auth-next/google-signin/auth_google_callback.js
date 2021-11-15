@@ -8,16 +8,16 @@
 import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
 const auth = getAuth();
 
-function onSignIn(googleUser) {
-  console.log('Google Auth Response', googleUser);
+function onSignIn(googleResponse) {
+  console.log('Sign in with Google response', googleResponse);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
     unsubscribe();
-    // Check if we are already signed-in Firebase with the correct user.
-    if (!isUserEqual(googleUser, firebaseUser)) {
+    // Check if we are already signed in to Firebase with the correct user.
+    const googleIdToken = googleResponse.credential;
+    if (!isUserEqual(googleIdToken, firebaseUser)) {
       // Build Firebase credential with the Google ID token.
-      const credential = GoogleAuthProvider.credential(
-          googleUser.getAuthResponse().id_token);
+      const credential = GoogleAuthProvider.credential(googleIdToken);
 
       // Sign in with credential from the Google user.
       signInWithCredential(auth, credential).catch((error) => {

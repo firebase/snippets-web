@@ -97,24 +97,24 @@ function googleBuildAndSignIn(id_token) {
 
 function onSignIn_wrapper() {
   // See real implementation below
-  function isUserEqual(x, y) {
-    return true;
+  function isUserEqual(googleIdToken, firebaseUser) {
+    return false;
   }
 
   // [START auth_google_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");
   const auth = getAuth();
 
-  function onSignIn(googleUser) {
-    console.log('Google Auth Response', googleUser);
+  function onSignIn(googleResponse) {
+    console.log('Sign in with Google response', googleResponse);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       unsubscribe();
-      // Check if we are already signed-in Firebase with the correct user.
-      if (!isUserEqual(googleUser, firebaseUser)) {
+      // Check if we are already signed in to Firebase with the correct user.
+      const googleIdToken = googleResponse.credential;
+      if (!isUserEqual(googleIdToken, firebaseUser)) {
         // Build Firebase credential with the Google ID token.
-        const credential = GoogleAuthProvider.credential(
-            googleUser.getAuthResponse().id_token);
+        const credential = GoogleAuthProvider.credential(googleIdToken);
     
         // Sign in with credential from the Google user.
         // [START auth_google_signin_credential]
@@ -141,12 +141,25 @@ function isUserEqual_wrapper() {
   // [START auth_google_checksameuser]
   const { GoogleAuthProvider } = require("firebase/auth");
 
-  function isUserEqual(googleUser, firebaseUser) {
+  function isUserEqual(googleIdToken, firebaseUser) {
+    // Decode the JWT (without verification).
+    try {
+      const [_header, payload, _sig] = googleIdToken.split(".");
+      const decodedPayload = base64Decode(payload);
+      const jwtClaims = JSON.parse(decodedPayload);
+    } catch (e) {
+      return false;
+    }
+    if (!jwtClaims.hasOwnProperty("sub")) {
+      return false;
+    }
+  
+    // Check if Firebase user is signed in using the same Google UID.
     if (firebaseUser) {
       const providerData = firebaseUser.providerData;
       for (let i = 0; i < providerData.length; i++) {
         if (providerData[i].providerId === GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.getBasicProfile().getId()) {
+            providerData[i].uid === jwtClaims.sub) {
           // We don't need to reauth the Firebase connection.
           return true;
         }

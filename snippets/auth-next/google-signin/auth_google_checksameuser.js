@@ -7,12 +7,25 @@
 // [START auth_google_checksameuser_modular]
 import { GoogleAuthProvider } from "firebase/auth";
 
-function isUserEqual(googleUser, firebaseUser) {
+function isUserEqual(googleIdToken, firebaseUser) {
+  // Decode the JWT (without verification).
+  try {
+    const [_header, payload, _sig] = googleIdToken.split(".");
+    const decodedPayload = base64Decode(payload);
+    const jwtClaims = JSON.parse(decodedPayload);
+  } catch (e) {
+    return false;
+  }
+  if (!jwtClaims.hasOwnProperty("sub")) {
+    return false;
+  }
+
+  // Check if Firebase user is signed in using the same Google UID.
   if (firebaseUser) {
     const providerData = firebaseUser.providerData;
     for (let i = 0; i < providerData.length; i++) {
       if (providerData[i].providerId === GoogleAuthProvider.PROVIDER_ID &&
-          providerData[i].uid === googleUser.getBasicProfile().getId()) {
+          providerData[i].uid === jwtClaims.sub) {
         // We don't need to reauth the Firebase connection.
         return true;
       }
