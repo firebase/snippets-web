@@ -127,19 +127,15 @@ function onSignIn(googleResponse) {
 }
 // [END auth_google_callback]
 
+function jwt_decode(_jwt) {
+  // Dummy implementation.
+  return { sub: "" };
+}
+
 // [START auth_google_checksameuser]
 function isUserEqual(googleIdToken, firebaseUser) {
-  // Decode the JWT (without verification).
-  try {
-    const [_header, payload, _sig] = googleIdToken.split(".");
-    const decodedPayload = base64Decode(payload);
-    const jwtClaims = JSON.parse(decodedPayload);
-  } catch (e) {
-    return false;
-  }
-  if (!jwtClaims.hasOwnProperty("sub")) {
-    return false;
-  }
+  // Decode the JWT using a library such as https://github.com/auth0/jwt-decode
+  var jwtClaims = jwt_decode(googleIdToken);
 
   // Check if Firebase user is signed in using the same Google UID.
   if (firebaseUser) {
