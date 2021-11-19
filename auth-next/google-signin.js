@@ -96,10 +96,6 @@ function googleBuildAndSignIn(id_token) {
 }
 
 function onSignIn_wrapper() {
-  // See real implementation below
-  function isUserEqual(googleIdToken, firebaseUser) {
-    return false;
-  }
 
   // [START auth_google_callback]
   const { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");
@@ -110,60 +106,26 @@ function onSignIn_wrapper() {
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       unsubscribe();
-      // Check if we are already signed in to Firebase with the correct user.
+      // Build Firebase credential with the Google ID token.
       const googleIdToken = googleResponse.credential;
-      if (!isUserEqual(googleIdToken, firebaseUser)) {
-        // Build Firebase credential with the Google ID token.
-        const credential = GoogleAuthProvider.credential(googleIdToken);
-    
-        // Sign in with credential from the Google user.
-        // [START auth_google_signin_credential]
-        signInWithCredential(auth, credential).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.email;
-          // The credential that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          // ...
-        });
-        // [END auth_google_signin_credential]
-      } else {
-        console.log('User already signed-in Firebase.');
-      }
+      const credential = GoogleAuthProvider.credential(googleIdToken);
+  
+      // Sign in with credential from the Google user.
+      // [START auth_google_signin_credential]
+      signInWithCredential(auth, credential).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.email;
+        // The credential that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+      // [END auth_google_signin_credential]
     });
   }
   // [END auth_google_callback]
-}
-
-function jwt_decode(_jwt) {
-  // Dummy implementation.
-  return { sub: "" };
-}
-
-function isUserEqual_wrapper() {
-  // [START auth_google_checksameuser]
-  const { GoogleAuthProvider } = require("firebase/auth");
-
-  function isUserEqual(googleIdToken, firebaseUser) {
-    // Decode the JWT using a library such as https://github.com/auth0/jwt-decode
-    const jwtClaims = jwt_decode(googleIdToken);
-  
-    // Check if Firebase user is signed in using the same Google UID.
-    if (firebaseUser) {
-      const providerData = firebaseUser.providerData;
-      for (let i = 0; i < providerData.length; i++) {
-        if (providerData[i].providerId === GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === jwtClaims.sub) {
-          // We don't need to reauth the Firebase connection.
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  // [END auth_google_checksameuser]
 }
 
 function googleProviderCredential(idToken) {
