@@ -29,3 +29,4 @@ getDownloadURL(ref(storage, 'images/stars.jpg'))
     // Handle any errors
   });
 // [END storage_download_via_url_modular]
+
