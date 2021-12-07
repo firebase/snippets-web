@@ -8,8 +8,7 @@
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const storage = getStorage();
-const starsRef = ref(storage, 'images/stars.jpg');
-getDownloadURL(starsRef)
+getDownloadURL(ref(storage, 'images/stars.jpg'))
   .then((url) => {
     // `url` is the download URL for 'images/stars.jpg'
 
