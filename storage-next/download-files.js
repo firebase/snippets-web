@@ -24,7 +24,6 @@ function downloadViaUrl() {
 
   const storage = getStorage();
   const starsRef = ref(storage, 'images/stars.jpg');
-  
   getDownloadURL(starsRef)
     .then((url) => {
       // `url` is the download URL for 'images/stars.jpg'
