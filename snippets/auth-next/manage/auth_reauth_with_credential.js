@@ -15,7 +15,7 @@ const promptForCredentials = (userProvidedPassword) => {
   return EmailAuthProvider.credential(user.email, userProvidedPassword);
 }
 
-const credential = promptForCredentials();
+const credential = promptForCredentials(userProvidedPassword);
 
 reauthenticateWithCredential(user, credential).then(() => {
   // User re-authenticated.
