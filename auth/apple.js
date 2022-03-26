@@ -170,7 +170,7 @@ function appleNonceNode() {
       crypto.randomFillSync(buf);
       nonce = decoder.write(buf);
     }
-    return nonce.substr(0, length);
+    return nonce.slice(0, length);
   };
   
   const unhashedNonce = generateNonce(10);
