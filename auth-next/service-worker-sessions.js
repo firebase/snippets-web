@@ -147,7 +147,7 @@ function svcRegister() {
   // [START auth_svc_register]
   // Install servicerWorker if supported on sign-in/sign-up page.
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js', {scope: '/'});
+    navigator.serviceWorker.register('/service-worker.js', {type: 'module', scope: '/'});
   }
   // [END auth_svc_register]
 }
