@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START rtdb_social_write_fan_out_modular]
-import { getDatabase, ref, child, push, update } from "firebase/database";
+import { getDatabase, ref, update, push, child } from "firebase/database";
 
 function writeNewPost(uid, username, picture, title, body) {
   const db = getDatabase();
