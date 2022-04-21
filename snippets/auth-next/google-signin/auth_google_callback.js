@@ -8,31 +8,26 @@
 import { getAuth, onAuthStateChanged, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
 const auth = getAuth();
 
-function onSignIn(googleUser) {
-  console.log('Google Auth Response', googleUser);
+function onSignIn(googleResponse) {
+  console.log('Sign in with Google response', googleResponse);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
     unsubscribe();
-    // Check if we are already signed-in Firebase with the correct user.
-    if (!isUserEqual(googleUser, firebaseUser)) {
-      // Build Firebase credential with the Google ID token.
-      const credential = GoogleAuthProvider.credential(
-          googleUser.getAuthResponse().id_token);
+    // Build Firebase credential with the Google ID token.
+    const googleIdToken = googleResponse.credential;
+    const credential = GoogleAuthProvider.credential(googleIdToken);
 
-      // Sign in with credential from the Google user.
-      signInWithCredential(auth, credential).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.email;
-        // The credential that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-    } else {
-      console.log('User already signed-in Firebase.');
-    }
+    // Sign in with credential from the Google user.
+    signInWithCredential(auth, credential).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.email;
+      // The credential that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
   });
 }
 // [END auth_google_callback_modular]
