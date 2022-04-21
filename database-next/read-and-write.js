@@ -74,9 +74,9 @@ function socialSingleValueRead() {
 }
 
 function writeNewPost_wrapped() {
+  // [START rtdb_social_write_fan_out]
   const { getDatabase, ref, child, push, update } = require("firebase/database");
 
-  // [START rtdb_social_write_fan_out]
   function writeNewPost(uid, username, picture, title, body) {
     const db = getDatabase();
 
