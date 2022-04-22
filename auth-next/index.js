@@ -107,7 +107,7 @@ function authWithCredential(credential) {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // ...
     });
   // [END auth_signin_credential]
