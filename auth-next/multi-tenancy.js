@@ -273,7 +273,7 @@ function accountExistsPopupTenant(auth, samlProvider, googleProvider, goToApp) {
         const pendingCred = error.credential;
         // The credential's tenantId if needed: error.tenantId
         // The provider account's email address.
-        const email = error.email;
+        const email = error.customData.email;
         // Get sign-in methods for this email.
         fetchSignInMethodsForEmail(email, auth)
           .then((methods) => {
@@ -315,7 +315,7 @@ function accountExistsRedirectTenant(auth, samlProvider, googleProvider, goToApp
       // The pending SAML credential.
       pendingCred = error.credential;
       // The provider account's email address.
-      const email = error.email;
+      const email = error.customData.email;
       // Need to set the tenant ID again as the page was reloaded and the
       // previous setting was reset.
       auth.tenantId = tenantId;
