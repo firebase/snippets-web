@@ -20,7 +20,7 @@ getRedirectResult(auth)
     const errorCode = error.code;
     const errorMessage = error.message;
     // The email of the user's account used.
-    const email = error.email;
+    const email = error.customData.email;
     // AuthCredential type that was used.
     const credential = FacebookAuthProvider.credentialFromError(error);
     // ...

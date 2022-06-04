@@ -1,0 +1,9 @@
+<script src="https://www.gstatic.com/firebasejs/x.x.x/firebase.js"></script>
+<script>
+// Initialize Auth
+const config = {
+  apiKey: "...",
+  authDomain: "my-app-12345.firebaseapp.com"
+};
+firebase.initializeApp(config);
+</script>
