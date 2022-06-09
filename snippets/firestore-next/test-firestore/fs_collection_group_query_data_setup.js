@@ -7,48 +7,48 @@
 // [START fs_collection_group_query_data_setup_modular]
 import { collection, doc, addDoc } from "firebase/firestore";
 
-const citiesRef = collection(db, "cities");
+const citiesRef = collection(db, 'cities');
 
 await Promise.all([
-    addDoc(doc(citiesRef, "SF", "landmarks"), {
-        name: "Golden Gate Bridge",
-        type: "bridge",
+    addDoc(doc(citiesRef, 'SF', 'landmarks'), {
+        name: 'Golden Gate Bridge',
+        type: 'bridge',
     }),
-    addDoc(doc(citiesRef, "SF", "landmarks"), {
-        name: "Legion of Honor",
-        type: "museum",
+    addDoc(doc(citiesRef, 'SF', 'landmarks'), {
+        name: 'Legion of Honor',
+        type: 'museum',
     }),
-    addDoc(doc(citiesRef, "LA", "landmarks"), {
-        name: "Griffith Park",
-        type: "park",
+    addDoc(doc(citiesRef, 'LA', 'landmarks'), {
+        name: 'Griffith Park',
+        type: 'park',
     }),
-    addDoc(doc(citiesRef, "LA", "landmarks"), {
-        name: "The Getty",
-        type: "museum",
+    addDoc(doc(citiesRef, 'LA', 'landmarks'), {
+        name: 'The Getty',
+        type: 'museum',
     }),
-    addDoc(doc(citiesRef, "DC", "landmarks"), {
-        name: "Lincoln Memorial",
-        type: "memorial",
+    addDoc(doc(citiesRef, 'DC', 'landmarks'), {
+        name: 'Lincoln Memorial',
+        type: 'memorial',
     }),
-    addDoc(doc(citiesRef, "DC", "landmarks"), {
-        name: "National Air and Space Museum",
-        type: "museum",
+    addDoc(doc(citiesRef, 'DC', 'landmarks'), {
+        name: 'National Air and Space Museum',
+        type: 'museum',
     }),
-    addDoc(doc(citiesRef, "TOK", "landmarks"), {
-        name: "Ueno Park",
-        type: "park",
+    addDoc(doc(citiesRef, 'TOK', 'landmarks'), {
+        name: 'Ueno Park',
+        type: 'park',
     }),
-    addDoc(doc(citiesRef, "TOK", "landmarks"), {
-        name: "National Museum of Nature and Science",
-        type: "museum",
+    addDoc(doc(citiesRef, 'TOK', 'landmarks'), {
+        name: 'National Museum of Nature and Science',
+        type: 'museum',
     }),
-    addDoc(doc(citiesRef, "BJ", "landmarks"), {
-        name: "Jingshan Park",
-        type: "park",
+    addDoc(doc(citiesRef, 'BJ', 'landmarks'), {
+        name: 'Jingshan Park',
+        type: 'park',
     }),
-    addDoc(doc(citiesRef, "BJ", "landmarks"), {
-        name: "Beijing Ancient Observatory",
-        type: "museum",
+    addDoc(doc(citiesRef, 'BJ', 'landmarks'), {
+        name: 'Beijing Ancient Observatory',
+        type: 'museum',
     }),
 ]);
 // [END fs_collection_group_query_data_setup_modular]
