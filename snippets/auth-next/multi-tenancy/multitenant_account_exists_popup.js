@@ -19,7 +19,7 @@ signInWithPopup(auth, samlProvider)
       const pendingCred = error.credential;
       // The credential's tenantId if needed: error.tenantId
       // The provider account's email address.
-      const email = error.email;
+      const email = error.customData.email;
       // Get sign-in methods for this email.
       fetchSignInMethodsForEmail(email, auth)
         .then((methods) => {
