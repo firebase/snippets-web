@@ -1095,7 +1095,7 @@ describe("firestore", () => {
         describe('collectionGroup(landmarks)', () => {
             it("should setup example data", async () => {
                 // [START fs_collection_group_query_data_setup]
-                const { collection, doc, setDoc } = require("firebase/firestore");  
+                const { collection, addDoc } = require("firebase/firestore");  
 
                 const citiesRef = collection(db, 'cities');
 

@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START fs_collection_group_query_data_setup_modular]
-import { collection, doc, setDoc } from "firebase/firestore";  
+import { collection, addDoc } from "firebase/firestore";  
 
 const citiesRef = collection(db, 'cities');
 
