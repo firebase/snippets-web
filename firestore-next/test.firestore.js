@@ -1048,7 +1048,7 @@ describe("firestore", () => {
               const docSnap = await getDoc(doc(citiesRef, "SF"));
               
               // Get all cities with a population bigger than San Francisco
-              const biggerThanSf = query(citiesRef, orderBy("popuation"), startAt(docSnap));
+              const biggerThanSf = query(citiesRef, orderBy("population"), startAt(docSnap));
               // ...
               // [END start_doc]
             });
