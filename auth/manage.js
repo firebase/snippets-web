@@ -144,7 +144,7 @@ function reauthenticateWithCredential() {
   user.reauthenticateWithCredential(credential).then(() => {
     // User re-authenticated.
   }).catch((error) => {
-    // An error ocurred
+    // An error occurred
     // ...
   });
   // [END auth_reauth_with_credential]
