@@ -40,7 +40,7 @@ function facebookSignInPopup(provider) {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = FacebookAuthProvider.credentialFromError(error);
 
@@ -66,7 +66,7 @@ function facebookSignInRedirectResult() {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // AuthCredential type that was used.
       const credential = FacebookAuthProvider.credentialFromError(error);
       // ...
@@ -102,7 +102,7 @@ function checkLoginState_wrapper() {
               const errorCode = error.code;
               const errorMessage = error.message;
               // The email of the user's account used.
-              const email = error.email;
+              const email = error.customData.email;
               // The AuthCredential type that was used.
               const credential = FacebookAuthProvider.credentialFromError(error);
               // ...
@@ -156,7 +156,7 @@ function authWithCredential(credential) {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = FacebookAuthProvider.credentialFromError(error);
       // ...

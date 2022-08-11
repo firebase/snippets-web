@@ -1011,7 +1011,7 @@ describe("firestore", () => {
                 // [END start_multiple_orderby]
             });
 
-            it("shoud paginate", () => {
+            it("should paginate", () => {
               // [START paginate]
               var first = db.collection("cities")
                       .orderBy("population")

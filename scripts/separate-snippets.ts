@@ -77,7 +77,7 @@ function adjustIndentation(lines: string[]) {
     if (isBlank(line)) {
       outputLines.push("");
     } else {
-      outputLines.push(line.substr(minIndent));
+      outputLines.push(line.slice(minIndent));
     }
   }
   return outputLines;
