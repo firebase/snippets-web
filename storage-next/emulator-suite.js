@@ -11,3 +11,4 @@ function onDocumentReady() {
     connectStorageEmulator(storage, "localhost", 9199);
   } 
   // [END storage_emulator_connect]
+}
