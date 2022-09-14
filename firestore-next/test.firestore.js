@@ -483,12 +483,12 @@ describe("firestore", () => {
 
             const washingtonRef = doc(db, "cities", "DC");
 
-            // Atomically add a new region to the "regions" array field.
+            // Automatically add a new region to the "regions" array field.
             await updateDoc(washingtonRef, {
                 regions: arrayUnion("greater_virginia")
             });
 
-            // Atomically remove a region from the "regions" array field.
+            // Automatically remove a region from the "regions" array field.
             await updateDoc(washingtonRef, {
                 regions: arrayRemove("east_coast")
             });
@@ -501,7 +501,7 @@ describe("firestore", () => {
 
             const washingtonRef = doc(db, "cities", "DC");
 
-            // Atomically increment the population of the city by 50.
+            // Automatically increment the population of the city by 50.
             await updateDoc(washingtonRef, {
                 population: increment(50)
             });

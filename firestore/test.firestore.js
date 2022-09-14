@@ -484,12 +484,12 @@ describe("firestore", () => {
             // [START update_document_array]
             var washingtonRef = db.collection("cities").doc("DC");
 
-            // Atomically add a new region to the "regions" array field.
+            // Automatically add a new region to the "regions" array field.
             washingtonRef.update({
                 regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
             });
 
-            // Atomically remove a region from the "regions" array field.
+            // Automatically remove a region from the "regions" array field.
             washingtonRef.update({
                 regions: firebase.firestore.FieldValue.arrayRemove("east_coast")
             });
@@ -500,7 +500,7 @@ describe("firestore", () => {
             // [START update_document_increment]
             var washingtonRef = db.collection('cities').doc('DC');
 
-            // Atomically increment the population of the city by 50.
+            // Automatically increment the population of the city by 50.
             washingtonRef.update({
                 population: firebase.firestore.FieldValue.increment(50)
             });

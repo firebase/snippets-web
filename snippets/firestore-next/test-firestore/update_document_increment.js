@@ -9,7 +9,7 @@ import { doc, updateDoc, increment } from "firebase/firestore";
 
 const washingtonRef = doc(db, "cities", "DC");
 
-// Atomically increment the population of the city by 50.
+// Automatically increment the population of the city by 50.
 await updateDoc(washingtonRef, {
     population: increment(50)
 });
