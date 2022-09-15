@@ -1158,6 +1158,17 @@ describe("firestore", () => {
         });
     });
 
+    describe("aggregate queries", () => {
+      it("should fetch the count of documents in a collection", async () => {
+        // [START count_aggregate_query]
+        const coll = collection(db, "games/chess/players");
+        const query = query(coll, where("online", "==", true));
+        const snapshot = await getCountFromServer(query);
+        console.log('count: ', snapshot.data().count);
+        // [END count_aggregate_query]
+      });
+    });
+
     // TODO: Break out into separate file
     describe("solution-aggregation", () => {
         it("should update a restaurant in a transaction #UNVERIFIED", async () => {
