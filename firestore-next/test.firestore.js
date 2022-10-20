@@ -1172,8 +1172,8 @@ describe("firestore", () => {
             const { collection, getCountFromServer, where, query } = require("firebase/firestore"); 
             // [START count_aggregate_query]
             const coll = collection(db, "cities");
-            const query = query(coll, where("state", "==", "CA"));
-            const snapshot = await getCountFromServer(query);
+            const q = query(coll, where("state", "==", "CA"));
+            const snapshot = await getCountFromServer(q);
             console.log('count: ', snapshot.data().count);
             // [END count_aggregate_query]
         });
