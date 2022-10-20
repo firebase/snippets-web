@@ -1159,22 +1159,24 @@ describe("firestore", () => {
     });
 
     describe("aggregate queries", () => {
-      it("should fetch the count of documents in a collection", async () => {
-        // [START count_aggregate_collection]
-        const coll = collection(db, "cities");
-        const snapshot = await getCountFromServer(coll);
-        console.log('count: ', snapshot.data().count);
-        // [END count_aggregate_collection]
-      });
+        it("should fetch the count of documents in a collection", async () => {
+            const { collection, getCountFromServer } = require("firebase/firestore"); 
+            // [START count_aggregate_collection]
+            const coll = collection(db, "cities");
+            const snapshot = await getCountFromServer(coll);
+            console.log('count: ', snapshot.data().count);
+            // [END count_aggregate_collection]
+        });
 
-      it("should fetch the count of documents in a query", async () => {
-        // [START count_aggregate_query]
-        const coll = collection(db, "cities");
-        const query = query(coll, where("state", "==", "CA"));
-        const snapshot = await getCountFromServer(query);
-        console.log('count: ', snapshot.data().count);
-        // [END count_aggregate_query]
-      });
+        it("should fetch the count of documents in a query", async () => {
+            const { collection, getCountFromServer, where, query } = require("firebase/firestore"); 
+            // [START count_aggregate_query]
+            const coll = collection(db, "cities");
+            const query = query(coll, where("state", "==", "CA"));
+            const snapshot = await getCountFromServer(query);
+            console.log('count: ', snapshot.data().count);
+            // [END count_aggregate_query]
+        });
     });
 
     // TODO: Break out into separate file
