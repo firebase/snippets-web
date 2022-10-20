@@ -20,7 +20,7 @@ getRedirectResult(auth).catch((error) => {
     // The pending SAML credential.
     pendingCred = error.credential;
     // The provider account's email address.
-    const email = error.email;
+    const email = error.customData.email;
     // Need to set the tenant ID again as the page was reloaded and the
     // previous setting was reset.
     auth.tenantId = tenantId;
