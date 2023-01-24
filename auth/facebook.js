@@ -31,6 +31,8 @@ function facebookSignInPopup(provider) {
 
       // The signed-in user info.
       var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
 
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var accessToken = credential.accessToken;
@@ -66,6 +68,8 @@ function facebookSignInRedirectResult() {
       }
       // The signed-in user info.
       var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;

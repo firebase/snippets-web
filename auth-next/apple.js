@@ -38,6 +38,7 @@ function appleSignInPopup(provider) {
       const accessToken = credential.accessToken;
       const idToken = credential.idToken;
 
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
     .catch((error) => {
