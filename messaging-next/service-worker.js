@@ -40,7 +40,7 @@ function initInSw() {
 
 function onBackgroundMessage() {
   // [START messaging_on_background_message]
-  const { getMessaging } = require("firebase/messaging");
+  const { getMessaging } = require("firebase/messaging/sw");
   const { onBackgroundMessage } = require("firebase/messaging/sw");
 
   const messaging = getMessaging();
