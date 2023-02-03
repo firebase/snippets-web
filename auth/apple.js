@@ -40,7 +40,8 @@ function appleSignInPopup(provider) {
       var accessToken = credential.accessToken;
       var idToken = credential.idToken;
 
-      // ...
+      // IdP data available using getAdditionalUserInfo(result)
+    // ...
     })
     .catch((error) => {
       // Handle Errors here.
@@ -77,6 +78,7 @@ function appleSignInRedirectResult() {
         var accessToken = credential.accessToken;
         var idToken = credential.idToken;
 
+        // IdP data available in result.additionalUserInfo.profile.
         // ...
       }
       // The signed-in user info.
@@ -117,7 +119,8 @@ function appleReauthenticatePopup() {
       var accessToken = credential.accessToken;
       var idToken = credential.idToken;
   
-      // ...
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     })
     .catch((error) => {
       // Handle Errors here.

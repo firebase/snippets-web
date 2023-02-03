@@ -17,6 +17,7 @@ signInWithPopup(auth, provider)
     const credential = FacebookAuthProvider.credentialFromResult(result);
     const accessToken = credential.accessToken;
 
+    // IdP data available using getAdditionalUserInfo(result)
     // ...
   })
   .catch((error) => {

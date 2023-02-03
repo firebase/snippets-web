@@ -34,7 +34,8 @@ function googleSignInPopup(provider) {
       var token = credential.accessToken;
       // The signed-in user info.
       var user = result.user;
-      // ...
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
@@ -63,6 +64,8 @@ function googleSignInRedirectResult() {
       }
       // The signed-in user info.
       var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;

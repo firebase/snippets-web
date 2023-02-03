@@ -33,6 +33,7 @@ function facebookSignInPopup(provider) {
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
 
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
     .catch((error) => {
@@ -61,6 +62,8 @@ function facebookSignInRedirectResult() {
       const token = credential.accessToken;
 
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;

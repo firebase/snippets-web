@@ -32,7 +32,8 @@ function twitterSignInPopup(provider) {
 
       // The signed-in user info.
       var user = result.user;
-      // ...
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
@@ -64,6 +65,8 @@ function twitterSignInRedirectResult() {
 
       // The signed-in user info.
       var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
