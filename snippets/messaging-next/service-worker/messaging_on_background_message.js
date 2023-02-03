@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START messaging_on_background_message_modular]
-import { getMessaging } from "firebase/messaging";
+import { getMessaging } from "firebase/messaging/sw";
 import { onBackgroundMessage } from "firebase/messaging/sw";
 
 const messaging = getMessaging();
