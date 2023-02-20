@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START rtdb_social_star_transaction_modular]
-import { getDatabase, ref, runTransaction } from "firebase/database";
+import { getDatabase, ref, runTransaction, increment } from "firebase/database";
 
 function toggleStar(uid) {
   const db = getDatabase();
@@ -28,3 +28,14 @@ function toggleStar(uid) {
   });
 }
 // [END rtdb_social_star_transaction_modular]
+
+// [START rtdb_social_star_increment_modular]
+function addStar(uid, key) {
+  const updates = {};
+  updates[`posts/${key}/stars/${uid}`] = true;
+  updates[`posts/${key}/starCount`] = increment(1);
+  updates[`user-posts/${key}/stars/${uid}`] = true;
+  updates[`user-posts/${key}/starCount`] = increment(1);
+  firebase.database().ref().update(updates);
+}
+// [END rtdb_social_star_increment_modular]
