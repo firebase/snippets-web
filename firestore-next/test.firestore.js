@@ -1106,8 +1106,8 @@ describe("firestore", () => {
             it("should handle OR queries", async () => {
               const { collection, query, where, and } = require("firebase/firestore");
               // [START or_query]
-              const query = query(collection(db, "cities"), and(
-                where('name', '>', 'L'),   
+              const q = query(collection(db, "cities"), and(
+                where('state', '==', 'CA'),   
                 or(
                   where('capital', '==', true),
                   where('population', '>=', 1000000)
