@@ -6,7 +6,7 @@ function emulatorConnect() {
   const { getAuth, connectAuthEmulator } = require("firebase/auth");
 
   const auth = getAuth();
-  connectAuthEmulator(auth, "http://localhost:9099");
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
   // [END auth_emulator_connect]
 }
 
