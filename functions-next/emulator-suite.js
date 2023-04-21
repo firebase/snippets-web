@@ -15,7 +15,7 @@ export function emulatorSettings() {
   const { getFunctions, connectFunctionsEmulator } = require("firebase/functions");
 
   const functions = getFunctions(getApp());
-  connectFunctionsEmulator(functions, "localhost", 5001);
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
   // [END fb_functions_emulator_connect]
 }
 
