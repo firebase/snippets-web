@@ -683,6 +683,18 @@ describe("firestore", () => {
             // [END get_multiple_all]
         });
 
+        it("should get all documents from a subcollection", async () => {
+          // [START firestore_query_subcollection]
+          const { collection, getDocs } = require("firebase/firestore");
+          // Query a reference to a subcollection
+          const querySnapshot = await getDocs(collection(db, "cities", "SF", "landmarks"));
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+          });
+          // [END firestore_query_subcollection]
+      });
+
         it("should listen on multiple documents #UNVERIFIED", (done) => {
             // [START listen_multiple]
             const { collection, query, where, onSnapshot } = require("firebase/firestore");
