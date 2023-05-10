@@ -3,8 +3,8 @@
 
 function initialize() {
   // [START appcheck_initialize]
-  import { initializeApp } from 'firebase/app';
-  import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+  import { initializeApp } from "firebase/app";
+  import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
   const app = initializeApp({
     // Your firebase configuration object
@@ -14,19 +14,19 @@ function initialize() {
   // key is the counterpart to the secret key you set in the Firebase console.
   const appCheck = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(
-      'abcdefghijklmnopqrstuvwxy-1234567890abcd'
+      "abcdefghijklmnopqrstuvwxy-1234567890abcd"
     ),
 
     // Optional argument. If true, the SDK automatically refreshes App Check
     // tokens as needed.
-    isTokenAutoRefreshEnabled: true,
+    isTokenAutoRefreshEnabled: true
   });
   // [END appcheck_initialize]
 }
 
 function customProvider() {
   // [START appcheck_custom_provider]
-  import { CustomProvider } from 'firebase/app-check';
+  import { CustomProvider } from "firebase/app-check";
 
   const appCheckCustomProvider = new CustomProvider({
     getToken: () => {
@@ -35,18 +35,18 @@ function customProvider() {
         // expiration time.
 
         // [START_EXCLUDE]
-        const tokenFromServer = 'abc1234';
+        const tokenFromServer = "abc1234";
         const expirationFromServer = 1234;
         // [END_EXCLUDE]
 
         const appCheckToken = {
           token: tokenFromServer,
-          expireTimeMillis: expirationFromServer * 1000,
+          expireTimeMillis: expirationFromServer * 1000
         };
 
         resolve(appCheckToken);
       });
-    },
+    }
   });
   // [END appcheck_custom_provider]
 
@@ -57,8 +57,8 @@ function initializeCustomProvider() {
   const appCheckCustomProvider = customProvider();
 
   // [START appcheck_initialize_custom_provider]
-  import { initializeApp } from 'firebase/app';
-  import { initializeAppCheck } from 'firebase/app-check';
+  import { initializeApp } from "firebase/app";
+  import { initializeAppCheck } from "firebase/app-check";
 
   const app = initializeApp({
     // Your firebase configuration object
@@ -69,21 +69,21 @@ function initializeCustomProvider() {
 
     // Optional argument. If true, the SDK automatically refreshes App Check
     // tokens as needed.
-    isTokenAutoRefreshEnabled: true,
+    isTokenAutoRefreshEnabled: true
   });
   // [END appcheck_initialize_custom_provider]
 }
 
 function nonFirebase() {
-  import { initializeApp } from 'firebase/app';
+  import { initializeApp } from "firebase/app";
   const app = initializeApp({
     // Your firebase configuration object
   });
-  const { ReCaptchaV3Provider } = import('firebase/app-check');
-  const provider = new ReCaptchaV3Provider('');
+  const { ReCaptchaV3Provider } = import("firebase/app-check");
+  const provider = new ReCaptchaV3Provider("");
 
   // [START appcheck_nonfirebase]
-  const { initializeAppCheck, getToken } = import('firebase/app-check');
+  const { initializeAppCheck, getToken } = import("firebase/app-check");
 
   const appCheck = initializeAppCheck(
     app,
@@ -104,11 +104,11 @@ function nonFirebase() {
 
     // Include the App Check token with requests to your server.
     const apiResponse = await fetch(
-      'https://yourbackend.example.com/yourApiEndpoint',
+      "https://yourbackend.example.com/yourApiEndpoint",
       {
         headers: {
-          'X-Firebase-AppCheck': appCheckTokenResponse.token,
-        },
+          "X-Firebase-AppCheck": appCheckTokenResponse.token
+        }
       }
     );
 
