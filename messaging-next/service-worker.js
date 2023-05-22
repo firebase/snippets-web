@@ -16,7 +16,7 @@ let self;
 function initInSw() {
   // [START messaging_init_in_sw]
   const { initializeApp } = require("firebase/app");
-  const { getMessaging } = require("firebase/messaging");
+  const { getMessaging } = require("firebase/messaging/sw");
 
   // Initialize the Firebase app in the service worker by passing in
   // your app's Firebase config object.
@@ -40,7 +40,7 @@ function initInSw() {
 
 function onBackgroundMessage() {
   // [START messaging_on_background_message]
-  const { getMessaging } = require("firebase/messaging");
+  const { getMessaging } = require("firebase/messaging/sw");
   const { onBackgroundMessage } = require("firebase/messaging/sw");
 
   const messaging = getMessaging();

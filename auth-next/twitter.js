@@ -30,13 +30,14 @@ function twitterSignInPopup(provider) {
 
       // The signed-in user info.
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = TwitterAuthProvider.credentialFromError(error);
       // ...
@@ -60,12 +61,14 @@ function twitterSignInRedirectResult() {
 
       // The signed-in user info.
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = TwitterAuthProvider.credentialFromError(error);
       // ...
@@ -73,3 +76,10 @@ function twitterSignInRedirectResult() {
   // [END auth_twitter_signin_redirect_result]
 }
 
+function twitterProviderCredential(accessToken, secret) {
+  // [START auth_twitter_provider_credential]
+  const { TwitterAuthProvider } = require("firebase/auth");
+
+  const credential = TwitterAuthProvider.credential(accessToken, secret);
+  // [END auth_twitter_provider_credential]
+}

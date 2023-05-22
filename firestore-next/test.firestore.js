@@ -583,7 +583,7 @@ describe("firestore", () => {
             if (docSnap.exists()) {
               console.log("Document data:", docSnap.data());
             } else {
-              // doc.data() will be undefined in this case
+              // docSnap.data() will be undefined in this case
               console.log("No such document!");
             }
             // [END get_document]
@@ -682,6 +682,18 @@ describe("firestore", () => {
             });
             // [END get_multiple_all]
         });
+
+        it("should get all documents from a subcollection", async () => {
+          // [START firestore_query_subcollection]
+          const { collection, getDocs } = require("firebase/firestore");
+          // Query a reference to a subcollection
+          const querySnapshot = await getDocs(collection(db, "cities", "SF", "landmarks"));
+          querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+          });
+          // [END firestore_query_subcollection]
+      });
 
         it("should listen on multiple documents #UNVERIFIED", (done) => {
             // [START listen_multiple]
@@ -1048,7 +1060,7 @@ describe("firestore", () => {
               const docSnap = await getDoc(doc(citiesRef, "SF"));
               
               // Get all cities with a population bigger than San Francisco
-              const biggerThanSf = query(citiesRef, orderBy("popuation"), startAt(docSnap));
+              const biggerThanSf = query(citiesRef, orderBy("population"), startAt(docSnap));
               // ...
               // [END start_doc]
             });
@@ -1095,48 +1107,48 @@ describe("firestore", () => {
         describe('collectionGroup(landmarks)', () => {
             it("should setup example data", async () => {
                 // [START fs_collection_group_query_data_setup]
-                const { collection, doc, setDoc } = require("firebase/firestore");  
+                const { collection, addDoc } = require("firebase/firestore");  
 
                 const citiesRef = collection(db, 'cities');
 
                 await Promise.all([
-                    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'SF', 'landmarks'), {
                         name: 'Golden Gate Bridge',
                         type: 'bridge'
                     }),
-                    setDoc(doc(citiesRef, 'SF', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'SF', 'landmarks'), {
                         name: 'Legion of Honor',
                         type: 'museum'
                     }),
-                    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'LA', 'landmarks'), {
                         name: 'Griffith Park',
                         type: 'park'
                     }),
-                    setDoc(doc(citiesRef, 'LA', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'LA', 'landmarks'), {
                         name: 'The Getty',
                         type: 'museum'
                     }),
-                    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'DC', 'landmarks'), {
                         name: 'Lincoln Memorial',
                         type: 'memorial'
                     }),
-                    setDoc(doc(citiesRef, 'DC', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'DC', 'landmarks'), {
                         name: 'National Air and Space Museum',
                         type: 'museum'
                     }),
-                    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
                         name: 'Ueno Park',
                         type: 'park'
                     }),
-                    setDoc(doc(citiesRef, 'TOK', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
                         name: 'National Museum of Nature and Science',
                         type: 'museum'
                     }),
-                    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
                         name: 'Jingshan Park',
                         type: 'park'
                     }),
-                    setDoc(doc(citiesRef, 'BJ', 'landmarks'), {
+                    addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
                         name: 'Beijing Ancient Observatory',
                         type: 'museum'
                     })
@@ -1155,6 +1167,27 @@ describe("firestore", () => {
                 });
                 // [END fs_collection_group_query]
             });
+        });
+    });
+
+    describe("aggregate queries", () => {
+        it("should fetch the count of documents in a collection", async () => {
+            const { collection, getCountFromServer } = require("firebase/firestore"); 
+            // [START count_aggregate_collection]
+            const coll = collection(db, "cities");
+            const snapshot = await getCountFromServer(coll);
+            console.log('count: ', snapshot.data().count);
+            // [END count_aggregate_collection]
+        });
+
+        it("should fetch the count of documents in a query", async () => {
+            const { collection, getCountFromServer, where, query } = require("firebase/firestore"); 
+            // [START count_aggregate_query]
+            const coll = collection(db, "cities");
+            const q = query(coll, where("state", "==", "CA"));
+            const snapshot = await getCountFromServer(q);
+            console.log('count: ', snapshot.data().count);
+            // [END count_aggregate_query]
         });
     });
 

@@ -6,7 +6,7 @@
 
 // [START messaging_init_in_sw_modular]
 import { initializeApp } from "firebase/app";
-import { getMessaging } from "firebase/messaging";
+import { getMessaging } from "firebase/messaging/sw";
 
 // Initialize the Firebase app in the service worker by passing in
 // your app's Firebase config object.

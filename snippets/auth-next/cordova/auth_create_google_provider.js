@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START auth_create_google_provider_modular]
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 const provider = new GoogleAuthProvider();
 // [END auth_create_google_provider_modular]

@@ -13,7 +13,7 @@ const docSnap = await getDoc(docRef);
 if (docSnap.exists()) {
   console.log("Document data:", docSnap.data());
 } else {
-  // doc.data() will be undefined in this case
+  // docSnap.data() will be undefined in this case
   console.log("No such document!");
 }
 // [END get_document_modular]

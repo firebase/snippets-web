@@ -4,24 +4,28 @@
 const perf = getInstance();
 
 function intialize() {
-  // [START perf_imports]
+  // [START perf_import_app]
   const { initializeApp } = require("firebase/app");
+  // [END perf_import_app]
+  // [START perf_import]
   const { getPerformance } = require("firebase/performance");
-  // [END perf_imports]
+  // [END perf_import]
 
-  // [START perf_initialize]
+  // [START perf_initialize_app]
   // TODO: Replace the following with your app's Firebase project configuration
-  // See: https://firebase.google.com/docs/web/setup#config-object
+  // See: https://firebase.google.com/docs/web/learn-more#config-object
   const firebaseConfig = {
     // ...
   };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+  // [END perf_initialize_app]
 
+  // [START perf_singleton]
   // Initialize Performance Monitoring and get a reference to the service
   const perf = getPerformance(app);
-  // [END perf_initialize]
+  // [END perf_singleton]
 }
 
 export function getInstance() {

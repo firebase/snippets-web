@@ -32,7 +32,8 @@ function twitterSignInPopup(provider) {
 
       // The signed-in user info.
       var user = result.user;
-      // ...
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
@@ -64,6 +65,8 @@ function twitterSignInRedirectResult() {
 
       // The signed-in user info.
       var user = result.user;
+      // IdP data available in result.additionalUserInfo.profile.
+        // ...
     }).catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
@@ -75,4 +78,10 @@ function twitterSignInRedirectResult() {
       // ...
     });
   // [END auth_twitter_signin_redirect_result]
+}
+
+function twitterProviderCredential(accessToken, secret) {
+  // [START auth_twitter_provider_credential]
+  var credential = firebase.auth.TwitterAuthProvider.credential(accessToken, secret);
+  // [END auth_twitter_provider_credential]
 }

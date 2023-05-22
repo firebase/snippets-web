@@ -38,6 +38,7 @@ function appleSignInPopup(provider) {
       const accessToken = credential.accessToken;
       const idToken = credential.idToken;
 
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
     .catch((error) => {
@@ -45,7 +46,7 @@ function appleSignInPopup(provider) {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The credential that was used.
       const credential = OAuthProvider.credentialFromError(error);
 
@@ -85,7 +86,7 @@ function appleSignInRedirectResult() {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The credential that was used.
       const credential = OAuthProvider.credentialFromError(error);
 
@@ -123,7 +124,7 @@ function appleReauthenticatePopup() {
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The credential that was used.
       const credential = OAuthProvider.credentialFromError(error);
   
@@ -169,7 +170,7 @@ function appleNonceNode() {
       crypto.randomFillSync(buf);
       nonce = decoder.write(buf);
     }
-    return nonce.substr(0, length);
+    return nonce.slice(0, length);
   };
   
   const unhashedNonce = generateNonce(10);

@@ -43,7 +43,7 @@ function authStateListener() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
+      // https://firebase.google.com/docs/reference/js/v8/firebase.User
       var uid = user.uid;
       // ...
     } else {
@@ -60,7 +60,7 @@ function currentUser() {
 
   if (user) {
     // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
+    // https://firebase.google.com/docs/reference/js/v8/firebase.User
     // ...
   } else {
     // No user is signed in.
@@ -100,4 +100,15 @@ function signInRedirect(provider) {
   // [START auth_signin_redirect]
   firebase.auth().signInWithRedirect(provider);
   // [END auth_signin_redirect]
+}
+
+function initializeWithCustomDomain() {
+  // [START auth_init_custom_domain]
+  firebase.initializeApp({
+    apiKey: '...',
+    // By default, authDomain is '[YOUR_APP].firebaseapp.com'.
+    // You may replace it with a custom domain.
+    authDomain: '[YOUR_CUSTOM_DOMAIN]'
+  });
+  // [END auth_init_custom_domain]
 }

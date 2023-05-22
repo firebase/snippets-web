@@ -33,13 +33,14 @@ function googleSignInPopup(provider) {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
@@ -60,12 +61,14 @@ function googleSignInRedirectResult() {
 
       // The signed-in user info.
       const user = result.user;
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
@@ -87,7 +90,7 @@ function googleBuildAndSignIn(id_token) {
     const errorCode = error.code;
     const errorMessage = error.message;
     // The email of the user's account used.
-    const email = error.email;
+    const email = error.customData.email;
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
@@ -123,7 +126,7 @@ function onSignIn_wrapper() {
           const errorCode = error.code;
           const errorMessage = error.message;
           // The email of the user's account used.
-          const email = error.email;
+          const email = error.customData.email;
           // The credential that was used.
           const credential = GoogleAuthProvider.credentialFromError(error);
           // ...
@@ -156,5 +159,14 @@ function isUserEqual_wrapper() {
   }
   // [END auth_google_checksameuser]
 }
+
+function googleProviderCredential(idToken) {
+  // [START auth_google_provider_credential]
+  const { GoogleAuthProvider } = require("firebase/auth");
+
+  const credential = GoogleAuthProvider.credential(idToken);
+  // [END auth_google_provider_credential]
+}
+
 
 
