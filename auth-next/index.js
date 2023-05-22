@@ -52,7 +52,7 @@ function authStateListener() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
+      // https://firebase.google.com/docs/reference/js/v8/firebase.User
       const uid = user.uid;
       // ...
     } else {
@@ -72,7 +72,7 @@ function currentUser() {
 
   if (user) {
     // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
+    // https://firebase.google.com/docs/reference/js/v8/firebase.User
     // ...
   } else {
     // No user is signed in.
