@@ -67,7 +67,7 @@ describe("firestore-solution-counters", () => {
             // Create a counter, then increment it
             const ref = db.collection('counters').doc();
             return createCounter(ref, 10).then(() => {
-                return incrementCounter(db, ref, 10);
+                return incrementCounter(ref, 10);
             });
         });
 
@@ -75,7 +75,7 @@ describe("firestore-solution-counters", () => {
             // Create a counter, increment it, then get the count
             const ref = db.collection('counters').doc();
             return createCounter(ref, 10).then(() => {
-                return incrementCounter(db, ref, 10);
+                return incrementCounter(ref, 10);
             }).then(() => {
                 return getCount(ref);
             });
