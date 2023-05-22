@@ -600,7 +600,7 @@ describe("firestore", () => {
             var docRef = db.collection("cities").doc("SF");
 
             // Valid options for source are 'server', 'cache', or
-            // 'default'. See https://firebase.google.com/docs/reference/js/firebase.firestore.GetOptions
+            // 'default'. See https://firebase.google.com/docs/reference/js/v8/firebase.firestore.GetOptions
             // for more information.
             var getOptions = {
                 source: 'cache'

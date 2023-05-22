@@ -18,6 +18,15 @@ const RE_END_SNIPPET = /\[END\s+([A-Za-z_]+)\s*\]/;
 // TODO: Handle multiline imports?
 const RE_REQUIRE = /const {(.+?)} = require\((.+?)\)/;
 
+// Regex for ref docs URLs
+// eg. "https://firebase.google.com/docs/reference/js/v8/firebase.User"
+const RE_REF_DOCS = /https:\/\/firebase\.google\.com\/docs\/reference\/js\/(.*)/;
+
+// Maps v8 ref docs URLs to their v9 counterpart
+const REF_DOCS_MAPPINGS: { [key: string]: string } = {
+  "v8/firebase.User" : "auth.user"
+};
+
 type SnippetsConfig = {
   enabled: boolean;
   suffix: string;
@@ -28,6 +37,23 @@ const DEFAULT_SUFFIX = "_modular";
 
 function isBlank(line: string) {
   return line.trim().length === 0;
+}
+
+/**
+ * Replace all v8 ref doc urls with their v9 counterpart.
+ */
+function replaceRefDocsUrls(lines: string[]) {
+  const outputLines = [];
+  for (const line of lines) {
+    if (line.match(RE_REF_DOCS)) {
+      outputLines.push(line.replace(RE_REF_DOCS, (match: string, p1?: string) => {
+        return p1 ? `https://firebase.google.com/docs/reference/js/${REF_DOCS_MAPPINGS[p1]}` : match;
+      }));
+    } else {
+      outputLines.push(line);
+    }
+  }
+  return outputLines;
 }
 
 /**
@@ -119,6 +145,7 @@ function processSnippet(
   outputLines = addSuffixToSnippetNames(outputLines, snippetSuffix);
   outputLines = adjustIndentation(outputLines);
   outputLines = removeFirstLineAfterComments(outputLines);
+  outputLines = replaceRefDocsUrls(outputLines);
 
   // Add a preamble to every snippet
   const preambleLines = [
