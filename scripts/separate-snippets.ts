@@ -47,10 +47,7 @@ function replaceRefDocsUrls(lines: string[]) {
   for (const line of lines) {
     if (line.match(RE_REF_DOCS)) {
       outputLines.push(line.replace(RE_REF_DOCS, (match: string, p1?: string) => {
-        if (p1) {
-          return `https://firebase.google.com/docs/reference/js/${REF_DOCS_MAPPINGS[p1]}`;
-        }
-        return match;
+        return p1 ? `https://firebase.google.com/docs/reference/js/${REF_DOCS_MAPPINGS[p1]}` : match;
       }));
     } else {
       outputLines.push(line);
