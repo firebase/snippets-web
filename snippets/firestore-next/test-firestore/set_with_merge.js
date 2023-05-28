@@ -7,6 +7,6 @@
 // [START set_with_merge_modular]
 import { doc, setDoc } from "firebase/firestore"; 
 
-const cityRef = doc(db, 'cities', 'BJ');
+const cityRef = await doc(db, 'cities', 'BJ');
 setDoc(cityRef, { capital: true }, { merge: true });
 // [END set_with_merge_modular]
