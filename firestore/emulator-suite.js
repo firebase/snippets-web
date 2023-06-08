@@ -6,7 +6,7 @@ function onDocumentReady() {
   // Firebase previously initialized using firebase.initializeApp().
   var db = firebase.firestore();
   if (location.hostname === "localhost") {
-    db.useEmulator("localhost", 8080);
+    db.useEmulator("127.0.0.1", 8080);
   }
   // [END fs_emulator_connect]
 }
