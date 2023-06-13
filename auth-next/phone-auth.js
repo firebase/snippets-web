@@ -15,13 +15,13 @@ function recaptchaVerifierInvisible() {
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
   const auth = getAuth();
-  window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
     'size': 'invisible',
     'callback': (response) => {
       // reCAPTCHA solved, allow signInWithPhoneNumber.
       onSignInSubmit();
     }
-  }, auth);
+  });
   // [END auth_phone_recaptcha_verifier_invisible]
 }
 
@@ -30,7 +30,7 @@ function recaptchaVerifierVisible() {
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
   const auth = getAuth();
-  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
     'size': 'normal',
     'callback': (response) => {
       // reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -40,7 +40,7 @@ function recaptchaVerifierVisible() {
       // Response expired. Ask user to solve reCAPTCHA again.
       // ...
     }
-  }, auth);
+  });
   // [END auth_phone_recaptcha_verifier_visible]
 }
 
@@ -49,7 +49,7 @@ function recaptchaVerifierSimple() {
   const { getAuth, RecaptchaVerifier } = require("firebase/auth");
 
   const auth = getAuth();
-  window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {});
   // [END auth_phone_recaptcha_verifier_simple]
 }
 
