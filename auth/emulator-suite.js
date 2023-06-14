@@ -4,7 +4,7 @@ import "firebase/auth";
 function emulatorConnect() {
   // [START auth_emulator_connect]
   const auth = firebase.auth();
-  auth.useEmulator("http://localhost:9099");
+  auth.useEmulator("http://127.0.0.1:9099");
   // [END auth_emulator_connect]
 }
 

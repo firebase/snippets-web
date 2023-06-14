@@ -8,7 +8,7 @@ function onDocumentReady() {
   const db = getDatabase();
   if (location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
-    connectDatabaseEmulator(db, "localhost", 9000);
+    connectDatabaseEmulator(db, "127.0.0.1", 9000);
   } 
   // [END rtdb_emulator_connect]
 }
