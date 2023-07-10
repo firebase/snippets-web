@@ -44,7 +44,7 @@ function socialListenStarCount() {
   }
 
   // [START rtdb_social_listen_star_count]
-  const { getDatabase, ref, onValue} = require("firebase/database");
+  const { getDatabase, ref, onValue } = require("firebase/database");
 
   const db = getDatabase();
   const starCountRef = ref(db, 'posts/' + postId + '/starCount');
