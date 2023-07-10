@@ -8,11 +8,11 @@
 import { getAuth, RecaptchaVerifier } from "firebase/auth";
 
 const auth = getAuth();
-window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sign-in-button', {
   'size': 'invisible',
   'callback': (response) => {
     // reCAPTCHA solved, allow signInWithPhoneNumber.
     onSignInSubmit();
   }
-}, auth);
+});
 // [END auth_phone_recaptcha_verifier_invisible_modular]
