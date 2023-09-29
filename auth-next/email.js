@@ -32,7 +32,7 @@ function signUpWithEmailPassword() {
   const auth = getAuth();
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in 
+      // Signed up 
       const user = userCredential.user;
       // ...
     })
