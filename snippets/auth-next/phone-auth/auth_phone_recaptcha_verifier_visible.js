@@ -8,7 +8,7 @@
 import { getAuth, RecaptchaVerifier } from "firebase/auth";
 
 const auth = getAuth();
-window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
   'size': 'normal',
   'callback': (response) => {
     // reCAPTCHA solved, allow signInWithPhoneNumber.
@@ -18,5 +18,5 @@ window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
     // Response expired. Ask user to solve reCAPTCHA again.
     // ...
   }
-}, auth);
+});
 // [END auth_phone_recaptcha_verifier_visible_modular]
