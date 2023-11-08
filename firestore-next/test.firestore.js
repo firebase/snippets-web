@@ -892,7 +892,7 @@ describe("firestore", () => {
               const { query, where } = require("firebase/firestore");  
 
               const q = query(citiesRef, 
-                where('regions', 'array-contains-any', ['west_coast', 'east_coast']));
+                where('regions', 'array-contains-any', [['west_coast'], ['east_coast']]));
               // [END array_contains_any_filter]
             });
 
@@ -920,7 +920,7 @@ describe("firestore", () => {
                 // [START in_filter_with_array]
                 const { query, where } = require("firebase/firestore");  
 
-                const q = query(citiesRef, where('regions', 'in', [['west_coast', 'east_coast']]));
+                const q = query(citiesRef, where('regions', 'in', [['west_coast'], ['east_coast']]));
                 // [END in_filter_with_array]
               }
             });

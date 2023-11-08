@@ -877,7 +877,7 @@ describe("firestore", () => {
                 const citiesRef = db.collection('cities');
                 // [START array_contains_any_filter]
                 citiesRef.where('regions', 'array-contains-any',
-                    ['west_coast', 'east_coast']);
+                    [['west_coast'], ['east_coast']]);
                 // [END array_contains_any_filter]
             });
 
@@ -893,7 +893,7 @@ describe("firestore", () => {
 
                 // [START in_filter_with_array]
                 citiesRef.where('regions', 'in',
-                    [['west_coast', 'east_coast']]);
+                    [['west_coast'], ['east_coast']]);
                 // [END in_filter_with_array]
             });
 
