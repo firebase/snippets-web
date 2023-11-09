@@ -28,8 +28,8 @@ function handleUserManagementQueryParams() {
     // Configure the Firebase SDK.
     // This is the minimum configuration required for the API to be used.
     const config = {
-      'apiKey': "YOU_API_KEY" // Copy this key from the web initialization
-                              // snippet found in the Firebase console.
+      'apiKey': "YOUR_API_KEY" // Copy this key from the web initialization
+                               // snippet found in the Firebase console.
     };
     const app = initializeApp(config);
     const auth = getAuth(app);
