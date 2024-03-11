@@ -1,3 +1,6 @@
+const email = "foo@bar.com";
+const password = "yadayada";
+
 // [START register_sw]
 // Install servicerWorker if supported on sign-in/sign-up page.
 if ('serviceWorker' in navigator) {
