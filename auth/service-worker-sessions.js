@@ -164,10 +164,11 @@ function svcSignInEmail(email, password) {
 }
 
 function svcRedirectAdmin() {
+  const app = { use: (a) => {} };
+
   // [START auth_svc_admin]
   // Server side code.
   const admin = require('firebase-admin');
-  const app = { use: (a) => {} };
 
   // The Firebase Admin SDK is used here to verify the ID token.
   admin.initializeApp();
