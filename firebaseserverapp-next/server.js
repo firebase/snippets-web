@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 
 const config = {};
 
-// [START server_client]
+// [START firebaseserverapp_auth]
 export default async function MyServerComponent({ params }) {
 
     // get relevant request headers (NextJS)
@@ -24,4 +24,4 @@ export default async function MyServerComponent({ params }) {
 
     // ...
 }
-// [END server_client]
+// [END firebaseserverapp_auth]
