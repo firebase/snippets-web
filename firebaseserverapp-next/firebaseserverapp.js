@@ -7,13 +7,13 @@ import { redirect } from 'next/navigation';
 
 export default function MyServerComponent() {
 
-    // get relevant request headers (NextJS)
+    // Get relevant request headers (in Next.JS)
     const authIdToken = headers().get('Authorization')?.split('Bearer ')[1];
 
-    // Initialize the Firebase server app instance
+    // Initialize the FirebaseServerApp instance.
     const serverApp = initializeServerApp(firebaseConfig, { authIdToken });
 
-    // Initialize the auth SDK
+    // Initialize Firebase Authentication using the FirebaseServerApp instance.
     const auth = getAuth(serverApp);
 
     if (auth.currentUser) {
