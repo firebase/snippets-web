@@ -1,19 +1,17 @@
-import { headers } from 'next/headers';
-// @ts-expect-error this is not in the firebase js sdk yet
+// @ts-nocheck
+// [START serverapp_auth]
 import { initializeServerApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const config = {};
-
-// [START firebaseserverapp_auth]
-export default async function MyServerComponent({ params }) {
+export default function MyServerComponent() {
 
     // get relevant request headers (NextJS)
     const authIdToken = headers().get('Authorization')?.split('Bearer ')[1];
 
     // Initialize the Firebase server app instance
-    const serverApp = initializeServerApp(config, { authIdToken });
+    const serverApp = initializeServerApp(firebaseConfig, { authIdToken });
 
     // Initialize the auth SDK
     const auth = getAuth(serverApp);
@@ -24,4 +22,6 @@ export default async function MyServerComponent({ params }) {
 
     // ...
 }
-// [END firebaseserverapp_auth]
+// [END serverapp_auth]
+
+const firebaseConfig = {};
