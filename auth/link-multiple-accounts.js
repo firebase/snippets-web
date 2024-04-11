@@ -167,7 +167,7 @@ function unlink(providerId) {
   // [END auth_unlink_provider]
 }
 
-function accountExistsPopup(facebookProvider, goToApp) {
+function accountExistsPopup(facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod, getProviderForProviderId) {
   // [START account_exists_popup]
   // User tries to sign in with Facebook.
       auth.signInWithPopup(facebookProvider).catch((error) => {
