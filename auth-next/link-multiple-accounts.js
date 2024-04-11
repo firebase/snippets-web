@@ -183,7 +183,7 @@ function unlink(providerId) {
   // [END auth_unlink_provider]
 }
 
-function accountExistsPopup(auth, facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod) {
+function accountExistsPopup(auth, facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod, getProviderForProviderId) {
   // [START account_exists_popup]
   const { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } = require("firebase/auth");
 
