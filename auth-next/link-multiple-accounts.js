@@ -183,8 +183,10 @@ function unlink(providerId) {
   // [END auth_unlink_provider]
 }
 
-function accountExistsPopup(auth, facebookProvider, goToApp) {
+function accountExistsPopup(auth, facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod) {
   // [START account_exists_popup]
+  const { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } = require("firebase/auth");
+
   // User tries to sign in with Facebook.
   signInWithPopup(auth, facebookProvider).catch((error) => {
   // User's email already exists.

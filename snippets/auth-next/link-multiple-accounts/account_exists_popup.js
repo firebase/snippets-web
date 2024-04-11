@@ -5,6 +5,8 @@
 // 'npm run snippets'.
 
   // [START account_exists_popup_modular]
+  import { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } from "firebase/auth";
+
   // User tries to sign in with Facebook.
   signInWithPopup(auth, facebookProvider).catch((error) => {
   // User's email already exists.
