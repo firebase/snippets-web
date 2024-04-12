@@ -166,3 +166,59 @@ function unlink(providerId) {
   });
   // [END auth_unlink_provider]
 }
+
+function accountExistsPopup(facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod, getProviderForProviderId) {
+  // [START account_exists_popup]
+  // User tries to sign in with Facebook.
+      auth.signInWithPopup(facebookProvider).catch((error) => {
+  // User's email already exists.
+  if (error.code === 'auth/account-exists-with-different-credential') {
+    // The pending Facebook credential.
+    const pendingCred = error.credential;
+    // The provider account's email address.
+    const email = error.email;
+    
+    // Present the user with a list of providers they might have
+    // used to create the original account.
+    // Then, ask the user to sign in with the existing provider.
+    const method = promptUserForSignInMethod();
+      
+    if (method === 'password') {
+      // TODO: Ask the user for their password.
+      // In real scenario, you should handle this asynchronously.
+      const password = promptUserForPassword();
+      auth.signInWithEmailAndPassword(email, password).then((result) => {
+        return result.user.linkWithCredential(pendingCred);
+      }).then(() => {
+        // Facebook account successfully linked to the existing user.
+        goToApp();
+      });
+      return;
+    }
+      
+    // All other cases are external providers.
+    // Construct provider object for that provider.
+    // TODO: Implement getProviderForProviderId.
+    const provider = getProviderForProviderId(method);
+    // At this point, you should let the user know that they already have an
+    // account with a different provider, and validate they want to sign in
+    // with the new provider.
+    // Note: Browsers usually block popups triggered asynchronously, so in
+    // real app, you should ask the user to click on a "Continue" button
+    // that will trigger signInWithPopup().
+    auth.signInWithPopup(provider).then((result) => {
+      // Note: Identity Platform doesn't control the provider's sign-in
+      // flow, so it's possible for the user to sign in with an account
+      // with a different email from the first one.
+
+      // Link the Facebook credential. We have access to the pending
+      // credential, so we can directly call the link method.
+      result.user.linkWithCredential(pendingCred).then((userCred) => {
+        // Success.
+        goToApp();
+      });
+    });
+  }
+});
+// [END account_exists_popup]
+}
