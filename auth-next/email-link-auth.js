@@ -68,11 +68,13 @@ function emailLinkComplete() {
       .then((result) => {
         // Clear email from storage.
         window.localStorage.removeItem('emailForSignIn');
-        // You can access the new user via result.user
-        // Additional user info profile not available via:
-        // result.additionalUserInfo.profile == null
+        // You can access the new user by importing getAdditionalUserInfo
+        // and calling it with result:
+        // getAdditionalUserInfo(result)
+        // You can access the user's profile via:
+        // getAdditionalUserInfo(result)?.profile
         // You can check if the user is new or existing:
-        // result.additionalUserInfo.isNewUser
+        // getAdditionalUserInfo(result)?.isNewUser
       })
       .catch((error) => {
         // Some error occurred, you can inspect the code: error.code
