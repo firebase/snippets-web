@@ -8,12 +8,12 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 auth.tenantId = 'TENANT_ID';
 
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // User is signed in.
-    // userCredential.user.tenantId is 'TENANT_ID'.
-  }).catch((error) => {
-    // Handle / display error.
-    // ...
-  });
+try {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  // User is signed in.
+  // userCredential.user.tenantId is 'TENANT_ID'.
+} catch (error) {
+  // Handle / display error.
+  // ...
+}
 // [END multitenant_signin_password_modular]

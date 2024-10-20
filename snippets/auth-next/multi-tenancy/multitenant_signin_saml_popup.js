@@ -9,17 +9,16 @@ import { signInWithPopup } from "firebase/auth";
 // Switch to TENANT_ID1.
 auth.tenantId = 'TENANT_ID1';
 
-// Sign-in with popup.
-signInWithPopup(auth, provider)
-  .then((userCredential) => {
-    // User is signed in.
-    const user = userCredential.user;
-    // user.tenantId is set to 'TENANT_ID1'.
-    // Provider data available from the result.user.getIdToken()
-    // or from result.user.providerData
-  })
-  .catch((error) => {
-    // Handle / display error.
-    // ...
-  });
+try {
+  // Sign-in with popup.
+  const userCredential = await signInWithPopup(auth, provider);
+  // User is signed in.
+  const user = userCredential.user;
+  // user.tenantId is set to 'TENANT_ID1'.
+  // Provider data available from the result.user.getIdToken()
+  // or from result.user.providerData
+} catch (error) {
+  // Handle / display error.
+  // ...
+}
 // [END multitenant_signin_saml_popup_modular]

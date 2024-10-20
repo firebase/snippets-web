@@ -9,26 +9,25 @@ import { signInWithPopup, EmailAuthProvider, linkWithCredential, SAMLAuthProvide
 // Switch to TENANT_ID1
 auth.tenantId = 'TENANT_ID1';
 
-// Sign-in with popup
-signInWithPopup(auth, provider)
-  .then((userCredential) => {
-    // Existing user with e.g. SAML provider.
-    const prevUser = userCredential.user;
-    const emailCredential =
-      EmailAuthProvider.credential(email, password);
-    return linkWithCredential(prevUser, emailCredential)
-      .then((linkResult) => {
-        // Sign in with the newly linked credential
-        const linkCredential = SAMLAuthProvider.credentialFromResult(linkResult);
-        return signInWithCredential(auth, linkCredential);
-      })
-      .then((signInResult) => {
-        // Handle sign in of merged user
-        // ...
-      });
-  })
-  .catch((error) => {
-    // Handle / display error.
-    // ...
-  });
+try {
+  // Sign-in with popup
+  const userCredential = await signInWithPopup(auth, provider);
+  // Existing user with e.g. SAML provider.
+  const prevUser = userCredential.user;
+  const emailCredential =
+    EmailAuthProvider.credential(email, password);
+  return linkWithCredential(prevUser, emailCredential)
+    .then((linkResult) => {
+      // Sign in with the newly linked credential
+      const linkCredential = SAMLAuthProvider.credentialFromResult(linkResult);
+      return signInWithCredential(auth, linkCredential);
+    })
+    .then((signInResult) => {
+      // Handle sign in of merged user
+      // ...
+    });
+} catch (error) {
+  // Handle / display error.
+  // ...
+}
 // [END multitenant_account_linking_modular]
