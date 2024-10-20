@@ -11,21 +11,20 @@ const auth = getAuth();
 const credential = provider.credential({
   idToken: oidcIdToken,
 });
-signInWithCredential(auth, credential)
-  .then((result) => {
-    // User is signed in.
-    const newCredential = OAuthProvider.credentialFromResult(result);
-    // This gives you a new access token for the OIDC provider. You can use it to directly interact with that provider.
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = OAuthProvider.credentialFromError(error);
-    // Handle / display error.
-    // ...
-  });
+try {
+  const result = await signInWithCredential(auth, credential);
+  // User is signed in.
+  const newCredential = OAuthProvider.credentialFromResult(result);
+  // This gives you a new access token for the OIDC provider. You can use it to directly interact with that provider.
+} catch (error) {
+  // Handle Errors here.
+  const errorCode = error.code;
+  const errorMessage = error.message;
+  // The email of the user's account used.
+  const email = error.customData.email;
+  // The AuthCredential type that was used.
+  const credential = OAuthProvider.credentialFromError(error);
+  // Handle / display error.
+  // ...
+}
 // [END auth_oidc_direct_sign_in_modular]
