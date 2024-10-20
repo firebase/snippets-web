@@ -1,7 +1,7 @@
 // [SNIPPET_REGISTRY disabled]
 // [SNIPPETS_SEPARATION enabled]
 
-function signInWithEmailPassword() {
+async function signInWithEmailPassword() {
   const email = "test@example.com";
   const password = "hunter2";
 
@@ -9,20 +9,19 @@ function signInWithEmailPassword() {
   const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 
   const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    // Signed in
+    const user = userCredential.user;
+    // ...
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
   // [END auth_signin_password]
 }
 
-function signUpWithEmailPassword() {
+async function signUpWithEmailPassword() {
   const email = "test@example.com";
   const password = "hunter2";
 
@@ -30,49 +29,45 @@ function signUpWithEmailPassword() {
   const { getAuth, createUserWithEmailAndPassword } = require("firebase/auth");
 
   const auth = getAuth();
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up 
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Signed up
+    const user = userCredential.user;
+    // ...
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  }
   // [END auth_signup_password]
 }
 
-function sendEmailVerification() {
+async function sendEmailVerification() {
   // [START auth_send_email_verification]
   const { getAuth, sendEmailVerification } = require("firebase/auth");
 
   const auth = getAuth();
-  sendEmailVerification(auth.currentUser)
-    .then(() => {
-      // Email verification sent!
-      // ...
-    });
+  await sendEmailVerification(auth.currentUser);
+  // Email verification sent!
+  // ...
   // [END auth_send_email_verification]
 }
 
-function sendPasswordReset() {
+async function sendPasswordReset() {
   const email = "sam@example.com";
 
   // [START auth_send_password_reset]
   const { getAuth, sendPasswordResetEmail } = require("firebase/auth");
 
   const auth = getAuth();
-  sendPasswordResetEmail(auth, email)
-    .then(() => {
-      // Password reset email sent!
-      // ..
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  try {
+    await sendPasswordResetEmail(auth, email);
+    // Password reset email sent!
+    // ..
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  }
   // [END auth_send_password_reset]
 }

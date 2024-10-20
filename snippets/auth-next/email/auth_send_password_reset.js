@@ -8,14 +8,13 @@
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const auth = getAuth();
-sendPasswordResetEmail(auth, email)
-  .then(() => {
-    // Password reset email sent!
-    // ..
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-  });
+try {
+  await sendPasswordResetEmail(auth, email);
+  // Password reset email sent!
+  // ..
+} catch (error) {
+  const errorCode = error.code;
+  const errorMessage = error.message;
+  // ..
+}
 // [END auth_send_password_reset_modular]
