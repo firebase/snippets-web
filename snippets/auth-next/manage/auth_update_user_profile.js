@@ -7,13 +7,15 @@
 // [START auth_update_user_profile_modular]
 import { getAuth, updateProfile } from "firebase/auth";
 const auth = getAuth();
-updateProfile(auth.currentUser, {
-  displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
-}).then(() => {
+try {
+  await updateProfile(auth.currentUser, {
+    displayName: "Jane Q. User",
+    photoURL: "https://example.com/jane-q-user/profile.jpg",
+  });
   // Profile updated!
   // ...
-}).catch((error) => {
+} catch (error) {
   // An error occurred
   // ...
-});
+}
 // [END auth_update_user_profile_modular]

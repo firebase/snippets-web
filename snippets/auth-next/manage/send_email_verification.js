@@ -10,10 +10,11 @@ import { getAuth, sendEmailVerification } from "firebase/auth";
 const auth = getAuth();
 const user = auth.currentUser;
 
-sendEmailVerification(user).then(() => {
+try {
+  await sendEmailVerification(user);
   // Email sent.
-}).catch((error) => {
+} catch (error) {
   // An error ocurred
   // ...
-});
+}
 // [END send_email_verification_modular]
