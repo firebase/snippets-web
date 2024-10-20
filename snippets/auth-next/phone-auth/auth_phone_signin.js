@@ -11,14 +11,14 @@ const phoneNumber = getPhoneNumberFromUserInput();
 const appVerifier = window.recaptchaVerifier;
 
 const auth = getAuth();
-signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-    .then((confirmationResult) => {
-      // SMS sent. Prompt user to type the code from the message, then sign the
-      // user in with confirmationResult.confirm(code).
-      window.confirmationResult = confirmationResult;
-      // ...
-    }).catch((error) => {
-      // Error; SMS not sent
-      // ...
-    });
+try {
+  const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
+  // SMS sent. Prompt user to type the code from the message, then sign the
+  // user in with confirmationResult.confirm(code).
+  window.confirmationResult = confirmationResult;
+  // ...
+} catch (error) {
+  // Error; SMS not sent
+  // ...
+}
 // [END auth_phone_signin_modular]
