@@ -4,11 +4,13 @@
 // To update the snippets in this file, edit the source and then run
 // 'npm run snippets'.
 
-  // [START account_exists_popup_modular]
-  import { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } from "firebase/auth";
+// [START account_exists_popup_modular]
+import { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } from "firebase/auth";
 
+try {
   // User tries to sign in with Facebook.
-  signInWithPopup(auth, facebookProvider).catch((error) => {
+  await signInWithPopup(auth, facebookProvider);
+} catch (error) {
   // User's email already exists.
   if (error.code === 'auth/account-exists-with-different-credential') {
     // The pending Facebook credential.
@@ -25,12 +27,10 @@
       // TODO: Ask the user for their password.
       // In real scenario, you should handle this asynchronously.
       const password = promptUserForPassword();
-      signInWithEmailAndPassword(auth, email, password).then((result) => {
-        return linkWithCredential(result.user, pendingCred);
-      }).then(() => {
-        // Facebook account successfully linked to the existing user.
-        goToApp();
-      });
+      const result = signInWithEmailAndPassword(auth, email, password);
+      await linkWithCredential(result.user, pendingCred);
+      // Facebook account successfully linked to the existing user.
+      goToApp();
       return;
     }
 
@@ -44,18 +44,16 @@
     // Note: Browsers usually block popups triggered asynchronously, so in
     // real app, you should ask the user to click on a "Continue" button
     // that will trigger signInWithPopup().
-    signInWithPopup(auth, provider).then((result) => {
-      // Note: Identity Platform doesn't control the provider's sign-in
-      // flow, so it's possible for the user to sign in with an account
-      // with a different email from the first one.
+    const result = await signInWithPopup(auth, provider);
+    // Note: Identity Platform doesn't control the provider's sign-in
+    // flow, so it's possible for the user to sign in with an account
+    // with a different email from the first one.
 
-      // Link the Facebook credential. We have access to the pending
-      // credential, so we can directly call the link method.
-      linkWithCredential(result.user, pendingCred).then((userCred) => {
-        // Success.
-        goToApp();
-      });
-    });
+    // Link the Facebook credential. We have access to the pending
+    // credential, so we can directly call the link method.
+    const userCred = await linkWithCredential(result.user, pendingCred);
+    // Success.
+    goToApp();
   }
-});
+}
 // [END account_exists_popup_modular]

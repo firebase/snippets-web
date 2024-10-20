@@ -8,11 +8,11 @@
 import { getAuth, linkWithCredential } from "firebase/auth";
 
 const auth = getAuth();
-linkWithCredential(auth.currentUser, credential)
-  .then((usercred) => {
-    const user = usercred.user;
-    console.log("Account linking success", user);
-  }).catch((error) => {
-    console.log("Account linking error", error);
-  });
+try {
+  const usercred = await linkWithCredential(auth.currentUser, credential);
+  const user = usercred.user;
+  console.log("Account linking success", user);
+} catch (error) {
+  console.log("Account linking error", error);
+}
 // [END auth_simple_link_modular]
