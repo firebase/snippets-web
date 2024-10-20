@@ -7,6 +7,6 @@
 // [START auth_svc_register_modular]
 // Install servicerWorker if supported on sign-in/sign-up page.
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js', {scope: '/'});
+  navigator.serviceWorker.register('/service-worker.js', { scope: '/' });
 }
 // [END auth_svc_register_modular]

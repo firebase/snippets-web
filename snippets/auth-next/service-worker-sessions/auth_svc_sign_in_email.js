@@ -9,13 +9,12 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Sign in screen.
 const auth = getAuth();
-signInWithEmailAndPassword(auth, email, password)
-  .then((result) => {
-    // Redirect to profile page after sign-in. The service worker will detect
-    // this and append the ID token to the header.
-    window.location.assign('/profile');
-  })
-  .catch((error) => {
-    // Error occurred.
-  });
+try {
+  const result = await signInWithEmailAndPassword(auth, email, password);
+  // Redirect to profile page after sign-in. The service worker will detect
+  // this and append the ID token to the header.
+  window.location.assign('/profile');
+} catch (error) {
+  // Error occurred.
+}
 // [END auth_svc_sign_in_email_modular]
