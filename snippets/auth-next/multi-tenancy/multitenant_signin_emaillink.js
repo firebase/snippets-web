@@ -18,12 +18,10 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
     email = window.prompt('Please provide your email for confirmation');
   }
   // The client SDK will parse the code from the link for you.
-  signInWithEmailLink(auth, email, window.location.href)
-    .then((result) => {
-      // User is signed in.
-      // tenant ID available in result.user.tenantId.
-      // Clear email from storage.
-      window.localStorage.removeItem('emailForSignIn');
-    });
+  const result = await signInWithEmailLink(auth, email, window.location.href);
+  // User is signed in.
+  // tenant ID available in result.user.tenantId.
+  // Clear email from storage.
+  window.localStorage.removeItem('emailForSignIn');
 }
 // [END multitenant_signin_emaillink_modular]

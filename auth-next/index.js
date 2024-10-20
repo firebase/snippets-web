@@ -31,16 +31,17 @@ function makeEmailCredential(email, password) {
   // [END auth_make_email_credential]
 }
 
-function signOut() {
+async function signOut() {
   // [START auth_sign_out]
   const { getAuth, signOut } = require("firebase/auth");
 
   const auth = getAuth();
-  signOut(auth).then(() => {
+  try {
+    await signOut(auth);
     // Sign-out successful.
-  }).catch((error) => {
+  } catch (error) {
     // An error happened.
-  });
+  }
   // [END auth_sign_out]
 }
 
@@ -91,25 +92,24 @@ function setLanguageCode() {
   // [END auth_set_language_code]
 }
 
-function authWithCredential(credential) {
+async function authWithCredential(credential) {
   // [START auth_signin_credential]
   const { getAuth, signInWithCredential } = require("firebase/auth");
 
   // Sign in with the credential from the user.
   const auth = getAuth();
-  signInWithCredential(auth, credential)
-    .then((result) => {
-      // Signed in 
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // ...
-    });
+  try {
+    const result = await signInWithCredential(auth, credential);
+    // Signed in
+    // ...
+  } catch (error) {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // ...
+  }
   // [END auth_signin_credential]
 }
 

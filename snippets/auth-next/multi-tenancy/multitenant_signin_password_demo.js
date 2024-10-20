@@ -10,16 +10,14 @@ import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 auth.tenantId = 'TENANT_ID1';
 
 // Sign in with tenant
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // User is signed in.
-    const user = userCredential.user;
-    // user.tenantId is set to 'TENANT_ID1'.
-    // Switch to 'TENANT_ID2'.
-    auth.tenantId = 'TENANT_ID2';
-    // auth.currentUser still points to the user.
-    // auth.currentUser.tenantId is 'TENANT_ID1'.
-  });
+const userCredential = await signInWithEmailAndPassword(auth, email, password);
+// User is signed in.
+const user = userCredential.user;
+// user.tenantId is set to 'TENANT_ID1'.
+// Switch to 'TENANT_ID2'.
+auth.tenantId = 'TENANT_ID2';
+// auth.currentUser still points to the user.
+// auth.currentUser.tenantId is 'TENANT_ID1'.
 
 // You could also get the current user from Auth state observer.
 onAuthStateChanged(auth, (user) => {

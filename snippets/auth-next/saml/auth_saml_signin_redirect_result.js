@@ -8,21 +8,20 @@
 import { getAuth, getRedirectResult, SAMLAuthProvider } from "firebase/auth";
 
 const auth = getAuth();
-getRedirectResult(auth)
-  .then((result) => {
-    // User is signed in.
-    // Provider data available from the result.user.getIdToken()
-    // or from result.user.providerData
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = SAMLAuthProvider.credentialFromError(error);
-    // Handle / display error.
-    // ...
-  });
+try {
+  const result = await getRedirectResult(auth);
+  // User is signed in.
+  // Provider data available from the result.user.getIdToken()
+  // or from result.user.providerData
+} catch (error) {
+  // Handle Errors here.
+  const errorCode = error.code;
+  const errorMessage = error.message;
+  // The email of the user's account used.
+  const email = error.customData.email;
+  // The AuthCredential type that was used.
+  const credential = SAMLAuthProvider.credentialFromError(error);
+  // Handle / display error.
+  // ...
+}
 // [END auth_saml_signin_redirect_result_modular]

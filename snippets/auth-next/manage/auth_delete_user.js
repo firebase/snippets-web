@@ -10,10 +10,11 @@ import { getAuth, deleteUser } from "firebase/auth";
 const auth = getAuth();
 const user = auth.currentUser;
 
-deleteUser(user).then(() => {
+try {
+  await deleteUser(user);
   // User deleted.
-}).catch((error) => {
+} catch (error) {
   // An error ocurred
   // ...
-});
+}
 // [END auth_delete_user_modular]

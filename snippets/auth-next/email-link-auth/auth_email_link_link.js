@@ -13,12 +13,11 @@ const credential = EmailAuthProvider.credentialWithLink(
 
 // Link the credential to the current user.
 const auth = getAuth();
-linkWithCredential(auth.currentUser, credential)
-  .then((usercred) => {
-    // The provider is now successfully linked.
-    // The phone user can now sign in with their phone number or email.
-  })
-  .catch((error) => {
-    // Some error occurred.
-  });
+try {
+  const usercred = await linkWithCredential(auth.currentUser, credential);
+  // The provider is now successfully linked.
+  // The phone user can now sign in with their phone number or email.
+} catch (error) {
+  // Some error occurred.
+}
 // [END auth_email_link_link_modular]

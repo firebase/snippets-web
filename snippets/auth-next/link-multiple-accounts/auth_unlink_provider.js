@@ -8,11 +8,12 @@
 import { getAuth, unlink } from "firebase/auth";
 
 const auth = getAuth();
-unlink(auth.currentUser, providerId).then(() => {
+try {
+  await unlink(auth.currentUser, providerId);
   // Auth provider unlinked from account
   // ...
-}).catch((error) => {
+} catch (error) {
   // An error happened
   // ...
-});
+}
 // [END auth_unlink_provider_modular]

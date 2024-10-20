@@ -11,8 +11,10 @@ import { signInWithRedirect, getRedirectResult, fetchSignInMethodsForEmail, link
 auth.tenantId = 'TENANT_ID';
 signInWithRedirect(auth, samlProvider);
 var pendingCred;
-// Redirect back from SAML IDP. auth.tenantId is null after redirecting.
-getRedirectResult(auth).catch((error) => {
+try {
+  // Redirect back from SAML IDP. auth.tenantId is null after redirecting.
+  await getRedirectResult(auth);
+} catch (error) {
   if (error.code === 'auth/account-exists-with-different-credential') {
     // Step 2.
     // User's email already exists.
@@ -34,18 +36,15 @@ getRedirectResult(auth).catch((error) => {
         }
       });
   }
-});
+}
 
 // Redirect back from Google. auth.tenantId is null after redirecting.
-getRedirectResult(auth).then((result) => {
-  // Step 4
-  // Link the SAML AuthCredential to the existing user.
-  // result.user.tenantId is 'TENANT_ID'.
-  linkWithCredential(result.user, pendingCred)
-    .then((linkResult) => {
-      // SAML account successfully linked to the existing
-      // user.
-      goToApp();
-    });
-});
+const result = await getRedirectResult(auth);
+// Step 4
+// Link the SAML AuthCredential to the existing user.
+// result.user.tenantId is 'TENANT_ID'.
+const linkResult = await linkWithCredential(result.user, pendingCred);
+// SAML account successfully linked to the existing
+// user.
+goToApp();
 // [END multitenant_account_exists_redirect_modular]

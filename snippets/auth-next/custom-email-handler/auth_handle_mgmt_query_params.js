@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // This is the minimum configuration required for the API to be used.
   const config = {
     'apiKey': "YOUR_API_KEY" // Copy this key from the web initialization
-                             // snippet found in the Firebase console.
+    // snippet found in the Firebase console.
   };
   const app = initializeApp(config);
   const auth = getAuth(app);
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       handleVerifyEmail(auth, actionCode, continueUrl, lang);
       break;
     default:
-      // Error: invalid mode.
+    // Error: invalid mode.
   }
 }, false);
 // [END auth_handle_mgmt_query_params_modular]

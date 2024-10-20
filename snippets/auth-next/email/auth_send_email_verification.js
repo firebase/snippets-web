@@ -8,9 +8,7 @@
 import { getAuth, sendEmailVerification } from "firebase/auth";
 
 const auth = getAuth();
-sendEmailVerification(auth.currentUser)
-  .then(() => {
-    // Email verification sent!
-    // ...
-  });
+await sendEmailVerification(auth.currentUser);
+// Email verification sent!
+// ...
 // [END auth_send_email_verification_modular]

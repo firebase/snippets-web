@@ -8,11 +8,10 @@
 import { getAuth, getIdToken } from "firebase/auth";
 
 const auth = getAuth();
-getIdToken(auth.currentUser)
-  .then((idToken) => {
-    // idToken can be passed back to server.
-  })
-  .catch((error) => {
-    // Error occurred.
-  });
+try {
+  const idToken = await getIdToken(auth.currentUser);
+  // idToken can be passed back to server.
+} catch (error) {
+  // Error occurred.
+}
 // [END auth_svc_get_idtoken_modular]

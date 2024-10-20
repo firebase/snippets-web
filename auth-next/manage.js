@@ -41,107 +41,114 @@ function getUserProfileProvider() {
   // [END auth_get_user_profile_provider]
 }
 
-function updateUserProfile() {
+async function updateUserProfile() {
   // [START auth_update_user_profile]
   const { getAuth, updateProfile } = require("firebase/auth");
   const auth = getAuth();
-  updateProfile(auth.currentUser, {
-    displayName: "Jane Q. User", photoURL: "https://example.com/jane-q-user/profile.jpg"
-  }).then(() => {
+  try {
+    await updateProfile(auth.currentUser, {
+      displayName: "Jane Q. User",
+      photoURL: "https://example.com/jane-q-user/profile.jpg",
+    });
     // Profile updated!
     // ...
-  }).catch((error) => {
+  } catch (error) {
     // An error occurred
     // ...
-  });
+  }
   // [END auth_update_user_profile]
 }
 
-function updateUserEmail() {
+async function updateUserEmail() {
   // [START auth_update_user_email]
   const { getAuth, updateEmail } = require("firebase/auth");
   const auth = getAuth();
-  updateEmail(auth.currentUser, "user@example.com").then(() => {
+  try {
+    await updateEmail(auth.currentUser, "user@example.com");
     // Email updated!
     // ...
-  }).catch((error) => {
+  } catch (error) {
     // An error occurred
     // ...
-  });
+  }
   // [END auth_update_user_email]
 }
 
-function sendEmailVerification() {
+async function sendEmailVerification() {
   // [START send_email_verification]
   const { getAuth, sendEmailVerification } = require("firebase/auth");
-  
+
   const auth = getAuth();
   const user = auth.currentUser;
 
-  sendEmailVerification(user).then(() => {
+  try {
+    await sendEmailVerification(user);
     // Email sent.
-  }).catch((error) => {
+  } catch (error) {
     // An error ocurred
     // ...
-  });
+  }
   // [END send_email_verification]
 }
 
-function updatePassword() {
+async function updatePassword() {
   function getASecureRandomPassword() {
     return "correcthorsebatterystaple";
   }
 
   // [START auth_update_password]
   const { getAuth, updatePassword } = require("firebase/auth");
-  
+
   const auth = getAuth();
 
   const user = auth.currentUser;
   const newPassword = getASecureRandomPassword();
 
-  updatePassword(user, newPassword).then(() => {
+  try {
+    await updatePassword(user, newPassword);
     // Update successful.
-  }).catch((error) => {
+  } catch (error) {
     // An error ocurred
     // ...
-  });
+  }
   // [END auth_update_password]
 }
 
-function sendPasswordReset() {
+async function sendPasswordReset() {
   // [START auth_send_password_reset]
   const { getAuth, sendPasswordResetEmail } = require("firebase/auth");
-  
+
   const auth = getAuth();
   const emailAddress = "user@example.com";
 
-  sendPasswordResetEmail(auth, emailAddress).then(() => {
+  try {
+    await sendPasswordResetEmail(auth, emailAddress);
     // Email sent.
-  }).catch((error) => {
+  } catch (error) {
     // An error ocurred
     // ...
-  });
+  }
   // [END auth_send_password_reset]
 }
 
-function deleteUser() {
+async function deleteUser() {
   // [START auth_delete_user]
   const { getAuth, deleteUser } = require("firebase/auth");
-  
+
   const auth = getAuth();
   const user = auth.currentUser;
 
-  deleteUser(user).then(() => {
+  try {
+    await deleteUser(user);
     // User deleted.
-  }).catch((error) => {
+  } catch (error) {
     // An error ocurred
     // ...
-  });
+  }
   // [END auth_delete_user]
 }
 
-function reauthenticateWithCredential() {
+async function reauthenticateWithCredential() {
   /**
    * @returns {object}
    */
@@ -151,18 +158,19 @@ function reauthenticateWithCredential() {
 
   // [START auth_reauth_with_credential]
   const { getAuth, reauthenticateWithCredential } = require("firebase/auth");
-  
+
   const auth = getAuth();
   const user = auth.currentUser;
 
   // TODO(you): prompt the user to re-provide their sign-in credentials
   const credential = promptForCredentials();
 
-  reauthenticateWithCredential(user, credential).then(() => {
+  try {
+    await reauthenticateWithCredential(user, credential);
     // User re-authenticated.
-  }).catch((error) => {
+  } catch (error) {
     // An error ocurred
     // ...
-  });
+  }
   // [END auth_reauth_with_credential]
 }

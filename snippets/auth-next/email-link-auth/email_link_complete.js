@@ -21,22 +21,21 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
     // attacks, ask the user to provide the associated email again. For example:
     email = window.prompt('Please provide your email for confirmation');
   }
-  // The client SDK will parse the code from the link for you.
-  signInWithEmailLink(auth, email, window.location.href)
-    .then((result) => {
-      // Clear email from storage.
-      window.localStorage.removeItem('emailForSignIn');
-      // You can access the new user by importing getAdditionalUserInfo
-      // and calling it with result:
-      // getAdditionalUserInfo(result)
-      // You can access the user's profile via:
-      // getAdditionalUserInfo(result)?.profile
-      // You can check if the user is new or existing:
-      // getAdditionalUserInfo(result)?.isNewUser
-    })
-    .catch((error) => {
-      // Some error occurred, you can inspect the code: error.code
-      // Common errors could be invalid email and invalid or expired OTPs.
-    });
+  try {
+    // The client SDK will parse the code from the link for you.
+    const result = await signInWithEmailLink(auth, email, window.location.href);
+    // Clear email from storage.
+    window.localStorage.removeItem('emailForSignIn');
+    // You can access the new user by importing getAdditionalUserInfo
+    // and calling it with result:
+    // getAdditionalUserInfo(result)
+    // You can access the user's profile via:
+    // getAdditionalUserInfo(result)?.profile
+    // You can check if the user is new or existing:
+    // getAdditionalUserInfo(result)?.isNewUser
+  } catch (error) {
+    // Some error occurred, you can inspect the code: error.code
+    // Common errors could be invalid email and invalid or expired OTPs.
+  }
 }
 // [END email_link_complete_modular]

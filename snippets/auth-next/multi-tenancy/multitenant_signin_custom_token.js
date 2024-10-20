@@ -8,9 +8,10 @@
 import { signInWithCustomToken } from "firebase/auth";
 auth.tenantId = 'TENANT_ID1';
 
-signInWithCustomToken(auth, token)
-  .catch((error) => {
-    // Handle / display error.
-    // ...
-  });
+try {
+  await signInWithCustomToken(auth, token);
+} catch (error) {
+  // Handle / display error.
+  // ...
+}
 // [END multitenant_signin_custom_token_modular]

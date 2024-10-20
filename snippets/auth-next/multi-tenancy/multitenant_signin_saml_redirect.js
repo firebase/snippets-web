@@ -12,18 +12,17 @@ auth.tenantId = 'TENANT_ID1';
 // Sign-in with redirect.
 signInWithRedirect(auth, provider);
 
-// After the user completes sign-in and returns to the app, you can get
-// the sign-in result by calling getRedirectResult. However, if they sign out
-// and sign in again with an IdP, no tenant is used.
-getRedirectResult(auth)
-  .then((result) => {
-    // User is signed in.
-    // The tenant ID available in result.user.tenantId.
-    // Provider data available from the result.user.getIdToken()
-    // or from result.user.providerData
-  })
-  .catch((error) => {
-    // Handle / display error.
-    // ...
-  });
+try {
+  // After the user completes sign-in and returns to the app, you can get
+  // the sign-in result by calling getRedirectResult. However, if they sign out
+  // and sign in again with an IdP, no tenant is used.
+  const result = await getRedirectResult(auth);
+  // User is signed in.
+  // The tenant ID available in result.user.tenantId.
+  // Provider data available from the result.user.getIdToken()
+  // or from result.user.providerData
+} catch (error) {
+  // Handle / display error.
+  // ...
+}
 // [END multitenant_signin_saml_redirect_modular]

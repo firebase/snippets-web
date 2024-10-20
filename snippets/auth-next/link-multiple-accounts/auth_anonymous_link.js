@@ -8,11 +8,11 @@
 import { getAuth, linkWithCredential } from "firebase/auth";
 
 const auth = getAuth();
-linkWithCredential(auth.currentUser, credential)
-  .then((usercred) => {
-    const user = usercred.user;
-    console.log("Anonymous account successfully upgraded", user);
-  }).catch((error) => {
-    console.log("Error upgrading anonymous account", error);
-  });
+try {
+  const usercred = await linkWithCredential(auth.currentUser, credential);
+  const user = usercred.user;
+  console.log("Anonymous account successfully upgraded", user);
+} catch (error) {
+  console.log("Error upgrading anonymous account", error);
+}
 // [END auth_anonymous_link_modular]

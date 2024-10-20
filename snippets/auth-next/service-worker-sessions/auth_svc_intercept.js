@@ -40,9 +40,9 @@ self.addEventListener('fetch', (event) => {
     let processRequestPromise = Promise.resolve();
     // For same origin https requests, append idToken to header.
     if (self.location.origin == getOriginFromUrl(evt.request.url) &&
-        (self.location.protocol == 'https:' ||
-         self.location.hostname == 'localhost') &&
-        idToken) {
+      (self.location.protocol == 'https:' ||
+        self.location.hostname == 'localhost') &&
+      idToken) {
       // Clone headers as request headers are immutable.
       const headers = new Headers();
       req.headers.forEach((val, key) => {
