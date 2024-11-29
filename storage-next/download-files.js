@@ -72,7 +72,7 @@ function downloadFullExample() {
           // User doesn't have permission to access the object
           break;
         case 'storage/canceled':
-          // User canceled the upload
+          // User canceled the download
           break;
 
         // ...
