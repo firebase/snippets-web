@@ -14,6 +14,7 @@ function getInstance() {
 function setMinimumFetchTime() {
   const remoteConfig = getInstance();
   // [START rc_set_minimum_fetch_time]
+  // The default and recommended production fetch interval for Remote Config is 12 hours
   remoteConfig.settings.minimumFetchIntervalMillis = 3600000;
   // [END rc_set_minimum_fetch_time]
 }
