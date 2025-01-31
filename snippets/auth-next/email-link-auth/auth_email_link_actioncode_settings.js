@@ -20,6 +20,6 @@ const actionCodeSettings = {
     minimumVersion: '12'
   },
   // The domain must be configured in Firebase Hosting and owned by the project.
-  linkDomain: 'example.com'
+  linkDomain: 'custom-domain.com'
 };
 // [END auth_email_link_actioncode_settings_modular]
