@@ -5,28 +5,27 @@
 // 'npm run snippets'.
 
 // [START email_link_diferentiate_modular]
-import { getAuth, fetchSignInMethodsForEmail, EmailAuthProvider} from "firebase/auth";
+import { getAuth, fetchSignInMethodsForEmail, EmailAuthProvider } from "firebase/auth";
 
 // After asking the user for their email.
 const email = window.prompt('Please provide your email');
 
 const auth = getAuth();
-fetchSignInMethodsForEmail(auth, email)
-  .then((signInMethods) => {
-    // This returns the same array as fetchProvidersForEmail but for email
-    // provider identified by 'password' string, signInMethods would contain 2
-    // different strings:
-    // 'emailLink' if the user previously signed in with an email/link
-    // 'password' if the user has a password.
-    // A user could have both.
-    if (signInMethods.indexOf(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) != -1) {
-      // User can sign in with email/password.
-    }
-    if (signInMethods.indexOf(EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD) != -1) {
-      // User can sign in with email/link.
-    }
-  })
-  .catch((error) => {
-    // Some error occurred, you can inspect the code: error.code
-  });
+try {
+  const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+  // This returns the same array as fetchProvidersForEmail but for email
+  // provider identified by 'password' string, signInMethods would contain 2
+  // different strings:
+  // 'emailLink' if the user previously signed in with an email/link
+  // 'password' if the user has a password.
+  // A user could have both.
+  if (signInMethods.indexOf(EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD) != -1) {
+    // User can sign in with email/password.
+  }
+  if (signInMethods.indexOf(EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD) != -1) {
+    // User can sign in with email/link.
+  }
+} catch (error) {
+  // Some error occurred, you can inspect the code: error.code
+}
 // [END email_link_diferentiate_modular]

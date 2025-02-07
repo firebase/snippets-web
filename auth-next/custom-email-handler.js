@@ -29,7 +29,7 @@ function handleUserManagementQueryParams() {
     // This is the minimum configuration required for the API to be used.
     const config = {
       'apiKey': "YOUR_API_KEY" // Copy this key from the web initialization
-                               // snippet found in the Firebase console.
+      // snippet found in the Firebase console.
     };
     const app = initializeApp(config);
     const auth = getAuth(app);
@@ -49,7 +49,7 @@ function handleUserManagementQueryParams() {
         handleVerifyEmail(auth, actionCode, continueUrl, lang);
         break;
       default:
-        // Error: invalid mode.
+      // Error: invalid mode.
     }
   }, false);
   // [END auth_handle_mgmt_query_params]
@@ -58,20 +58,22 @@ function handleUserManagementQueryParams() {
 // [START auth_handle_reset_password]
 const { verifyPasswordResetCode, confirmPasswordReset } = require("firebase/auth");
 
-function handleResetPassword(auth, actionCode, continueUrl, lang) {
+async function handleResetPassword(auth, actionCode, continueUrl, lang) {
   // Localize the UI to the selected language as determined by the lang
   // parameter.
 
-  // Verify the password reset code is valid.
-  verifyPasswordResetCode(auth, actionCode).then((email) => {
+  try {
+    // Verify the password reset code is valid.
+    const email = await verifyPasswordResetCode(auth, actionCode);
     const accountEmail = email;
 
     // TODO: Show the reset screen with the user's email and ask the user for
     // the new password.
     const newPassword = "...";
 
-    // Save the new password.
-    confirmPasswordReset(auth, actionCode, newPassword).then((resp) => {
+    try {
+      // Save the new password.
+      const resp = await confirmPasswordReset(auth, actionCode, newPassword);
       // Password reset has been confirmed and new password updated.
 
       // TODO: Display a link back to the app, or sign-in the user directly
@@ -81,55 +83,57 @@ function handleResetPassword(auth, actionCode, continueUrl, lang) {
       // TODO: If a continue URL is available, display a button which on
       // click redirects the user back to the app via continueUrl with
       // additional state determined from that URL's parameters.
-    }).catch((error) => {
+    } catch (error) {
       // Error occurred during confirmation. The code might have expired or the
       // password is too weak.
-    });
-  }).catch((error) => {
+    }
+  } catch (error) {
     // Invalid or expired action code. Ask user to try to reset the password
     // again.
-  });
+  }
 }
 // [END auth_handle_reset_password]
 
 // [START auth_handle_recover_email]
 const { checkActionCode, applyActionCode, sendPasswordResetEmail } = require("firebase/auth");
 
-function handleRecoverEmail(auth, actionCode, lang) {
+async function handleRecoverEmail(auth, actionCode, lang) {
   // Localize the UI to the selected language as determined by the lang
   // parameter.
   let restoredEmail = null;
-  // Confirm the action code is valid.
-  checkActionCode(auth, actionCode).then((info) => {
+  try {
+    // Confirm the action code is valid.
+    const info = await checkActionCode(auth, actionCode);
     // Get the restored email address.
     restoredEmail = info['data']['email'];
 
     // Revert to the old email.
-    return applyActionCode(auth, actionCode);
-  }).then(() => {
+    await applyActionCode(auth, actionCode);
     // Account email reverted to restoredEmail
 
     // TODO: Display a confirmation message to the user.
 
-    // You might also want to give the user the option to reset their password
-    // in case the account was compromised:
-    sendPasswordResetEmail(auth, restoredEmail).then(() => {
+    try {
+      // You might also want to give the user the option to reset their password
+      // in case the account was compromised:
+      await sendPasswordResetEmail(auth, restoredEmail);
       // Password reset confirmation sent. Ask user to check their email.
-    }).catch((error) => {
+    } catch (error) {
       // Error encountered while sending password reset code.
-    });
-  }).catch((error) => {
+    }
+  } catch (error) {
     // Invalid code.
-  });
+  }
 }
 // [END auth_handle_recover_email]
 
 // [START auth_handle_verify_email]
-function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
-  // Localize the UI to the selected language as determined by the lang
-  // parameter.
-  // Try to apply the email verification code.
-  applyActionCode(auth, actionCode).then((resp) => {
+async function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
+  try {
+    // Localize the UI to the selected language as determined by the lang
+    // parameter.
+    // Try to apply the email verification code.
+    const resp = await applyActionCode(auth, actionCode);
     // Email address has been verified.
 
     // TODO: Display a confirmation message to the user.
@@ -138,10 +142,10 @@ function handleVerifyEmail(auth, actionCode, continueUrl, lang) {
     // TODO: If a continue URL is available, display a button which on
     // click redirects the user back to the app via continueUrl with
     // additional state determined from that URL's parameters.
-  }).catch((error) => {
+  } catch (error) {
     // Code is invalid or expired. Ask the user to verify their email address
     // again.
-  });
+  }
 }
 // [END auth_handle_verify_email]
 

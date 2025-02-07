@@ -22,7 +22,8 @@ const prevUserData = repo.get(prevUser);
 repo.delete(prevUser);
 
 // Sign in user with the account you want to link to
-signInWithCredential(auth, newCredential).then((result) => {
+try {
+  const result = await signInWithCredential(auth, newCredential);
   console.log("Sign In Success", result);
   const currentUser = result.user;
   const currentUserData = repo.get(currentUser);
@@ -42,9 +43,9 @@ signInWithCredential(auth, newCredential).then((result) => {
       // Save the merged data to the new user
       repo.set(signInResult.user, mergedData);
     });
-}).catch((error) => {
+} catch (error) {
   // If there are errors we want to undo the data merge/deletion
   console.log("Sign In Error", error);
   repo.set(prevUser, prevUserData);
-});
+}
 // [END auth_merge_accounts_modular]

@@ -12,10 +12,11 @@ const auth = getAuth();
 const user = auth.currentUser;
 const newPassword = getASecureRandomPassword();
 
-updatePassword(user, newPassword).then(() => {
+try {
+  await updatePassword(user, newPassword);
   // Update successful.
-}).catch((error) => {
+} catch (error) {
   // An error ocurred
   // ...
-});
+}
 // [END auth_update_password_modular]

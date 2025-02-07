@@ -13,12 +13,11 @@ const credential = EmailAuthProvider.credentialWithLink(
 
 // Re-authenticate the user with this credential.
 const auth = getAuth();
-reauthenticateWithCredential(auth.currentUser, credential)
-  .then((usercred) => {
-    // The user is now successfully re-authenticated and can execute sensitive
-    // operations.
-  })
-  .catch((error) => {
-    // Some error occurred.
-  });
+try {
+  const usercred = await reauthenticateWithCredential(auth.currentUser, credential);
+  // The user is now successfully re-authenticated and can execute sensitive
+  // operations.
+} catch (error) {
+  // Some error occurred.
+}
 // [END auth_email_link_reauth_modular]

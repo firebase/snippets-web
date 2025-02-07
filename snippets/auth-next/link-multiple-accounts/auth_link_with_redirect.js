@@ -9,7 +9,10 @@ import { getAuth, linkWithRedirect, GoogleAuthProvider } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
 const auth = getAuth();
-linkWithRedirect(auth.currentUser, provider)
-  .then(/* ... */)
-  .catch(/* ... */);
+try {
+  await linkWithRedirect(auth.currentUser, provider);
+  /* ... */
+} catch (error) {
+  /* ... */
+}
 // [END auth_link_with_redirect_modular]

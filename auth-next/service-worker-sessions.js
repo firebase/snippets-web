@@ -3,18 +3,17 @@
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/service-worker-sessions.md
 
-function svcGetIdToken() {
+async function svcGetIdToken() {
   // [START auth_svc_get_idtoken]
   const { getAuth, getIdToken } = require("firebase/auth");
 
   const auth = getAuth();
-  getIdToken(auth.currentUser)
-    .then((idToken) => {
-      // idToken can be passed back to server.
-    })
-    .catch((error) => {
-      // Error occurred.
-    });
+  try {
+    const idToken = await getIdToken(auth.currentUser);
+    // idToken can be passed back to server.
+  } catch (error) {
+    // Error occurred.
+  }
   // [END auth_svc_get_idtoken]
 }
 
@@ -65,7 +64,7 @@ function svcIntercept() {
     const host = pathArray[2];
     return protocol + '//' + host;
   };
-  
+
   // Get underlying body if available. Works for text and json bodies.
   const getBodyContent = (req) => {
     return Promise.resolve().then(() => {
@@ -83,7 +82,7 @@ function svcIntercept() {
       // Ignore error.
     });
   };
-  
+
   self.addEventListener('fetch', (event) => {
     /** @type {FetchEvent} */
     const evt = event;
@@ -93,9 +92,9 @@ function svcIntercept() {
       let processRequestPromise = Promise.resolve();
       // For same origin https requests, append idToken to header.
       if (self.location.origin == getOriginFromUrl(evt.request.url) &&
-          (self.location.protocol == 'https:' ||
-           self.location.hostname == 'localhost') &&
-          idToken) {
+        (self.location.protocol == 'https:' ||
+          self.location.hostname == 'localhost') &&
+        idToken) {
         // Clone headers as request headers are immutable.
         const headers = new Headers();
         req.headers.forEach((val, key) => {
@@ -147,25 +146,24 @@ function svcRegister() {
   // [START auth_svc_register]
   // Install servicerWorker if supported on sign-in/sign-up page.
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js', {scope: '/'});
+    navigator.serviceWorker.register('/service-worker.js', { scope: '/' });
   }
   // [END auth_svc_register]
 }
 
-function svcSignInEmail(email, password) {
+async function svcSignInEmail(email, password) {
   // [START auth_svc_sign_in_email]
   const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 
   // Sign in screen.
   const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((result) => {
-      // Redirect to profile page after sign-in. The service worker will detect
-      // this and append the ID token to the header.
-      window.location.assign('/profile');
-    })
-    .catch((error) => {
-      // Error occurred.
-    });
+  try {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    // Redirect to profile page after sign-in. The service worker will detect
+    // this and append the ID token to the header.
+    window.location.assign('/profile');
+  } catch (error) {
+    // Error occurred.
+  }
   // [END auth_svc_sign_in_email]
 }
