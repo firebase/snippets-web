@@ -1100,6 +1100,17 @@ describe("firestore", () => {
                   orderBy("population"),
                   startAfter(lastVisible),
                   limit(25));
+              
+              // Get the first visible document
+              const firstVisible = documentSnapshots.docs[0];
+              console.log("first", firstVisible);
+
+              // Construct a new query starting at this document,
+              // get the previous 25 cities.
+              const previous = query(collection(db, "cities"),
+                  orderBy("population"),
+                  endBefore(lastVisible),
+                  limitToLast(25));
               // [END paginate]
             });
         });
