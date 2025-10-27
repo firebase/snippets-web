@@ -5,7 +5,7 @@
     "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
-    "bootstrap": "pnpm recursive install --loglevel verbose",
+    "bootstrap": "pnpm recursive install",
     "compile": "pnpm recursive run compile --workspace-concurrency=4"
   },
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
     "@types/node": "^24.9.1",
     "eslint": "^9.38.0",
     "pnpm": "^10.19.0",
-    "rimraf": "^6.0.1",
+    "rimraf": "^5.0.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.0"
   }
