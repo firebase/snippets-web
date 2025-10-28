@@ -1,6 +1,7 @@
 {
   "name": "snippets-web",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
@@ -10,6 +11,7 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
+    "@eslint/js": "^9.38.0",
     "@types/node": "^24.9.1",
     "eslint": "^9.38.0",
     "rimraf": "^5.0.10",
