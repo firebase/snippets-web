@@ -5,14 +5,13 @@
     "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
-    "bootstrap": "pnpm recursive install",
-    "compile": "pnpm recursive run compile --workspace-concurrency=4"
+    "bootstrap": "find . -type f -name package.json -not -path '*/node_modules/*' -exec bash -c 'cd $(dirname {}) && npm install' \\;",
+    "compile": "bash scripts/compile.sh"
   },
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/node": "^24.9.1",
     "eslint": "^9.38.0",
-    "pnpm": "^10.19.0",
     "rimraf": "^5.0.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.0"
