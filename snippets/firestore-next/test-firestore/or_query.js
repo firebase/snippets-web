@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START or_query_modular]
-const query = query(collection(db, "cities"), and(
-  where('name', '>', 'L'),   
+const q = query(collection(db, "cities"), and(
+  where('state', '==', 'CA'),   
   or(
     where('capital', '==', true),
     where('population', '>=', 1000000)

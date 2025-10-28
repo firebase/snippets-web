@@ -14,6 +14,7 @@ const radiusInM = 50 * 1000;
 // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
 // a separate query for each pair. There can be up to 9 pairs of bounds
 // depending on overlap, but in most cases there are 4.
+// @ts-ignore
 const bounds = geofire.geohashQueryBounds(center, radiusInM);
 const promises = [];
 for (const b of bounds) {
@@ -37,6 +38,7 @@ for (const snap of snapshots) {
 
     // We have to filter out a few false positives due to GeoHash
     // accuracy, but most will match
+    // @ts-ignore
     const distanceInKm = geofire.distanceBetween([lat, lng], center);
     const distanceInM = distanceInKm * 1000;
     if (distanceInM <= radiusInM) {

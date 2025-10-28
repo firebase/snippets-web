@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
+    "snippets": "rimraf snippets && node --loader ts-node/esm scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
     "bootstrap": "find . -type f -name package.json -not -path '*/node_modules/*' -exec bash -c 'cd $(dirname {}) && npm install' \\;",
