@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Internal repo scripts",
   "scripts": {
-    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
   },
   "author": "samstern@google.com",
   "license": "Apache-2.0"

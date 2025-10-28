@@ -11,7 +11,7 @@ for dir in */; do
     subdir="${dir%/}"
 
     # Check if a package.json file exists in the current subdirectory
-    if [ -f "$subdir/package.json" ]; then
+    if [[ -f "$subdir/package.json" && "$subdir" != "scripts" ]]; then
         echo "--> Found package.json in '$subdir'. Running 'npm run compile'..."
 
         # Use a subshell (parentheses) for the 'cd' command.
