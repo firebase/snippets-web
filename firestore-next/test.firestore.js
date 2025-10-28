@@ -84,7 +84,7 @@ describe("firestore", () => {
 
       // [START initialize_persistence]
       // Memory cache is the default if no config is specified.
-      initializeFirestore(app);
+      initializeFirestore(app, {});
 
       // This is the default behavior if no persistence is specified.
       initializeFirestore(app, {localCache: memoryLocalCache()});
@@ -96,7 +96,7 @@ describe("firestore", () => {
       // but more explicit about tab management.
       initializeFirestore(app, 
         {localCache: 
-          persistentLocalCache(/*settings*/{tabManager: persistentSingleTabManager()})
+          persistentLocalCache(/*settings*/{tabManager: persistentSingleTabManager({})})
       });
 
       // Use multi-tab IndexedDb persistence.
