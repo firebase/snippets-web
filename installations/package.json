@@ -1,7 +1,9 @@
 {
   "name": "installations",
   "version": "1.0.0",
-  "scripts": {},
+  "scripts": {
+    "compile": "echo 'Installations build temporarily disabled'"
+  },
   "license": "Apache 2.0",
   "dependencies": {
     "firebase": "^8.10.0"

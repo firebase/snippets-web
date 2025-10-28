@@ -2,6 +2,7 @@
 // [SNIPPETS_SEPARATION enabled]
 
 const { expect } = require('chai');
+import { or } from "firebase/firestore";
 
 // [START city_custom_object]
 class City {
@@ -892,7 +893,7 @@ describe("firestore", () => {
               const { query, where } = require("firebase/firestore");  
 
               const q = query(citiesRef, 
-                where('regions', 'array-contains-any', ['west_coast', 'east_coast']));
+                where('regions', 'array-contains-any', [['west_coast'], ['east_coast']]));
               // [END array_contains_any_filter]
             });
 
@@ -1101,6 +1102,77 @@ describe("firestore", () => {
                   startAfter(lastVisible),
                   limit(25));
               // [END paginate]
+            });
+
+            it("should handle OR queries", async () => {
+              const { collection, query, where, and } = require("firebase/firestore");
+              // [START or_query]
+              const q = query(collection(db, "cities"), and(
+                where('state', '==', 'CA'),   
+                or(
+                  where('capital', '==', true),
+                  where('population', '>=', 1000000)
+                )
+              ));
+              // [END or_query]
+            });
+
+            it("should allow for 30 or fewer disjunctions", async () => {
+              const { collection, query, where, and } = require("firebase/firestore");
+              const collectionRef = collection(db, "cities");
+              // [START one_disjunction]
+              query(collectionRef, where("a", "==", 1));
+              // [END one_disjunction]
+
+              // [START two_disjunctions]
+              query(collectionRef, or( where("a", "==", 1), where("b", "==", 2) ));
+              // [END two_disjunctions]
+
+              // [START four_disjunctions]
+              query(collectionRef,
+                or( and( where("a", "==", 1), where("c", "==", 3) ),
+                    and( where("a", "==", 1), where("d", "==", 4) ),
+                    and( where("b", "==", 2), where("c", "==", 3) ),
+                    and( where("b", "==", 2), where("d", "==", 4) )
+                )
+              );
+              // [END four_disjunctions]
+
+              // [START four_disjunctions_compact]
+              query(collectionRef,
+                and( or( where("a", "==", 1), where("b", "==", 2) ),
+                     or( where("c", "==", 3), where("d", "==", 4) )
+                )
+              );
+              // [END four_disjunctions_compact]
+
+              expect(() => {
+                // [START 50_disjunctions]
+                query(collectionRef,
+                  and( where("a", "in", [1, 2, 3, 4, 5]),
+                       where("b", "in", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+                  )
+                );
+                // [END 50_disjunctions]
+              }).to.throw;
+
+              // [START 20_disjunctions]
+              query(collectionRef,
+                or( where("a", "in", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+                    where("b", "in", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+                )
+              );
+              // [END 20_disjunctions]
+
+              // [START 10_disjunctions]
+              query(collectionRef,
+                and( where("a", "in", [1, 2, 3, 4, 5]),
+                     or( where("b", "==", 2),
+                         where("c", "==", 3)
+                     )
+                )
+              );
+              // [END 10_disjunctions]
             });
         });
 

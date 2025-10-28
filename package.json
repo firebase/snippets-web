@@ -1,20 +1,21 @@
 {
   "name": "snippets-web",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
-    "snippets": "rimraf snippets && ts-node scripts/separate-snippets.ts",
+    "snippets": "rimraf snippets && node --loader ts-node/esm scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
     "format": "npm run lint -- --fix",
-    "bootstrap": "pnpm recursive install",
-    "compile": "pnpm recursive run compile --workspace-concurrency=4"
+    "bootstrap": "find . -type f -name package.json -not -path '*/node_modules/*' -exec bash -c 'cd $(dirname {}) && npm install' \\;",
+    "compile": "bash scripts/compile.sh"
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/node": "^16.7.10",
-    "eslint": "^7.32.0",
-    "pnpm": "^6.14.6",
-    "rimraf": "^3.0.2",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "@eslint/js": "^9.38.0",
+    "@types/node": "^24.9.1",
+    "eslint": "^9.38.0",
+    "rimraf": "^5.0.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.0"
   }
 }

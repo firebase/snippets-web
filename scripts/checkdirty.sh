@@ -11,5 +11,5 @@ if [[ $(git diff --stat HEAD) != '' ]]; then
   echo 'Error: git diff is dirty ... did you forget to run "npm run snippets" after adding snippets?'
   exit 1
 else
-  echo 'Succes: git diff is clean'
+  echo 'Success: git diff is clean'
 fi
