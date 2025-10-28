@@ -2,6 +2,7 @@
 // [SNIPPETS_SEPARATION enabled]
 
 const { expect } = require('chai');
+import { or } from "firebase/firestore";
 
 // [START city_custom_object]
 class City {
