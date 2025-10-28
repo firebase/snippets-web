@@ -8,5 +8,5 @@
 import { doc, setDoc } from "firebase/firestore"; 
 
 const cityRef = doc(db, 'cities', 'BJ');
-setDoc(cityRef, { capital: true }, { merge: true });
+await setDoc(cityRef, { capital: true }, { merge: true });
 // [END set_with_merge_modular]
