@@ -35,8 +35,9 @@ const cityConverter = {
 describe("firestore", () => {
     const { Firestore } = require("firebase/firestore");
 
-let app;
-let db;
+    /** @type {Firestore} */
+    let db;
+    let app;
 
     before(() => {
         const { initializeApp } = require("firebase/app");
@@ -1346,8 +1347,8 @@ describe("firestore-pipelines", () => {
           .where(field("population").greaterThan(100000))
           // Step 3: Sort the remaining documents
           .sort([field("name").ascending()])
-          // Step 4: Return the top 10. Note applying the limit earlier in the pipeline would have
-          // unintentional results.
+          // Step 4: Return the top 10. Note applying the limit earlier in the
+          // pipeline would have unintentional results.
           .limit(10);
         // [END pipeline_concepts]
         console.log(pipeline);
@@ -1726,7 +1727,7 @@ describe("firestore-pipelines", () => {
         // { identifier: 1, neighbors: [ "Alice", "Cathy" ], unnestedNeighbors: "Alice", index: 0 }
         // { identifier: 1, neighbors: [ "Alice", "Cathy" ], unnestedNeighbors: "Cathy", index: 1 }
         // { identifier: 3, neighbors: "Bob", index: null}
-        // [END unneest_edge_cases]
+        // [END unnest_edge_cases]
         console.log(results);
     }
 
@@ -2083,7 +2084,7 @@ describe("firestore-pipelines", () => {
     }
 
     async function lessThanOrEqualToFunction() {
-        // START less_or_equal]
+        // [START less_or_equal]
         const result = await db.pipeline()
           .collection("books")
           .select([field("rating").lessThanOrEqual(2).as("hasBadRating")])
