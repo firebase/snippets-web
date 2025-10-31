@@ -2220,30 +2220,6 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
-    async function isNaNFunction() {
-        // [START is_nan]
-        const result = await db.pipeline()
-          .collection("books")
-          .select([
-            field("rating").isNan().as("hasInvalidRating")
-          ])
-          .execute();
-        // [END is_nan]
-        console.log(result);
-    }
-
-    async function isNotNaNFunction() {
-        // [START is_not_nan]
-        const result = await db.pipeline()
-          .collection("books")
-          .select([
-            field("rating").isNotNan().as("hasValidRating")
-          ])
-          .execute();
-        // [END is_not_nan]
-        console.log(result);
-    }
-
     async function maxLogicalFunction() {
         // [START max_logical_function]
         const result = await db.pipeline()
