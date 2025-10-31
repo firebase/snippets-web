@@ -6,6 +6,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "@firebase/firestore": "https://firebasestorage.googleapis.com/v0/b/firestore-sdk-nightly.appspot.com/o/pipeline-sdk-builds%2Fweb%2Ffirebase-firestore-v4.9.2-piplines.prerelease.3.tgz?alt=media",
     "firebase": "^12.4.0",
     "geofire-common": "^6.0.0"
   },
