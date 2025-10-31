@@ -5,19 +5,25 @@
 // 'npm run snippets'.
 
 // [START initialize_persistence_modular]
-import { enableIndexedDbPersistence } from "firebase/firestore"; 
+// Memory cache is the default if no config is specified.
+initializeFirestore(app, {});
 
-enableIndexedDbPersistence(db)
-  .catch((err) => {
-      if (err.code == 'failed-precondition') {
-          // Multiple tabs open, persistence can only be enabled
-          // in one tab at a a time.
-          // ...
-      } else if (err.code == 'unimplemented') {
-          // The current browser does not support all of the
-          // features required to enable persistence
-          // ...
-      }
+// This is the default behavior if no persistence is specified.
+initializeFirestore(app, {localCache: memoryLocalCache()});
+
+// Defaults to single-tab persistence if no tab manager is specified.
+initializeFirestore(app, {localCache: persistentLocalCache(/*settings*/{})});
+
+// Same as `initializeFirestore(app, {localCache: persistentLocalCache(/*settings*/{})})`,
+// but more explicit about tab management.
+initializeFirestore(app, 
+  {localCache: 
+    persistentLocalCache(/*settings*/{tabManager: persistentSingleTabManager({})})
+});
+
+// Use multi-tab IndexedDb persistence.
+initializeFirestore(app, 
+  {localCache: 
+    persistentLocalCache(/*settings*/{tabManager: persistentMultipleTabManager()})
   });
-// Subsequent queries will use persistence, if it was enabled successfully
 // [END initialize_persistence_modular]
