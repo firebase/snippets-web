@@ -1352,6 +1352,22 @@ describe("firestore-pipelines", () => {
         db = getFirestore(app, "enterprise");
     });
 
+    async function basicRead() {
+      const readDataPipeline = db.pipeline()
+        .collection("users")
+
+      // Execute the pipeline and handle the result
+      readDataPipeline.execute()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((result) => {
+            console.log(`${result.id} => ${result.data()}`);
+          });
+        })
+        .catch((error) => {
+          console.error("Error getting documents: ", error);
+        });
+    }
+
     function pipelineConcepts() {
         // [START pipeline_concepts]
         const pipeline = db.pipeline()
