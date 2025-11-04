@@ -1353,6 +1353,7 @@ describe("firestore-pipelines", () => {
     });
 
     async function basicRead() {
+      // [START basic_read]
       const readDataPipeline = db.pipeline()
         .collection("users")
 
@@ -1366,6 +1367,7 @@ describe("firestore-pipelines", () => {
         .catch((error) => {
           console.error("Error getting documents: ", error);
         });
+      // [END basic_read]
     }
 
     function pipelineConcepts() {
