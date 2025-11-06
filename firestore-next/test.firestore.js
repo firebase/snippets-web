@@ -2306,6 +2306,7 @@ describe("firestore-pipelines", () => {
     }
 
     async function endsWithFunction() {
+        // [START ends_with]
         const result = await execute(db.pipeline()
           .collection("inventory/devices/laptops")
           .select(
@@ -2313,6 +2314,7 @@ describe("firestore-pipelines", () => {
               .as("16InLaptops")
           )
         );
+        // [END ends_with]
         console.log(result);
     }
 
