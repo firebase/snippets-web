@@ -1326,14 +1326,14 @@ describe("firestore", () => {
 
 describe("firestore-pipelines", () => {
     const {
-      Firestore,
-      collection,
-      doc,
-      getFirestore,
-      orderBy,
-      query,
-      setDoc,
-      startAt
+        Firestore,
+        collection,
+        doc,
+        getFirestore,
+        orderBy,
+        query,
+        setDoc,
+        startAt
     } = require("firebase/firestore")
     const {
         Pipeline,
