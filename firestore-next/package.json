@@ -6,8 +6,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "@firebase/firestore": "eap-firestore-pipelines",
-    "firebase": "^12.4.0",
+    "firebase": "eap-firestore-pipelines",
     "geofire-common": "^6.0.0"
   },
   "devDependencies": {

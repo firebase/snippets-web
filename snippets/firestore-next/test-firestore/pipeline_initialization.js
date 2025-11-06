@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START pipeline_initialization_modular]
-import { getFirestore } from "@firebase/firestore";
-import { execute } from "@firebase/firestore/pipelines";
+import { getFirestore } from "firebase/firestore";
+import { execute } from "firebase/firestore/pipelines";
 const database = getFirestore(app, "enterprise");
 const pipeline = database.pipeline();
 // [END pipeline_initialization_modular]

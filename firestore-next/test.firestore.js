@@ -1334,7 +1334,7 @@ describe("firestore-pipelines", () => {
       query,
       setDoc,
       startAt
-    } = require("@firebase/firestore")
+    } = require("firebase/firestore")
     const {
         Pipeline,
         field,
@@ -1346,7 +1346,7 @@ describe("firestore-pipelines", () => {
         xor,
         conditional,
         execute
-    } = require("@firebase/firestore/pipelines");
+    } = require("firebase/firestore/pipelines");
 
     let app;
     /** @type {Firestore} */ let db;
@@ -1397,8 +1397,8 @@ describe("firestore-pipelines", () => {
 
     function pipelineInitialization() {
         // [START pipeline_initialization]
-        const { getFirestore } = require("@firebase/firestore");
-        const { execute } = require("@firebase/firestore/pipelines");
+        const { getFirestore } = require("firebase/firestore");
+        const { execute } = require("firebase/firestore/pipelines");
         const database = getFirestore(app, "enterprise");
         const pipeline = database.pipeline();
         // [END pipeline_initialization]
