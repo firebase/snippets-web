@@ -5,12 +5,12 @@
 // 'npm run snippets'.
 
 // [START array_contains_all_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("genre")
       .arrayContainsAll([constant("fantasy"), constant("adventure")])
       .as("isFantasyAdventure")
-  ])
-  .execute();
+  )
+);
 // [END array_contains_all_modular]

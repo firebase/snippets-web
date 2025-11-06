@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START not_equal_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("title").notEqual("1984").as("not1984")])
-  .execute();
+  .select(field("title").notEqual("1984").as("not1984"))
+);
 // [END not_equal_modular]

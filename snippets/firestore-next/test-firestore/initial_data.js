@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START initial_data_modular]
-await db.collection("cities").doc("SF").set({
+await setDoc(doc(collection(db, "cities"), "SF"), {
   "name": "San Francisco",
   "population": 800000,
   "location": {
@@ -13,7 +13,7 @@ await db.collection("cities").doc("SF").set({
     "state": "California"
   }
 });
-await db.collection("cities").doc("TO").set({
+await setDoc(doc(collection(db, "cities"), "TO"), {
   "name": "Toronto",
   "population": 3000000,
   "province": "ON",
@@ -22,14 +22,14 @@ await db.collection("cities").doc("TO").set({
     "province": "Ontario"
   }
 });
-await db.collection("cities").doc("NY").set({
+await setDoc(doc(collection(db, "cities"), "NY"), {
   "name": "New York",
   "location": {
     "country": "USA",
     "state": "New York"
   }
 });
-await db.collection("cities").doc("AT").set({
+await setDoc(doc(collection(db, "cities"), "AT"), {
   "name": "Atlantis",
 });
 // [END initial_data_modular]

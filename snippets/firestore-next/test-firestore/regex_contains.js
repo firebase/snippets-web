@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START regex_contains_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("documents")
-  .select([
+  .select(
     field("title").regexContains("Firestore (Enterprise|Standard)")
       .as("isFirestoreRelated")
-  ])
-  .execute();
+  )
+);
 // [END regex_contains_modular]

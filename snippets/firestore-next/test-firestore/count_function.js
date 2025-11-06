@@ -6,14 +6,14 @@
 
 // [START count_function_modular]
 // Total number of books in the collection
-const countOfAll = await db.pipeline()
+const countOfAll = await execute(db.pipeline()
   .collection("books")
-  .aggregate([countAll().as("count")])
-  .execute();
+  .aggregate(countAll().as("count"))
+);
 
 // Number of books with nonnull `ratings` field
-const countField = await db.pipeline()
+const countField = await execute(db.pipeline()
   .collection("books")
-  .aggregate([field("ratings").count().as("count")])
-  .execute();
+  .aggregate(field("ratings").count().as("count"))
+);
 // [END count_function_modular]

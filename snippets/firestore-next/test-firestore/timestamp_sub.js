@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START timestamp_sub_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("documents")
-  .select([
+  .select(
     field("expiresAt").timestampSubtract("day", 14).as("sendWarningTimestamp")
-  ])
-  .execute();
+  )
+);
 // [END timestamp_sub_modular]

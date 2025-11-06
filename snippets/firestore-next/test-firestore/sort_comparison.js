@@ -5,13 +5,13 @@
 // 'npm run snippets'.
 
 // [START sort_comparison_modular]
-const query = db.collection("cities")
-  .orderBy("state")
-  .orderBy("population", "desc");
+const q = query(collection(db, "cities"),
+  orderBy("state"),
+  orderBy("population", "desc"));
 
 const pipeline = db.pipeline()
   .collection("books")
-  .sort([
+  .sort(
     field("release_date").descending(), field("author").ascending()
-  ]);
+  );
 // [END sort_comparison_modular]

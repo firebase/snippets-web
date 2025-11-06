@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START exists_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").exists().as("hasRating")])
-  .execute();
+  .select(field("rating").exists().as("hasRating"))
+);
 // [END exists_function_modular]

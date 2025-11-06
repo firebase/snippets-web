@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START timestamp_add_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("documents")
-  .select([
+  .select(
     field("createdAt").timestampAdd("day", 3653).as("expiresAt")
-  ])
-  .execute();
+  )
+);
 // [END timestamp_add_modular]

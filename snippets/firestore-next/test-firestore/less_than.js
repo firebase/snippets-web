@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START less_than_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("published").lessThan(1923).as("isPublicDomainProbably")])
-  .execute();
+  .select(field("published").lessThan(1923).as("isPublicDomainProbably"))
+);
 // [END less_than_modular]

@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START array_reverse_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("genre").arrayReverse().as("reversedGenres")])
-  .execute();
+  .select(field("genre").arrayReverse().as("reversedGenres"))
+);
 // [END array_reverse_modular]

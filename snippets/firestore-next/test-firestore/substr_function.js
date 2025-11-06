@@ -5,12 +5,12 @@
 // 'npm run snippets'.
 
 // [START substr_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
   .where(field("title").startsWith("The "))
-  .select([
+  .select(
     field("title").substring(4)
       .as("titleWithoutLeadingThe")
-  ])
-  .execute();
+  )
+);
 // [END substr_function_modular]

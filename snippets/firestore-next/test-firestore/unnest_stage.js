@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START unnest_stage_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .database()
-  .unnest(field("arrayField").as("unnestedArrayField"), { indexField: "index" })
-  .execute();
+  .unnest(field("arrayField").as("unnestedArrayField"), "index")
+);
 // [END unnest_stage_modular]

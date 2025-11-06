@@ -6,11 +6,12 @@
 
 // [START pagination_not_supported_preview_modular]
 // Existing pagination via `startAt()`
-const query = db.collection("cities").orderBy("population").startAt(1000000);
+const q = // db.collection("cities").orderBy("population").startAt(1000000);
+  query(collection(db, "cities"), orderBy("population"), startAt(1000000));
 
 // Private preview workaround using pipelines
 const pipeline = db.pipeline()
   .collection("cities")
   .where(field("population").greaterThanOrEqual(1000000))
-  .sort([field("population").descending()]);
+  .sort(field("population").descending());
 // [END pagination_not_supported_preview_modular]

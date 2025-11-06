@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START less_or_equal_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").lessThanOrEqual(2).as("hasBadRating")])
-  .execute();
+  .select(field("rating").lessThanOrEqual(2).as("hasBadRating"))
+);
 // [END less_or_equal_modular]

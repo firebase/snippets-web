@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START like_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("genre").like("%Fiction")
       .as("anyFiction")
-  ])
-  .execute();
+  )
+);
 // [END like_modular]

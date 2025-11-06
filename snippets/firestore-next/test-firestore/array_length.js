@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START array_length_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("genre").arrayLength().as("genreCount")])
-  .execute();
+  .select(field("genre").arrayLength().as("genreCount"))
+);
 // [END array_length_modular]

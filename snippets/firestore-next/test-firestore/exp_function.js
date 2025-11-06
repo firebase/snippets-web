@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START exp_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").exp().as("expRating")])
-  .execute();
+  .select(field("rating").exp().as("expRating"))
+);
 // [END exp_function_modular]

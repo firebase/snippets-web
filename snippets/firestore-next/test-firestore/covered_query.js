@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START covered_query_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
   .where(field("category").like("%fantasy%"))
   .where(field("title").exists())
   .where(field("author").exists())
-  .select([field("title"), field("author")])
-  .execute();
+  .select(field("title"), field("author"))
+);
 // [END covered_query_modular]

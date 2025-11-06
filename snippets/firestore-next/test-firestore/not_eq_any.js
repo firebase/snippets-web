@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START not_eq_any_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("author").notEqualAny(["George Orwell", "F. Scott Fitzgerald"])
       .as("byExcludedAuthors")
-  ])
-  .execute();
+  )
+);
 // [END not_eq_any_modular]

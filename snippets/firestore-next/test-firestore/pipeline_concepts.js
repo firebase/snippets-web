@@ -11,7 +11,7 @@ const pipeline = db.pipeline()
   // Step 2: Filter the collection
   .where(field("population").greaterThan(100000))
   // Step 3: Sort the remaining documents
-  .sort([field("name").ascending()])
+  .sort(field("name").ascending())
   // Step 4: Return the top 10. Note applying the limit earlier in the
   // pipeline would have unintentional results.
   .limit(10);

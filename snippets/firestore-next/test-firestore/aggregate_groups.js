@@ -5,14 +5,11 @@
 // 'npm run snippets'.
 
 // [START aggregate_groups_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
-  .aggregate([
+  .aggregate(
     field("rating").average().as("avg_rating")
-  ], {
-    groups: [
-      field("genre")
-    ]
-  })
-  .execute();
+  )
+  .distinct(field("genre"))
+);
 // [END aggregate_groups_modular]

@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START str_concat_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("title").stringConcat(" by ", field("author"))
       .as("fullyQualifiedTitle")
-  ])
-  .execute();
+  )
+);
 // [END str_concat_modular]

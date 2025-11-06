@@ -6,8 +6,8 @@
 
 // [START sample_percent_modular]
 // Get a sample of on average 50% of the documents in the database
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .database()
   .sample({ percentage: 0.5 })
-  .execute();
+);
 // [END sample_percent_modular]

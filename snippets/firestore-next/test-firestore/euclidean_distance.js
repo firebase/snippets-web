@@ -6,10 +6,10 @@
 
 // [START euclidean_distance_modular]
 const sampleVector = [0.0, 1, 2, 3, 4, 5];
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("embedding").euclideanDistance(sampleVector).as("euclideanDistance")
-  ])
-  .execute();
+  )
+);
 // [END euclidean_distance_modular]

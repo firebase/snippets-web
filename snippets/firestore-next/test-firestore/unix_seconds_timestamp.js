@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START unix_seconds_timestamp_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("documents")
-  .select([
+  .select(
     field("createdAtSeconds").unixSecondsToTimestamp().as("createdAtString")
-  ])
-  .execute();
+  )
+);
 // [END unix_seconds_timestamp_modular]

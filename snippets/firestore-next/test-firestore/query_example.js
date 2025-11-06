@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START query_example_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
   .where(field("published").lessThan(1900))
   .where(field("genre").equal("Science Fiction"))
   .where(field("rating").greaterThan(4.3))
-  .sort([field("published").descending()])
-  .execute();
+  .sort(field("published").descending())
+);
 // [END query_example_modular]

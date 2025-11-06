@@ -8,18 +8,18 @@
 let results;
 
 // Get a sample of 100 documents in a database
-results = await db.pipeline()
+results = await execute(db.pipeline()
   .database()
   .sample(100)
-  .execute();
+);
 
 // Randomly shuffle a list of 3 documents
-results = await db.pipeline()
+results = await execute(db.pipeline()
   .documents([
     doc(db, "cities", "SF"),
     doc(db, "cities", "NY"),
     doc(db, "cities", "DC"),
   ])
   .sample(3)
-  .execute();
+);
 // [END sample_example_modular]

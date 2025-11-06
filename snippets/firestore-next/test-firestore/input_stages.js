@@ -8,18 +8,18 @@
 let results;
 
 // Return all restaurants in San Francisco
-results = await db.pipeline().collection("cities/sf/restaurants").execute();
+results = await execute(db.pipeline().collection("cities/sf/restaurants"));
 
 // Return all restaurants
-results = await db.pipeline().collectionGroup("restaurants").execute();
+results = await execute(db.pipeline().collectionGroup("restaurants"));
 
 // Return all documents across all collections in the database (the entire database)
-results = await db.pipeline().database().execute();
+results = await execute(db.pipeline().database());
 
 // Batch read of 3 documents
-results = await db.pipeline().documents([
+results = await execute(db.pipeline().documents([
   doc(db, "cities", "SF"),
   doc(db, "cities", "DC"),
   doc(db, "cities", "NY")
-]).execute();
+]));
 // [END input_stages_modular]

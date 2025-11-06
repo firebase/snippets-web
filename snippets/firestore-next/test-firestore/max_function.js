@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START max_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .aggregate([field("price").maximum().as("maximumPrice")])
-  .execute();
+  .aggregate(field("price").maximum().as("maximumPrice"))
+);
 // [END max_function_modular]

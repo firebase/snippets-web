@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START str_reverse_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("name").reverse().as("reversedName")
-  ])
-  .execute();
+  )
+);
 // [END str_reverse_modular]

@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START trim_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("name").trim().as("whitespaceTrimmedName")
-  ])
-  .execute();
+  )
+);
 // [END trim_function_modular]

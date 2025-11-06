@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START divide_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("ratings").divide(field("soldBooks")).as("reviewRate")])
-  .execute();
+  .select(field("ratings").divide(field("soldBooks")).as("reviewRate"))
+);
 // [END divide_function_modular]

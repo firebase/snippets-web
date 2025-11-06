@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START starts_with_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("title").startsWith("The")
       .as("needsSpecialAlphabeticalSort")
-  ])
-  .execute();
+  )
+);
 // [END starts_with_modular]

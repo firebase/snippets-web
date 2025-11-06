@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START array_concat_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("genre").arrayConcat([field("subGenre")]).as("allGenres")])
-  .execute();
+  .select(field("genre").arrayConcat([field("subGenre")]).as("allGenres"))
+);
 // [END array_concat_modular]

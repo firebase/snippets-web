@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START to_upper_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("authors")
-  .select([
+  .select(
     field("name").toUpper()
       .as("uppercaseName")
-  ])
-  .execute();
+  )
+);
 // [END to_upper_modular]

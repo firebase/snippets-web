@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START aggregate_distinct_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
-  .distinct([
+  .distinct(
     field("author").toUpper().as("author"),
     field("genre")
-  ])
-  .execute();
+  )
+);
 // [END aggregate_distinct_modular]

@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START not_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     (field("tags").arrayContains("nonfiction").not())
       .as("isFiction")
-  ])
-  .execute();
+  )
+);
 // [END not_function_modular]

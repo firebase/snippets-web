@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START map_get_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("awards").mapGet("pulitzer").as("hasPulitzerAward")
-  ])
-  .execute();
+  )
+);
 // [END map_get_modular]

@@ -5,13 +5,13 @@
 // 'npm run snippets'.
 
 // [START union_stage_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("cities/SF/restaurants")
   .where(field("type").equal("Chinese"))
   .union(db.pipeline()
     .collection("cities/NY/restaurants")
     .where(field("type").equal("Italian")))
   .where(field("rating").greaterThanOrEqual(4.5))
-  .sort([field("__name__").descending()])
-  .execute();
+  .sort(field("__name__").descending())
+);
 // [END union_stage_modular]

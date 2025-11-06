@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START greater_than_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").greaterThan(4).as("hasHighRating")])
-  .execute();
+  .select(field("rating").greaterThan(4).as("hasHighRating"))
+);
 // [END greater_than_modular]

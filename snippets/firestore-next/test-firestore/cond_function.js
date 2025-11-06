@@ -5,13 +5,13 @@
 // 'npm run snippets'.
 
 // [START cond_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("tags").arrayConcat([
       field("pages").greaterThan(100)
         .conditional(constant("longRead"), constant("shortRead"))
     ]).as("extendedTags")
-  ])
-  .execute();
+  )
+);
 // [END cond_function_modular]

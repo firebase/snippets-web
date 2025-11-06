@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START sort_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
-  .sort([
+  .sort(
     field("release_date").descending(), field("author").ascending()
-  ])
-  .execute();
+  )
+);
 // [END sort_modular]

@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START and_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     and(field("rating").greaterThan(4), (field("price").lessThan(10)))
       .as("under10Recommendation")
-  ])
-  .execute();
+  )
+);
 // [END and_function_modular]

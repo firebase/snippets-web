@@ -5,9 +5,9 @@
 // 'npm run snippets'.
 
 // [START round_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("soldBooks").multiply(field("price")).round().as("partialRevenue")])
-  .aggregate([field("partialRevenue").sum().as("totalRevenue")])
-  .execute();
+  .select(field("soldBooks").multiply(field("price")).round().as("partialRevenue"))
+  .aggregate(field("partialRevenue").sum().as("totalRevenue"))
+  );
 // [END round_function_modular]

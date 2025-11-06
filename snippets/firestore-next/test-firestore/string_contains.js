@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START string_contains_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("articles")
-  .select([
+  .select(
     field("body").stringContains("Firestore")
       .as("isFirestoreRelated")
-  ])
-  .execute();
+  )
+);
 // [END string_contains_modular]

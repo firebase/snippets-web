@@ -6,9 +6,9 @@
 
 // [START sqrt_function_modular]
 const googleplex = { latitude: 37.4221, longitude: 122.0853 };
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("cities")
-  .addFields([
+  .addFields(
     field("lat").subtract(constant(googleplex.latitude))
       .multiply(111 /* km per degree */)
       .pow(2)
@@ -17,11 +17,11 @@ const result = await db.pipeline()
       .multiply(111 /* km per degree */)
       .pow(2)
       .as("longitudeDifference")
-  ])
-  .select([
+  )
+  .select(
     field("latitudeDifference").add(field("longitudeDifference")).sqrt()
       // Inaccurate for large distances or close to poles
       .as("approximateDistanceToGoogle")
-  ])
-  .execute();
+  )
+);
 // [END sqrt_function_modular]

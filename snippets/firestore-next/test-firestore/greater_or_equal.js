@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START greater_or_equal_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("published").greaterThanOrEqual(1900).as("publishedIn20thCentury")])
-  .execute();
+  .select(field("published").greaterThanOrEqual(1900).as("publishedIn20thCentury"))
+);
 // [END greater_or_equal_modular]

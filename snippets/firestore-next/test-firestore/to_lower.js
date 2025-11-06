@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START to_lower_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("authors")
-  .select([
+  .select(
     field("genre").toLower().equal("fantasy")
       .as("isFantasy")
-  ])
-  .execute();
+  )
+);
 // [END to_lower_modular]

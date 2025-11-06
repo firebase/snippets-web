@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START equal_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").equal(5).as("hasPerfectRating")])
-  .execute();
+  .select(field("rating").equal(5).as("hasPerfectRating"))
+);
 // [END equal_function_modular]

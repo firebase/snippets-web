@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START count_distinct_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
   .aggregate(field("author").countDistinct().as("unique_authors"))
-  .execute();
+);
 // [END count_distinct_modular]

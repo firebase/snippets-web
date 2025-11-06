@@ -6,8 +6,8 @@
 
 // [START mod_function_modular]
 const displayCapacity = 1000;
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("unsoldBooks").mod(constant(displayCapacity)).as("warehousedBooks")])
-  .execute();
+  .select(field("unsoldBooks").mod(constant(displayCapacity)).as("warehousedBooks"))
+);
 // [END mod_function_modular]

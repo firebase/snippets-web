@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START max_logical_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("rating").logicalMaximum([1]).as("flooredRating")
-  ])
-  .execute();
+  )
+);
 // [END max_logical_function_modular]

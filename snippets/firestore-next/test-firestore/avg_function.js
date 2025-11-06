@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START avg_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("cities")
-  .aggregate([field("population").average().as("averagePopulation")])
-  .execute();
+  .aggregate(field("population").average().as("averagePopulation"))
+);
 // [END avg_function_modular]

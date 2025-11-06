@@ -9,10 +9,10 @@
 // { identifier : 1, neighbors: [ "Alice", "Cathy" ] }
 // { identifier : 2, neighbors: []                   }
 // { identifier : 3, neighbors: "Bob"                }
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .database()
-  .unnest(field("neighbors").as("unnestedNeighbors"), { indexField: "index" })
-  .execute();
+  .unnest(field("neighbors").as("unnestedNeighbors"), "index" )
+);
 
 // Output
 // { identifier: 1, neighbors: [ "Alice", "Cathy" ], unnestedNeighbors: "Alice", index: 0 }

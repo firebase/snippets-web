@@ -9,15 +9,15 @@ let results;
 
 // Type 1: Scalar (for use in non-aggregation stages)
 // Example: Return the min store price for each book.
-results = await db.pipeline().collection("books")
-  .select([
+results = await execute(db.pipeline().collection("books")
+  .select(
     field("current").logicalMinimum(["updated"]).as("price_min")
-  ])
-  .execute();
+  )
+);
 
 // Type 2: Aggregation (for use in aggregate stages)
 // Example: Return the min price of all books.
-results = await db.pipeline().collection("books")
-  .aggregate([field("price").minimum().as("min_price")])
-  .execute();
+results = await execute(db.pipeline().collection("books")
+  .aggregate(field("price").minimum().as("min_price"))
+);
 // [END functions_example_modular]

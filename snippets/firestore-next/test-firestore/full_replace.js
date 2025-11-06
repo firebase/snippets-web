@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START full_replace_modular]
-const names = await db.pipeline()
+const names = await execute(db.pipeline()
   .collection("cities")
-  .replace(field("location"))
-  .execute();
+  .replaceWith(field("location"))
+);
 // [END full_replace_modular]

@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START sparse_index_example_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("books")
   .where(field("category").like("%fantasy%"))
-  .execute();
+);
 // [END sparse_index_example_modular]

@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START or_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     or(field("genre").equal("Fantasy"), (field("tags").arrayContains("adventure")))
       .as("matchesSearchFilters")
-  ])
-  .execute();
+  )
+);
 // [END or_function_modular]

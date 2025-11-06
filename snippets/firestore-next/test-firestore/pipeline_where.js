@@ -7,12 +7,12 @@
 // [START pipeline_where_modular]
 let results;
 
-results = await db.pipeline().collection("books")
+results = await execute(db.pipeline().collection("books")
   .where(field("rating").equal(5))
   .where(field("published").lessThan(1900))
-  .execute();
+);
 
-results = await db.pipeline().collection("books")
+results = await execute(db.pipeline().collection("books")
   .where(and(field("rating").equal(5), (field("published").lessThan(1900))))
-  .execute();
+);
 // [END pipeline_where_modular]

@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START timestamp_unix_millis_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("documents")
-  .select([
+  .select(
     field("dateString").timestampToUnixMillis().as("unixMillis")
-  ])
-  .execute();
+  )
+);
 // [END timestamp_unix_millis_modular]

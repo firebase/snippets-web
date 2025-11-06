@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START byte_length_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("title").byteLength().as("titleByteLength")
-  ])
-  .execute();
+  )
+);
 // [END byte_length_modular]

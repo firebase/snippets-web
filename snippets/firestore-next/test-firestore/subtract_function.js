@@ -6,8 +6,8 @@
 
 // [START subtract_function_modular]
 const storeCredit = 7;
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("price").subtract(constant(storeCredit)).as("totalCost")])
-  .execute();
+  .select(field("price").subtract(constant(storeCredit)).as("totalCost"))
+);
 // [END subtract_function_modular]

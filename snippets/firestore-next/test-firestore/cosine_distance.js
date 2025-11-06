@@ -6,10 +6,10 @@
 
 // [START cosine_distance_modular]
 const sampleVector = [0.0, 1, 2, 3, 4, 5];
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("embedding").cosineDistance(sampleVector).as("cosineDistance")
-  ])
-  .execute();
+  )
+);
 // [END cosine_distance_modular]

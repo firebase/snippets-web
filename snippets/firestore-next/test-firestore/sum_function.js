@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START sum_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("cities")
-  .aggregate([field("population").sum().as("totalPopulation")])
-  .execute();
+  .aggregate(field("population").sum().as("totalPopulation"))
+);
 // [END sum_function_modular]

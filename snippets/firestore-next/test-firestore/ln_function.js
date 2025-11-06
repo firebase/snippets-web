@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START ln_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("rating").ln().as("lnRating")])
-  .execute();
+  .select(field("rating").ln().as("lnRating"))
+);
 // [END ln_function_modular]

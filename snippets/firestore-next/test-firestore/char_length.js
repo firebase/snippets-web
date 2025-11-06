@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START char_length_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("title").charLength().as("titleCharLength")
-  ])
-  .execute();
+  )
+);
 // [END char_length_modular]

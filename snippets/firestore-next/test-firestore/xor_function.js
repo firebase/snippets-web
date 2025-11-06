@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START xor_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     xor(field("tags").arrayContains("magic"), (field("tags").arrayContains("nonfiction")))
       .as("matchesSearchFilters")
-  ])
-  .execute();
+  )
+);
 // [END xor_function_modular]

@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START vector_length_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("embedding").vectorLength().as("vectorLength")
-  ])
-  .execute();
+  )
+);
 // [END vector_length_modular]

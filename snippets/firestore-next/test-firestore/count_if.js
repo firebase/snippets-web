@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START count_if_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
   .aggregate(
     field("rating").greaterThan(4).countIf().as("filteredCount")
   )
-  .execute();
+);
 // [END count_if_modular]

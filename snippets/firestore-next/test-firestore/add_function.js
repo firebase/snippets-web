@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START add_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([field("soldBooks").add(field("unsoldBooks")).as("totalBooks")])
-  .execute();
+  .select(field("soldBooks").add(field("unsoldBooks")).as("totalBooks"))
+);
 // [END add_function_modular]

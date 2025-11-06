@@ -5,10 +5,11 @@
 // 'npm run snippets'.
 
 // [START documents_example_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .documents([
     doc(db, "cities", "SF"),
     doc(db, "cities", "DC"),
     doc(db, "cities", "NY")
-  ]).execute();
+  ])
+);
 // [END documents_example_modular]

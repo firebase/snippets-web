@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START floor_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .addFields([
+  .addFields(
     field("wordCount").divide(field("pages")).floor().as("wordsPerPage")
-  ])
-  .execute();
+  )
+);
 // [END floor_function_modular]

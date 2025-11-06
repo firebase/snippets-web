@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START collection_example_modular]
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .collection("users/bob/games")
-  .sort([field("name").ascending()])
-  .execute();
+  .sort(field("name").ascending())
+  );
 // [END collection_example_modular]

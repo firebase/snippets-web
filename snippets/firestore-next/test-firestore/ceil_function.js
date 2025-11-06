@@ -6,10 +6,10 @@
 
 // [START ceil_function_modular]
 const booksPerShelf = 100;
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("unsoldBooks").divide(constant(booksPerShelf)).ceil().as("requiredShelves")
-  ])
-  .execute();
+  )
+);
 // [END ceil_function_modular]

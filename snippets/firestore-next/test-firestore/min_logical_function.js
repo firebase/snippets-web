@@ -5,10 +5,10 @@
 // 'npm run snippets'.
 
 // [START min_logical_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("rating").logicalMinimum([5]).as("cappedRating")
-  ])
-  .execute();
+  )
+);
 // [END min_logical_function_modular]

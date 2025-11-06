@@ -5,11 +5,11 @@
 // 'npm run snippets'.
 
 // [START eq_any_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .select([
+  .select(
     field("genre").equalAny(["Science Fiction", "Psychological Thriller"])
       .as("matchesGenreFilters")
-  ])
-  .execute();
+  )
+);
 // [END eq_any_modular]

@@ -6,8 +6,8 @@
 
 // [START database_example_modular]
 // Count all documents in the database
-const results = await db.pipeline()
+const results = await execute(db.pipeline()
   .database()
-  .aggregate([countAll().as("total")])
-  .execute();
+  .aggregate(countAll().as("total"))
+  );
 // [END database_example_modular]

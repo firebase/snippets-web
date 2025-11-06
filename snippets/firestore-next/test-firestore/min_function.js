@@ -5,8 +5,8 @@
 // 'npm run snippets'.
 
 // [START min_function_modular]
-const result = await db.pipeline()
+const result = await execute(db.pipeline()
   .collection("books")
-  .aggregate([field("price").minimum().as("minimumPrice")])
-  .execute();
+  .aggregate(field("price").minimum().as("minimumPrice"))
+);
 // [END min_function_modular]

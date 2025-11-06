@@ -6,16 +6,15 @@
 
 // [START basic_read_modular]
 const readDataPipeline = db.pipeline()
-  .collection("users")
+  .collection("users");
 
 // Execute the pipeline and handle the result
-readDataPipeline.execute()
-  .then((querySnapshot) => {
-    querySnapshot.forEach((result) => {
-      console.log(`${result.id} => ${result.data()}`);
-    });
-  })
-  .catch((error) => {
-    console.error("Error getting documents: ", error);
+try {
+  const querySnapshot = await execute(readDataPipeline);
+  querySnapshot.results.forEach((result) => {
+    console.log(`${result.id} => ${result.data()}`);
   });
+} catch (error) {
+    console.error("Error getting documents: ", error);
+}
 // [END basic_read_modular]
