@@ -1727,21 +1727,6 @@ describe("firestore-pipelines", () => {
         console.log(results);
     }
 
-    async function unionStageStable() {
-        // [START union_stage_stable]
-        const results = await execute(db.pipeline()
-          .collection("cities/SF/restaurants")
-          .where(field("type").equal("Chinese"))
-          .union(db.pipeline()
-              .collection("cities/NY/restaurants")
-              .where(field("type").equal("Italian")) /*, { stable: true } */)
-          .where(field("rating").greaterThanOrEqual(4.5))
-          .sort(field("__name__").descending())
-        );
-        // [END union_stage_stable]
-        console.log(results);
-    }
-
     async function unnestStage() {
         // [START unnest_stage]
         const results = await execute(db.pipeline()
