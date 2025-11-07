@@ -1447,7 +1447,7 @@ describe("firestore-pipelines", () => {
         );
 
         results = await execute(db.pipeline().collection("books")
-          .where(and(field("rating").equal(5), (field("published").lessThan(1900))))
+          .where(and(field("rating").equal(5), field("published").lessThan(1900)))
         );
         // [END pipeline_where]
         console.log(results);
@@ -1514,9 +1514,7 @@ describe("firestore-pipelines", () => {
         // Type 1: Scalar (for use in non-aggregation stages)
         // Example: Return the min store price for each book.
         results = await execute(db.pipeline().collection("books")
-          .select(
-            field("current").logicalMinimum(["updated"]).as("price_min")
-          )
+          .select(field("current").logicalMinimum(field("updated")).as("price_min"))
         );
 
         // Type 2: Aggregation (for use in aggregate stages)
@@ -1574,17 +1572,39 @@ describe("firestore-pipelines", () => {
         console.log(results);
     }
 
-    function pagination() {
+    async function pagination() {
         // [START pagination_not_supported_preview]
         // Existing pagination via `startAt()`
-        const q = // db.collection("cities").orderBy("population").startAt(1000000);
+        const q =
           query(collection(db, "cities"), orderBy("population"), startAt(1000000));
 
         // Private preview workaround using pipelines
+        const pageSize = 2;
         const pipeline = db.pipeline()
           .collection("cities")
-          .where(field("population").greaterThanOrEqual(1000000))
-          .sort(field("population").descending());
+          .select("name", "population", "__name__")
+          .sort(field("population").descending(), field("__name__").ascending());
+
+        // Page 1 results
+        let snapshot = await execute(pipeline.limit(pageSize));
+
+        // End of page marker
+        const lastDoc = snapshot.results[snapshot.results.length - 1];
+
+        // Page 2 results
+        snapshot = await execute(
+          pipeline
+            .where(
+              or(
+                and(
+                  field("population").equal(lastDoc.get("population")),
+                  field("__name__").greaterThan(lastDoc.ref)
+                ),
+                field("population").lessThan(lastDoc.get("population"))
+              )
+            )
+            .limit(pageSize)
+        );
         // [END pagination_not_supported_preview]
         console.log(q);
         console.log(pipeline);
@@ -2144,7 +2164,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            and(field("rating").greaterThan(4), (field("price").lessThan(10)))
+            and(field("rating").greaterThan(4), field("price").lessThan(10))
               .as("under10Recommendation")
           )
         );
@@ -2157,7 +2177,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            or(field("genre").equal("Fantasy"), (field("tags").arrayContains("adventure")))
+            or(field("genre").equal("Fantasy"), field("tags").arrayContains("adventure"))
               .as("matchesSearchFilters")
           )
         );
@@ -2170,7 +2190,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            xor(field("tags").arrayContains("magic"), (field("tags").arrayContains("nonfiction")))
+            xor(field("tags").arrayContains("magic"), field("tags").arrayContains("nonfiction"))
               .as("matchesSearchFilters")
           )
         );
@@ -2183,7 +2203,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            (field("tags").arrayContains("nonfiction").not())
+            field("tags").arrayContains("nonfiction").not()
               .as("isFiction")
           )
         );
@@ -2237,7 +2257,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            field("rating").logicalMaximum([1]).as("flooredRating")
+            field("rating").logicalMaximum(1).as("flooredRating")
           )
         );
         // [END max_logical_function]
@@ -2249,7 +2269,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            field("rating").logicalMinimum([5]).as("cappedRating")
+            field("rating").logicalMinimum(5).as("cappedRating")
           )
         );
         // [END min_logical_function]
