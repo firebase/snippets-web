@@ -5,7 +5,8 @@ const { expect } = require('chai');
 
 describe("firestore-pipelines", () => {
     const {
-        Firestore
+        Firestore,
+        Timestamp
     } = require("@google-cloud/firestore")
     const {
         Pipeline,
@@ -30,6 +31,20 @@ describe("firestore-pipelines", () => {
         databaseId: 'your-new-enterprise-database'
       });
     });
+
+    async function stagesExpressionsExample() {
+      // [START stages_expressions_example]
+      const trailing30Days = constant(Timestamp.now().toMillis())
+        .unixMillisToTimestamp()
+        .timestampSubtract("day", 30);
+      const snapshot = await db.pipeline()
+        .collection("productViews")
+        .where(field("viewedAt").greaterThan(trailing30Days))
+        .aggregate(field("productId").countDistinct().as("uniqueProductViews"))
+        .execute();
+      // [END stages_expressions_example]
+      console.log(snapshot);
+    }
 
     async function basicRead() {
       // [START basic_read]

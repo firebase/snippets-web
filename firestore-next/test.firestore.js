@@ -1327,13 +1327,14 @@ describe("firestore", () => {
 describe("firestore-pipelines", () => {
     const {
         Firestore,
+        Timestamp,
         collection,
         doc,
         getFirestore,
         orderBy,
         query,
         setDoc,
-        startAt
+        startAt,
     } = require("firebase/firestore")
     const {
         Pipeline,
@@ -1361,6 +1362,20 @@ describe("firestore-pipelines", () => {
         app = initializeApp(config);
         db = getFirestore(app, "enterprise");
     });
+
+    async function stagesExpressionsExample() {
+      // [START stages_expressions_example]
+      const trailing30Days = constant(Timestamp.now().toMillis())
+        .unixMillisToTimestamp()
+        .timestampSubtract("day", 30);
+      const snapshot = await execute(db.pipeline()
+        .collection("productViews")
+        .where(field("viewedAt").greaterThan(trailing30Days))
+        .aggregate(field("productId").countDistinct().as("uniqueProductViews"))
+      );
+      // [END stages_expressions_example]
+      console.log(snapshot);
+    }
 
     async function basicRead() {
       // [START basic_read]
