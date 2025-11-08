@@ -75,6 +75,10 @@ function svcIntercept() {
             .then((json) => {
               return JSON.stringify(json);
             });
+        } else if (
+          req.headers.get('Content-Type').indexOf('multipart/form-data') !== -1
+        ) {
+          return req.clone().arrayBuffer();
         } else {
           return req.text();
         }
