@@ -2,7 +2,7 @@
 // [SNIPPETS_SEPARATION enabled]
 
 const { expect } = require('chai');
-import { or } from "firebase/firestore";
+import { addDoc, or } from "firebase/firestore";
 
 // [START city_custom_object]
 class City {
@@ -1338,14 +1338,19 @@ describe("firestore-pipelines", () => {
     } = require("firebase/firestore")
     const {
         Pipeline,
+        array,
         field,
         constant,
         countAll,
+        sum,
+        average,
+        maximum,
         AggregateFunction,
         and,
         or,
         xor,
         conditional,
+        like,
         execute
     } = require("firebase/firestore/pipelines");
 
@@ -1376,6 +1381,736 @@ describe("firestore-pipelines", () => {
       // [END stages_expressions_example]
       console.log(snapshot);
     }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/where
+
+    async function createWhereData() {
+      // [START create_where_data]
+      await setDoc(doc(collection(db, "cities"), "SF"),
+        { name: "San Francisco", state: "CA", country: "USA", population: 870000 }
+      );
+
+      await setDoc(doc(collection(db, "cities"), "LA"),
+        { name: "Los Angeles", state: "CA", country: "USA", population: 3970000 }
+      );
+      await setDoc(doc(collection(db, "cities"), "NY"),
+        { name: "New York", state: "NY", country: "USA", population: 8530000 }
+      );
+      await setDoc(doc(collection(db, "cities"), "TOR"),
+        { name: "Toronto", state: null, country: "Canada", population: 2930000 }
+      );
+      await setDoc(doc(collection(db, "cities"), "MEX"),
+        { name: "Mexico City", state: null, country: "Mexico", population: 9200000 }
+      );
+      // [END create_where_data]
+    }
+
+    async function whereEqualityExample() {
+      // [START where_equality_example]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .where(field("state").equal("CA")));
+      // [END where_equality_example]
+      console.log(cities);
+    }
+
+    async function whereMultipleStagesExample() {
+      // [START where_multiple_stages]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .where(field("location.country").equal("USA"))
+        .where(field("population").greaterThan(500000)));
+      // [END where_multiple_stages]
+      console.log(cities);
+    }
+
+    async function whereComplexExample() {
+      // [START where_complex]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .where(
+          or(
+            like(field("name"), "San%"),
+            and(
+              field("location.state").charLength().greaterThan(7),
+              field("location.country").equal("USA")
+            )
+          )
+        ));
+      // [END where_complex]
+      console.log(cities);
+    }
+
+    async function whereStageOrderExample() {
+      // [START where_stage_order]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .limit(10)
+        .where(field("location.country").equal("USA")));
+      // [END where_stage_order]
+      console.log(cities);
+    }
+
+    async function whereHavingExample() {
+      // [START where_having_example]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .aggregate({
+          accumulators: [field("population").sum().as("totalPopulation")],
+          groups: ["location.state"]
+        })
+        .where(field("totalPopulation").greaterThan(10000000)));
+      // [END where_having_example]
+      console.log(cities);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/unnest
+
+    async function unnestSyntaxExample() {
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
+      // [END unnest_syntax]
+      console.log(userScore);
+    }
+
+    async function unnestAliasIndexDataExample() {
+      // [START unnest_alias_index_data]
+      await addDoc(collection(db, "users"), {name: "foo", scores: [5, 4], userScore: 0});
+      await addDoc(collection(db, "users"), {name: "bar", scores: [1, 3], attempt: 5});
+      // [END unnest_alias_index_data]
+    }
+
+    async function unnestAliasIndexExample() {
+      // [START unnest_alias_index]
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
+      // [END unnest_alias_index]
+      console.log(userScore);
+    }
+
+    async function unnestNonArrayDataExample() {
+      // [START unnest_nonarray_data]
+        await addDoc(collection(db, "users"), {name: "foo", scores: 1});
+        await addDoc(collection(db, "users"), {name: "bar", scores: null});
+        await addDoc(collection(db, "users"), {name: "qux", scores: {backupScores: 1}});
+      // [END unnest_nonarray_data]
+    }
+
+    async function unnestNonArrayExample() {
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
+      // [END unnest_nonarray]
+      console.log(userScore);
+    }
+
+    async function unnestEmptyArrayDataExample() {
+      // [START unnest_empty_array_data]
+      await addDoc(collection(db, "users"), {name: "foo", scores: [5, 4]});
+      await addDoc(collection(db, "users"), {name: "bar", scores: []});
+      // [END unnest_empty_array_data]
+    }
+
+    async function unnestEmptyArrayExample() {
+      // [START unnest_empty_array]
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
+      // [END unnest_empty_array]
+      console.log(userScore);
+    }
+
+    async function unnestPreserveEmptyArrayExample() {
+      // [START unnest_preserve_empty_array]
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(
+          conditional(
+            field("scores").equal(array([])),
+            array([field("scores")]),
+            field("scores")
+          ).as("userScore"),
+        /* index_field= */ "attempt"));
+      // [END unnest_preserve_empty_array]
+      console.log(userScore);
+    }
+
+    async function unnestNestedDataExample() {
+      // [START unnest_nested_data]
+      await addDoc(collection(db, "users"), {
+        name: "foo", 
+        record: [
+          {
+            scores: [5, 4], 
+            avg: 4.5
+          }, {
+            scores: [1, 3],
+            old_avg: 2
+          }
+        ]
+      });
+      // [END unnest_nested_data]
+    }
+
+    async function unnestNestedExample() {
+      // [START unnest_nested]
+      const userScore = await execute(db.pipeline()
+        .collection("users")
+        .unnest(field("record").as("record"))
+        .unnest(field("record.scores").as("userScore"), /* index_field= */ "attempt"));
+      // [END unnest_nested]
+      console.log(userScore);
+    }
+
+    // https://cloud.corp.google.com/firestore/docs/pipeline/stages/transformation/sample
+
+    async function sampleSyntaxExample() {
+      // [START sample_syntax]
+      let sampled = await execute(db.pipeline()
+        .database()
+        .sample(50));
+
+      sampled = await execute(db.pipeline()
+        .database()
+        .sample({ percentage: 0.5 }));
+      // [END sample_syntax]
+      console.log(sampled);
+    }
+
+    async function sampleDocumentsDataExample() {
+      // [START sample_documents_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francisco", state: "California"});
+      await setDoc(doc(collection(db, "cities"), "NYC"), {name: "New York City", state: "New York"});
+      await setDoc(doc(collection(db, "cities"), "CHI"), {name: "Chicago", state: "Illinois"});
+      // [END sample_documents_data]
+    }
+
+    async function sampleDocumentsExample() {
+      // [START sample_documents]
+      const sampled = await execute(db.pipeline()
+        .collection("cities")
+        .sample(1));
+      // [END sample_documents]
+      console.log(sampled);
+    }
+
+    async function sampleAllDocumentsExample() {
+      // [START sample_all_documents]
+      const sampled = await execute(db.pipeline()
+        .collection("cities")
+        .sample(5));
+      // [END sample_all_documents]
+      console.log(sampled);
+    }
+
+    async function samplePercentageDataExample() {
+      // [START sample_percentage_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francsico", state: "California"});
+      await setDoc(doc(collection(db, "cities"), "NYC"), {name: "New York City", state: "New York"});
+      await setDoc(doc(collection(db, "cities"), "CHI"), {name: "Chicago", state: "Illinois"});
+      await setDoc(doc(collection(db, "cities"), "ATL"), {name: "Atlanta", state: "Georgia"});
+      // [END sample_percentage_data]
+    }
+
+    async function samplePercentageExample() {
+      // [START sample_percentage]
+      const sampled = await execute(db.pipeline()
+        .collection("cities")
+        .sample({ percentage: 0.5 }));
+      // [END sample_percentage]
+      console.log(sampled);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/sort
+
+    async function sortSyntaxExample() {
+      // [START sort_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .sort(field("population").ascending()));
+      // [END sort_syntax]
+      console.log(results);
+    }
+
+    async function sortSyntaxExample2() {
+      // [START sort_syntax_2]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .sort(field("name").charLength().ascending()));
+      // [END sort_syntax_2]
+      console.log(results);
+    }
+
+    async function sortDocumentIDExample() {
+      // [START sort_document_id]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .sort(field("country").ascending(), field("__name__").ascending()));
+      // [END sort_document_id]
+      console.log(results);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/select
+
+    async function selectSyntaxExample() {
+      // [START select_syntax]
+      const names = await execute(db.pipeline()
+        .collection("cities")
+        .select(
+          field("name").stringConcat(", ", field("location.country")).as("name"),
+          "population"
+        ));
+      // [END select_syntax]
+      console.log(names);
+    }
+
+    async function selectPositionDataExample() {
+      // [START select_position_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {
+        name: "San Francisco", population: 800000, location: {country: "USA", state: "California"}
+      });
+      await setDoc(doc(collection(db, "cities"), "TO"), {
+        name: "Toronto", population: 3000000, location: {country: "Canada", province: "Ontario"}
+      });
+      // [END select_position_data]
+    }
+
+    async function selectPositionExample() {
+      // [START select_position]
+      const names = await execute(db.pipeline()
+        .collection("cities")
+        .where(field("location.country").equal("Canada"))
+        .select(
+          field("name").stringConcat(", ", field("location.country")).as("name"),
+          "population"));
+      // [END select_position]
+      console.log(names);
+    }
+
+    async function selectBadPositionExample() {
+      // [START select_bad_position]
+      const names = await execute(db.pipeline()
+        .collection("cities")
+        .select(
+          field("name").stringConcat(", ", field("location.country")).as("name"),
+          "population")
+        .where(field("location.country").equal("Canada")));
+      // [END select_bad_position]
+      console.log(names);
+    }
+
+    async function selectNestedDataExample() {
+      // [START select_nested_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francisco", population: 800000, location: {country: "USA", state: "California"}, landmarks: ["Golden Gate Bridge", "Alcatraz"]});
+      await setDoc(doc(collection(db, "cities"), "TO"), {name: "Toronto", population:  3000000, province: "ON", location: {country: "Canada", province: "Ontario"}, landmarks: ["CN Tower", "Casa Loma"]});
+      await setDoc(doc(collection(db, "cities"), "AT"), {name: "Atlantis", population: null});
+      // [END select_nested_data]
+    }
+
+    async function selectNestedExample() {
+      // [START select_nested]
+      const locations = await execute(db.pipeline()
+        .collection("cities")
+        .select(
+          field("name").as("city"),
+          field("location.country").as("country"),
+          field("landmarks").arrayGet(0).as("topLandmark")
+        ));
+      // [END select_nested]
+      console.log(locations);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/remove_fields
+
+    async function removeFieldsSyntaxExample() {
+      // [START remove_fields_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .removeFields("population", "location.state"));
+      // [END remove_fields_syntax]
+      console.log(results);
+    }
+
+    async function removeFieldsNestedDataExample() {
+      // [START remove_fields_nested_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {
+        name: "San Francisco", location: {country: "USA", state: "California"}
+      });
+      await setDoc(doc(collection(db, "cities"), "TO"), {
+        name: "Toronto", location: {country: "Canada", province: "Ontario"}
+      });
+      // [END remove_fields_nested_data]
+    }
+
+    async function removeFieldsNestedExample() {
+      // [START remove_fields_nested]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .removeFields("location.state"));
+      // [END remove_fields_nested]
+      console.log(results);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/limit
+
+    async function limitSyntaxExample() {
+      // [START limit_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .limit(10));
+      // [END limit_syntax]
+      console.log(results);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/find_nearest
+
+    async function findNearestSyntaxExample() {
+      // [START find_nearest_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .findNearest({
+            field: "embedding",
+            vectorValue: [1.5, 2.345],
+            distanceMeasure: "euclidean"
+        }));
+      // [END find_nearest_syntax]
+    }
+
+    async function findNearestLimitExample() {
+      // [START find_nearest_limit]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .findNearest({
+            field: "embedding",
+            vectorValue: [1.5, 2.345],
+            distanceMeasure: "euclidean",
+            limit: 10
+        }));
+      // [END find_nearest_limit]
+      console.log(results);
+    }
+
+    async function findNearestDistanceDataExample() {
+      // [START find_nearest_distance_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francisco", embedding: [1.0, -1.0]});
+      await setDoc(doc(collection(db, "cities"), "TO"), {name: "Toronto", embedding: [5.0, -10.0]});
+      await setDoc(doc(collection(db, "cities"), "AT"), {name: "Atlantis", embedding: [2.0, -4.0]});
+      // [END find_nearest_distance_data]
+    }
+
+    async function findNearestDistanceExample() {
+      // [START find_nearest_distance]
+      const results = await execute(db.pipeline()
+      .collection("cities")
+      .findNearest({
+          field: "embedding",
+          vectorValue: [1.3, 2.345],
+          distanceMeasure: "euclidean",
+          distanceField: "computedDistance",
+      }));
+      // [END find_nearest_distance]
+      console.log(results);
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/offset
+
+    async function offsetSyntaxExample() {
+      // [START offset_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .offset(10));
+      // [END offset_syntax]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/add_fields
+
+    async function addFieldsSyntaxExample() {
+      // [START add_fields_syntax]
+      const results = await execute(db.pipeline()
+        .collection("users")
+        .addFields(field("firstName").stringConcat(" ", field("lastName")).as("fullName")));
+      // [END add_fields_syntax]
+    }
+
+    async function addFieldsOverlapExample() {
+      // [START add_fields_overlap]
+      const results = await execute(db.pipeline()
+        .collection("users")
+        .addFields(field("age").abs().as("age"))
+        .addFields(field("age").add(10).as("age")));
+      // [END add_fields_overlap]
+    }
+
+    async function addFieldsNestingExample() {
+      // [START add_fields_nesting]
+      const results = await execute(db.pipeline()
+        .collection("users")
+        .addFields(field("address.city").toLower().as("address.city")));
+      // [END add_fields_nesting]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/input/collection
+
+    async function collectionInputSyntaxExample() {
+      // [START collection_input_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities/SF/departments"));
+      // [END Collection_input_syntax]
+    }
+
+    async function collectionInputExampleData() {
+      // [START collection_input_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francsico", state: "California"});
+      await setDoc(doc(collection(db, "cities"), "NYC"), {name: "New York City", state: "New York"});
+      await setDoc(doc(collection(db, "cities"), "CHI"), {name: "Chicago", state: "Illinois"});
+      await setDoc(doc(collection(db, "states"), "CA"), {name: "California"});
+      // [END collection_input_data]
+    }
+
+    async function collectionInputExample() {
+      // [START collection_input]
+      const results = await execute(db.pipeline()
+        .collection("cities")
+        .sort(field("name").ascending()));
+      // [END collection_input]
+    }
+
+    async function subcollectionInputExampleData() {
+      // [START subcollection_input_data]
+      await setDoc(doc(collection(db, "cities/SF/departments"), "building"),
+        {name: "SF Building Deparment", employees: 750});
+      await setDoc(doc(collection(db, "cities/NY/departments"), "building"),
+        {name: "NY Building Deparment", employees: 1000});
+      await setDoc(doc(collection(db, "cities/CHI/departments"), "building"),
+        {name: "CHI Building Deparment", employees: 900});
+      await setDoc(doc(collection(db, "cities/NY/departments"), "finance"),
+        {name: "NY Finance Deparment", employees: 1200});
+      // [END subcollection_input_data]
+    }
+
+    async function subcollectionInputExample() {
+      // [START subcollection_input]
+      const results = await execute(db.pipeline()
+        .collection("cities/NY/departments")
+        .sort(field("employees").ascending()));
+      // [END subcollection_input]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/input/collection_group
+
+    async function collectionGroupInputSyntaxExample() {
+      // [START collection_group_input_syntax]
+      const results = await execute(db.pipeline()
+        .collectionGroup("departments"));
+      // [END collection_group_input_syntax]
+    }
+
+    async function collectionGroupInputExampleData() {
+      // [START collection_group_data]
+      await setDoc(doc(collection(db, "cities/SF/departments"), "building"),
+        {name: "SF Building Deparment", employees: 750});
+      await setDoc(doc(collection(db, "cities/NY/departments"), "building"),
+        {name: "NY Building Deparment", employees: 1000});
+      await setDoc(doc(collection(db, "cities/CHI/departments"), "building"),
+        {name: "CHI Building Deparment", employees: 900});
+      await setDoc(doc(collection(db, "cities/NY/departments"), "finance"),
+        {name: "NY Finance Deparment", employees: 1200});
+      // [END collection_group_data]
+    }
+
+    async function collectionGroupInputExample() {
+      // [START collection_group_input]
+      const results = await execute(db.pipeline()
+        .collectionGroup("departments")
+        .sort(field("employees").ascending()));
+      // [END collection_group_inputi]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/input/database
+
+    async function databaseInputSyntaxExample() {
+      // [START database_syntax]
+      const results = await execute(db.pipeline()
+        .database());
+      // [END database_syntax]
+    }
+
+    async function databaseInputSyntaxExampleData() {
+      // [START database_input_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francsico", state: "California", population: 800000});
+      await setDoc(doc(collection(db, "states"), "CA"), {name: "California", population: 39000000});
+      await setDoc(doc(collection(db, "countries"), "USA"), {name: "United States of America", population: 340000000});
+      // [END database_input_data]
+    }
+
+    async function databaseInputExample() {
+      // [START database_input]
+      const results = await execute(db.pipeline()
+        .database()
+        .sort(field("population").ascending()));
+      // [END database_input]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/input/documents
+
+    async function documentInputSyntaxExample() {
+      // [START document_input_syntax]
+      const results = await execute(db.pipeline()
+        .documents([
+          doc(collection(db, "cities"), "SF"),
+          doc(collection(db, "cities"), "NYC")]));
+      // [END document_input_syntax]
+    }
+
+    async function documentInputExampleData() {
+      // [START document_input_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francsico", state: "California"});
+      await setDoc(doc(collection(db, "cities"), "NYC"), {name: "New York City", state: "New York"});
+      await setDoc(doc(collection(db, "cities"), "CHI"), {name: "Chicago", state: "Illinois"});
+      // [END document_input_data]
+    }
+
+    async function documentInputExample() {
+      // [START document_input]
+      const results = await execute(db.pipeline()
+        .documents([
+          doc(collection(db, "cities"), "SF"),
+          doc(collection(db, "cities"), "NYC")])
+        .sort(field("name").ascending()));
+      // [END document_input]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/union
+
+    async function unionSyntaxExample() {
+      // [START union_syntax]
+      const results = await execute(db.pipeline()
+        .collection("cities/SF/restaurants")
+        .union(db.pipeline().collection("cities/NYC/restaurants")));
+      // [END union_syntax]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/aggregate
+
+    async function aggregateSyntaxExample() {
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .aggregate(
+            countAll().as("total"),
+            average("population").as("averagePopulation")
+        ));
+      // [END aggregate_syntax]
+    }
+
+    async function aggregateGroupSyntax() {
+      // [START aggregate_group_syntax]
+      const result = await execute(db.pipeline()
+        .collectionGroup("cities")
+        .aggregate({
+          accumulators: [
+            countAll().as("cities"),
+            field("population").sum().as("totalPopulation")
+          ],
+          groups: [field("location.state").as("state")]
+        }));
+      // [END aggregate_group_syntax]
+    }
+
+    async function aggregateExampleData() {
+      // [START aggregate_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francisco", state: "CA", country: "USA", population: 870000});
+      await setDoc(doc(collection(db, "cities"), "LA"), {name: "Los Angeles", state: "CA", country: "USA", population: 3970000});
+      await setDoc(doc(collection(db, "cities"), "NY"), {name: "New York", state: "NY", country: "USA", population: 8530000});
+      await setDoc(doc(collection(db, "cities"), "TOR"), {name: "Toronto", state: null, country: "Canada", population: 2930000});
+      await setDoc(doc(collection(db, "cities"), "MEX"), {name: "Mexico City", state: null, country: "Mexico", population: 9200000});
+      // [END aggregate_data]
+    }
+
+    async function aggregateWithoutGroupExample() {
+      // [START aggregate_without_group]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .aggregate(
+            countAll().as("total"),
+            average("population").as("averagePopulation")
+        ));
+      // [END aggregate_without_group]
+    }
+
+    async function aggregateGroupExample() {
+      // [START aggregate_group_example]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .aggregate({
+            accumulators: [
+                countAll().as("numberOfCities"),
+                maximum("population").as("maxPopulation")
+            ],
+            groups: ["country", "state"]
+        }));
+      // [END aggregate_group_example]
+    }
+
+    async function aggregateGroupComplexExample() {
+      // [START aggregate_group_complex]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .aggregate({
+            accumulators: [
+              sum("population").as("totalPopulation")
+            ],
+            groups: [field("state").equal(null).as("stateIsNull")]
+        }));
+      // [END aggregate_group_complex]
+    }
+
+    // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/distinct
+
+    async function distinctSyntaxExample() {
+      // [START distinct_syntax]
+      let cities = await execute(db.pipeline()
+        .collection("cities")
+        .distinct("country"));
+
+      cities = await execute(db.pipeline()
+        .collection("cities")
+        .distinct(
+          field("state").toLower().as("normalizedState"),
+          field("country")));
+      // [END distinct_syntax]
+    }
+
+    async function distinctExampleData() {
+      // [START distinct_data]
+      await setDoc(doc(collection(db, "cities"), "SF"), {name: "San Francisco", state: "CA", country: "USA"});
+      await setDoc(doc(collection(db, "cities"), "LA"), {name: "Los Angeles", state: "CA", country: "USA"});
+      await setDoc(doc(collection(db, "cities"), "NY"), {name: "New York", state: "NY", country: "USA"});
+      await setDoc(doc(collection(db, "cities"), "TOR"), {name: "Toronto", state: null, country: "Canada"});
+      await setDoc(doc(collection(db, "cities"), "MEX"), {name: "Mexico City", state: null, country: "Mexico"});
+      // [END distinct_data]
+    }
+
+    async function distinctExample() {
+      // [START distinct_example]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .distinct("country"));
+      // [END distinct_example]
+    }
+
+    async function distinctExpressionsExample() {
+      // [START distinct_expressions]
+      const cities = await execute(db.pipeline()
+        .collection("cities")
+        .distinct(
+          field("state").toLower().as("normalizedState"),
+          field("country")));
+      // [END distinct_expressions]
+    }
+
+    // old snippets
 
     async function basicRead() {
       // [START basic_read]
@@ -2591,9 +3326,7 @@ describe("firestore-pipelines", () => {
         const result = await execute(db.pipeline()
           .collection("books")
           .select(
-            field("embedding").cosineDistance(sampleVector).as("cosineDistance")
-          )
-        );
+            field("embedding").cosineDistance(sampleVector).as("cosineDistance")));
         // [END cosine_distance]
         console.log(result);
     }
