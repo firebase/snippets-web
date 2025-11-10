@@ -7,8 +7,8 @@
 // [START pipeline_initialization_modular]
 import { Firestore } from "@google-cloud/firestore";
 const database = new Firestore({
-  projectId: 'your-project-id',
-  databaseId: 'your-new-enterprise-database'
+  projectId: "your-project-id",
+  databaseId: "your-new-enterprise-database"
 });
 const pipeline = database.pipeline();
 // [END pipeline_initialization_modular]

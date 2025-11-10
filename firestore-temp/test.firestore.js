@@ -557,7 +557,7 @@ describe("firestore-pipelines", () => {
       const results = await db.pipeline()
         .collection("cities/SF/departments")
         .execute();
-      // [END Collection_input_syntax]
+      // [END collection_input_syntax]
     }
 
     async function collectionInputExampleData() {
@@ -625,7 +625,7 @@ describe("firestore-pipelines", () => {
         .collectionGroup("departments")
         .sort(field("employees").ascending())
         .execute();
-      // [END collection_group_inputi]
+      // [END collection_group_input]
     }
 
     // https://cloud.google.com/firestore/docs/pipeline/stages/input/database

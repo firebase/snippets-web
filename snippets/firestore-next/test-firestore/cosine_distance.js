@@ -9,7 +9,5 @@ const sampleVector = [0.0, 1, 2, 3, 4, 5];
 const result = await execute(db.pipeline()
   .collection("books")
   .select(
-    field("embedding").cosineDistance(sampleVector).as("cosineDistance")
-  )
-);
+    field("embedding").cosineDistance(sampleVector).as("cosineDistance")));
 // [END cosine_distance_modular]

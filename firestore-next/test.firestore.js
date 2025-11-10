@@ -1467,6 +1467,7 @@ describe("firestore-pipelines", () => {
     // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/unnest
 
     async function unnestSyntaxExample() {
+      // [START unnest_syntax]
       const userScore = await execute(db.pipeline()
         .collection("users")
         .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
@@ -1499,6 +1500,7 @@ describe("firestore-pipelines", () => {
     }
 
     async function unnestNonArrayExample() {
+      // [START unnest_nonarray]
       const userScore = await execute(db.pipeline()
         .collection("users")
         .unnest(field("scores").as("userScore"), /* index_field= */ "attempt"));
@@ -1857,7 +1859,7 @@ describe("firestore-pipelines", () => {
       // [START collection_input_syntax]
       const results = await execute(db.pipeline()
         .collection("cities/SF/departments"));
-      // [END Collection_input_syntax]
+      // [END collection_input_syntax]
     }
 
     async function collectionInputExampleData() {
@@ -1925,7 +1927,7 @@ describe("firestore-pipelines", () => {
       const results = await execute(db.pipeline()
         .collectionGroup("departments")
         .sort(field("employees").ascending()));
-      // [END collection_group_inputi]
+      // [END collection_group_input]
     }
 
     // https://cloud.google.com/firestore/docs/pipeline/stages/input/database
@@ -1995,6 +1997,7 @@ describe("firestore-pipelines", () => {
     // https://cloud.google.com/firestore/docs/pipeline/stages/transformation/aggregate
 
     async function aggregateSyntaxExample() {
+      // [START aggregate_syntax]
       const cities = await execute(db.pipeline()
         .collection("cities")
         .aggregate(
