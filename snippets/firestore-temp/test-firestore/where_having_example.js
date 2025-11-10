@@ -8,9 +8,9 @@
 const cities = await db.pipeline()
   .collection("cities")
   .aggregate({
-    accumulators: [field("population").sum().as("total_population")],
+    accumulators: [field("population").sum().as("totalPopulation")],
     groups: ["location.state"]
   })
-  .where(field("total_population").greaterThan(10000000))
+  .where(field("totalPopulation").greaterThan(10000000))
   .execute();
 // [END where_having_example_modular]
