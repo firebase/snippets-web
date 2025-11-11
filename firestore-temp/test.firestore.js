@@ -36,6 +36,18 @@ describe("firestore-pipelines", () => {
       });
     });
 
+    async function queryExplainExample() {
+      // [START query_explain]
+      const q = db.collection("cities").where("country", "==", "USA");
+      const options = { analyze: false };
+
+      const explainResults = await q.explain(options);
+
+      const metrics = explainResults.metrics;
+      const plan = metrics.planSummary;
+      // [END query_explain]
+    }
+
     async function stagesExpressionsExample() {
       // [START stages_expressions_example]
       const trailing30Days = constant(Timestamp.now().toMillis())
