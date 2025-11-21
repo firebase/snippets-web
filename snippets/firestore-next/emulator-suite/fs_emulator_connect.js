@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START fs_emulator_connect_modular]
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "@firebase/firestore";
 
 // firebaseApps previously initialized using initializeApp()
 const db = getFirestore();
