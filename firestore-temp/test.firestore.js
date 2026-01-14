@@ -23,7 +23,8 @@ describe("firestore-pipelines", () => {
         like,
         or,
         xor,
-        conditional
+        conditional,
+        concat
     } = require("@google-cloud/firestore/pipelines");
 
     let app;
@@ -35,6 +36,24 @@ describe("firestore-pipelines", () => {
         databaseId: "your-new-enterprise-database"
       });
     });
+
+    async function typeAndGenericFunctionsExample() {
+        // [START type_function]
+        field("rating").type();
+        // [END type_function]
+
+        // [START concat_function]
+        concat(constant("Author ID: "), field("authorId"));
+        // [END concat_function]
+
+        // [START length_function]
+        field("tags").length();
+        // [END length_function]
+
+        // [START reverse_function]
+        field("tags").reverse();
+        // [END reverse_function]
+    }
 
     async function queryExplainExample() {
       // [START query_explain]

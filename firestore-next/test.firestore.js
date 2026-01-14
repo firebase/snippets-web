@@ -1350,6 +1350,7 @@ describe("firestore-pipelines", () => {
         or,
         xor,
         conditional,
+        concat,
         like,
         execute
     } = require("firebase/firestore/pipelines");
@@ -1367,6 +1368,24 @@ describe("firestore-pipelines", () => {
         app = initializeApp(config);
         db = getFirestore(app, "enterprise");
     });
+
+    async function typeAndGenericFunctionsExample() {
+        // [START type_function]
+        field("rating").type();
+        // [END type_function]
+
+        // [START concat_function]
+        concat(constant("Author ID: "), field("authorId"));
+        // [END concat_function]
+
+        // [START length_function]
+        field("tags").length();
+        // [END length_function]
+
+        // [START reverse_function]
+        field("tags").reverse();
+        // [END reverse_function]
+    }
 
     async function stagesExpressionsExample() {
       // [START stages_expressions_example]
