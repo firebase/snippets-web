@@ -5,6 +5,10 @@
 // 'npm run snippets'.
 
 // [START basic_read_modular]
+// The import/require of "firebase/firestore/pipelines" has a side-effect
+// of extending the Firestore class with the `.pipeline()` method.
+// Without this import/require, you will not be able to create a Pipeline.
+// import { execute } from "firebase/firestore/pipelines";
 const readDataPipeline = db.pipeline()
   .collection("users");
 
