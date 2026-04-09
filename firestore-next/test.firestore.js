@@ -1352,7 +1352,9 @@ describe("firestore-pipelines", () => {
         conditional,
         concat,
         like,
-        execute
+        execute,
+        variable,
+        equal
     } = require("firebase/firestore/pipelines");
 
     let app;
@@ -3392,6 +3394,65 @@ describe("firestore-pipelines", () => {
           )
         );
         // [END vector_length]
+        console.log(result);
+    }
+
+    // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
+    async function defineStage() {
+        // [START define_example]
+        const result = await execute(db.pipeline().collection("authors")
+            .define(
+                field("id").as("currentAuthorId")
+            )
+            // ...
+        // [END define_example]
+            .addFields(
+                db.pipeline().collection("books")
+                    .where(field("author_id").equal(variable("currentAuthorId")))
+                    .aggregate(
+                        field("rating").average().as("avgRating")
+                    )
+                    .toScalarExpression()
+                    .as("averageBookRating")
+            ));
+        console.log(result);
+    }
+
+    // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
+    async function toArrayExpressionStage() {
+        // [START to_array_expression]
+        const projectTasks = await execute(db.pipeline().collection("projects")
+            .define(
+                field("id").as("parentId")
+            )
+            .addFields(
+                db.pipeline().collection("tasks")
+                    .where(field("project_id").equal(variable("parentId")))
+                    .select(field("title"))
+                    .toArrayExpression()
+                    .as("taskTitles")
+            ));
+        // [END to_array_expression]
+        console.log(projectTasks);
+    }
+
+    // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
+    async function toScalarExpressionStage() {
+        // [START to_scalar_expression]
+        const result = await execute(db.pipeline().collection("authors")
+            .define(
+                field("id").as("currentAuthorId")
+            )
+            .addFields(
+                db.pipeline().collection("books")
+                    .where(field("author_id").equal(variable("currentAuthorId")))
+                    .aggregate(
+                        field("rating").average().as("avgRating")
+                    )
+                    .toScalarExpression()
+                    .as("averageBookRating")
+            ));
+        // [END to_scalar_expression]
         console.log(result);
     }
 });
