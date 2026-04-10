@@ -1354,7 +1354,9 @@ describe("firestore-pipelines", () => {
         like,
         execute,
         variable,
-        equal
+        equal,
+        score,
+        documentMatches
     } = require("firebase/firestore/pipelines");
 
     let app;
@@ -3453,6 +3455,59 @@ describe("firestore-pipelines", () => {
                     .as("averageBookRating")
             ));
         // [END to_scalar_expression]
+        console.log(result);
+    }
+
+    async function pipelineSearchBasic() {
+        // [START pipeline_search_basic]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('waffles')
+          }));
+        // [END pipeline_search_basic]
+        console.log(result);
+    }
+
+    async function pipelineSearchExact() {
+        // [START pipeline_search_exact]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('"belgian waffles"')
+          }));
+        // [END pipeline_search_exact]
+        console.log(result);
+    }
+
+    async function pipelineSearchMultiple() {
+        // [START pipeline_search_multiple]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('waffles eggs')
+          }));
+        // [END pipeline_search_multiple]
+        console.log(result);
+    }
+
+    async function pipelineSearchExclude() {
+        // [START pipeline_search_exclude]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('coffee -waffles')
+          }));
+        // [END pipeline_search_exclude]
+        console.log(result);
+    }
+
+    async function pipelineSearchScore() {
+        // [START pipeline_search_score]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: 'menu:waffles',
+            addFields: [
+                score().as('score'),
+            ]
+          }));
+        // [END pipeline_search_score]
         console.log(result);
     }
 });
