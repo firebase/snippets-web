@@ -24,7 +24,13 @@ describe("firestore-pipelines", () => {
         or,
         xor,
         conditional,
-        concat
+        concat,
+        variable,
+        documentMatches,
+        score,
+        exists,
+        not,
+        currentTimestamp
     } = require("@google-cloud/firestore/pipelines");
 
     let app;
@@ -2117,5 +2123,141 @@ describe("firestore-pipelines", () => {
           .execute();
         // [END vector_length]
         console.log(result);
+    }
+
+    async function searchExamples() {
+      // [START search_example]
+      await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('waffles')
+        })
+        .execute();
+      // [END search_example]
+
+      // [START search_exact_match]
+      await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('"belgian waffles"')
+        })
+        .execute();
+      // [END search_exact_match]
+
+      // [START search_two_terms]
+      await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('waffles eggs')
+        })
+        .execute();
+      // [END search_two_terms]
+
+      // [START search_exclude_term]
+      await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('-waffles')
+        })
+        .execute();
+      // [END search_exclude_term]
+
+      // [START search_score_field]
+      await db.pipeline().collection('restaurants')
+        .search({
+          query: field('menu').matches('waffles'),
+          addFields: [
+              score().as('score'),
+          ]
+        }).execute();
+      // [END search_score_field]
+    }
+
+    async function subqueryExamples() {
+      // [START define_example]
+      const result = await db.pipeline().collection("authors")
+          .define(
+              field("id").as("currentAuthorId")
+          )
+      // [END define_example]
+          .addFields(
+              db.pipeline().collection("books")
+                  .where(field("author_id").equal(variable("currentAuthorId")))
+                  .aggregate(
+                      field("rating").average().as("avgRating")
+                  )
+                  .toScalarExpression()
+                  .as("averageBookRating")
+          )
+          .execute();
+      console.log(result);
+
+      // [START to_array_expression]
+      await db.pipeline().collection("projects")
+          .define(
+              field("id").as("parentId")
+          )
+          .addFields(
+              db.pipeline().collection("tasks")
+                  .where(field("project_id").equal(variable("parentId")))
+                  .select(field("title"))
+                  .toArrayExpression()
+                  .as("taskTitles")
+          )
+          .execute();
+      // [END to_array_expression]
+
+      // [START to_scalar_expression]
+      await db.pipeline().collection("authors")
+          .define(
+              field("id").as("currentAuthorId")
+          )
+          .addFields(
+              db.pipeline().collection("books")
+                  .where(field("author_id").equal(variable("currentAuthorId")))
+                  .aggregate(
+                      field("rating").average().as("avgRating")
+                  )
+                  .toScalarExpression()
+                  .as("averageBookRating")
+          )
+          .execute();
+      // [END to_scalar_expression]
+    }
+
+    async function forceIndexExamples() {
+      // [START force_index_id]
+      // Force Planner to use Index ID CICAgOi36pgK
+      await db.pipeline()
+        .collectionGroup({ collectionId: "customers", forceIndex: "CICAgOi36pgK" })
+        .limit(100)
+        .execute();
+      // [END force_index_id]
+
+      // [START force_index_primary]
+      // Force Planner to only do a collection scan
+      await db.pipeline()
+        .collectionGroup({ collectionId: "customers", forceIndex: "primary" })
+        .limit(100)
+        .execute();
+      // [END force_index_primary]
+    }
+
+    async function dmlExamples() {
+      // [START update_dml]
+      const snapshot = await db.pipeline()
+         .collectionGroup("users")
+         .where(not(exists(field("preferences.color"))))
+         .addFields(constant(null).as("preferences.color"))
+         .removeFields("color")
+         .update()
+         .execute();
+      // [END update_dml]
+      console.log(snapshot);
+
+      // [START delete_dml]
+      const pipeline = db.pipeline()
+        .collectionGroup("users")
+        .where(field("address.country").equal("USA"))
+        .where(field("__create_time__").timestampAdd("day", 10).lessThan(currentTimestamp()))
+        .delete();
+      await pipeline.execute();
+      // [END delete_dml]
     }
 });

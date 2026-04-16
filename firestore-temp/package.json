@@ -12,6 +12,6 @@
     "mocha": "^11.7.4"
   },
   "dependencies": {
-    "@google-cloud/firestore": "^8.0.0-pipelines.1"
+    "@google-cloud/firestore": "^8.5.0"
   }
 }
