@@ -2125,6 +2125,51 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function searchBasicQueryData() {
+      // [START search_basic_query_data]
+      await db.collection("Restaurants").add({
+        name: "Waffle Place",
+        description: "A cozy place for fresh waffles."
+      });
+      // [END search_basic_query_data]
+    }
+
+    async function searchExactMatchData() {
+      // [START search_exact_match_data]
+      await db.collection("Restaurants").add({
+        name: "Waffle Place",
+        description: "A cozy place for fresh waffles."
+      });
+      // [END search_exact_match_data]
+    }
+
+    async function searchTwoTermsData() {
+      // [START search_two_terms_data]
+      await db.collection("Restaurants").add({
+        name: "Morning Diner",
+        description: "Start your day with waffles and eggs."
+      });
+      // [END search_two_terms_data]
+    }
+
+    async function searchExcludeTermData() {
+      // [START search_exclude_term_data]
+      await db.collection("Restaurants").add({
+        name: "City Coffee",
+        description: "Premium coffee and pastries."
+      });
+      // [END search_exclude_term_data]
+    }
+
+    async function searchScoreData() {
+      // [START search_score_data]
+      await db.collection("Restaurants").add({
+        name: "The Waffle Hub",
+        description: "Everything waffles!"
+      });
+      // [END search_score_data]
+    }
+
     async function searchExamples() {
       // [START search_example]
       await db.pipeline().collection('restaurants')
@@ -2167,6 +2212,51 @@ describe("firestore-pipelines", () => {
           ]
         }).execute();
       // [END search_score_field]
+    }
+
+    async function defineStageData() {
+      // [START define_stage_data]
+      await db.collection("Authors").doc("author_123").set({
+        id: "author_123",
+        name: "Jane Austen"
+      });
+      // [END define_stage_data]
+    }
+
+    async function toArrayExpressionStageData() {
+      // [START to_array_expression_stage_data]
+      await db.collection("Projects").doc("project_1").set({
+        id: "project_1",
+        name: "Alpha Build"
+      });
+      await db.collection("Tasks").add({
+        project_id: "project_1",
+        title: "System Architecture"
+      });
+      await db.collection("Tasks").add({
+        project_id: "project_1",
+        title: "Database Schema Design"
+      });
+      // [END to_array_expression_stage_data]
+    }
+
+    async function toScalarExpressionStageData() {
+      // [START to_scalar_expression_stage_data]
+      await db.collection("Authors").doc("author_202").set({
+        id: "author_202",
+        name: "Charles Dickens"
+      });
+      await db.collection("Books").add({
+        author_id: "author_202",
+        title: "Great Expectations",
+        rating: 4.8
+      });
+      await db.collection("Books").add({
+        author_id: "author_202",
+        title: "Oliver Twist",
+        rating: 4.5
+      });
+      // [END to_scalar_expression_stage_data]
     }
 
     async function subqueryExamples() {
@@ -2237,6 +2327,29 @@ describe("firestore-pipelines", () => {
         .limit(100)
         .execute();
       // [END force_index_primary]
+    }
+
+    async function updateDmlData() {
+      // [START update_dml_data]
+      await db.collection("Users").doc("userID").set({
+        id: "userID",
+        preferences: {},
+        color: "#FFFFFF"
+      });
+      // [END update_dml_data]
+    }
+
+    async function deleteDmlData() {
+      // [START delete_dml_data]
+      await db.collection("Users").doc("userID").set({
+        id: "userID",
+        address: {
+          country: "USA",
+          state: "CA"
+        },
+        __create_time__: Timestamp.fromMillis(946684800000)
+      });
+      // [END delete_dml_data]
     }
 
     async function dmlExamples() {
