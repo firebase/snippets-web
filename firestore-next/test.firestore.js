@@ -1328,6 +1328,7 @@ describe("firestore-pipelines", () => {
     const {
         Firestore,
         Timestamp,
+        addDoc,
         collection,
         doc,
         getFirestore,
@@ -3399,6 +3400,15 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function defineStageData() {
+      // [START define_stage_data]
+      await setDoc(doc(collection(db, "Authors"), "author_123"), {
+        "id": "author_123",
+        "name": "Jane Austen"
+      });
+      // [END define_stage_data]
+    }
+
     // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
     async function defineStage() {
         // [START define_example]
@@ -3420,6 +3430,23 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function toArrayExpressionStageData() {
+      // [START to_array_expression_stage_data]
+      await setDoc(doc(collection(db, "Projects"), "project_1"), {
+        "id": "project_1",
+        "name": "Alpha Build"
+      });
+      await addDoc(collection(db, "Tasks"), {
+        "project_id": "project_1",
+        "title": "System Architecture"
+      });
+      await addDoc(collection(db, "Tasks"), {
+        "project_id": "project_1",
+        "title": "Database Schema Design"
+      });
+      // [END to_array_expression_stage_data]
+    }
+
     // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
     async function toArrayExpressionStage() {
         // [START to_array_expression]
@@ -3436,6 +3463,25 @@ describe("firestore-pipelines", () => {
             ));
         // [END to_array_expression]
         console.log(projectTasks);
+    }
+
+    async function toScalarExpressionStageData() {
+      // [START to_scalar_expression_stage_data]
+      await setDoc(doc(collection(db, "Authors"), "author_202"), {
+        "id": "author_202",
+        "name": "Charles Dickens"
+      });
+      await addDoc(collection(db, "Books"), {
+        "author_id": "author_202",
+        "title": "Great Expectations",
+        "rating": 4.8
+      });
+      await addDoc(collection(db, "Books"), {
+        "author_id": "author_202",
+        "title": "Oliver Twist",
+        "rating": 4.5
+      });
+      // [END to_scalar_expression_stage_data]
     }
 
     // https://firebase.google.com/docs/firestore/pipelines/perform-joins-with-sub-pipelines
@@ -3458,6 +3504,15 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function searchBasicQueryData() {
+      // [START search_basic_query_data]
+      await addDoc(collection(db, "Restaurants"), {
+        "name": "Waffle Place",
+        "description": "A cozy place for fresh waffles."
+      });
+      // [END search_basic_query_data]
+    }
+
     async function pipelineSearchBasic() {
         // [START pipeline_search_basic]
         const result = await execute(db.pipeline().collection('restaurants')
@@ -3466,6 +3521,15 @@ describe("firestore-pipelines", () => {
           }));
         // [END pipeline_search_basic]
         console.log(result);
+    }
+
+    async function searchExactMatchData() {
+      // [START search_exact_match_data]
+      await addDoc(collection(db, "Restaurants"), {
+        "name": "Waffle Place",
+        "description": "A cozy place for fresh waffles."
+      });
+      // [END search_exact_match_data]
     }
 
     async function pipelineSearchExact() {
@@ -3478,6 +3542,15 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function searchTwoTermsData() {
+      // [START search_two_terms_data]
+      await addDoc(collection(db, "Restaurants"), {
+        "name": "Morning Diner",
+        "description": "Start your day with waffles and eggs."
+      });
+      // [END search_two_terms_data]
+    }
+
     async function pipelineSearchMultiple() {
         // [START pipeline_search_multiple]
         const result = await execute(db.pipeline().collection('restaurants')
@@ -3488,6 +3561,15 @@ describe("firestore-pipelines", () => {
         console.log(result);
     }
 
+    async function searchExcludeTermData() {
+      // [START search_exclude_term_data]
+      await addDoc(collection(db, "Restaurants"), {
+        "name": "City Coffee",
+        "description": "Premium coffee and pastries."
+      });
+      // [END search_exclude_term_data]
+    }
+
     async function pipelineSearchExclude() {
         // [START pipeline_search_exclude]
         const result = await execute(db.pipeline().collection('restaurants')
@@ -3496,6 +3578,15 @@ describe("firestore-pipelines", () => {
           }));
         // [END pipeline_search_exclude]
         console.log(result);
+    }
+
+    async function searchScoreData() {
+      // [START search_score_data]
+      await addDoc(collection(db, "Restaurants"), {
+        "name": "The Waffle Hub",
+        "description": "Everything waffles!"
+      });
+      // [END search_score_data]
     }
 
     async function pipelineSearchScore() {
