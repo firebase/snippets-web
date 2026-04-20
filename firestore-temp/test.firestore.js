@@ -28,6 +28,9 @@ describe("firestore-pipelines", () => {
         variable,
         documentMatches,
         score,
+        matches,
+        snippet,
+        geoDistance,
         exists,
         not,
         currentTimestamp
@@ -2372,5 +2375,28 @@ describe("firestore-pipelines", () => {
         .delete();
       await pipeline.execute();
       // [END delete_dml]
+    }
+
+    async function searchScoreSort() {
+      // [START search_score_sort]
+      const result = await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('waffles'),
+          sort: score().descending()
+        })
+        .execute();
+      // [END search_score_sort]
+      console.log(result);
+    }
+
+    async function geospatialSearch() {
+      // [START geospatial_search]
+      const result = await db.pipeline().collection('restaurants')
+        .search({
+          query: documentMatches('"belgian waffles"')
+        })
+        .execute();
+      // [END geospatial_search]
+      console.log(result);
     }
 });
