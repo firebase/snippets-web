@@ -3601,4 +3601,25 @@ describe("firestore-pipelines", () => {
         // [END pipeline_search_score]
         console.log(result);
     }
+
+    async function pipelineSearchSort() {
+        // [START pipeline_search_score_sort]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('waffles'),
+            sort: score().descending()
+          }));
+        // [END pipeline_search_score_sort]
+        console.log(result);
+    }
+
+    async function pipelineSearchGeospatial() {
+        // [START pipeline_search_geospatial]
+        const result = await execute(db.pipeline().collection('restaurants')
+          .search({
+            query: documentMatches('"belgian waffles"')
+          }));
+        // [END pipeline_search_geospatial]
+        console.log(result);
+    }
 });
