@@ -7,6 +7,6 @@
 // [START search_exact_match_data_modular]
 await db.collection("Restaurants").add({
   name: "Waffle Place",
-  description: "A cozy place for fresh waffles."
+  description: "A cozy place for fresh belgian waffles."
 });
 // [END search_exact_match_data_modular]
