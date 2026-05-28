@@ -50,7 +50,7 @@ function getToken() {
 
 function register() {
   // [START messaging_register]
-  import { getMessaging, onRegistered, register } from "firebase/messaging";
+  const { getMessaging, onRegistered, register } = require("firebase/messaging");
 
   const messaging = getMessaging();
 
