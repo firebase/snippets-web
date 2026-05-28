@@ -66,7 +66,7 @@ function register() {
 
   // 2. You can also manually trigger registration (recommended on app startup)
   register(messaging, {
-    vapidKey: '&lt;YOUR_PUBLIC_VAPID_KEY_HERE&gt;'
+    vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>'
   }).then(() => {
     // Success! The Firebase Installation ID can be used to target messages to this app
     // instance and will be delivered asynchronously to your onRegistered() callback.
