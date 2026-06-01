@@ -102,4 +102,9 @@ function deleteToken() {
     console.log('Unable to delete token. ', err);
   });
   // [END messaging_delete_token]
+
+  function sendRegistrationToServer(installationId) {
+    // This function is used in a snippet to indicate that the Firebase Installation ID should be sent to the app server.
+    // TODO(developer): Implement this function to send the registration ID to your app's server.
+  }
 }
