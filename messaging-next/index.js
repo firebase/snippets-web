@@ -48,6 +48,34 @@ function getToken() {
   // [END messaging_get_token]
 }
 
+function register() {
+  // [START messaging_register]
+  const { getMessaging, onRegistered, register } = require("firebase/messaging");
+
+  const messaging = getMessaging();
+
+  // 1. Implement callback to receive the Firebase installation ID upon registration.
+  // This is triggered every time a manual register() finishes, a FID change
+  // is detected, or a pushsubscriptionchange event is fired.
+  onRegistered(messaging, (installationId) => {
+    console.log('Registered installation ID:', installationId);
+
+    // Send the Firebase Installation ID to your app server and update the UI if needed.
+    sendRegistrationToServer(installationId);
+  });
+
+  // 2. You can also manually trigger registration (recommended on app startup)
+  register(messaging, {
+    vapidKey: '<YOUR_PUBLIC_VAPID_KEY_HERE>'
+  }).then(() => {
+    // Success! The Firebase Installation ID can be used to target messages to this app
+    // instance and will be delivered asynchronously to your onRegistered() callback.
+  }).catch((err) => {
+    console.error('An error occurred while registering', err);
+  });
+  // [END messaging_register]
+}
+
 function requestPermission() {
   // [START messaging_request_permission]
   Notification.requestPermission().then((permission) => {
@@ -74,4 +102,9 @@ function deleteToken() {
     console.log('Unable to delete token. ', err);
   });
   // [END messaging_delete_token]
+}
+
+function sendRegistrationToServer(installationId) {
+    // This function is used in a snippet to indicate that the Firebase Installation ID should be sent to the app server.
+    // TODO(developer): Implement this function to send the registration ID to your app's server.
 }
