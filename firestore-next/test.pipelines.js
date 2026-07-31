@@ -12,7 +12,7 @@ describe("firestore-pipelines", () => {
     const { getFirestore } = require("firebase/firestore");
 
     const config = {
-      apiKey: "AIzaSyArvVh6VSdXicubcvIyuB-GZs8ua0m0DTI",
+      apiKey: process.env.FIREBASE_API_KEY,
       authDomain: "firestorequickstarts.firebaseapp.com",
       projectId: "firestorequickstarts",
     };
