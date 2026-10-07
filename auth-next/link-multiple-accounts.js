@@ -110,9 +110,9 @@ function linkWithRedirect() {
   // [END auth_get_redirect_result]
 }
 
-function mergeAccounts(newCredential) {
+async function mergeAccounts(newCredential) {
   // [START auth_merge_accounts]
-  const { getAuth, signInWithCredential, linkWithCredential, OAuthProvider } = require("firebase/auth");
+  const { getAuth, signInWithCredential, deleteUser } = require("firebase/auth");
 
   // The implementation of how you store your user data depends on your application
   const repo = new MyUserDataRepo();
@@ -125,11 +125,9 @@ function mergeAccounts(newCredential) {
   // while the app is still signed in as this user.
   const prevUserData = repo.get(prevUser);
 
-  // Delete the user's data now, we will restore it if the merge fails
-  repo.delete(prevUser);
-
-  // Sign in user with the account you want to link to
-  signInWithCredential(auth, newCredential).then((result) => {
+  try {
+    // Sign in user with the account you want to link to
+    const result = await signInWithCredential(auth, newCredential);
     console.log("Sign In Success", result);
     const currentUser = result.user;
     const currentUserData = repo.get(currentUser);
@@ -138,22 +136,15 @@ function mergeAccounts(newCredential) {
     // Note: How you handle this is specific to your application
     const mergedData = repo.merge(prevUserData, currentUserData);
 
-    const credential = OAuthProvider.credentialFromResult(result);
-    return linkWithCredential(prevUser, credential)
-      .then((linkResult) => {
-        // Sign in with the newly linked credential
-        const linkCredential = OAuthProvider.credentialFromResult(linkResult);
-        return signInWithCredential(auth, linkCredential);
-      })
-      .then((signInResult) => {
-        // Save the merged data to the new user
-        repo.set(signInResult.user, mergedData);
-      });
-  }).catch((error) => {
-    // If there are errors we want to undo the data merge/deletion
+    // Save the merged data to the new user
+    repo.set(currentUser, mergedData);
+
+    // Delete the previous user's Firebase Auth account first
+    await deleteUser(prevUser);
+    repo.delete(prevUser);
+  } catch (error) {
     console.log("Sign In Error", error);
-    repo.set(prevUser, prevUserData);
-  });
+  }
   // [END auth_merge_accounts]
 }
 
@@ -185,14 +176,14 @@ function unlink(providerId) {
 
 function accountExistsPopup(auth, facebookProvider, goToApp, promptUserForPassword, promptUserForSignInMethod, getProviderForProviderId) {
   // [START account_exists_popup]
-  const { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } = require("firebase/auth");
+  const { signInWithPopup, signInWithEmailAndPassword, linkWithCredential, FacebookAuthProvider } = require("firebase/auth");
 
   // User tries to sign in with Facebook.
   signInWithPopup(auth, facebookProvider).catch((error) => {
   // User's email already exists.
   if (error.code === 'auth/account-exists-with-different-credential') {
     // The pending Facebook credential.
-    const pendingCred = error.credential;
+    const pendingCred = FacebookAuthProvider.credentialFromError(error);
     // The provider account's email address.
     const email = error.customData.email;
     
