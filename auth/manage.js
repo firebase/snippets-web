@@ -89,6 +89,7 @@ function updatePassword() {
 
   // [START auth_update_password]
   const user = firebase.auth().currentUser;
+  // Add your own function here to read the user's entered password, or generate a new one
   const newPassword = getASecureRandomPassword();
 
   user.updatePassword(newPassword).then(() => {
