@@ -5,14 +5,14 @@
 // 'npm run snippets'.
 
   // [START account_exists_popup_modular]
-  import { signInWithPopup, signInWithEmailAndPassword, linkWithCredential } from "firebase/auth";
+  import { signInWithPopup, signInWithEmailAndPassword, linkWithCredential, FacebookAuthProvider } from "firebase/auth";
 
   // User tries to sign in with Facebook.
   signInWithPopup(auth, facebookProvider).catch((error) => {
   // User's email already exists.
   if (error.code === 'auth/account-exists-with-different-credential') {
     // The pending Facebook credential.
-    const pendingCred = error.credential;
+    const pendingCred = FacebookAuthProvider.credentialFromError(error);
     // The provider account's email address.
     const email = error.customData.email;
 
