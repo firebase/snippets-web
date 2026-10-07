@@ -173,7 +173,7 @@ describe("firestore", () => {
 
             const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
-              console.log(`${doc.id} => ${doc.data()}`);
+              console.log(doc.id, "=>", doc.data());
             });
             // [END get_all_users]
         });
@@ -283,6 +283,7 @@ describe("firestore", () => {
               const city = docSnap.data();
               // Use a City instance method
               console.log(city.toString());
+              console.log(city.name, city.state, city.country);
             } else {
               console.log("No such document!");
             }
@@ -340,7 +341,7 @@ describe("firestore", () => {
             const { doc, setDoc } = require("firebase/firestore"); 
 
             const cityRef = doc(db, 'cities', 'BJ');
-            setDoc(cityRef, { capital: true }, { merge: true });
+            await setDoc(cityRef, { capital: true }, { merge: true });
             // [END set_with_merge]
         });
 

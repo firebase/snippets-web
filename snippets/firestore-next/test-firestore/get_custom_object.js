@@ -14,6 +14,7 @@ if (docSnap.exists()) {
   const city = docSnap.data();
   // Use a City instance method
   console.log(city.toString());
+  console.log(city.name, city.state, city.country);
 } else {
   console.log("No such document!");
 }

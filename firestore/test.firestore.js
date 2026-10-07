@@ -142,7 +142,7 @@ describe("firestore", () => {
             // [START get_all_users]
             db.collection("users").get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(`${doc.id} => ${doc.data()}`);
+                    console.log(doc.id, "=>", doc.data());
                 });
             });
             // [END get_all_users]
@@ -256,6 +256,7 @@ describe("firestore", () => {
                   var city = doc.data();
                   // Use a City instance method
                   console.log(city.toString());
+                  console.log(city.name, city.state, city.country);
                 } else {
                   console.log("No such document!");
                 }}).catch((error) => {
