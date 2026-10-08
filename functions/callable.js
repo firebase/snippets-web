@@ -1,6 +1,6 @@
 // [START fb_functions_imports]
-import firebase from "firebase/app";
-import "firebase/functions";
+import firebase from "firebase/compat/app";
+import "firebase/compat/functions";
 // [END fb_functions_imports]
 
 function initialize() {

@@ -1,8 +1,8 @@
 // These samples are intended for Web so this import would normally be
 // done in HTML however using modules here is more convenient for
 // ensuring sample correctness offline.
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 // Docs: https://source.corp.google.com/piper///depot/google3/third_party/devsite/firebase/en/docs/auth/web/service-worker-sessions.md
 
@@ -172,10 +172,11 @@ function svcRedirectAdmin() {
 
   // [START auth_svc_admin]
   // Server side code.
-  const admin = require('firebase-admin');
+  const { initializeApp } = require('firebase-admin/app');
+  const { getAuth } = require('firebase-admin/auth');
 
   // The Firebase Admin SDK is used here to verify the ID token.
-  admin.initializeApp();
+  initializeApp();
 
   function getIdToken(req) {
     // Parse the injected ID token from the request header.
@@ -190,7 +191,7 @@ function svcRedirectAdmin() {
         const idToken = getIdToken(req);
         // Verify the ID token using the Firebase Admin SDK.
         // User already logged in. Redirect to profile page.
-        admin.auth().verifyIdToken(idToken).then((decodedClaims) => {
+        getAuth().verifyIdToken(idToken).then((decodedClaims) => {
           // User is authenticated, user claims can be retrieved from
           // decodedClaims.
           // In this sample code, authenticated users are always redirected to
