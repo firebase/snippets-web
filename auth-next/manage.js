@@ -144,7 +144,7 @@ function deleteUser() {
 
 function reauthenticateWithCredential() {
   /**
-   * @returns {object}
+   * @returns {any}
    */
   function promptForCredentials() {
     return {};

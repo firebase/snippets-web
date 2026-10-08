@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/messaging';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/messaging';
 
 // See: https://github.com/microsoft/TypeScript/issues/14877
 /** @type {ServiceWorkerGlobalScope} */
@@ -10,9 +10,9 @@ function initInSw() {
   // Give the service worker access to Firebase Messaging.
   // Note that you can only use Firebase Messaging here. Other Firebase libraries
   // are not available in the service worker.
-  // Replace 10.13.2 with latest version of the Firebase JS SDK.
-  importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');
-  importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
+  // Replace 13.0.0 with latest version of the Firebase JS SDK.
+  importScripts('https://www.gstatic.com/firebasejs/13.0.0/firebase-app-compat.js');
+  importScripts('https://www.gstatic.com/firebasejs/13.0.0/firebase-messaging-compat.js');
 
   // Initialize the Firebase app in the service worker by passing in
   // your app's Firebase config object.

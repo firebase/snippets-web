@@ -1,8 +1,8 @@
 // [START perf_import_app]
-import firebase from "firebase/app";
+import firebase from "firebase/compat/app";
 // [END perf_import_app]
 // [START perf_import]
-import "firebase/performance";
+import "firebase/compat/performance";
 // [END perf_import]
 
 const perf = firebase.performance();

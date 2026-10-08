@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/app-check";
+import firebase from "firebase/compat/app";
+import "firebase/compat/app-check";
 
 function initialize() {
   // [START appcheck_initialize]

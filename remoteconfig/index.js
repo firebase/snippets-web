@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import "firebase/remote-config";
+import firebase from "firebase/compat/app";
+import "firebase/compat/remote-config";
 
 function getInstance() {
   // [START rc_get_instance]
