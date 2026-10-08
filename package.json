@@ -2,6 +2,7 @@
   "name": "snippets-web",
   "version": "1.0.0",
   "type": "module",
+  "packageManager": "pnpm@12.10.1",
   "scripts": {
     "snippets": "rimraf snippets && node scripts/separate-snippets.ts",
     "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs pnpm exec eslint",
