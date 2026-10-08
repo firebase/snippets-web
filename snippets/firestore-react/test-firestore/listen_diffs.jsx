@@ -5,18 +5,15 @@
 // 'npm run snippets'.
 
 // [START listen_diffs_react]
-import { useEffect, useState, startTransition, ViewTransition } from "react";
+import { useEffect, useState } from "react";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
-function CaliforniaCities() {
+function CityList({ state }) {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, "cities"), where("state", "==", "CA"));
-    // Each subscription builds its own list, so a remount starts fresh.
-    // Realtime updates aren't urgent user input, so apply them in a
-    // Transition. This keeps the page responsive and lets <ViewTransition>
-    // animate cities as they're added and removed.
+    const q = query(collection(db, "cities"), where("state", "==", state));
+    // Each subscription builds its own list, so resubscribing starts fresh.
     let list = [];
     return onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach((change) => {
@@ -34,16 +31,14 @@ function CaliforniaCities() {
             list = list.filter((city) => city.id !== change.doc.id);
         }
       });
-      startTransition(() => setCities(list));
+      setCities(list);
     });
-  }, []);
+  }, [state]);
 
   return (
     <ul>
       {cities.map((city) => (
-        <ViewTransition key={city.id}>
-          <li>{city.name}</li>
-        </ViewTransition>
+        <li key={city.id}>{city.name}</li>
       ))}
     </ul>
   );

@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START rtdb_social_listen_children_react]
-import { useEffect, useState, startTransition, ViewTransition } from "react";
+import { useEffect, useState } from "react";
 import { getDatabase, ref, onChildAdded, onChildChanged, onChildRemoved } from "firebase/database";
 
 function CommentList({ postId }) {
@@ -16,24 +16,21 @@ function CommentList({ postId }) {
     const commentsRef = ref(db, 'post-comments/' + postId);
 
     // Each subscription builds its own list, so switching posts starts fresh.
-    // Realtime updates aren't urgent user input, so apply them in a
-    // Transition. This keeps the page responsive and lets <ViewTransition>
-    // animate comments as they're added and removed.
     let list = [];
     const unsubscribeAdded = onChildAdded(commentsRef, (data) => {
       list = [...list, { key: data.key, ...data.val() }];
-      startTransition(() => setComments(list));
+      setComments(list);
     });
 
     const unsubscribeChanged = onChildChanged(commentsRef, (data) => {
       list = list.map((comment) =>
         comment.key === data.key ? { key: data.key, ...data.val() } : comment);
-      startTransition(() => setComments(list));
+      setComments(list);
     });
 
     const unsubscribeRemoved = onChildRemoved(commentsRef, (data) => {
       list = list.filter((comment) => comment.key !== data.key);
-      startTransition(() => setComments(list));
+      setComments(list);
     });
 
     return () => {
@@ -46,9 +43,7 @@ function CommentList({ postId }) {
   return (
     <ul>
       {comments.map((comment) => (
-        <ViewTransition key={comment.key}>
-          <li>{comment.author}: {comment.text}</li>
-        </ViewTransition>
+        <li key={comment.key}>{comment.author}: {comment.text}</li>
       ))}
     </ul>
   );

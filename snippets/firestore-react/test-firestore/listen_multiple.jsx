@@ -5,32 +5,27 @@
 // 'npm run snippets'.
 
 // [START listen_multiple_react]
-import { useEffect, useState, startTransition, ViewTransition } from "react";
+import { useEffect, useState } from "react";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 
-function CaliforniaCities() {
+function CityList({ state }) {
   const [cities, setCities] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(db, "cities"), where("state", "==", "CA"));
-    // Realtime updates aren't urgent user input, so apply them in a
-    // Transition. This keeps the page responsive and lets <ViewTransition>
-    // animate cities as they're added and removed.
+    const q = query(collection(db, "cities"), where("state", "==", state));
     return onSnapshot(q, (querySnapshot) => {
       const cities = [];
       querySnapshot.forEach((doc) => {
           cities.push({ id: doc.id, name: doc.data().name });
       });
-      startTransition(() => setCities(cities));
+      setCities(cities);
     });
-  }, []);
+  }, [state]);
 
   return (
     <ul>
       {cities.map((city) => (
-        <ViewTransition key={city.id}>
-          <li>{city.name}</li>
-        </ViewTransition>
+        <li key={city.id}>{city.name}</li>
       ))}
     </ul>
   );
