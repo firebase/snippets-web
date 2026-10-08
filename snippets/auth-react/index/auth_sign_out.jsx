@@ -5,24 +5,19 @@
 // 'npm run snippets'.
 
 // [START auth_sign_out_react]
-import { useTransition } from "react";
 import { getAuth, signOut } from "firebase/auth";
 
 function SignOutButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function handleSignOut() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        await signOut(auth);
-        // Sign-out successful.
-      } catch (error) {
-        // An error happened.
-      }
-    });
+  async function handleSignOut() {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      // Sign-out successful.
+    } catch (error) {
+      // An error happened.
+    }
   }
 
-  return <button onClick={handleSignOut} disabled={isPending}>Sign out</button>;
+  return <button onClick={handleSignOut}>Sign out</button>;
 }
 // [END auth_sign_out_react]

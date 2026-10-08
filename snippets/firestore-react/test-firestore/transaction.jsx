@@ -5,31 +5,26 @@
 // 'npm run snippets'.
 
 // [START transaction_react]
-import { useTransition } from "react";
 import { runTransaction } from "firebase/firestore";
 
 function IncrementPopulationButton({ sfDocRef }) {
-  const [isPending, startTransition] = useTransition();
+  async function incrementPopulation() {
+    try {
+      await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(sfDocRef);
+        if (!sfDoc.exists()) {
+          throw "Document does not exist!";
+        }
 
-  function incrementPopulation() {
-    startTransition(async () => {
-      try {
-        await runTransaction(db, async (transaction) => {
-          const sfDoc = await transaction.get(sfDocRef);
-          if (!sfDoc.exists()) {
-            throw "Document does not exist!";
-          }
-
-          const newPopulation = sfDoc.data().population + 1;
-          transaction.update(sfDocRef, { population: newPopulation });
-        });
-        console.log("Transaction successfully committed!");
-      } catch (e) {
-        console.log("Transaction failed: ", e);
-      }
-    });
+        const newPopulation = sfDoc.data().population + 1;
+        transaction.update(sfDocRef, { population: newPopulation });
+      });
+      console.log("Transaction successfully committed!");
+    } catch (e) {
+      console.log("Transaction failed: ", e);
+    }
   }
 
-  return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+  return <button onClick={incrementPopulation}>Increment population</button>;
 }
 // [END transaction_react]

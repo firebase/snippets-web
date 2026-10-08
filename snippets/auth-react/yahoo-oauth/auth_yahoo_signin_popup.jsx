@@ -5,30 +5,25 @@
 // 'npm run snippets'.
 
 // [START auth_yahoo_signin_popup_react]
-import { useTransition } from "react";
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    const auth = getAuth();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      // IdP data available in result.additionalUserInfo.profile
+      // ...
 
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        // IdP data available in result.additionalUserInfo.profile
-        // ...
-
-        // Yahoo OAuth access token and ID token can be retrieved by calling:
-        const credential = OAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        const idToken = credential.idToken;
-      } catch (error) {
-        // Handle error.
-      }
-    });
+      // Yahoo OAuth access token and ID token can be retrieved by calling:
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+    } catch (error) {
+      // Handle error.
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with Yahoo</button>;
+  return <button onClick={signIn}>Sign in with Yahoo</button>;
 }
 // [END auth_yahoo_signin_popup_react]

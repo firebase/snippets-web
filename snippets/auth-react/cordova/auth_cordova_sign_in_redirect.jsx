@@ -5,35 +5,30 @@
 // 'npm run snippets'.
 
 // [START auth_cordova_sign_in_redirect_react]
-import { useTransition } from "react";
 import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "firebase/auth/cordova";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    const auth = getAuth();
+    try {
+      await signInWithRedirect(auth, new GoogleAuthProvider());
+      const result = await getRedirectResult(auth);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
 
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        await signInWithRedirect(auth, new GoogleAuthProvider());
-        const result = await getRedirectResult(auth);
-        const credential = GoogleAuthProvider.credentialFromResult(result);
+      // This gives you a Google Access Token.
+      // You can use it to access the Google API.
+      const token = credential.accessToken;
 
-        // This gives you a Google Access Token.
-        // You can use it to access the Google API.
-        const token = credential.accessToken;
-
-        // The signed-in user info.
-        const user = result.user;
-        // ...
-      } catch (error) {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      }
-    });
+      // The signed-in user info.
+      const user = result.user;
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with Google</button>;
+  return <button onClick={signIn}>Sign in with Google</button>;
 }
 // [END auth_cordova_sign_in_redirect_react]

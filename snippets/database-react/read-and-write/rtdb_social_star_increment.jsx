@@ -5,25 +5,20 @@
 // 'npm run snippets'.
 
 // [START rtdb_social_star_increment_react]
-import { useTransition } from "react";
 import { getDatabase, increment, ref, update } from "firebase/database";
 
 function AddStarButton({ uid, postKey }) {
-  const [isPending, startTransition] = useTransition();
+  async function addStar() {
+    const dbRef = ref(getDatabase());
 
-  function addStar() {
-    startTransition(async () => {
-      const dbRef = ref(getDatabase());
-
-      const updates = {};
-      updates[`posts/${postKey}/stars/${uid}`] = true;
-      updates[`posts/${postKey}/starCount`] = increment(1);
-      updates[`user-posts/${postKey}/stars/${uid}`] = true;
-      updates[`user-posts/${postKey}/starCount`] = increment(1);
-      await update(dbRef, updates);
-    });
+    const updates = {};
+    updates[`posts/${postKey}/stars/${uid}`] = true;
+    updates[`posts/${postKey}/starCount`] = increment(1);
+    updates[`user-posts/${postKey}/stars/${uid}`] = true;
+    updates[`user-posts/${postKey}/starCount`] = increment(1);
+    await update(dbRef, updates);
   }
 
-  return <button onClick={addStar} disabled={isPending}>Star</button>;
+  return <button onClick={addStar}>Star</button>;
 }
 // [END rtdb_social_star_increment_react]

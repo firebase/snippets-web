@@ -6,29 +6,24 @@
 
 // [START add_alan_turing_react]
 // Add a second document with a generated ID.
-import { useTransition } from "react";
 import { addDoc, collection } from "firebase/firestore"; 
 
 function AddUserButton() {
-  const [isPending, startTransition] = useTransition();
+  async function addUser() {
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Alan",
+        middle: "Mathison",
+        last: "Turing",
+        born: 1912
+      });
 
-  function addUser() {
-    startTransition(async () => {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          first: "Alan",
-          middle: "Mathison",
-          last: "Turing",
-          born: 1912
-        });
-
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
-  return <button onClick={addUser} disabled={isPending}>Add user</button>;
+  return <button onClick={addUser}>Add user</button>;
 }
 // [END add_alan_turing_react]

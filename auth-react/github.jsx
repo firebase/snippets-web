@@ -30,39 +30,34 @@ function githubProviderCredential(token) {
 
 function githubSignInPopup(provider) {
   // [START auth_github_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, GithubAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        const credential = GithubAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-          const credential = GithubAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-
-          // The signed-in user info.
-          const user = result.user;
-          // IdP data available using getAdditionalUserInfo(result)
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GithubAuthProvider.credentialFromError(error);
-          // ...
-        }
-      });
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GithubAuthProvider.credentialFromError(error);
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with GitHub</button>;
+    return <button onClick={signIn}>Sign in with GitHub</button>;
   }
   // [END auth_github_signin_popup]
 }

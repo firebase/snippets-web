@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START update_with_server_timestamp_react]
-import { useTransition } from "react";
 import { updateDoc, serverTimestamp } from "firebase/firestore";
 
 function UpdateTimestampButton() {
-  const [isPending, startTransition] = useTransition();
+  async function update() {
+    const docRef = doc(db, 'objects', 'some-id');
 
-  function update() {
-    startTransition(async () => {
-      const docRef = doc(db, 'objects', 'some-id');
-
-      // Update the timestamp field with the value from the server
-      const updateTimestamp = await updateDoc(docRef, {
-          timestamp: serverTimestamp()
-      });
+    // Update the timestamp field with the value from the server
+    const updateTimestamp = await updateDoc(docRef, {
+        timestamp: serverTimestamp()
     });
   }
 
-  return <button onClick={update} disabled={isPending}>Update</button>;
+  return <button onClick={update}>Update</button>;
 }
 // [END update_with_server_timestamp_react]

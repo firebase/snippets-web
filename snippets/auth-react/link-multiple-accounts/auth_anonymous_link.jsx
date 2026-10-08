@@ -5,25 +5,20 @@
 // 'npm run snippets'.
 
 // [START auth_anonymous_link_react]
-import { useTransition } from "react";
 import { getAuth, linkWithCredential } from "firebase/auth";
 
 function UpgradeAccountButton({ credential }) {
-  const [isPending, startTransition] = useTransition();
-
-  function upgrade() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        const usercred = await linkWithCredential(auth.currentUser, credential);
-        const user = usercred.user;
-        console.log("Anonymous account successfully upgraded", user);
-      } catch (error) {
-        console.log("Error upgrading anonymous account", error);
-      }
-    });
+  async function upgrade() {
+    const auth = getAuth();
+    try {
+      const usercred = await linkWithCredential(auth.currentUser, credential);
+      const user = usercred.user;
+      console.log("Anonymous account successfully upgraded", user);
+    } catch (error) {
+      console.log("Error upgrading anonymous account", error);
+    }
   }
 
-  return <button onClick={upgrade} disabled={isPending}>Upgrade account</button>;
+  return <button onClick={upgrade}>Upgrade account</button>;
 }
 // [END auth_anonymous_link_react]

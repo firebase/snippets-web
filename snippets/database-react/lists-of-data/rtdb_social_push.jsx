@@ -5,24 +5,19 @@
 // 'npm run snippets'.
 
 // [START rtdb_social_push_react]
-import { useTransition } from "react";
 import { getDatabase, ref, push, set } from "firebase/database";
 
 function NewPostButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function addPost() {
-    startTransition(async () => {
-      // Create a new post reference with an auto-generated id
-      const db = getDatabase();
-      const postListRef = ref(db, 'posts');
-      const newPostRef = push(postListRef);
-      await set(newPostRef, {
-          // ...
-      });
+  async function addPost() {
+    // Create a new post reference with an auto-generated id
+    const db = getDatabase();
+    const postListRef = ref(db, 'posts');
+    const newPostRef = push(postListRef);
+    await set(newPostRef, {
+        // ...
     });
   }
 
-  return <button onClick={addPost} disabled={isPending}>New post</button>;
+  return <button onClick={addPost}>New post</button>;
 }
 // [END rtdb_social_push_react]

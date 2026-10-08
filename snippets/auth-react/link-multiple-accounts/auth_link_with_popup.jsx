@@ -5,29 +5,24 @@
 // 'npm run snippets'.
 
 // [START auth_link_with_popup_react]
-import { useTransition } from "react";
 import { getAuth, linkWithPopup, GoogleAuthProvider } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
 function LinkGoogleButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function link() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        const result = await linkWithPopup(auth.currentUser, provider);
-        // Accounts successfully linked.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const user = result.user;
-        // ...
-      } catch (error) {
-        // Handle Errors here.
-        // ...
-      }
-    });
+  async function link() {
+    const auth = getAuth();
+    try {
+      const result = await linkWithPopup(auth.currentUser, provider);
+      // Accounts successfully linked.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const user = result.user;
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      // ...
+    }
   }
 
-  return <button onClick={link} disabled={isPending}>Link Google</button>;
+  return <button onClick={link}>Link Google</button>;
 }
 // [END auth_link_with_popup_react]

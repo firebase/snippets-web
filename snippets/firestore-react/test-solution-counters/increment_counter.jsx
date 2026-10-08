@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START increment_counter_react]
-import { useTransition } from "react";
 import { doc, updateDoc, increment } from "firebase/firestore";
 
 function IncrementCounterButton({ counterRef, num_shards }) {
-    const [isPending, startTransition] = useTransition();
+    async function incrementCounter() {
+        // Select a shard of the counter at random
+        const shardId = Math.floor(Math.random() * num_shards).toString();
+        const shardRef = doc(counterRef, 'shards', shardId);
 
-    function incrementCounter() {
-        startTransition(async () => {
-            // Select a shard of the counter at random
-            const shardId = Math.floor(Math.random() * num_shards).toString();
-            const shardRef = doc(counterRef, 'shards', shardId);
-
-            // Update count
-            await updateDoc(shardRef, "count", increment(1));
-        });
+        // Update count
+        await updateDoc(shardRef, "count", increment(1));
     }
 
-    return <button onClick={incrementCounter} disabled={isPending}>Increment</button>;
+    return <button onClick={incrementCounter}>Increment</button>;
 }
 // [END increment_counter_react]

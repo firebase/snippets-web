@@ -5,27 +5,22 @@
 // 'npm run snippets'.
 
 // [START auth_delete_user_react]
-import { useTransition } from "react";
 import { getAuth, deleteUser } from "firebase/auth";
 
 function DeleteUserButton() {
-  const [isPending, startTransition] = useTransition();
+  async function deleteAccount() {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-  function deleteAccount() {
-    startTransition(async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      try {
-        await deleteUser(user);
-        // User deleted.
-      } catch (error) {
-        // An error ocurred
-        // ...
-      }
-    });
+    try {
+      await deleteUser(user);
+      // User deleted.
+    } catch (error) {
+      // An error ocurred
+      // ...
+    }
   }
 
-  return <button onClick={deleteAccount} disabled={isPending}>Delete</button>;
+  return <button onClick={deleteAccount}>Delete</button>;
 }
 // [END auth_delete_user_react]

@@ -5,26 +5,21 @@
 // 'npm run snippets'.
 
 // [START auth_unlink_provider_react]
-import { useTransition } from "react";
 import { getAuth, unlink } from "firebase/auth";
 
 function UnlinkButton({ providerId }) {
-  const [isPending, startTransition] = useTransition();
-
-  function unlinkProvider() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        await unlink(auth.currentUser, providerId);
-        // Auth provider unlinked from account
-        // ...
-      } catch (error) {
-        // An error happened
-        // ...
-      }
-    });
+  async function unlinkProvider() {
+    const auth = getAuth();
+    try {
+      await unlink(auth.currentUser, providerId);
+      // Auth provider unlinked from account
+      // ...
+    } catch (error) {
+      // An error happened
+      // ...
+    }
   }
 
-  return <button onClick={unlinkProvider} disabled={isPending}>Unlink</button>;
+  return <button onClick={unlinkProvider}>Unlink</button>;
 }
 // [END auth_unlink_provider_react]

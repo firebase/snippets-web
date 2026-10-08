@@ -5,30 +5,25 @@
 // 'npm run snippets'.
 
 // [START create_counter_react]
-import { useTransition } from "react";
 import { doc, writeBatch } from "firebase/firestore";
 
 function CreateCounterButton({ counterRef, num_shards }) {
-    const [isPending, startTransition] = useTransition();
+    async function createCounter() {
+        const batch = writeBatch(db);
 
-    function createCounter() {
-        startTransition(async () => {
-            const batch = writeBatch(db);
+        // Initialize the counter document
+        batch.set(counterRef, { num_shards: num_shards });
 
-            // Initialize the counter document
-            batch.set(counterRef, { num_shards: num_shards });
+        // Initialize each shard with count=0
+        for (let i = 0; i < num_shards; i++) {
+            const shardRef = doc(counterRef, 'shards', i.toString());
+            batch.set(shardRef, { count: 0 });
+        }
 
-            // Initialize each shard with count=0
-            for (let i = 0; i < num_shards; i++) {
-                const shardRef = doc(counterRef, 'shards', i.toString());
-                batch.set(shardRef, { count: 0 });
-            }
-
-            // Commit the write batch
-            await batch.commit();
-        });
+        // Commit the write batch
+        await batch.commit();
     }
 
-    return <button onClick={createCounter} disabled={isPending}>Create counter</button>;
+    return <button onClick={createCounter}>Create counter</button>;
 }
 // [END create_counter_react]

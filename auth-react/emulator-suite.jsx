@@ -13,22 +13,17 @@ function emulatorConnect() {
 
 function emulatorGoogleCredential() {
   // [START auth_emulator_google_credential]
-  const { useTransition } = require("react");
   const { getAuth, signInWithCredential, GoogleAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithCredential(auth, GoogleAuthProvider.credential(
-          '{"sub": "abc123", "email": "foo@example.com", "email_verified": true}'
-        ));
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithCredential(auth, GoogleAuthProvider.credential(
+        '{"sub": "abc123", "email": "foo@example.com", "email_verified": true}'
+      ));
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Google</button>;
+    return <button onClick={signIn}>Sign in with Google</button>;
   }
   // [END auth_emulator_google_credential]
 }

@@ -5,34 +5,29 @@
 // 'npm run snippets'.
 
 // [START write_batch_react]
-import { useTransition } from "react";
 import { writeBatch, doc } from "firebase/firestore"; 
 
 function CommitBatchButton() {
-  const [isPending, startTransition] = useTransition();
+  async function commitBatch() {
+    // Get a new write batch
+    const batch = writeBatch(db);
 
-  function commitBatch() {
-    startTransition(async () => {
-      // Get a new write batch
-      const batch = writeBatch(db);
+    // Set the value of 'NYC'
+    const nycRef = doc(db, "cities", "NYC");
+    batch.set(nycRef, {name: "New York City"});
 
-      // Set the value of 'NYC'
-      const nycRef = doc(db, "cities", "NYC");
-      batch.set(nycRef, {name: "New York City"});
+    // Update the population of 'SF'
+    const sfRef = doc(db, "cities", "SF");
+    batch.update(sfRef, {"population": 1000000});
 
-      // Update the population of 'SF'
-      const sfRef = doc(db, "cities", "SF");
-      batch.update(sfRef, {"population": 1000000});
+    // Delete the city 'LA'
+    const laRef = doc(db, "cities", "LA");
+    batch.delete(laRef);
 
-      // Delete the city 'LA'
-      const laRef = doc(db, "cities", "LA");
-      batch.delete(laRef);
-
-      // Commit the batch
-      await batch.commit();
-    });
+    // Commit the batch
+    await batch.commit();
   }
 
-  return <button onClick={commitBatch} disabled={isPending}>Commit batch</button>;
+  return <button onClick={commitBatch}>Commit batch</button>;
 }
 // [END write_batch_react]

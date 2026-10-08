@@ -12,55 +12,45 @@ function samlProvider() {
 
 function samlSignInPopup(provider) {
   // [START auth_saml_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, SAMLAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // User is signed in.
-          // Provider data available from the result.user.getIdToken()
-          // or from result.user.providerData
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = SAMLAuthProvider.credentialFromError(error);
-          // Handle / display error.
-          // ...
-        }
-      });
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // User is signed in.
+        // Provider data available from the result.user.getIdToken()
+        // or from result.user.providerData
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = SAMLAuthProvider.credentialFromError(error);
+        // Handle / display error.
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END auth_saml_signin_popup]
 }
 
 function samlSignInRedirect(provider) {
   // [START auth_saml_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END auth_saml_signin_redirect]
 }

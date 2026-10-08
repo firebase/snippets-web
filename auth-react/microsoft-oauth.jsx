@@ -38,51 +38,41 @@ function msftCreateProvider() {
 
 function msftSignInPopup(provider) {
   // [START auth_msft_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // User is signed in.
+        // IdP data available in result.additionalUserInfo.profile.
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // User is signed in.
-          // IdP data available in result.additionalUserInfo.profile.
-
-          // Get the OAuth access token and ID Token
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Microsoft</button>;
+    return <button onClick={signIn}>Sign in with Microsoft</button>;
   }
   // [END auth_msft_signin_popup]
 }
 
 function msftSignInRedirect(provider) {
   // [START auth_msft_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Microsoft</button>;
+    return <button onClick={signIn}>Sign in with Microsoft</button>;
   }
   // [END auth_msft_signin_redirect]
 }
@@ -120,67 +110,57 @@ function msftSignInRedirectResult() {
 
 function msftLinkWithPopup() {
   // [START auth_msft_link_popup]
-  const { useTransition } = require("react");
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   function LinkButton() {
-    const [isPending, startTransition] = useTransition();
+    async function link() {
+      const provider = new OAuthProvider('microsoft.com');
+      const auth = getAuth();
 
-    function link() {
-      startTransition(async () => {
-        const provider = new OAuthProvider('microsoft.com');
-        const auth = getAuth();
+      try {
+        const result = await linkWithPopup(auth.currentUser, provider);
+        // Microsoft credential is linked to the current user.
+        // IdP data available in result.additionalUserInfo.profile.
 
-        try {
-          const result = await linkWithPopup(auth.currentUser, provider);
-          // Microsoft credential is linked to the current user.
-          // IdP data available in result.additionalUserInfo.profile.
-
-          // Get the OAuth access token and ID Token
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={link} disabled={isPending}>Link Microsoft</button>;
+    return <button onClick={link}>Link Microsoft</button>;
   }
   // [END auth_msft_link_popup]
 }
 
 function msftReauthPopup() {
   // [START auth_msft_reauth_popup]
-  const { useTransition } = require("react");
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   function ReauthenticateButton() {
-    const [isPending, startTransition] = useTransition();
+    async function reauthenticate() {
+      const provider = new OAuthProvider('microsoft.com');
+      const auth = getAuth();
+      try {
+        const result = await reauthenticateWithPopup(auth.currentUser, provider);
+        // User is re-authenticated with fresh tokens minted and
+        // should be able to perform sensitive operations like account
+        // deletion and email or password update.
+        // IdP data available in result.additionalUserInfo.profile.
 
-    function reauthenticate() {
-      startTransition(async () => {
-        const provider = new OAuthProvider('microsoft.com');
-        const auth = getAuth();
-        try {
-          const result = await reauthenticateWithPopup(auth.currentUser, provider);
-          // User is re-authenticated with fresh tokens minted and
-          // should be able to perform sensitive operations like account
-          // deletion and email or password update.
-          // IdP data available in result.additionalUserInfo.profile.
-
-          // Get the OAuth access token and ID Token
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate with Microsoft</button>;
+    return <button onClick={reauthenticate}>Reauthenticate with Microsoft</button>;
   }
   // [END auth_msft_reauth_popup]
 }

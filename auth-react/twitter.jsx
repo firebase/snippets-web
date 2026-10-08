@@ -18,41 +18,36 @@ function twitterProvider() {
 
 function twitterSignInPopup(provider) {
   // [START auth_twitter_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, TwitterAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+        // You can use these server side with your app's credentials to access the Twitter API.
+        const credential = TwitterAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const secret = credential.secret;
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-          // You can use these server side with your app's credentials to access the Twitter API.
-          const credential = TwitterAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          const secret = credential.secret;
-
-          // The signed-in user info.
-          const user = result.user;
-          // IdP data available using getAdditionalUserInfo(result)
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = TwitterAuthProvider.credentialFromError(error);
-          // ...
-        }
-      });
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = TwitterAuthProvider.credentialFromError(error);
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Twitter</button>;
+    return <button onClick={signIn}>Sign in with Twitter</button>;
   }
   // [END auth_twitter_signin_popup]
 }

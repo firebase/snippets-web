@@ -5,25 +5,20 @@
 // 'npm run snippets'.
 
 // [START multitenant_signin_custom_token_react]
-import { useTransition } from "react";
 import { signInWithCustomToken } from "firebase/auth";
 
 function SignInButton({ token }) {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    auth.tenantId = 'TENANT_ID1';
 
-  function signIn() {
-    startTransition(async () => {
-      auth.tenantId = 'TENANT_ID1';
-
-      try {
-        await signInWithCustomToken(auth, token);
-      } catch (error) {
-        // Handle / display error.
-        // ...
-      }
-    });
+    try {
+      await signInWithCustomToken(auth, token);
+    } catch (error) {
+      // Handle / display error.
+      // ...
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+  return <button onClick={signIn}>Sign in</button>;
 }
 // [END multitenant_signin_custom_token_react]

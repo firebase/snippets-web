@@ -5,32 +5,27 @@
 // 'npm run snippets'.
 
 // [START auth_apple_link_facebook_react]
-import { useTransition } from "react";
 import { getAuth, linkWithPopup, FacebookAuthProvider } from "firebase/auth";
 
 function LinkButton() {
-  const [isPending, startTransition] = useTransition();
+  async function link() {
+    const auth = getAuth();
+    const provider = new FacebookAuthProvider();
+    provider.addScope('user_birthday');
 
-  function link() {
-    startTransition(async () => {
-      const auth = getAuth();
-      const provider = new FacebookAuthProvider();
-      provider.addScope('user_birthday');
+    // Assuming the current user is an Apple user linking a Facebook provider.
+    try {
+      await linkWithPopup(auth.currentUser, provider);
+      // Facebook credential is linked to the current Apple user.
+      // ...
 
-      // Assuming the current user is an Apple user linking a Facebook provider.
-      try {
-        await linkWithPopup(auth.currentUser, provider);
-        // Facebook credential is linked to the current Apple user.
-        // ...
-
-        // The user can now sign in to the same account
-        // with either Apple or Facebook.
-      } catch (error) {
-        // Handle error.
-      }
-    });
+      // The user can now sign in to the same account
+      // with either Apple or Facebook.
+    } catch (error) {
+      // Handle error.
+    }
   }
 
-  return <button onClick={link} disabled={isPending}>Link Facebook</button>;
+  return <button onClick={link}>Link Facebook</button>;
 }
 // [END auth_apple_link_facebook_react]

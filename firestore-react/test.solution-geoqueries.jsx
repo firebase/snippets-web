@@ -17,31 +17,26 @@ const db = getFirestore(app);
 
 function addHash() {
   // [START fs_geo_add_hash]
-  const { useTransition } = require("react");
   const { doc, updateDoc } = require('firebase/firestore');
 
   function AddHashButton() {
-    const [isPending, startTransition] = useTransition();
+    async function addHash() {
+      // Compute the GeoHash for a lat/lng point
+      const lat = 51.5074;
+      const lng = 0.1278;
+      const hash = geofire.geohashForLocation([lat, lng]);
 
-    function addHash() {
-      startTransition(async () => {
-        // Compute the GeoHash for a lat/lng point
-        const lat = 51.5074;
-        const lng = 0.1278;
-        const hash = geofire.geohashForLocation([lat, lng]);
-
-        // Add the hash and the lat/lng to the document. We will use the hash
-        // for queries and the lat/lng for distance comparisons.
-        const londonRef = doc(db, 'cities', 'LON');
-        await updateDoc(londonRef, {
-          geohash: hash,
-          lat: lat,
-          lng: lng
-        });
+      // Add the hash and the lat/lng to the document. We will use the hash
+      // for queries and the lat/lng for distance comparisons.
+      const londonRef = doc(db, 'cities', 'LON');
+      await updateDoc(londonRef, {
+        geohash: hash,
+        lat: lat,
+        lng: lng
       });
     }
 
-    return <button onClick={addHash} disabled={isPending}>Add hash</button>;
+    return <button onClick={addHash}>Add hash</button>;
   }
   // [END fs_geo_add_hash]
 }

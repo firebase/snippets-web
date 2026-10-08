@@ -5,25 +5,20 @@
 // 'npm run snippets'.
 
 // [START auth_simple_link_react]
-import { useTransition } from "react";
 import { getAuth, linkWithCredential } from "firebase/auth";
 
 function LinkAccountButton({ credential }) {
-  const [isPending, startTransition] = useTransition();
-
-  function link() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        const usercred = await linkWithCredential(auth.currentUser, credential);
-        const user = usercred.user;
-        console.log("Account linking success", user);
-      } catch (error) {
-        console.log("Account linking error", error);
-      }
-    });
+  async function link() {
+    const auth = getAuth();
+    try {
+      const usercred = await linkWithCredential(auth.currentUser, credential);
+      const user = usercred.user;
+      console.log("Account linking success", user);
+    } catch (error) {
+      console.log("Account linking error", error);
+    }
   }
 
-  return <button onClick={link} disabled={isPending}>Link account</button>;
+  return <button onClick={link}>Link account</button>;
 }
 // [END auth_simple_link_react]

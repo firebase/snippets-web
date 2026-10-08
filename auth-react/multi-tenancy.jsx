@@ -157,53 +157,44 @@ function passwordSignInWithTenant(auth) {
 
 function samlSignInPopupTenant(auth, provider) {
   // [START multitenant_signin_saml_popup]
-  const { useTransition } = require("react");
   const { signInWithPopup } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      // Switch to TENANT_ID1.
+      auth.tenantId = 'TENANT_ID1';
 
-    function signIn() {
-      startTransition(async () => {
-        // Switch to TENANT_ID1.
-        auth.tenantId = 'TENANT_ID1';
-
-        // Sign-in with popup.
-        try {
-          const userCredential = await signInWithPopup(auth, provider);
-          // User is signed in.
-          const user = userCredential.user;
-          // user.tenantId is set to 'TENANT_ID1'.
-          // Provider data available from the result.user.getIdToken()
-          // or from result.user.providerData
-        } catch (error) {
-          // Handle / display error.
-          // ...
-        }
-      });
+      // Sign-in with popup.
+      try {
+        const userCredential = await signInWithPopup(auth, provider);
+        // User is signed in.
+        const user = userCredential.user;
+        // user.tenantId is set to 'TENANT_ID1'.
+        // Provider data available from the result.user.getIdToken()
+        // or from result.user.providerData
+      } catch (error) {
+        // Handle / display error.
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END multitenant_signin_saml_popup]
 }
 
 function samlSignInRedirectTenant(auth, provider) {
   // [START multitenant_signin_saml_redirect]
-  const { useEffect, useTransition } = require("react");
+  const { useEffect } = require("react");
   const { signInWithRedirect, getRedirectResult } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      // Switch to TENANT_ID1.
+      auth.tenantId = 'TENANT_ID1';
 
-    function signIn() {
-      startTransition(async () => {
-        // Switch to TENANT_ID1.
-        auth.tenantId = 'TENANT_ID1';
-
-        // Sign-in with redirect.
-        await signInWithRedirect(auth, provider);
-      });
+      // Sign-in with redirect.
+      await signInWithRedirect(auth, provider);
     }
 
     // After the user completes sign-in and returns to the app, you can get
@@ -223,7 +214,7 @@ function samlSignInRedirectTenant(auth, provider) {
         });
     }, []);
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END multitenant_signin_saml_redirect]
 }
@@ -321,26 +312,21 @@ function createCustomTokenTenant(admin, uid) {
 
 function signInWithCustomTokenTenant(auth) {
   // [START multitenant_signin_custom_token]
-  const { useTransition } = require("react");
   const { signInWithCustomToken } = require("firebase/auth");
 
   function SignInButton({ token }) {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      auth.tenantId = 'TENANT_ID1';
 
-    function signIn() {
-      startTransition(async () => {
-        auth.tenantId = 'TENANT_ID1';
-
-        try {
-          await signInWithCustomToken(auth, token);
-        } catch (error) {
-          // Handle / display error.
-          // ...
-        }
-      });
+      try {
+        await signInWithCustomToken(auth, token);
+      } catch (error) {
+        // Handle / display error.
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+    return <button onClick={signIn}>Sign in</button>;
   }
   // [END multitenant_signin_custom_token]
 }
@@ -390,73 +376,64 @@ function linkAccountTenant(auth, provider) {
 
 function accountExistsPopupTenant(auth, samlProvider, googleProvider, goToApp) {
   // [START multitenant_account_exists_popup]
-  const { useTransition } = require("react");
   const { signInWithPopup, fetchSignInMethodsForEmail, linkWithCredential } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        // Step 1.
-        // User tries to sign in to the SAML provider in that tenant.
-        auth.tenantId = 'TENANT_ID';
-        try {
-          await signInWithPopup(auth, samlProvider);
-        } catch (error) {
-          // An error happened.
-          if (error.code === 'auth/account-exists-with-different-credential') {
-            // Step 2.
-            // User's email already exists.
-            // The pending SAML credential.
-            const pendingCred = error.credential;
-            // The credential's tenantId if needed: error.tenantId
-            // The provider account's email address.
-            const email = error.customData.email;
-            // Get sign-in methods for this email.
-            fetchSignInMethodsForEmail(email, auth)
-              .then((methods) => {
-                // Step 3.
-                // Ask the user to sign in with existing Google account.
-                if (methods[0] == 'google.com') {
-                  signInWithPopup(auth, googleProvider)
-                    .then((result) => {
-                      // Step 4
-                      // Link the SAML AuthCredential to the existing user.
-                      linkWithCredential(result.user, pendingCred)
-                        .then((linkResult) => {
-                          // SAML account successfully linked to the existing
-                          // user.
-                          goToApp();
-                        });
-                    });
-                }
-              });
-          }
+    async function signIn() {
+      // Step 1.
+      // User tries to sign in to the SAML provider in that tenant.
+      auth.tenantId = 'TENANT_ID';
+      try {
+        await signInWithPopup(auth, samlProvider);
+      } catch (error) {
+        // An error happened.
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          // Step 2.
+          // User's email already exists.
+          // The pending SAML credential.
+          const pendingCred = error.credential;
+          // The credential's tenantId if needed: error.tenantId
+          // The provider account's email address.
+          const email = error.customData.email;
+          // Get sign-in methods for this email.
+          fetchSignInMethodsForEmail(email, auth)
+            .then((methods) => {
+              // Step 3.
+              // Ask the user to sign in with existing Google account.
+              if (methods[0] == 'google.com') {
+                signInWithPopup(auth, googleProvider)
+                  .then((result) => {
+                    // Step 4
+                    // Link the SAML AuthCredential to the existing user.
+                    linkWithCredential(result.user, pendingCred)
+                      .then((linkResult) => {
+                        // SAML account successfully linked to the existing
+                        // user.
+                        goToApp();
+                      });
+                  });
+              }
+            });
         }
-      });
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END multitenant_account_exists_popup]
 }
 
 function accountExistsRedirectTenant(auth, samlProvider, googleProvider, goToApp) {
   // [START multitenant_account_exists_redirect]
-  const { useEffect, useTransition } = require("react");
+  const { useEffect } = require("react");
   const { signInWithRedirect, getRedirectResult, fetchSignInMethodsForEmail, linkWithCredential } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        // Step 1.
-        // User tries to sign in to SAML provider.
-        auth.tenantId = 'TENANT_ID';
-        await signInWithRedirect(auth, samlProvider);
-      });
+    async function signIn() {
+      // Step 1.
+      // User tries to sign in to SAML provider.
+      auth.tenantId = 'TENANT_ID';
+      await signInWithRedirect(auth, samlProvider);
     }
 
     useEffect(() => {
@@ -500,7 +477,7 @@ function accountExistsRedirectTenant(auth, samlProvider, googleProvider, goToApp
       });
     }, []);
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+    return <button onClick={signIn}>Sign in with SAML</button>;
   }
   // [END multitenant_account_exists_redirect]
 }

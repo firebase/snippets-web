@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START add_document_react]
-import { useTransition } from "react";
 import { collection, addDoc } from "firebase/firestore"; 
 
 function AddCityButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function addCity() {
-    startTransition(async () => {
-      // Add a new document with a generated id.
-      const docRef = await addDoc(collection(db, "cities"), {
-        name: "Tokyo",
-        country: "Japan"
-      });
-      console.log("Document written with ID: ", docRef.id);
+  async function addCity() {
+    // Add a new document with a generated id.
+    const docRef = await addDoc(collection(db, "cities"), {
+      name: "Tokyo",
+      country: "Japan"
     });
+    console.log("Document written with ID: ", docRef.id);
   }
 
-  return <button onClick={addCity} disabled={isPending}>Add city</button>;
+  return <button onClick={addCity}>Add city</button>;
 }
 // [END add_document_react]

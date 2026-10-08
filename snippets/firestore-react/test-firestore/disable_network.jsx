@@ -5,20 +5,15 @@
 // 'npm run snippets'.
 
 // [START disable_network_react]
-import { useTransition } from "react";
 import { disableNetwork } from "firebase/firestore"; 
 
 function DisableNetworkButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function goOffline() {
-    startTransition(async () => {
-      await disableNetwork(db);
-      console.log("Network disabled!");
-      // Do offline actions
-    });
+  async function goOffline() {
+    await disableNetwork(db);
+    console.log("Network disabled!");
+    // Do offline actions
   }
 
-  return <button onClick={goOffline} disabled={isPending}>Go offline</button>;
+  return <button onClick={goOffline}>Go offline</button>;
 }
 // [END disable_network_react]

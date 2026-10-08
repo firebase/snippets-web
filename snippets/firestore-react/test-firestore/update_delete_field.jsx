@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START update_delete_field_react]
-import { useTransition } from "react";
 import { doc, updateDoc, deleteField } from "firebase/firestore";
 
 function RemoveCapitalButton() {
-  const [isPending, startTransition] = useTransition();
+  async function removeCapital() {
+    const cityRef = doc(db, 'cities', 'BJ');
 
-  function removeCapital() {
-    startTransition(async () => {
-      const cityRef = doc(db, 'cities', 'BJ');
-
-      // Remove the 'capital' field from the document
-      await updateDoc(cityRef, {
-          capital: deleteField()
-      });
+    // Remove the 'capital' field from the document
+    await updateDoc(cityRef, {
+        capital: deleteField()
     });
   }
 
-  return <button onClick={removeCapital} disabled={isPending}>Remove capital</button>;
+  return <button onClick={removeCapital}>Remove capital</button>;
 }
 // [END update_delete_field_react]

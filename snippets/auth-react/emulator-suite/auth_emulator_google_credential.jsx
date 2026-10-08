@@ -5,21 +5,16 @@
 // 'npm run snippets'.
 
 // [START auth_emulator_google_credential_react]
-import { useTransition } from "react";
 import { getAuth, signInWithCredential, GoogleAuthProvider } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      await signInWithCredential(auth, GoogleAuthProvider.credential(
-        '{"sub": "abc123", "email": "foo@example.com", "email_verified": true}'
-      ));
-    });
+  async function signIn() {
+    const auth = getAuth();
+    await signInWithCredential(auth, GoogleAuthProvider.credential(
+      '{"sub": "abc123", "email": "foo@example.com", "email_verified": true}'
+    ));
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with Google</button>;
+  return <button onClick={signIn}>Sign in with Google</button>;
 }
 // [END auth_emulator_google_credential_react]

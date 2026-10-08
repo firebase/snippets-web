@@ -5,30 +5,25 @@
 // 'npm run snippets'.
 
 // [START update_document_nested_react]
-import { useTransition } from "react";
 import { doc, setDoc, updateDoc } from "firebase/firestore"; 
 
 function UpdateUserButton() {
-  const [isPending, startTransition] = useTransition();
+  async function updateUser() {
+    // Create an initial document to update.
+    const frankDocRef = doc(db, "users", "frank");
+    await setDoc(frankDocRef, {
+      name: "Frank",
+      favorites: { food: "Pizza", color: "Blue", subject: "recess" },
+      age: 12
+    });
 
-  function updateUser() {
-    startTransition(async () => {
-      // Create an initial document to update.
-      const frankDocRef = doc(db, "users", "frank");
-      await setDoc(frankDocRef, {
-        name: "Frank",
-        favorites: { food: "Pizza", color: "Blue", subject: "recess" },
-        age: 12
-      });
-
-      // To update age and favorite color:
-      await updateDoc(frankDocRef, {
-        "age": 13,
-        "favorites.color": "Red"
-      });
+    // To update age and favorite color:
+    await updateDoc(frankDocRef, {
+      "age": 13,
+      "favorites.color": "Red"
     });
   }
 
-  return <button onClick={updateUser} disabled={isPending}>Update user</button>;
+  return <button onClick={updateUser}>Update user</button>;
 }
 // [END update_document_nested_react]

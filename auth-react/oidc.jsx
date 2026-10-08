@@ -12,55 +12,45 @@ function oidcProvider() {
 
 function oidcSignInPopup(provider) {
   // [START auth_oidc_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // User is signed in.
-          const credential = OAuthProvider.credentialFromResult(result);
-          // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = OAuthProvider.credentialFromError(error);
-          // Handle / display error.
-          // ...
-        }
-      });
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // User is signed in.
+        const credential = OAuthProvider.credentialFromResult(result);
+        // This gives you an access token for the OIDC provider. You can use it to directly interact with that provider
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = OAuthProvider.credentialFromError(error);
+        // Handle / display error.
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with OIDC</button>;
+    return <button onClick={signIn}>Sign in with OIDC</button>;
   }
   // [END auth_oidc_signin_popup]
 }
 
 function oidcSignInRedirect(provider) {
   // [START auth_oidc_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with OIDC</button>;
+    return <button onClick={signIn}>Sign in with OIDC</button>;
   }
   // [END auth_oidc_signin_redirect]
 }

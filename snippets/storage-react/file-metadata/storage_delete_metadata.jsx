@@ -5,32 +5,27 @@
 // 'npm run snippets'.
 
 // [START storage_delete_metadata_react]
-import { useTransition } from "react";
 import { getStorage, ref, updateMetadata } from "firebase/storage";
 
 function DeleteMetadataButton() {
-  const [isPending, startTransition] = useTransition();
+  async function deleteMetadataProperty() {
+    const storage = getStorage();
+    const forestRef = ref(storage, 'images/forest.jpg');
 
-  function deleteMetadataProperty() {
-    startTransition(async () => {
-      const storage = getStorage();
-      const forestRef = ref(storage, 'images/forest.jpg');
+    // Create file metadata with property to delete
+    const deleteMetadata = {
+      contentType: null
+    };
 
-      // Create file metadata with property to delete
-      const deleteMetadata = {
-        contentType: null
-      };
-
-      // Delete the metadata property
-      try {
-        const metadata = await updateMetadata(forestRef, deleteMetadata);
-        // metadata.contentType should be null
-      } catch (error) {
-        // Uh-oh, an error occurred!
-      }
-    });
+    // Delete the metadata property
+    try {
+      const metadata = await updateMetadata(forestRef, deleteMetadata);
+      // metadata.contentType should be null
+    } catch (error) {
+      // Uh-oh, an error occurred!
+    }
   }
 
-  return <button onClick={deleteMetadataProperty} disabled={isPending}>Delete metadata</button>;
+  return <button onClick={deleteMetadataProperty}>Delete metadata</button>;
 }
 // [END storage_delete_metadata_react]

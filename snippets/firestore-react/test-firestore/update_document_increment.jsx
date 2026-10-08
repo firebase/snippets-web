@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START update_document_increment_react]
-import { useTransition } from "react";
 import { doc, updateDoc, increment } from "firebase/firestore";
 
 function IncrementPopulationButton() {
-  const [isPending, startTransition] = useTransition();
+  async function incrementPopulation() {
+    const washingtonRef = doc(db, "cities", "DC");
 
-  function incrementPopulation() {
-    startTransition(async () => {
-      const washingtonRef = doc(db, "cities", "DC");
-
-      // Atomically increment the population of the city by 50.
-      await updateDoc(washingtonRef, {
-          population: increment(50)
-      });
+    // Atomically increment the population of the city by 50.
+    await updateDoc(washingtonRef, {
+        population: increment(50)
     });
   }
 
-  return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+  return <button onClick={incrementPopulation}>Increment population</button>;
 }
 // [END update_document_increment_react]

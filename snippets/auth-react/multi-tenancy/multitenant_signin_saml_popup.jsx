@@ -5,32 +5,27 @@
 // 'npm run snippets'.
 
 // [START multitenant_signin_saml_popup_react]
-import { useTransition } from "react";
 import { signInWithPopup } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    // Switch to TENANT_ID1.
+    auth.tenantId = 'TENANT_ID1';
 
-  function signIn() {
-    startTransition(async () => {
-      // Switch to TENANT_ID1.
-      auth.tenantId = 'TENANT_ID1';
-
-      // Sign-in with popup.
-      try {
-        const userCredential = await signInWithPopup(auth, provider);
-        // User is signed in.
-        const user = userCredential.user;
-        // user.tenantId is set to 'TENANT_ID1'.
-        // Provider data available from the result.user.getIdToken()
-        // or from result.user.providerData
-      } catch (error) {
-        // Handle / display error.
-        // ...
-      }
-    });
+    // Sign-in with popup.
+    try {
+      const userCredential = await signInWithPopup(auth, provider);
+      // User is signed in.
+      const user = userCredential.user;
+      // user.tenantId is set to 'TENANT_ID1'.
+      // Provider data available from the result.user.getIdToken()
+      // or from result.user.providerData
+    } catch (error) {
+      // Handle / display error.
+      // ...
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+  return <button onClick={signIn}>Sign in with SAML</button>;
 }
 // [END multitenant_signin_saml_popup_react]

@@ -5,28 +5,23 @@
 // 'npm run snippets'.
 
 // [START update_document_array_react]
-import { useTransition } from "react";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 
 function UpdateRegionsButton() {
-  const [isPending, startTransition] = useTransition();
+  async function updateRegions() {
+    const washingtonRef = doc(db, "cities", "DC");
 
-  function updateRegions() {
-    startTransition(async () => {
-      const washingtonRef = doc(db, "cities", "DC");
+    // Atomically add a new region to the "regions" array field.
+    await updateDoc(washingtonRef, {
+        regions: arrayUnion("greater_virginia")
+    });
 
-      // Atomically add a new region to the "regions" array field.
-      await updateDoc(washingtonRef, {
-          regions: arrayUnion("greater_virginia")
-      });
-
-      // Atomically remove a region from the "regions" array field.
-      await updateDoc(washingtonRef, {
-          regions: arrayRemove("east_coast")
-      });
+    // Atomically remove a region from the "regions" array field.
+    await updateDoc(washingtonRef, {
+        regions: arrayRemove("east_coast")
     });
   }
 
-  return <button onClick={updateRegions} disabled={isPending}>Update regions</button>;
+  return <button onClick={updateRegions}>Update regions</button>;
 }
 // [END update_document_array_react]

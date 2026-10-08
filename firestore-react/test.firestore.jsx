@@ -100,41 +100,31 @@ function initializeWithPersistence() {
 
 function disableNetwork_wrapped() {
   // [START disable_network]
-  const { useTransition } = require("react");
   const { disableNetwork } = require("firebase/firestore"); 
 
   function DisableNetworkButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function goOffline() {
-      startTransition(async () => {
-        await disableNetwork(db);
-        console.log("Network disabled!");
-        // Do offline actions
-      });
+    async function goOffline() {
+      await disableNetwork(db);
+      console.log("Network disabled!");
+      // Do offline actions
     }
 
-    return <button onClick={goOffline} disabled={isPending}>Go offline</button>;
+    return <button onClick={goOffline}>Go offline</button>;
   }
   // [END disable_network]
 }
 
 function enableNetwork_wrapped() {
   // [START enable_network]
-  const { useTransition } = require("react");
   const { enableNetwork } = require("firebase/firestore"); 
 
   function EnableNetworkButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function goOnline() {
-      startTransition(async () => {
-        await enableNetwork(db);
-        // Do online actions
-      });
+    async function goOnline() {
+      await enableNetwork(db);
+      // Do online actions
     }
 
-    return <button onClick={goOnline} disabled={isPending}>Go online</button>;
+    return <button onClick={goOnline}>Go online</button>;
   }
   // [END enable_network]
 }
@@ -171,28 +161,23 @@ function replyWithFromCacheFields() {
 
 function addAdaLovelace() {
   // [START add_ada_lovelace]
-  const { useTransition } = require("react");
   const { collection, addDoc } = require("firebase/firestore"); 
 
   function AddUserButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function addUser() {
-      startTransition(async () => {
-        try {
-          const docRef = await addDoc(collection(db, "users"), {
-            first: "Ada",
-            last: "Lovelace",
-            born: 1815
-          });
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
-      });
+    async function addUser() {
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          first: "Ada",
+          last: "Lovelace",
+          born: 1815
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
 
-    return <button onClick={addUser} disabled={isPending}>Add user</button>;
+    return <button onClick={addUser}>Add user</button>;
   }
   // [END add_ada_lovelace]
 }
@@ -230,30 +215,25 @@ function getAllUsers() {
 function addAlanTuring() {
   // [START add_alan_turing]
   // Add a second document with a generated ID.
-  const { useTransition } = require("react");
   const { addDoc, collection } = require("firebase/firestore"); 
 
   function AddUserButton() {
-    const [isPending, startTransition] = useTransition();
+    async function addUser() {
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          first: "Alan",
+          middle: "Mathison",
+          last: "Turing",
+          born: 1912
+        });
 
-    function addUser() {
-      startTransition(async () => {
-        try {
-          const docRef = await addDoc(collection(db, "users"), {
-            first: "Alan",
-            middle: "Mathison",
-            last: "Turing",
-            born: 1912
-          });
-
-          console.log("Document written with ID: ", docRef.id);
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
-      });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
 
-    return <button onClick={addUser} disabled={isPending}>Add user</button>;
+    return <button onClick={addUser}>Add user</button>;
   }
   // [END add_alan_turing]
 }
@@ -326,45 +306,35 @@ function referenceDocumentInSubcollection() {
 
 function setDocument() {
   // [START set_document]
-  const { useTransition } = require("react");
   const { doc, setDoc } = require("firebase/firestore"); 
 
   function AddCityButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function addCity() {
-      startTransition(async () => {
-        // Add a new document in collection "cities"
-        await setDoc(doc(db, "cities", "LA"), {
-          name: "Los Angeles",
-          state: "CA",
-          country: "USA"
-        });
+    async function addCity() {
+      // Add a new document in collection "cities"
+      await setDoc(doc(db, "cities", "LA"), {
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA"
       });
     }
 
-    return <button onClick={addCity} disabled={isPending}>Add city</button>;
+    return <button onClick={addCity}>Add city</button>;
   }
   // [END set_document]
 }
 
 function setCustomObject() {
   // [START set_custom_object]
-  const { useTransition } = require("react");
   const { doc, setDoc } = require("firebase/firestore"); 
 
   function AddCityButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function addCity() {
-      startTransition(async () => {
-        // Set with cityConverter
-        const ref = doc(db, "cities", "LA").withConverter(cityConverter);
-        await setDoc(ref, new City("Los Angeles", "CA", "USA"));
-      });
+    async function addCity() {
+      // Set with cityConverter
+      const ref = doc(db, "cities", "LA").withConverter(cityConverter);
+      await setDoc(ref, new City("Los Angeles", "CA", "USA"));
     }
 
-    return <button onClick={addCity} disabled={isPending}>Add city</button>;
+    return <button onClick={addCity}>Add city</button>;
   }
   // [END set_custom_object]
 }
@@ -400,119 +370,99 @@ function getCustomObject() {
 
 function supportBatchWrites() {
   // [START write_batch]
-  const { useTransition } = require("react");
   const { writeBatch, doc } = require("firebase/firestore"); 
 
   function CommitBatchButton() {
-    const [isPending, startTransition] = useTransition();
+    async function commitBatch() {
+      // Get a new write batch
+      const batch = writeBatch(db);
 
-    function commitBatch() {
-      startTransition(async () => {
-        // Get a new write batch
-        const batch = writeBatch(db);
+      // Set the value of 'NYC'
+      const nycRef = doc(db, "cities", "NYC");
+      batch.set(nycRef, {name: "New York City"});
 
-        // Set the value of 'NYC'
-        const nycRef = doc(db, "cities", "NYC");
-        batch.set(nycRef, {name: "New York City"});
+      // Update the population of 'SF'
+      const sfRef = doc(db, "cities", "SF");
+      batch.update(sfRef, {"population": 1000000});
 
-        // Update the population of 'SF'
-        const sfRef = doc(db, "cities", "SF");
-        batch.update(sfRef, {"population": 1000000});
+      // Delete the city 'LA'
+      const laRef = doc(db, "cities", "LA");
+      batch.delete(laRef);
 
-        // Delete the city 'LA'
-        const laRef = doc(db, "cities", "LA");
-        batch.delete(laRef);
-
-        // Commit the batch
-        await batch.commit();
-      });
+      // Commit the batch
+      await batch.commit();
     }
 
-    return <button onClick={commitBatch} disabled={isPending}>Commit batch</button>;
+    return <button onClick={commitBatch}>Commit batch</button>;
   }
   // [END write_batch]
 }
 
 function setDocumentWithEveryDatatype() {
   // [START data_types]
-  const { useTransition } = require("react");
   const { doc, setDoc, Timestamp } = require("firebase/firestore"); 
 
   function SaveDataButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function saveData() {
-      startTransition(async () => {
-        const docData = {
-          stringExample: "Hello world!",
-          booleanExample: true,
-          numberExample: 3.14159265,
-          dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
-          arrayExample: [5, true, "hello"],
-          nullExample: null,
-          objectExample: {
-            a: 5,
-            b: {
-              nested: "foo"
-            }
+    async function saveData() {
+      const docData = {
+        stringExample: "Hello world!",
+        booleanExample: true,
+        numberExample: 3.14159265,
+        dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
+        arrayExample: [5, true, "hello"],
+        nullExample: null,
+        objectExample: {
+          a: 5,
+          b: {
+            nested: "foo"
           }
-        };
-        await setDoc(doc(db, "data", "one"), docData);
-      });
+        }
+      };
+      await setDoc(doc(db, "data", "one"), docData);
     }
 
-    return <button onClick={saveData} disabled={isPending}>Save</button>;
+    return <button onClick={saveData}>Save</button>;
   }
   // [END data_types]
 }
 
 function allowSetWithMerge() {
   // [START set_with_merge]
-  const { useTransition } = require("react");
   const { doc, setDoc } = require("firebase/firestore"); 
 
   function UpdateCityButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function updateCity() {
-      startTransition(async () => {
-        const cityRef = doc(db, 'cities', 'BJ');
-        await setDoc(cityRef, { capital: true }, { merge: true });
-      });
+    async function updateCity() {
+      const cityRef = doc(db, 'cities', 'BJ');
+      await setDoc(cityRef, { capital: true }, { merge: true });
     }
 
-    return <button onClick={updateCity} disabled={isPending}>Update city</button>;
+    return <button onClick={updateCity}>Update city</button>;
   }
   // [END set_with_merge]
 }
 
 function updateDocumentNestedFields() {
   // [START update_document_nested]
-  const { useTransition } = require("react");
   const { doc, setDoc, updateDoc } = require("firebase/firestore"); 
 
   function UpdateUserButton() {
-    const [isPending, startTransition] = useTransition();
+    async function updateUser() {
+      // Create an initial document to update.
+      const frankDocRef = doc(db, "users", "frank");
+      await setDoc(frankDocRef, {
+        name: "Frank",
+        favorites: { food: "Pizza", color: "Blue", subject: "recess" },
+        age: 12
+      });
 
-    function updateUser() {
-      startTransition(async () => {
-        // Create an initial document to update.
-        const frankDocRef = doc(db, "users", "frank");
-        await setDoc(frankDocRef, {
-          name: "Frank",
-          favorites: { food: "Pizza", color: "Blue", subject: "recess" },
-          age: 12
-        });
-
-        // To update age and favorite color:
-        await updateDoc(frankDocRef, {
-          "age": 13,
-          "favorites.color": "Red"
-        });
+      // To update age and favorite color:
+      await updateDoc(frankDocRef, {
+        "age": 13,
+        "favorites.color": "Red"
       });
     }
 
-    return <button onClick={updateUser} disabled={isPending}>Update user</button>;
+    return <button onClick={updateUser}>Update user</button>;
   }
   // [END update_document_nested]
 }
@@ -565,276 +515,226 @@ function deleteCollection_wrapped() {
 
 function setDocuments() {
   // [START example_data]
-  const { useTransition } = require("react");
   const { collection, doc, setDoc } = require("firebase/firestore"); 
 
   function AddCitiesButton() {
-    const [isPending, startTransition] = useTransition();
+    async function addCities() {
+      const citiesRef = collection(db, "cities");
 
-    function addCities() {
-      startTransition(async () => {
-        const citiesRef = collection(db, "cities");
-
-        await setDoc(doc(citiesRef, "SF"), {
-            name: "San Francisco", state: "CA", country: "USA",
-            capital: false, population: 860000,
-            regions: ["west_coast", "norcal"] });
-        await setDoc(doc(citiesRef, "LA"), {
-            name: "Los Angeles", state: "CA", country: "USA",
-            capital: false, population: 3900000,
-            regions: ["west_coast", "socal"] });
-        await setDoc(doc(citiesRef, "DC"), {
-            name: "Washington, D.C.", state: null, country: "USA",
-            capital: true, population: 680000,
-            regions: ["east_coast"] });
-        await setDoc(doc(citiesRef, "TOK"), {
-            name: "Tokyo", state: null, country: "Japan",
-            capital: true, population: 9000000,
-            regions: ["kanto", "honshu"] });
-        await setDoc(doc(citiesRef, "BJ"), {
-            name: "Beijing", state: null, country: "China",
-            capital: true, population: 21500000,
-            regions: ["jingjinji", "hebei"] });
-      });
+      await setDoc(doc(citiesRef, "SF"), {
+          name: "San Francisco", state: "CA", country: "USA",
+          capital: false, population: 860000,
+          regions: ["west_coast", "norcal"] });
+      await setDoc(doc(citiesRef, "LA"), {
+          name: "Los Angeles", state: "CA", country: "USA",
+          capital: false, population: 3900000,
+          regions: ["west_coast", "socal"] });
+      await setDoc(doc(citiesRef, "DC"), {
+          name: "Washington, D.C.", state: null, country: "USA",
+          capital: true, population: 680000,
+          regions: ["east_coast"] });
+      await setDoc(doc(citiesRef, "TOK"), {
+          name: "Tokyo", state: null, country: "Japan",
+          capital: true, population: 9000000,
+          regions: ["kanto", "honshu"] });
+      await setDoc(doc(citiesRef, "BJ"), {
+          name: "Beijing", state: null, country: "China",
+          capital: true, population: 21500000,
+          regions: ["jingjinji", "hebei"] });
     }
 
-    return <button onClick={addCities} disabled={isPending}>Add cities</button>;
+    return <button onClick={addCities}>Add cities</button>;
   }
   // [END example_data]
 }
 
 function setCityDocument() {
   // [START cities_document_set]
-  const { useTransition } = require("react");
   const { doc, setDoc } = require("firebase/firestore"); 
 
   function AddCityButton({ data }) {
-    const [isPending, startTransition] = useTransition();
-
-    function addCity() {
-      startTransition(async () => {
-        await setDoc(doc(db, "cities", "new-city-id"), data);
-      });
+    async function addCity() {
+      await setDoc(doc(db, "cities", "new-city-id"), data);
     }
 
-    return <button onClick={addCity} disabled={isPending}>Add city</button>;
+    return <button onClick={addCity}>Add city</button>;
   }
   // [END cities_document_set]
 }
 
 function addDocument() {
   // [START add_document]
-  const { useTransition } = require("react");
   const { collection, addDoc } = require("firebase/firestore"); 
 
   function AddCityButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function addCity() {
-      startTransition(async () => {
-        // Add a new document with a generated id.
-        const docRef = await addDoc(collection(db, "cities"), {
-          name: "Tokyo",
-          country: "Japan"
-        });
-        console.log("Document written with ID: ", docRef.id);
+    async function addCity() {
+      // Add a new document with a generated id.
+      const docRef = await addDoc(collection(db, "cities"), {
+        name: "Tokyo",
+        country: "Japan"
       });
+      console.log("Document written with ID: ", docRef.id);
     }
 
-    return <button onClick={addCity} disabled={isPending}>Add city</button>;
+    return <button onClick={addCity}>Add city</button>;
   }
   // [END add_document]
 }
 
 function addEmptyDocument() {
   // [START new_document]
-  const { useTransition } = require("react");
   const { collection, doc, setDoc } = require("firebase/firestore"); 
 
   function AddCityButton({ data }) {
-    const [isPending, startTransition] = useTransition();
+    async function addCity() {
+      // Add a new document with a generated id
+      const newCityRef = doc(collection(db, "cities"));
 
-    function addCity() {
-      startTransition(async () => {
-        // Add a new document with a generated id
-        const newCityRef = doc(collection(db, "cities"));
-
-        // later...
-        await setDoc(newCityRef, data);
-      });
+      // later...
+      await setDoc(newCityRef, data);
     }
 
-    return <button onClick={addCity} disabled={isPending}>Add city</button>;
+    return <button onClick={addCity}>Add city</button>;
   }
   // [END new_document]
 }
 
 function updateDocument() {
   // [START update_document]
-  const { useTransition } = require("react");
   const { doc, updateDoc } = require("firebase/firestore");
 
   function UpdateCityButton() {
-    const [isPending, startTransition] = useTransition();
+    async function updateCity() {
+      const washingtonRef = doc(db, "cities", "DC");
 
-    function updateCity() {
-      startTransition(async () => {
-        const washingtonRef = doc(db, "cities", "DC");
-
-        // Set the "capital" field of the city 'DC'
-        await updateDoc(washingtonRef, {
-          capital: true
-        });
+      // Set the "capital" field of the city 'DC'
+      await updateDoc(washingtonRef, {
+        capital: true
       });
     }
 
-    return <button onClick={updateCity} disabled={isPending}>Update city</button>;
+    return <button onClick={updateCity}>Update city</button>;
   }
   // [END update_document]
 }
 
 function updateArrayField() {
   // [START update_document_array]
-  const { useTransition } = require("react");
   const { doc, updateDoc, arrayUnion, arrayRemove } = require("firebase/firestore");
 
   function UpdateRegionsButton() {
-    const [isPending, startTransition] = useTransition();
+    async function updateRegions() {
+      const washingtonRef = doc(db, "cities", "DC");
 
-    function updateRegions() {
-      startTransition(async () => {
-        const washingtonRef = doc(db, "cities", "DC");
+      // Atomically add a new region to the "regions" array field.
+      await updateDoc(washingtonRef, {
+          regions: arrayUnion("greater_virginia")
+      });
 
-        // Atomically add a new region to the "regions" array field.
-        await updateDoc(washingtonRef, {
-            regions: arrayUnion("greater_virginia")
-        });
-
-        // Atomically remove a region from the "regions" array field.
-        await updateDoc(washingtonRef, {
-            regions: arrayRemove("east_coast")
-        });
+      // Atomically remove a region from the "regions" array field.
+      await updateDoc(washingtonRef, {
+          regions: arrayRemove("east_coast")
       });
     }
 
-    return <button onClick={updateRegions} disabled={isPending}>Update regions</button>;
+    return <button onClick={updateRegions}>Update regions</button>;
   }
   // [END update_document_array]
 }
 
 function updateWithNumericTransforms() {
   // [START update_document_increment]
-  const { useTransition } = require("react");
   const { doc, updateDoc, increment } = require("firebase/firestore");
 
   function IncrementPopulationButton() {
-    const [isPending, startTransition] = useTransition();
+    async function incrementPopulation() {
+      const washingtonRef = doc(db, "cities", "DC");
 
-    function incrementPopulation() {
-      startTransition(async () => {
-        const washingtonRef = doc(db, "cities", "DC");
-
-        // Atomically increment the population of the city by 50.
-        await updateDoc(washingtonRef, {
-            population: increment(50)
-        });
+      // Atomically increment the population of the city by 50.
+      await updateDoc(washingtonRef, {
+          population: increment(50)
       });
     }
 
-    return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+    return <button onClick={incrementPopulation}>Increment population</button>;
   }
   // [END update_document_increment]
 }
 
 function deleteDocument() {
   // [START delete_document]
-  const { useTransition } = require("react");
   const { doc, deleteDoc } = require("firebase/firestore");
 
   function DeleteCityButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function deleteCity() {
-      startTransition(async () => {
-        await deleteDoc(doc(db, "cities", "DC"));
-      });
+    async function deleteCity() {
+      await deleteDoc(doc(db, "cities", "DC"));
     }
 
-    return <button onClick={deleteCity} disabled={isPending}>Delete city</button>;
+    return <button onClick={deleteCity}>Delete city</button>;
   }
   // [END delete_document]
 }
 
 function handleTransactions() {
   // [START transaction]
-  const { useTransition } = require("react");
   const { runTransaction } = require("firebase/firestore");
 
   function IncrementPopulationButton({ sfDocRef }) {
-    const [isPending, startTransition] = useTransition();
+    async function incrementPopulation() {
+      try {
+        await runTransaction(db, async (transaction) => {
+          const sfDoc = await transaction.get(sfDocRef);
+          if (!sfDoc.exists()) {
+            throw "Document does not exist!";
+          }
 
-    function incrementPopulation() {
-      startTransition(async () => {
-        try {
-          await runTransaction(db, async (transaction) => {
-            const sfDoc = await transaction.get(sfDocRef);
-            if (!sfDoc.exists()) {
-              throw "Document does not exist!";
-            }
-
-            const newPopulation = sfDoc.data().population + 1;
-            transaction.update(sfDocRef, { population: newPopulation });
-          });
-          console.log("Transaction successfully committed!");
-        } catch (e) {
-          console.log("Transaction failed: ", e);
-        }
-      });
+          const newPopulation = sfDoc.data().population + 1;
+          transaction.update(sfDocRef, { population: newPopulation });
+        });
+        console.log("Transaction successfully committed!");
+      } catch (e) {
+        console.log("Transaction failed: ", e);
+      }
     }
 
-    return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+    return <button onClick={incrementPopulation}>Increment population</button>;
   }
   // [END transaction]
 }
 
 function handleTransactionWhichBubblesOutData() {
   // [START transaction_promise]
-  const { useTransition } = require("react");
   const { doc, runTransaction } = require("firebase/firestore");
 
   function IncrementPopulationButton() {
-    const [isPending, startTransition] = useTransition();
+    async function incrementPopulation() {
+      // Create a reference to the SF doc.
+      const sfDocRef = doc(db, "cities", "SF");
 
-    function incrementPopulation() {
-      startTransition(async () => {
-        // Create a reference to the SF doc.
-        const sfDocRef = doc(db, "cities", "SF");
+      try {
+        const newPopulation = await runTransaction(db, async (transaction) => {
+          const sfDoc = await transaction.get(sfDocRef);
+          if (!sfDoc.exists()) {
+            throw "Document does not exist!";
+          }
 
-        try {
-          const newPopulation = await runTransaction(db, async (transaction) => {
-            const sfDoc = await transaction.get(sfDocRef);
-            if (!sfDoc.exists()) {
-              throw "Document does not exist!";
-            }
+          const newPop = sfDoc.data().population + 1;
+          if (newPop <= 1000000) {
+            transaction.update(sfDocRef, { population: newPop });
+            return newPop;
+          } else {
+            return Promise.reject("Sorry! Population is too big");
+          }
+        });
 
-            const newPop = sfDoc.data().population + 1;
-            if (newPop <= 1000000) {
-              transaction.update(sfDocRef, { population: newPop });
-              return newPop;
-            } else {
-              return Promise.reject("Sorry! Population is too big");
-            }
-          });
-
-          console.log("Population increased to ", newPopulation);
-        } catch (e) {
-          // This will be a "population is too big" error.
-          console.error(e);
-        }
-      });
+        console.log("Population increased to ", newPopulation);
+      } catch (e) {
+        // This will be a "population is too big" error.
+        console.error(e);
+      }
     }
 
-    return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+    return <button onClick={incrementPopulation}>Increment population</button>;
   }
   // [END transaction_promise]
 }
@@ -1179,24 +1079,19 @@ function updateWithServerTimestamp() {
   const { doc } = require("firebase/firestore");
 
   // [START update_with_server_timestamp]
-  const { useTransition } = require("react");
   const { updateDoc, serverTimestamp } = require("firebase/firestore");
 
   function UpdateTimestampButton() {
-    const [isPending, startTransition] = useTransition();
+    async function update() {
+      const docRef = doc(db, 'objects', 'some-id');
 
-    function update() {
-      startTransition(async () => {
-        const docRef = doc(db, 'objects', 'some-id');
-
-        // Update the timestamp field with the value from the server
-        const updateTimestamp = await updateDoc(docRef, {
-            timestamp: serverTimestamp()
-        });
+      // Update the timestamp field with the value from the server
+      const updateTimestamp = await updateDoc(docRef, {
+          timestamp: serverTimestamp()
       });
     }
 
-    return <button onClick={update} disabled={isPending}>Update</button>;
+    return <button onClick={update}>Update</button>;
   }
   // [END update_with_server_timestamp]
 }
@@ -1238,24 +1133,19 @@ function serverTimestampResolutionOptions() {
 
 function deleteDocumentField() {
   // [START update_delete_field]
-  const { useTransition } = require("react");
   const { doc, updateDoc, deleteField } = require("firebase/firestore");
 
   function RemoveCapitalButton() {
-    const [isPending, startTransition] = useTransition();
+    async function removeCapital() {
+      const cityRef = doc(db, 'cities', 'BJ');
 
-    function removeCapital() {
-      startTransition(async () => {
-        const cityRef = doc(db, 'cities', 'BJ');
-
-        // Remove the 'capital' field from the document
-        await updateDoc(cityRef, {
-            capital: deleteField()
-        });
+      // Remove the 'capital' field from the document
+      await updateDoc(cityRef, {
+          capital: deleteField()
       });
     }
 
-    return <button onClick={removeCapital} disabled={isPending}>Remove capital</button>;
+    return <button onClick={removeCapital}>Remove capital</button>;
   }
   // [END update_delete_field]
 }
@@ -1608,62 +1498,57 @@ function allowForThirtyOrFewerDisjunctions() {
 
 function setupExampleData() {
   // [START fs_collection_group_query_data_setup]
-  const { useTransition } = require("react");
   const { collection, addDoc } = require("firebase/firestore");  
 
   function AddLandmarksButton() {
-    const [isPending, startTransition] = useTransition();
+    async function addLandmarks() {
+      const citiesRef = collection(db, 'cities');
 
-    function addLandmarks() {
-      startTransition(async () => {
-        const citiesRef = collection(db, 'cities');
-
-        await Promise.all([
-            addDoc(collection(citiesRef, 'SF', 'landmarks'), {
-                name: 'Golden Gate Bridge',
-                type: 'bridge'
-            }),
-            addDoc(collection(citiesRef, 'SF', 'landmarks'), {
-                name: 'Legion of Honor',
-                type: 'museum'
-            }),
-            addDoc(collection(citiesRef, 'LA', 'landmarks'), {
-                name: 'Griffith Park',
-                type: 'park'
-            }),
-            addDoc(collection(citiesRef, 'LA', 'landmarks'), {
-                name: 'The Getty',
-                type: 'museum'
-            }),
-            addDoc(collection(citiesRef, 'DC', 'landmarks'), {
-                name: 'Lincoln Memorial',
-                type: 'memorial'
-            }),
-            addDoc(collection(citiesRef, 'DC', 'landmarks'), {
-                name: 'National Air and Space Museum',
-                type: 'museum'
-            }),
-            addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
-                name: 'Ueno Park',
-                type: 'park'
-            }),
-            addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
-                name: 'National Museum of Nature and Science',
-                type: 'museum'
-            }),
-            addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
-                name: 'Jingshan Park',
-                type: 'park'
-            }),
-            addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
-                name: 'Beijing Ancient Observatory',
-                type: 'museum'
-            })
-        ]);
-      });
+      await Promise.all([
+          addDoc(collection(citiesRef, 'SF', 'landmarks'), {
+              name: 'Golden Gate Bridge',
+              type: 'bridge'
+          }),
+          addDoc(collection(citiesRef, 'SF', 'landmarks'), {
+              name: 'Legion of Honor',
+              type: 'museum'
+          }),
+          addDoc(collection(citiesRef, 'LA', 'landmarks'), {
+              name: 'Griffith Park',
+              type: 'park'
+          }),
+          addDoc(collection(citiesRef, 'LA', 'landmarks'), {
+              name: 'The Getty',
+              type: 'museum'
+          }),
+          addDoc(collection(citiesRef, 'DC', 'landmarks'), {
+              name: 'Lincoln Memorial',
+              type: 'memorial'
+          }),
+          addDoc(collection(citiesRef, 'DC', 'landmarks'), {
+              name: 'National Air and Space Museum',
+              type: 'museum'
+          }),
+          addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
+              name: 'Ueno Park',
+              type: 'park'
+          }),
+          addDoc(collection(citiesRef, 'TOK', 'landmarks'), {
+              name: 'National Museum of Nature and Science',
+              type: 'museum'
+          }),
+          addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
+              name: 'Jingshan Park',
+              type: 'park'
+          }),
+          addDoc(collection(citiesRef, 'BJ', 'landmarks'), {
+              name: 'Beijing Ancient Observatory',
+              type: 'museum'
+          })
+      ]);
     }
 
-    return <button onClick={addLandmarks} disabled={isPending}>Add landmarks</button>;
+    return <button onClick={addLandmarks}>Add landmarks</button>;
   }
   // [END fs_collection_group_query_data_setup]
 }
@@ -1744,42 +1629,37 @@ function fetchCountOfDocumentsInQuery() {
 
 function updateRestaurantInTransaction() {
   // [START add_rating_transaction]
-  const { useTransition } = require("react");
   const { collection, doc, runTransaction } = require("firebase/firestore");  
 
   function AddRatingButton({ restaurantRef, rating }) {
-    const [isPending, startTransition] = useTransition();
+    async function addRating() {
+      // Create a reference for a new rating, for use inside the transaction
+      const ratingRef = doc(collection(restaurantRef, 'ratings'));
 
-    function addRating() {
-      startTransition(async () => {
-        // Create a reference for a new rating, for use inside the transaction
-        const ratingRef = doc(collection(restaurantRef, 'ratings'));
+      // In a transaction, add the new rating and update the aggregate totals
+      await runTransaction(db, async (transaction) => {
+        const res = await transaction.get(restaurantRef);
+        if (!res.exists()) {
+          throw "Document does not exist!";
+        }
 
-        // In a transaction, add the new rating and update the aggregate totals
-        await runTransaction(db, async (transaction) => {
-          const res = await transaction.get(restaurantRef);
-          if (!res.exists()) {
-            throw "Document does not exist!";
-          }
+        // Compute new number of ratings
+        const newNumRatings = res.data().numRatings + 1;
 
-          // Compute new number of ratings
-          const newNumRatings = res.data().numRatings + 1;
+        // Compute new average rating
+        const oldRatingTotal = res.data().avgRating * res.data().numRatings;
+        const newAvgRating = (oldRatingTotal + rating) / newNumRatings;
 
-          // Compute new average rating
-          const oldRatingTotal = res.data().avgRating * res.data().numRatings;
-          const newAvgRating = (oldRatingTotal + rating) / newNumRatings;
-
-          // Commit to Firestore
-          transaction.update(restaurantRef, {
-            numRatings: newNumRatings,
-            avgRating: newAvgRating
-          });
-          transaction.set(ratingRef, { rating: rating });
+        // Commit to Firestore
+        transaction.update(restaurantRef, {
+          numRatings: newNumRatings,
+          avgRating: newAvgRating
         });
+        transaction.set(ratingRef, { rating: rating });
       });
     }
 
-    return <button onClick={addRating} disabled={isPending}>Add rating</button>;
+    return <button onClick={addRating}>Add rating</button>;
   }
   // [END add_rating_transaction]
 }

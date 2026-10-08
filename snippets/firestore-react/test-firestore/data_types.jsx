@@ -5,32 +5,27 @@
 // 'npm run snippets'.
 
 // [START data_types_react]
-import { useTransition } from "react";
 import { doc, setDoc, Timestamp } from "firebase/firestore"; 
 
 function SaveDataButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function saveData() {
-    startTransition(async () => {
-      const docData = {
-        stringExample: "Hello world!",
-        booleanExample: true,
-        numberExample: 3.14159265,
-        dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
-        arrayExample: [5, true, "hello"],
-        nullExample: null,
-        objectExample: {
-          a: 5,
-          b: {
-            nested: "foo"
-          }
+  async function saveData() {
+    const docData = {
+      stringExample: "Hello world!",
+      booleanExample: true,
+      numberExample: 3.14159265,
+      dateExample: Timestamp.fromDate(new Date("December 10, 1815")),
+      arrayExample: [5, true, "hello"],
+      nullExample: null,
+      objectExample: {
+        a: 5,
+        b: {
+          nested: "foo"
         }
-      };
-      await setDoc(doc(db, "data", "one"), docData);
-    });
+      }
+    };
+    await setDoc(doc(db, "data", "one"), docData);
   }
 
-  return <button onClick={saveData} disabled={isPending}>Save</button>;
+  return <button onClick={saveData}>Save</button>;
 }
 // [END data_types_react]

@@ -5,19 +5,14 @@
 // 'npm run snippets'.
 
 // [START auth_oidc_signin_redirect_react]
-import { useTransition } from "react";
 import { getAuth, signInWithRedirect } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      await signInWithRedirect(auth, provider);
-    });
+  async function signIn() {
+    const auth = getAuth();
+    await signInWithRedirect(auth, provider);
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with OIDC</button>;
+  return <button onClick={signIn}>Sign in with OIDC</button>;
 }
 // [END auth_oidc_signin_redirect_react]

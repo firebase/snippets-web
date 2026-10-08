@@ -5,41 +5,36 @@
 // 'npm run snippets'.
 
 // [START add_rating_transaction_react]
-import { useTransition } from "react";
 import { collection, doc, runTransaction } from "firebase/firestore";  
 
 function AddRatingButton({ restaurantRef, rating }) {
-  const [isPending, startTransition] = useTransition();
+  async function addRating() {
+    // Create a reference for a new rating, for use inside the transaction
+    const ratingRef = doc(collection(restaurantRef, 'ratings'));
 
-  function addRating() {
-    startTransition(async () => {
-      // Create a reference for a new rating, for use inside the transaction
-      const ratingRef = doc(collection(restaurantRef, 'ratings'));
+    // In a transaction, add the new rating and update the aggregate totals
+    await runTransaction(db, async (transaction) => {
+      const res = await transaction.get(restaurantRef);
+      if (!res.exists()) {
+        throw "Document does not exist!";
+      }
 
-      // In a transaction, add the new rating and update the aggregate totals
-      await runTransaction(db, async (transaction) => {
-        const res = await transaction.get(restaurantRef);
-        if (!res.exists()) {
-          throw "Document does not exist!";
-        }
+      // Compute new number of ratings
+      const newNumRatings = res.data().numRatings + 1;
 
-        // Compute new number of ratings
-        const newNumRatings = res.data().numRatings + 1;
+      // Compute new average rating
+      const oldRatingTotal = res.data().avgRating * res.data().numRatings;
+      const newAvgRating = (oldRatingTotal + rating) / newNumRatings;
 
-        // Compute new average rating
-        const oldRatingTotal = res.data().avgRating * res.data().numRatings;
-        const newAvgRating = (oldRatingTotal + rating) / newNumRatings;
-
-        // Commit to Firestore
-        transaction.update(restaurantRef, {
-          numRatings: newNumRatings,
-          avgRating: newAvgRating
-        });
-        transaction.set(ratingRef, { rating: rating });
+      // Commit to Firestore
+      transaction.update(restaurantRef, {
+        numRatings: newNumRatings,
+        avgRating: newAvgRating
       });
+      transaction.set(ratingRef, { rating: rating });
     });
   }
 
-  return <button onClick={addRating} disabled={isPending}>Add rating</button>;
+  return <button onClick={addRating}>Add rating</button>;
 }
 // [END add_rating_transaction_react]

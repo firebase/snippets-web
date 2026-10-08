@@ -5,19 +5,15 @@
 // 'npm run snippets'.
 
 // [START multitenant_account_exists_redirect_react]
-import { useEffect, useTransition } from "react";
+import { useEffect } from "react";
 import { signInWithRedirect, getRedirectResult, fetchSignInMethodsForEmail, linkWithCredential } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      // Step 1.
-      // User tries to sign in to SAML provider.
-      auth.tenantId = 'TENANT_ID';
-      await signInWithRedirect(auth, samlProvider);
-    });
+  async function signIn() {
+    // Step 1.
+    // User tries to sign in to SAML provider.
+    auth.tenantId = 'TENANT_ID';
+    await signInWithRedirect(auth, samlProvider);
   }
 
   useEffect(() => {
@@ -61,6 +57,6 @@ function SignInButton() {
     });
   }, []);
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+  return <button onClick={signIn}>Sign in with SAML</button>;
 }
 // [END multitenant_account_exists_redirect_react]

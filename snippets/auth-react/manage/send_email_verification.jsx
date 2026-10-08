@@ -5,27 +5,22 @@
 // 'npm run snippets'.
 
 // [START send_email_verification_react]
-import { useTransition } from "react";
 import { getAuth, sendEmailVerification } from "firebase/auth";
 
 function VerifyEmailButton() {
-  const [isPending, startTransition] = useTransition();
+  async function sendVerificationEmail() {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-  function sendVerificationEmail() {
-    startTransition(async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      try {
-        await sendEmailVerification(user);
-        // Email sent.
-      } catch (error) {
-        // An error ocurred
-        // ...
-      }
-    });
+    try {
+      await sendEmailVerification(user);
+      // Email sent.
+    } catch (error) {
+      // An error ocurred
+      // ...
+    }
   }
 
-  return <button onClick={sendVerificationEmail} disabled={isPending}>Verify email</button>;
+  return <button onClick={sendVerificationEmail}>Verify email</button>;
 }
 // [END send_email_verification_react]

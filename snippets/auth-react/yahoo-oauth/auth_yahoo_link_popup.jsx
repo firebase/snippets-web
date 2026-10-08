@@ -5,31 +5,26 @@
 // 'npm run snippets'.
 
 // [START auth_yahoo_link_popup_react]
-import { useTransition } from "react";
 import { getAuth, linkWithPopup, OAuthProvider } from "firebase/auth";
 
 function LinkButton() {
-  const [isPending, startTransition] = useTransition();
+  async function link() {
+    const provider = new OAuthProvider('yahoo.com');
+    const auth = getAuth();
+    try {
+      const result = await linkWithPopup(auth.currentUser, provider);
+      // Yahoo credential is linked to the current user.
+      // IdP data available in result.additionalUserInfo.profile.
 
-  function link() {
-    startTransition(async () => {
-      const provider = new OAuthProvider('yahoo.com');
-      const auth = getAuth();
-      try {
-        const result = await linkWithPopup(auth.currentUser, provider);
-        // Yahoo credential is linked to the current user.
-        // IdP data available in result.additionalUserInfo.profile.
-
-        // Get the OAuth access token and ID Token
-        const credential = OAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        const idToken = credential.idToken;
-      } catch (error) {
-        // Handle error.
-      }
-    });
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+    } catch (error) {
+      // Handle error.
+    }
   }
 
-  return <button onClick={link} disabled={isPending}>Link Yahoo</button>;
+  return <button onClick={link}>Link Yahoo</button>;
 }
 // [END auth_yahoo_link_popup_react]

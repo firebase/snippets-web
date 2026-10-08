@@ -5,47 +5,42 @@
 // 'npm run snippets'.
 
 // [START auth_apple_reauthenticate_popup_react]
-import { useTransition } from "react";
 import { getAuth, reauthenticateWithPopup, OAuthProvider } from "firebase/auth";
 
 function ReauthenticateButton() {
-  const [isPending, startTransition] = useTransition();
+  async function reauthenticate() {
+    // Result from Redirect auth flow.
+    const auth = getAuth();
+    const provider = new OAuthProvider('apple.com');
 
-  function reauthenticate() {
-    startTransition(async () => {
-      // Result from Redirect auth flow.
-      const auth = getAuth();
-      const provider = new OAuthProvider('apple.com');
+    try {
+      const result = await reauthenticateWithPopup(auth.currentUser, provider);
+      // User is re-authenticated with fresh tokens minted and can perform
+      // sensitive operations like account deletion, or updating their email
+      // address or password.
 
-      try {
-        const result = await reauthenticateWithPopup(auth.currentUser, provider);
-        // User is re-authenticated with fresh tokens minted and can perform
-        // sensitive operations like account deletion, or updating their email
-        // address or password.
+      // The signed-in user info.
+      const user = result.user;
 
-        // The signed-in user info.
-        const user = result.user;
+      // You can also get the Apple OAuth Access and ID Tokens.
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
 
-        // You can also get the Apple OAuth Access and ID Tokens.
-        const credential = OAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        const idToken = credential.idToken;
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The credential that was used.
+      const credential = OAuthProvider.credentialFromError(error);
 
-        // ...
-      } catch (error) {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The credential that was used.
-        const credential = OAuthProvider.credentialFromError(error);
-
-        // ...
-      }
-    });
+      // ...
+    }
   }
 
-  return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate with Apple</button>;
+  return <button onClick={reauthenticate}>Reauthenticate with Apple</button>;
 }
 // [END auth_apple_reauthenticate_popup_react]

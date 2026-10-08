@@ -115,51 +115,40 @@ function register() {
 
 function requestPermission() {
   // [START messaging_request_permission]
-  const { useTransition } = require("react");
-
   function NotificationPermissionButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function requestPermission() {
-      startTransition(async () => {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-          console.log('Notification permission granted.');
-          // TODO(developer): Retrieve a registration token for use with FCM.
-          // ...
-        } else {
-          console.log('Unable to get permission to notify.');
-        }
-      });
+    async function requestPermission() {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+        // TODO(developer): Retrieve a registration token for use with FCM.
+        // ...
+      } else {
+        console.log('Unable to get permission to notify.');
+      }
     }
 
-    return <button onClick={requestPermission} disabled={isPending}>Enable notifications</button>;
+    return <button onClick={requestPermission}>Enable notifications</button>;
   }
   // [END messaging_request_permission]
 }
 
 function deleteToken() {
   // [START messaging_delete_token]
-  const { useTransition } = require("react");
   const { getMessaging, deleteToken } = require("firebase/messaging");
 
   function DeleteTokenButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function deleteRegistrationToken() {
-      startTransition(async () => {
-        const messaging = getMessaging();
-        try {
-          await deleteToken(messaging);
-          console.log('Token deleted.');
-          // ...
-        } catch (err) {
-          console.log('Unable to delete token. ', err);
-        }
-      });
+    async function deleteRegistrationToken() {
+      const messaging = getMessaging();
+      try {
+        await deleteToken(messaging);
+        console.log('Token deleted.');
+        // ...
+      } catch (err) {
+        console.log('Unable to delete token. ', err);
+      }
     }
 
-    return <button onClick={deleteRegistrationToken} disabled={isPending}>Delete token</button>;
+    return <button onClick={deleteRegistrationToken}>Delete token</button>;
   }
   // [END messaging_delete_token]
 }

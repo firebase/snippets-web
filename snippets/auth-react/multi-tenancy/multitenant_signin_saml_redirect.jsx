@@ -5,20 +5,16 @@
 // 'npm run snippets'.
 
 // [START multitenant_signin_saml_redirect_react]
-import { useEffect, useTransition } from "react";
+import { useEffect } from "react";
 import { signInWithRedirect, getRedirectResult } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    // Switch to TENANT_ID1.
+    auth.tenantId = 'TENANT_ID1';
 
-  function signIn() {
-    startTransition(async () => {
-      // Switch to TENANT_ID1.
-      auth.tenantId = 'TENANT_ID1';
-
-      // Sign-in with redirect.
-      await signInWithRedirect(auth, provider);
-    });
+    // Sign-in with redirect.
+    await signInWithRedirect(auth, provider);
   }
 
   // After the user completes sign-in and returns to the app, you can get
@@ -38,6 +34,6 @@ function SignInButton() {
       });
   }, []);
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with SAML</button>;
+  return <button onClick={signIn}>Sign in with SAML</button>;
 }
 // [END multitenant_signin_saml_redirect_react]

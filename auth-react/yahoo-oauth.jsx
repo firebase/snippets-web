@@ -31,51 +31,41 @@ function yahooProvider() {
 
 function yahooSignInPopup(provider) {
   // [START auth_yahoo_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // IdP data available in result.additionalUserInfo.profile
+        // ...
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // IdP data available in result.additionalUserInfo.profile
-          // ...
-
-          // Yahoo OAuth access token and ID token can be retrieved by calling:
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Yahoo OAuth access token and ID token can be retrieved by calling:
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Yahoo</button>;
+    return <button onClick={signIn}>Sign in with Yahoo</button>;
   }
   // [END auth_yahoo_signin_popup]
 }
 
 function yahooSignInRedirect(provider) {
   // [START auth_yahoo_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Yahoo</button>;
+    return <button onClick={signIn}>Sign in with Yahoo</button>;
   }
   // [END auth_yahoo_signin_redirect]
 }
@@ -113,66 +103,56 @@ function yahooSigninRedirectResult() {
 
 function yahooLinkPopup() {
   // [START auth_yahoo_link_popup]
-  const { useTransition } = require("react");
   const { getAuth, linkWithPopup, OAuthProvider } = require("firebase/auth");
 
   function LinkButton() {
-    const [isPending, startTransition] = useTransition();
+    async function link() {
+      const provider = new OAuthProvider('yahoo.com');
+      const auth = getAuth();
+      try {
+        const result = await linkWithPopup(auth.currentUser, provider);
+        // Yahoo credential is linked to the current user.
+        // IdP data available in result.additionalUserInfo.profile.
 
-    function link() {
-      startTransition(async () => {
-        const provider = new OAuthProvider('yahoo.com');
-        const auth = getAuth();
-        try {
-          const result = await linkWithPopup(auth.currentUser, provider);
-          // Yahoo credential is linked to the current user.
-          // IdP data available in result.additionalUserInfo.profile.
-
-          // Get the OAuth access token and ID Token
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={link} disabled={isPending}>Link Yahoo</button>;
+    return <button onClick={link}>Link Yahoo</button>;
   }
   // [END auth_yahoo_link_popup]
 }
 
 function yahooReauthPopup() {
   // [START auth_yahoo_reauth_popup]
-  const { useTransition } = require("react");
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   function ReauthenticateButton() {
-    const [isPending, startTransition] = useTransition();
+    async function reauthenticate() {
+      const provider = new OAuthProvider('yahoo.com');
+      const auth = getAuth();
+      try {
+        const result = await reauthenticateWithPopup(auth.currentUser, provider);
+        // User is re-authenticated with fresh tokens minted and
+        // should be able to perform sensitive operations like account
+        // deletion and email or password update.
+        // IdP data available in result.additionalUserInfo.profile.
 
-    function reauthenticate() {
-      startTransition(async () => {
-        const provider = new OAuthProvider('yahoo.com');
-        const auth = getAuth();
-        try {
-          const result = await reauthenticateWithPopup(auth.currentUser, provider);
-          // User is re-authenticated with fresh tokens minted and
-          // should be able to perform sensitive operations like account
-          // deletion and email or password update.
-          // IdP data available in result.additionalUserInfo.profile.
-
-          // Get the OAuth access token and ID Token
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // Get the OAuth access token and ID Token
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate with Yahoo</button>;
+    return <button onClick={reauthenticate}>Reauthenticate with Yahoo</button>;
   }
   // [END auth_yahoo_reauth_popup]
 }

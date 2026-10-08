@@ -109,28 +109,23 @@ function updateUserEmail() {
 
 function sendEmailVerification() {
   // [START send_email_verification]
-  const { useTransition } = require("react");
   const { getAuth, sendEmailVerification } = require("firebase/auth");
 
   function VerifyEmailButton() {
-    const [isPending, startTransition] = useTransition();
+    async function sendVerificationEmail() {
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-    function sendVerificationEmail() {
-      startTransition(async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        try {
-          await sendEmailVerification(user);
-          // Email sent.
-        } catch (error) {
-          // An error ocurred
-          // ...
-        }
-      });
+      try {
+        await sendEmailVerification(user);
+        // Email sent.
+      } catch (error) {
+        // An error ocurred
+        // ...
+      }
     }
 
-    return <button onClick={sendVerificationEmail} disabled={isPending}>Verify email</button>;
+    return <button onClick={sendVerificationEmail}>Verify email</button>;
   }
   // [END send_email_verification]
 }
@@ -202,28 +197,23 @@ function sendPasswordReset() {
 
 function deleteUser() {
   // [START auth_delete_user]
-  const { useTransition } = require("react");
   const { getAuth, deleteUser } = require("firebase/auth");
 
   function DeleteUserButton() {
-    const [isPending, startTransition] = useTransition();
+    async function deleteAccount() {
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-    function deleteAccount() {
-      startTransition(async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        try {
-          await deleteUser(user);
-          // User deleted.
-        } catch (error) {
-          // An error ocurred
-          // ...
-        }
-      });
+      try {
+        await deleteUser(user);
+        // User deleted.
+      } catch (error) {
+        // An error ocurred
+        // ...
+      }
     }
 
-    return <button onClick={deleteAccount} disabled={isPending}>Delete</button>;
+    return <button onClick={deleteAccount}>Delete</button>;
   }
   // [END auth_delete_user]
 }
@@ -237,31 +227,26 @@ function reauthenticateWithCredential() {
   }
 
   // [START auth_reauth_with_credential]
-  const { useTransition } = require("react");
   const { getAuth, reauthenticateWithCredential } = require("firebase/auth");
 
   function ReauthenticateButton() {
-    const [isPending, startTransition] = useTransition();
+    async function reauthenticate() {
+      const auth = getAuth();
+      const user = auth.currentUser;
 
-    function reauthenticate() {
-      startTransition(async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
+      // TODO(you): prompt the user to re-provide their sign-in credentials
+      const credential = promptForCredentials();
 
-        // TODO(you): prompt the user to re-provide their sign-in credentials
-        const credential = promptForCredentials();
-
-        try {
-          await reauthenticateWithCredential(user, credential);
-          // User re-authenticated.
-        } catch (error) {
-          // An error ocurred
-          // ...
-        }
-      });
+      try {
+        await reauthenticateWithCredential(user, credential);
+        // User re-authenticated.
+      } catch (error) {
+        // An error ocurred
+        // ...
+      }
     }
 
-    return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate</button>;
+    return <button onClick={reauthenticate}>Reauthenticate</button>;
   }
   // [END auth_reauth_with_credential]
 }

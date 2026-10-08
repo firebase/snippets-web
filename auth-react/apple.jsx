@@ -26,62 +26,52 @@ function appleProvider() {
 
 function appleSignInPopup(provider) {
   // [START auth_apple_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, OAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // The signed-in user info.
+        const user = result.user;
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // The signed-in user info.
-          const user = result.user;
+        // Apple credential
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
 
-          // Apple credential
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The credential that was used.
+        const credential = OAuthProvider.credentialFromError(error);
 
-          // IdP data available using getAdditionalUserInfo(result)
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The credential that was used.
-          const credential = OAuthProvider.credentialFromError(error);
-
-          // ...
-        }
-      });
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Apple</button>;
+    return <button onClick={signIn}>Sign in with Apple</button>;
   }
   // [END auth_apple_signin_popup]
 }
 
 function appleSignInRedirect(provider) {
   // [START auth_apple_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Apple</button>;
+    return <button onClick={signIn}>Sign in with Apple</button>;
   }
   // [END auth_apple_signin_redirect]
 }
@@ -129,81 +119,71 @@ function appleSignInRedirectResult() {
 
 function appleReauthenticatePopup() {
   // [START auth_apple_reauthenticate_popup]
-  const { useTransition } = require("react");
   const { getAuth, reauthenticateWithPopup, OAuthProvider } = require("firebase/auth");
 
   function ReauthenticateButton() {
-    const [isPending, startTransition] = useTransition();
+    async function reauthenticate() {
+      // Result from Redirect auth flow.
+      const auth = getAuth();
+      const provider = new OAuthProvider('apple.com');
 
-    function reauthenticate() {
-      startTransition(async () => {
-        // Result from Redirect auth flow.
-        const auth = getAuth();
-        const provider = new OAuthProvider('apple.com');
+      try {
+        const result = await reauthenticateWithPopup(auth.currentUser, provider);
+        // User is re-authenticated with fresh tokens minted and can perform
+        // sensitive operations like account deletion, or updating their email
+        // address or password.
 
-        try {
-          const result = await reauthenticateWithPopup(auth.currentUser, provider);
-          // User is re-authenticated with fresh tokens minted and can perform
-          // sensitive operations like account deletion, or updating their email
-          // address or password.
+        // The signed-in user info.
+        const user = result.user;
 
-          // The signed-in user info.
-          const user = result.user;
+        // You can also get the Apple OAuth Access and ID Tokens.
+        const credential = OAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
 
-          // You can also get the Apple OAuth Access and ID Tokens.
-          const credential = OAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
-          const idToken = credential.idToken;
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The credential that was used.
+        const credential = OAuthProvider.credentialFromError(error);
 
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The credential that was used.
-          const credential = OAuthProvider.credentialFromError(error);
-
-          // ...
-        }
-      });
+        // ...
+      }
     }
 
-    return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate with Apple</button>;
+    return <button onClick={reauthenticate}>Reauthenticate with Apple</button>;
   }
   // [END auth_apple_reauthenticate_popup]
 }
 
 function appleLinkFacebook() {
   // [START auth_apple_link_facebook]
-  const { useTransition } = require("react");
   const { getAuth, linkWithPopup, FacebookAuthProvider } = require("firebase/auth");
 
   function LinkButton() {
-    const [isPending, startTransition] = useTransition();
+    async function link() {
+      const auth = getAuth();
+      const provider = new FacebookAuthProvider();
+      provider.addScope('user_birthday');
 
-    function link() {
-      startTransition(async () => {
-        const auth = getAuth();
-        const provider = new FacebookAuthProvider();
-        provider.addScope('user_birthday');
+      // Assuming the current user is an Apple user linking a Facebook provider.
+      try {
+        await linkWithPopup(auth.currentUser, provider);
+        // Facebook credential is linked to the current Apple user.
+        // ...
 
-        // Assuming the current user is an Apple user linking a Facebook provider.
-        try {
-          await linkWithPopup(auth.currentUser, provider);
-          // Facebook credential is linked to the current Apple user.
-          // ...
-
-          // The user can now sign in to the same account
-          // with either Apple or Facebook.
-        } catch (error) {
-          // Handle error.
-        }
-      });
+        // The user can now sign in to the same account
+        // with either Apple or Facebook.
+      } catch (error) {
+        // Handle error.
+      }
     }
 
-    return <button onClick={link} disabled={isPending}>Link Facebook</button>;
+    return <button onClick={link}>Link Facebook</button>;
   }
   // [END auth_apple_link_facebook]
 }

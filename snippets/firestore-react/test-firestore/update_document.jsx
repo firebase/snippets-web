@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START update_document_react]
-import { useTransition } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 
 function UpdateCityButton() {
-  const [isPending, startTransition] = useTransition();
+  async function updateCity() {
+    const washingtonRef = doc(db, "cities", "DC");
 
-  function updateCity() {
-    startTransition(async () => {
-      const washingtonRef = doc(db, "cities", "DC");
-
-      // Set the "capital" field of the city 'DC'
-      await updateDoc(washingtonRef, {
-        capital: true
-      });
+    // Set the "capital" field of the city 'DC'
+    await updateDoc(washingtonRef, {
+      capital: true
     });
   }
 
-  return <button onClick={updateCity} disabled={isPending}>Update city</button>;
+  return <button onClick={updateCity}>Update city</button>;
 }
 // [END update_document_react]

@@ -5,41 +5,36 @@
 // 'npm run snippets'.
 
 // [START auth_apple_signin_popup_react]
-import { useTransition } from "react";
 import { getAuth, signInWithPopup, OAuthProvider } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
+  async function signIn() {
+    const auth = getAuth();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      // The signed-in user info.
+      const user = result.user;
 
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        const result = await signInWithPopup(auth, provider);
-        // The signed-in user info.
-        const user = result.user;
+      // Apple credential
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
 
-        // Apple credential
-        const credential = OAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        const idToken = credential.idToken;
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The credential that was used.
+      const credential = OAuthProvider.credentialFromError(error);
 
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      } catch (error) {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The credential that was used.
-        const credential = OAuthProvider.credentialFromError(error);
-
-        // ...
-      }
-    });
+      // ...
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in with Apple</button>;
+  return <button onClick={signIn}>Sign in with Apple</button>;
 }
 // [END auth_apple_signin_popup_react]

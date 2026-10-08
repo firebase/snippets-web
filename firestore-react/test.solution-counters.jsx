@@ -15,55 +15,45 @@ const db = getFirestore(app);
 
 function createCounter_wrapped() {
     // [START create_counter]
-    const { useTransition } = require("react");
     const { doc, writeBatch } = require("firebase/firestore");
 
     function CreateCounterButton({ counterRef, num_shards }) {
-        const [isPending, startTransition] = useTransition();
+        async function createCounter() {
+            const batch = writeBatch(db);
 
-        function createCounter() {
-            startTransition(async () => {
-                const batch = writeBatch(db);
+            // Initialize the counter document
+            batch.set(counterRef, { num_shards: num_shards });
 
-                // Initialize the counter document
-                batch.set(counterRef, { num_shards: num_shards });
+            // Initialize each shard with count=0
+            for (let i = 0; i < num_shards; i++) {
+                const shardRef = doc(counterRef, 'shards', i.toString());
+                batch.set(shardRef, { count: 0 });
+            }
 
-                // Initialize each shard with count=0
-                for (let i = 0; i < num_shards; i++) {
-                    const shardRef = doc(counterRef, 'shards', i.toString());
-                    batch.set(shardRef, { count: 0 });
-                }
-
-                // Commit the write batch
-                await batch.commit();
-            });
+            // Commit the write batch
+            await batch.commit();
         }
 
-        return <button onClick={createCounter} disabled={isPending}>Create counter</button>;
+        return <button onClick={createCounter}>Create counter</button>;
     }
     // [END create_counter]
 }
 
 function incrementCounter_wrapped() {
     // [START increment_counter]
-    const { useTransition } = require("react");
     const { doc, updateDoc, increment } = require("firebase/firestore");
 
     function IncrementCounterButton({ counterRef, num_shards }) {
-        const [isPending, startTransition] = useTransition();
+        async function incrementCounter() {
+            // Select a shard of the counter at random
+            const shardId = Math.floor(Math.random() * num_shards).toString();
+            const shardRef = doc(counterRef, 'shards', shardId);
 
-        function incrementCounter() {
-            startTransition(async () => {
-                // Select a shard of the counter at random
-                const shardId = Math.floor(Math.random() * num_shards).toString();
-                const shardRef = doc(counterRef, 'shards', shardId);
-
-                // Update count
-                await updateDoc(shardRef, "count", increment(1));
-            });
+            // Update count
+            await updateDoc(shardRef, "count", increment(1));
         }
 
-        return <button onClick={incrementCounter} disabled={isPending}>Increment</button>;
+        return <button onClick={incrementCounter}>Increment</button>;
     }
     // [END increment_counter]
 }

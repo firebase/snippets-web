@@ -5,41 +5,36 @@
 // 'npm run snippets'.
 
 // [START transaction_promise_react]
-import { useTransition } from "react";
 import { doc, runTransaction } from "firebase/firestore";
 
 function IncrementPopulationButton() {
-  const [isPending, startTransition] = useTransition();
+  async function incrementPopulation() {
+    // Create a reference to the SF doc.
+    const sfDocRef = doc(db, "cities", "SF");
 
-  function incrementPopulation() {
-    startTransition(async () => {
-      // Create a reference to the SF doc.
-      const sfDocRef = doc(db, "cities", "SF");
+    try {
+      const newPopulation = await runTransaction(db, async (transaction) => {
+        const sfDoc = await transaction.get(sfDocRef);
+        if (!sfDoc.exists()) {
+          throw "Document does not exist!";
+        }
 
-      try {
-        const newPopulation = await runTransaction(db, async (transaction) => {
-          const sfDoc = await transaction.get(sfDocRef);
-          if (!sfDoc.exists()) {
-            throw "Document does not exist!";
-          }
+        const newPop = sfDoc.data().population + 1;
+        if (newPop <= 1000000) {
+          transaction.update(sfDocRef, { population: newPop });
+          return newPop;
+        } else {
+          return Promise.reject("Sorry! Population is too big");
+        }
+      });
 
-          const newPop = sfDoc.data().population + 1;
-          if (newPop <= 1000000) {
-            transaction.update(sfDocRef, { population: newPop });
-            return newPop;
-          } else {
-            return Promise.reject("Sorry! Population is too big");
-          }
-        });
-
-        console.log("Population increased to ", newPopulation);
-      } catch (e) {
-        // This will be a "population is too big" error.
-        console.error(e);
-      }
-    });
+      console.log("Population increased to ", newPopulation);
+    } catch (e) {
+      // This will be a "population is too big" error.
+      console.error(e);
+    }
   }
 
-  return <button onClick={incrementPopulation} disabled={isPending}>Increment population</button>;
+  return <button onClick={incrementPopulation}>Increment population</button>;
 }
 // [END transaction_promise_react]

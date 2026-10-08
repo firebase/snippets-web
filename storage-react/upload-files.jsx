@@ -55,64 +55,54 @@ function uploadBlob() {
 
 function uploadBytes() {
   // [START storage_upload_bytes]
-  const { useTransition } = require("react");
   const { getStorage, ref, uploadBytes } = require("firebase/storage");
 
   function UploadBytesButton() {
-    const [isPending, startTransition] = useTransition();
+    async function uploadArray() {
+      const storage = getStorage();
+      const storageRef = ref(storage, 'some-child');
 
-    function uploadArray() {
-      startTransition(async () => {
-        const storage = getStorage();
-        const storageRef = ref(storage, 'some-child');
-
-        const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
-        await uploadBytes(storageRef, bytes);
-        console.log('Uploaded an array!');
-      });
+      const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+      await uploadBytes(storageRef, bytes);
+      console.log('Uploaded an array!');
     }
 
-    return <button onClick={uploadArray} disabled={isPending}>Upload</button>;
+    return <button onClick={uploadArray}>Upload</button>;
   }
   // [END storage_upload_bytes]
 }
 
 function uploadString() {
   // [START storage_upload_string]
-  const { useTransition } = require("react");
   const { getStorage, ref, uploadString } = require("firebase/storage");
 
   function UploadStringButton() {
-    const [isPending, startTransition] = useTransition();
+    async function uploadStrings() {
+      const storage = getStorage();
+      const storageRef = ref(storage, 'some-child');
 
-    function uploadStrings() {
-      startTransition(async () => {
-        const storage = getStorage();
-        const storageRef = ref(storage, 'some-child');
+      // Raw string is the default if no format is provided
+      const message = 'This is my message.';
+      await uploadString(storageRef, message);
+      console.log('Uploaded a raw string!');
 
-        // Raw string is the default if no format is provided
-        const message = 'This is my message.';
-        await uploadString(storageRef, message);
-        console.log('Uploaded a raw string!');
+      // Base64 formatted string
+      const message2 = '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+      await uploadString(storageRef, message2, 'base64');
+      console.log('Uploaded a base64 string!');
 
-        // Base64 formatted string
-        const message2 = '5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
-        await uploadString(storageRef, message2, 'base64');
-        console.log('Uploaded a base64 string!');
+      // Base64url formatted string
+      const message3 = '5b6p5Y-344GX44G-44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+      await uploadString(storageRef, message3, 'base64url');
+      console.log('Uploaded a base64url string!');
 
-        // Base64url formatted string
-        const message3 = '5b6p5Y-344GX44G-44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
-        await uploadString(storageRef, message3, 'base64url');
-        console.log('Uploaded a base64url string!');
-
-        // Data URL string
-        const message4 = 'data:text/plain;base64,5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
-        await uploadString(storageRef, message4, 'data_url');
-        console.log('Uploaded a data_url string!');
-      });
+      // Data URL string
+      const message4 = 'data:text/plain;base64,5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB';
+      await uploadString(storageRef, message4, 'data_url');
+      console.log('Uploaded a data_url string!');
     }
 
-    return <button onClick={uploadStrings} disabled={isPending}>Upload</button>;
+    return <button onClick={uploadStrings}>Upload</button>;
   }
   // [END storage_upload_string]
 }

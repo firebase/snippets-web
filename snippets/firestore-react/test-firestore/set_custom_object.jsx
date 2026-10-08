@@ -5,20 +5,15 @@
 // 'npm run snippets'.
 
 // [START set_custom_object_react]
-import { useTransition } from "react";
 import { doc, setDoc } from "firebase/firestore"; 
 
 function AddCityButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function addCity() {
-    startTransition(async () => {
-      // Set with cityConverter
-      const ref = doc(db, "cities", "LA").withConverter(cityConverter);
-      await setDoc(ref, new City("Los Angeles", "CA", "USA"));
-    });
+  async function addCity() {
+    // Set with cityConverter
+    const ref = doc(db, "cities", "LA").withConverter(cityConverter);
+    await setDoc(ref, new City("Los Angeles", "CA", "USA"));
   }
 
-  return <button onClick={addCity} disabled={isPending}>Add city</button>;
+  return <button onClick={addCity}>Add city</button>;
 }
 // [END set_custom_object_react]

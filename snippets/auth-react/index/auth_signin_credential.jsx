@@ -5,31 +5,26 @@
 // 'npm run snippets'.
 
 // [START auth_signin_credential_react]
-import { useTransition } from "react";
 import { getAuth, signInWithCredential } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      // Sign in with the credential from the user.
-      const auth = getAuth();
-      try {
-        const result = await signInWithCredential(auth, credential);
-        // Signed in
-        // ...
-      } catch (error) {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // ...
-      }
-    });
+  async function signIn() {
+    // Sign in with the credential from the user.
+    const auth = getAuth();
+    try {
+      const result = await signInWithCredential(auth, credential);
+      // Signed in
+      // ...
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // ...
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+  return <button onClick={signIn}>Sign in</button>;
 }
 // [END auth_signin_credential_react]

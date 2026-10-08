@@ -5,18 +5,13 @@
 // 'npm run snippets'.
 
 // [START cities_document_set_react]
-import { useTransition } from "react";
 import { doc, setDoc } from "firebase/firestore"; 
 
 function AddCityButton({ data }) {
-  const [isPending, startTransition] = useTransition();
-
-  function addCity() {
-    startTransition(async () => {
-      await setDoc(doc(db, "cities", "new-city-id"), data);
-    });
+  async function addCity() {
+    await setDoc(doc(db, "cities", "new-city-id"), data);
   }
 
-  return <button onClick={addCity} disabled={isPending}>Add city</button>;
+  return <button onClick={addCity}>Add city</button>;
 }
 // [END cities_document_set_react]

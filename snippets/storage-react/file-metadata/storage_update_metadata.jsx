@@ -5,34 +5,29 @@
 // 'npm run snippets'.
 
 // [START storage_update_metadata_react]
-import { useTransition } from "react";
 import { getStorage, ref, updateMetadata } from "firebase/storage";
 
 function UpdateMetadataButton() {
-  const [isPending, startTransition] = useTransition();
+  async function updateFileMetadata() {
+    // Create a reference to the file whose metadata we want to change
+    const storage = getStorage();
+    const forestRef = ref(storage, 'images/forest.jpg');
 
-  function updateFileMetadata() {
-    startTransition(async () => {
-      // Create a reference to the file whose metadata we want to change
-      const storage = getStorage();
-      const forestRef = ref(storage, 'images/forest.jpg');
+    // Create file metadata to update
+    const newMetadata = {
+      cacheControl: 'public,max-age=300',
+      contentType: 'image/jpeg'
+    };
 
-      // Create file metadata to update
-      const newMetadata = {
-        cacheControl: 'public,max-age=300',
-        contentType: 'image/jpeg'
-      };
-
-      // Update metadata properties
-      try {
-        const metadata = await updateMetadata(forestRef, newMetadata);
-        // Updated metadata for 'images/forest.jpg' is returned in the Promise
-      } catch (error) {
-        // Uh-oh, an error occurred!
-      }
-    });
+    // Update metadata properties
+    try {
+      const metadata = await updateMetadata(forestRef, newMetadata);
+      // Updated metadata for 'images/forest.jpg' is returned in the Promise
+    } catch (error) {
+      // Uh-oh, an error occurred!
+    }
   }
 
-  return <button onClick={updateFileMetadata} disabled={isPending}>Update metadata</button>;
+  return <button onClick={updateFileMetadata}>Update metadata</button>;
 }
 // [END storage_update_metadata_react]

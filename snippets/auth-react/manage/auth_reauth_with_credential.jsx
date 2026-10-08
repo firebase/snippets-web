@@ -5,30 +5,25 @@
 // 'npm run snippets'.
 
 // [START auth_reauth_with_credential_react]
-import { useTransition } from "react";
 import { getAuth, reauthenticateWithCredential } from "firebase/auth";
 
 function ReauthenticateButton() {
-  const [isPending, startTransition] = useTransition();
+  async function reauthenticate() {
+    const auth = getAuth();
+    const user = auth.currentUser;
 
-  function reauthenticate() {
-    startTransition(async () => {
-      const auth = getAuth();
-      const user = auth.currentUser;
+    // TODO(you): prompt the user to re-provide their sign-in credentials
+    const credential = promptForCredentials();
 
-      // TODO(you): prompt the user to re-provide their sign-in credentials
-      const credential = promptForCredentials();
-
-      try {
-        await reauthenticateWithCredential(user, credential);
-        // User re-authenticated.
-      } catch (error) {
-        // An error ocurred
-        // ...
-      }
-    });
+    try {
+      await reauthenticateWithCredential(user, credential);
+      // User re-authenticated.
+    } catch (error) {
+      // An error ocurred
+      // ...
+    }
   }
 
-  return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate</button>;
+  return <button onClick={reauthenticate}>Reauthenticate</button>;
 }
 // [END auth_reauth_with_credential_react]

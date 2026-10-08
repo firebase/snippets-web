@@ -5,19 +5,14 @@
 // 'npm run snippets'.
 
 // [START set_with_merge_react]
-import { useTransition } from "react";
 import { doc, setDoc } from "firebase/firestore"; 
 
 function UpdateCityButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function updateCity() {
-    startTransition(async () => {
-      const cityRef = doc(db, 'cities', 'BJ');
-      await setDoc(cityRef, { capital: true }, { merge: true });
-    });
+  async function updateCity() {
+    const cityRef = doc(db, 'cities', 'BJ');
+    await setDoc(cityRef, { capital: true }, { merge: true });
   }
 
-  return <button onClick={updateCity} disabled={isPending}>Update city</button>;
+  return <button onClick={updateCity}>Update city</button>;
 }
 // [END set_with_merge_react]

@@ -5,27 +5,22 @@
 // 'npm run snippets'.
 
 // [START add_ada_lovelace_react]
-import { useTransition } from "react";
 import { collection, addDoc } from "firebase/firestore"; 
 
 function AddUserButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function addUser() {
-    startTransition(async () => {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    });
+  async function addUser() {
+    try {
+      const docRef = await addDoc(collection(db, "users"), {
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }
 
-  return <button onClick={addUser} disabled={isPending}>Add user</button>;
+  return <button onClick={addUser}>Add user</button>;
 }
 // [END add_ada_lovelace_react]

@@ -5,19 +5,14 @@
 // 'npm run snippets'.
 
 // [START auth_signin_redirect_react]
-import { useTransition } from "react";
 import { getAuth, signInWithRedirect } from "firebase/auth";
 
 function SignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      await signInWithRedirect(auth, provider);
-    });
+  async function signIn() {
+    const auth = getAuth();
+    await signInWithRedirect(auth, provider);
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+  return <button onClick={signIn}>Sign in</button>;
 }
 // [END auth_signin_redirect_react]

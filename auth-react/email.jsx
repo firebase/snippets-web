@@ -73,22 +73,17 @@ function signUpWithEmailPassword() {
 
 function sendEmailVerification() {
   // [START auth_send_email_verification]
-  const { useTransition } = require("react");
   const { getAuth, sendEmailVerification } = require("firebase/auth");
 
   function VerifyEmailButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function sendVerificationEmail() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await sendEmailVerification(auth.currentUser);
-        // Email verification sent!
-        // ...
-      });
+    async function sendVerificationEmail() {
+      const auth = getAuth();
+      await sendEmailVerification(auth.currentUser);
+      // Email verification sent!
+      // ...
     }
 
-    return <button onClick={sendVerificationEmail} disabled={isPending}>Verify email</button>;
+    return <button onClick={sendVerificationEmail}>Verify email</button>;
   }
   // [END auth_send_email_verification]
 }

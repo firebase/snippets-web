@@ -5,26 +5,21 @@
 // 'npm run snippets'.
 
 // [START auth_anon_sign_in_react]
-import { useTransition } from "react";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 function AnonymousSignInButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function signIn() {
-    startTransition(async () => {
-      const auth = getAuth();
-      try {
-        await signInAnonymously(auth);
-        // Signed in..
-      } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-      }
-    });
+  async function signIn() {
+    const auth = getAuth();
+    try {
+      await signInAnonymously(auth);
+      // Signed in..
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ...
+    }
   }
 
-  return <button onClick={signIn} disabled={isPending}>Sign in anonymously</button>;
+  return <button onClick={signIn}>Sign in anonymously</button>;
 }
 // [END auth_anon_sign_in_react]

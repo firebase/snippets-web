@@ -5,33 +5,28 @@
 // 'npm run snippets'.
 
 // [START auth_msft_reauth_popup_react]
-import { useTransition } from "react";
 import { getAuth, reauthenticateWithPopup, OAuthProvider } from "firebase/auth";
 
 function ReauthenticateButton() {
-  const [isPending, startTransition] = useTransition();
+  async function reauthenticate() {
+    const provider = new OAuthProvider('microsoft.com');
+    const auth = getAuth();
+    try {
+      const result = await reauthenticateWithPopup(auth.currentUser, provider);
+      // User is re-authenticated with fresh tokens minted and
+      // should be able to perform sensitive operations like account
+      // deletion and email or password update.
+      // IdP data available in result.additionalUserInfo.profile.
 
-  function reauthenticate() {
-    startTransition(async () => {
-      const provider = new OAuthProvider('microsoft.com');
-      const auth = getAuth();
-      try {
-        const result = await reauthenticateWithPopup(auth.currentUser, provider);
-        // User is re-authenticated with fresh tokens minted and
-        // should be able to perform sensitive operations like account
-        // deletion and email or password update.
-        // IdP data available in result.additionalUserInfo.profile.
-
-        // Get the OAuth access token and ID Token
-        const credential = OAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        const idToken = credential.idToken;
-      } catch (error) {
-        // Handle error.
-      }
-    });
+      // Get the OAuth access token and ID Token
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+    } catch (error) {
+      // Handle error.
+    }
   }
 
-  return <button onClick={reauthenticate} disabled={isPending}>Reauthenticate with Microsoft</button>;
+  return <button onClick={reauthenticate}>Reauthenticate with Microsoft</button>;
 }
 // [END auth_msft_reauth_popup_react]

@@ -5,18 +5,13 @@
 // 'npm run snippets'.
 
 // [START delete_document_react]
-import { useTransition } from "react";
 import { doc, deleteDoc } from "firebase/firestore";
 
 function DeleteCityButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function deleteCity() {
-    startTransition(async () => {
-      await deleteDoc(doc(db, "cities", "DC"));
-    });
+  async function deleteCity() {
+    await deleteDoc(doc(db, "cities", "DC"));
   }
 
-  return <button onClick={deleteCity} disabled={isPending}>Delete city</button>;
+  return <button onClick={deleteCity}>Delete city</button>;
 }
 // [END delete_document_react]

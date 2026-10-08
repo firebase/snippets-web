@@ -5,25 +5,20 @@
 // 'npm run snippets'.
 
 // [START messaging_delete_token_react]
-import { useTransition } from "react";
 import { getMessaging, deleteToken } from "firebase/messaging";
 
 function DeleteTokenButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function deleteRegistrationToken() {
-    startTransition(async () => {
-      const messaging = getMessaging();
-      try {
-        await deleteToken(messaging);
-        console.log('Token deleted.');
-        // ...
-      } catch (err) {
-        console.log('Unable to delete token. ', err);
-      }
-    });
+  async function deleteRegistrationToken() {
+    const messaging = getMessaging();
+    try {
+      await deleteToken(messaging);
+      console.log('Token deleted.');
+      // ...
+    } catch (err) {
+      console.log('Unable to delete token. ', err);
+    }
   }
 
-  return <button onClick={deleteRegistrationToken} disabled={isPending}>Delete token</button>;
+  return <button onClick={deleteRegistrationToken}>Delete token</button>;
 }
 // [END messaging_delete_token_react]

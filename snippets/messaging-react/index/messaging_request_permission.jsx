@@ -5,24 +5,18 @@
 // 'npm run snippets'.
 
 // [START messaging_request_permission_react]
-import { useTransition } from "react";
-
 function NotificationPermissionButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function requestPermission() {
-    startTransition(async () => {
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        console.log('Notification permission granted.');
-        // TODO(developer): Retrieve a registration token for use with FCM.
-        // ...
-      } else {
-        console.log('Unable to get permission to notify.');
-      }
-    });
+  async function requestPermission() {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      // TODO(developer): Retrieve a registration token for use with FCM.
+      // ...
+    } else {
+      console.log('Unable to get permission to notify.');
+    }
   }
 
-  return <button onClick={requestPermission} disabled={isPending}>Enable notifications</button>;
+  return <button onClick={requestPermission}>Enable notifications</button>;
 }
 // [END messaging_request_permission_react]

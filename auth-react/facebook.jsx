@@ -22,41 +22,36 @@ function facebookProvider() {
 
 function facebookSignInPopup(provider) {
   // [START auth_facebook_signin_popup]
-  const { useTransition } = require("react");
   const { getAuth, signInWithPopup, FacebookAuthProvider } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
+    async function signIn() {
+      const auth = getAuth();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        // The signed-in user info.
+        const user = result.user;
 
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          const result = await signInWithPopup(auth, provider);
-          // The signed-in user info.
-          const user = result.user;
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
 
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          const credential = FacebookAuthProvider.credentialFromResult(result);
-          const accessToken = credential.accessToken;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
 
-          // IdP data available using getAdditionalUserInfo(result)
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = FacebookAuthProvider.credentialFromError(error);
-
-          // ...
-        }
-      });
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in with Facebook</button>;
+    return <button onClick={signIn}>Sign in with Facebook</button>;
   }
   // [END auth_facebook_signin_popup]
 }

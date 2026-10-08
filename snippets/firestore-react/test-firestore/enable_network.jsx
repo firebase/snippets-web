@@ -5,19 +5,14 @@
 // 'npm run snippets'.
 
 // [START enable_network_react]
-import { useTransition } from "react";
 import { enableNetwork } from "firebase/firestore"; 
 
 function EnableNetworkButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function goOnline() {
-    startTransition(async () => {
-      await enableNetwork(db);
-      // Do online actions
-    });
+  async function goOnline() {
+    await enableNetwork(db);
+    // Do online actions
   }
 
-  return <button onClick={goOnline} disabled={isPending}>Go online</button>;
+  return <button onClick={goOnline}>Go online</button>;
 }
 // [END enable_network_react]

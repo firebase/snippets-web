@@ -34,25 +34,20 @@ function makeEmailCredential(email, password) {
 
 function signOut() {
   // [START auth_sign_out]
-  const { useTransition } = require("react");
   const { getAuth, signOut } = require("firebase/auth");
 
   function SignOutButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function handleSignOut() {
-      startTransition(async () => {
-        const auth = getAuth();
-        try {
-          await signOut(auth);
-          // Sign-out successful.
-        } catch (error) {
-          // An error happened.
-        }
-      });
+    async function handleSignOut() {
+      const auth = getAuth();
+      try {
+        await signOut(auth);
+        // Sign-out successful.
+      } catch (error) {
+        // An error happened.
+      }
     }
 
-    return <button onClick={handleSignOut} disabled={isPending}>Sign out</button>;
+    return <button onClick={handleSignOut}>Sign out</button>;
   }
   // [END auth_sign_out]
 }
@@ -116,52 +111,42 @@ function setLanguageCode() {
 
 function authWithCredential(credential) {
   // [START auth_signin_credential]
-  const { useTransition } = require("react");
   const { getAuth, signInWithCredential } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        // Sign in with the credential from the user.
-        const auth = getAuth();
-        try {
-          const result = await signInWithCredential(auth, credential);
-          // Signed in
-          // ...
-        } catch (error) {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // ...
-        }
-      });
+    async function signIn() {
+      // Sign in with the credential from the user.
+      const auth = getAuth();
+      try {
+        const result = await signInWithCredential(auth, credential);
+        // Signed in
+        // ...
+      } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // ...
+      }
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+    return <button onClick={signIn}>Sign in</button>;
   }
   // [END auth_signin_credential]
 }
 
 function signInRedirect(provider) {
   // [START auth_signin_redirect]
-  const { useTransition } = require("react");
   const { getAuth, signInWithRedirect } = require("firebase/auth");
 
   function SignInButton() {
-    const [isPending, startTransition] = useTransition();
-
-    function signIn() {
-      startTransition(async () => {
-        const auth = getAuth();
-        await signInWithRedirect(auth, provider);
-      });
+    async function signIn() {
+      const auth = getAuth();
+      await signInWithRedirect(auth, provider);
     }
 
-    return <button onClick={signIn} disabled={isPending}>Sign in</button>;
+    return <button onClick={signIn}>Sign in</button>;
   }
   // [END auth_signin_redirect]
 }

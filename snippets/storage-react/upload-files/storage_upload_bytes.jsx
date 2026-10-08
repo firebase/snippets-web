@@ -5,23 +5,18 @@
 // 'npm run snippets'.
 
 // [START storage_upload_bytes_react]
-import { useTransition } from "react";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 function UploadBytesButton() {
-  const [isPending, startTransition] = useTransition();
+  async function uploadArray() {
+    const storage = getStorage();
+    const storageRef = ref(storage, 'some-child');
 
-  function uploadArray() {
-    startTransition(async () => {
-      const storage = getStorage();
-      const storageRef = ref(storage, 'some-child');
-
-      const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
-      await uploadBytes(storageRef, bytes);
-      console.log('Uploaded an array!');
-    });
+    const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+    await uploadBytes(storageRef, bytes);
+    console.log('Uploaded an array!');
   }
 
-  return <button onClick={uploadArray} disabled={isPending}>Upload</button>;
+  return <button onClick={uploadArray}>Upload</button>;
 }
 // [END storage_upload_bytes_react]

@@ -5,22 +5,17 @@
 // 'npm run snippets'.
 
 // [START auth_link_with_redirect_react]
-import { useTransition } from "react";
 import { getAuth, linkWithRedirect, GoogleAuthProvider } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
 function LinkGoogleButton() {
-  const [isPending, startTransition] = useTransition();
-
-  function link() {
-    startTransition(async () => {
-      const auth = getAuth();
-      await linkWithRedirect(auth.currentUser, provider)
-        .then(/* ... */)
-        .catch(/* ... */);
-    });
+  async function link() {
+    const auth = getAuth();
+    await linkWithRedirect(auth.currentUser, provider)
+      .then(/* ... */)
+      .catch(/* ... */);
   }
 
-  return <button onClick={link} disabled={isPending}>Link Google</button>;
+  return <button onClick={link}>Link Google</button>;
 }
 // [END auth_link_with_redirect_react]
