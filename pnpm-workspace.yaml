@@ -1,0 +1,26 @@
+packages:
+  - '*'
+  - '!snippets'
+
+minimumReleaseAge: 4320
+minimumReleaseAgeExclude:
+  - firebase
+  - '@firebase/*'
+
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
+  - '@types/*'
+  - '@firebase/*'
+
+peerDependencyRules:
+  allowedVersions:
+    firebaseui>firebase: '^13.0.0'
+
+onlyBuiltDependencies:
+  - '@firebase/util'
+  - protobufjs
+
+allowBuilds:
+  '@firebase/util': true
+  protobufjs: true

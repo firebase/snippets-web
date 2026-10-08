@@ -4,10 +4,10 @@
   "type": "module",
   "scripts": {
     "snippets": "rimraf snippets && node scripts/separate-snippets.ts",
-    "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
-    "format": "npm run lint -- --fix",
-    "bootstrap": "NPM_CONFIG_USERCONFIG=$(pwd)/.npmrc find . -type f -name package.json -not -path '*/node_modules/*' -exec bash -c 'cd $(dirname {}) && npm install' \\;",
-    "compile": "bash scripts/compile.sh"
+    "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs pnpm exec eslint",
+    "format": "pnpm run lint --fix",
+    "bootstrap": "pnpm install",
+    "compile": "pnpm -r --filter './*' --workspace-concurrency=4 run compile"
   },
   "license": "Apache-2.0",
   "devDependencies": {

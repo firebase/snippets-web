@@ -17,29 +17,36 @@ jobs:
           - 24.x
     steps:
       - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache npm
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Cache pnpm
         uses: actions/cache@v4
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: |
-          npm install
-          npm run bootstrap
+        run: pnpm run bootstrap
 
       - name: Lint snippets
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Compile snippets
-        run: npm run compile
+        run: pnpm run compile
 
       - name: Check generated snippets
         run: |
-          npm run snippets
+          pnpm run snippets
           ./scripts/checkdirty.sh
-      
