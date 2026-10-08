@@ -1,6 +1,7 @@
 
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default defineConfig([
   js.configs.recommended,
@@ -13,4 +14,11 @@ export default defineConfig([
       "no-useless-assignment": "off"
 		},
 	},
+  {
+    files: ["**/*.jsx"],
+    languageOptions: {
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+    extends: [reactHooks.configs.flat.recommended],
+  },
 ]);

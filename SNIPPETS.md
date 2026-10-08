@@ -24,3 +24,6 @@ but you can override this with a commment:
 ```js	
 // [SNIPPETS_SUFFIX _banana]	
 ```
+
+Source files may be `.js` or `.jsx`. Generated snippets keep the source
+extension. The `*-react` directories use `// [SNIPPETS_SUFFIX _react]`.
