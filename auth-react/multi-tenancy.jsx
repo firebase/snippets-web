@@ -460,7 +460,7 @@ function accountExistsRedirectTenant(auth, samlProvider, googleProvider, goToApp
     }
 
     useEffect(() => {
-      var pendingCred;
+      let pendingCred;
       // Redirect back from SAML IDP. auth.tenantId is null after redirecting.
       getRedirectResult(auth).catch((error) => {
         if (error.code === 'auth/account-exists-with-different-credential') {
