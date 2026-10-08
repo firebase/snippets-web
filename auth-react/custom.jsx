@@ -4,33 +4,29 @@
 
 function signInCustom() {
   // [START auth_sign_in_custom]
-  const { useActionState } = require("react");
+  const { useTransition } = require("react");
   const { getAuth, signInWithCustomToken } = require("firebase/auth");
 
-  function CustomTokenSignInForm() {
-    const [error, signIn, isPending] = useActionState(async (previousError, formData) => {
-      const auth = getAuth();
-      try {
-        const userCredential = await signInWithCustomToken(auth, formData.get("token"));
-        // Signed in
-        const user = userCredential.user;
-        // ...
-        return null;
-      } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-        return errorMessage;
-      }
-    }, null);
+  function CustomTokenSignInButton({ token }) {
+    const [isPending, startTransition] = useTransition();
 
-    return (
-      <form action={signIn}>
-        <input name="token" />
-        <button type="submit" disabled={isPending}>Sign in</button>
-        {error ? <p>{error}</p> : null}
-      </form>
-    );
+    function signIn() {
+      startTransition(async () => {
+        const auth = getAuth();
+        try {
+          const userCredential = await signInWithCustomToken(auth, token);
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        } catch (error) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ...
+        }
+      });
+    }
+
+    return <button onClick={signIn} disabled={isPending}>Sign in</button>;
   }
   // [END auth_sign_in_custom]
 }
