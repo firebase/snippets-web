@@ -192,42 +192,33 @@ function socialCompletionCallback() {
 
 function toggleStar_wrapped() {
   // [START rtdb_social_star_transaction]
-  const { useOptimistic, startTransition } = require("react");
   const { getDatabase, ref, runTransaction } = require("firebase/database");
 
   function StarButton({ uid, starred }) {
-    const [optimisticStarred, setOptimisticStarred] = useOptimistic(starred);
+    async function toggleStar() {
+      const db = getDatabase();
+      const postRef = ref(db, '/posts/foo-bar-123');
 
-    function toggleStar() {
-      startTransition(async () => {
-        // Show the new state right away. When the transaction settles, React
-        // returns to the `starred` prop, which your listener has updated by then.
-        setOptimisticStarred(!optimisticStarred);
-
-        const db = getDatabase();
-        const postRef = ref(db, '/posts/foo-bar-123');
-
-        await runTransaction(postRef, (post) => {
-          if (post) {
-            if (post.stars && post.stars[uid]) {
-              post.starCount--;
-              post.stars[uid] = null;
-            } else {
-              post.starCount++;
-              if (!post.stars) {
-                post.stars = {};
-              }
-              post.stars[uid] = true;
+      await runTransaction(postRef, (post) => {
+        if (post) {
+          if (post.stars && post.stars[uid]) {
+            post.starCount--;
+            post.stars[uid] = null;
+          } else {
+            post.starCount++;
+            if (!post.stars) {
+              post.stars = {};
             }
+            post.stars[uid] = true;
           }
-          return post;
-        });
+        }
+        return post;
       });
     }
 
     return (
       <button onClick={toggleStar}>
-        {optimisticStarred ? 'Unstar' : 'Star'}
+        {starred ? 'Unstar' : 'Star'}
       </button>
     );
   }
