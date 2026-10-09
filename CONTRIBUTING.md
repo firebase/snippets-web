@@ -97,6 +97,11 @@ Before you submit your pull request consider the following guidelines:
      ```
 
 * Create your patch, **including appropriate test cases**.
+* Each `*-next` snippet must have a twin in the matching `*-react` directory:
+  same file name (`.jsx`), same `[START tag]` names. Write the React version as
+  a small component that calls the same Firebase APIs, subscribing in
+  `useEffect` and acting in `useActionState` or `useTransition`.
+  `pnpm run check-parity` enforces the pairing.
 * Follow our [Coding Rules](#rules).
 * Commit your changes using a descriptive commit message.
 

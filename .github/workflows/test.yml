@@ -35,6 +35,9 @@ jobs:
       - name: Compile snippets
         run: pnpm run compile
 
+      - name: Check React/modular snippet parity
+        run: pnpm run check-parity
+
       - name: Check generated snippets
         run: |
           pnpm run snippets
