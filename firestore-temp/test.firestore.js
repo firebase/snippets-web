@@ -28,12 +28,12 @@ describe("firestore-pipelines", () => {
         variable,
         documentMatches,
         score,
-        matches,
-        snippet,
         geoDistance,
         exists,
         not,
-        currentTimestamp
+        currentTimestamp,
+        subcollection,
+        stringConcat
     } = require("@google-cloud/firestore/pipelines");
 
     let app;
@@ -2209,7 +2209,7 @@ describe("firestore-pipelines", () => {
       // [START search_score_field]
       await db.pipeline().collection('restaurants')
         .search({
-          query: field('menu').matches('waffles'),
+          query: 'menu:waffles',
           addFields: [
               score().as('score'),
           ]
@@ -2398,5 +2398,524 @@ describe("firestore-pipelines", () => {
         .execute();
       // [END geospatial_search]
       console.log(result);
+    }
+
+    async function pipelineJoinExamples() {
+      // [START pipeline_join_test_data]
+      // Load set of cities.
+      const cities = db.collection("cities");
+
+      await cities.doc("SF").set({
+        name: "San Francisco",
+        state: "CA",
+        country: "USA",
+      });
+      await cities.doc("LA").set({
+        name: "Los Angeles",
+        state: "CA",
+        country: "USA"
+      });
+      await cities.doc("DC").set({
+        name: "Washington, D.C.",
+        state: null,
+        country: "USA"
+      });
+      await cities.doc("TOK").set({
+        name: "Tokyo",
+        state: null,
+        country: "Japan"
+      });
+
+      // Load restaurants in various cities.
+      const sfRestaurants = db.collection("cities/SF/restaurants");
+      const laRestaurants = db.collection("cities/LA/restaurants");
+      const dcRestaurants = db.collection("cities/DC/restaurants");
+
+      const rest1 = await sfRestaurants.add({
+        name: "Golden Gate Pizza",
+        type: "pizza",
+        owner_id: "Mario Rossi"
+      });
+      const rest2 = await sfRestaurants.add({
+        name: "Bay Area Burger",
+        type: "burger",
+        owner_id: "Sarah Jenkins"
+      });
+      const rest3 = await sfRestaurants.add({
+        name: "Sunset Taco",
+        type: "mexican",
+        owner_id: "Edward"
+      });
+
+      const rest4 = await laRestaurants.add({
+        name: "Hollywood Sushi",
+        type: "sushi",
+        owner_id: "Ken Kenji"
+      });
+      const rest5 = await laRestaurants.add({
+        name: "Venice Pizza",
+        type: "pizza",
+        owner_id: "Luigi Romano"
+      });
+
+      const rest6 = await dcRestaurants.add({
+        name: "Capitol Tacos",
+        type: "mexican",
+        owner_id: "Maria Garcia"
+      });
+      const rest7 = await dcRestaurants.add({
+        name: "Georgetown Coffee",
+        type: "cafe",
+        owner_id: "David Kim"
+      });
+
+      // Load collection of reviews.
+      const reviews = db.collection("reviews");
+
+      await reviews.add({ restaurant: rest1, rating: 5, reviewer_id: "Alice" });
+      await reviews.add({ restaurant: rest1, rating: 4, reviewer_id: "Bob" });
+      await reviews.add({ restaurant: rest2, rating: 4, reviewer_id: "Charlie" });
+      await reviews.add({ restaurant: rest3, rating: 5, reviewer_id: "Diana" });
+      await reviews.add({ restaurant: rest3, rating: 4, reviewer_id: "Edward" });
+      await reviews.add({ restaurant: rest3, rating: 4, reviewer_id: "Fiona" });
+      // rest4 has 0 reviews
+      await reviews.add({ restaurant: rest5, rating: 3, reviewer_id: "George" });
+      await reviews.add({ restaurant: rest6, rating: 5, reviewer_id: "Hannah" });
+      await reviews.add({ restaurant: rest6, rating: 4, reviewer_id: "Ian" });
+      await reviews.add({ restaurant: rest7, rating: 5, reviewer_id: "Julia" });
+      // [END pipeline_join_test_data]
+
+      // [START pipeline_join_lookup]
+      const lookupResults = await db.pipeline()
+        .collectionGroup("reviews")
+        .define(field("restaurant").as("restaurant_name"))
+        .addFields(db.pipeline()
+          .collectionGroup("restaurants")
+          .where(field("__name__").equal(variable("restaurant_name")))
+          .select("name", "type")
+          .toScalarExpression()
+          .as("restaurant"))
+        .execute();
+      // [END pipeline_join_lookup]
+      console.log(lookupResults);
+
+      // [START pipeline_join_array]
+      const arrayResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .where(field("type").equal("pizza"))
+        .define(field("__name__").as("restaurant_name"))
+        .select(
+          field("name"),
+          db.pipeline()
+            .collectionGroup("reviews")
+            .where(field("restaurant").equal(variable("restaurant_name")))
+            .select("rating", "reviewer_id")
+            .toArrayExpression()
+            .as("reviews"))
+        .execute();
+      // [END pipeline_join_array]
+      console.log(arrayResults);
+
+      // [START pipeline_join_aggregate]
+      const aggregateResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .where(field("type").equal("pizza"))
+        .define(field("__name__").as("restaurant_name"))
+        .select(
+          field("name"),
+          db.pipeline()
+            .collectionGroup("reviews")
+            .where(field("restaurant").equal(variable("restaurant_name")))
+            .aggregate(average("rating").as("avg_rating"))
+            .toScalarExpression()
+            .as("avg_rating"))
+        .execute();
+      // [END pipeline_join_aggregate]
+      console.log(aggregateResults);
+
+      // [START pipeline_join_limit]
+      const limitResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .define(field("__name__").as("restaurant_name"))
+        .select(
+          field("name"),
+          db.pipeline()
+            .collectionGroup("reviews")
+            .where(field("restaurant").equal(variable("restaurant_name")))
+            .sort(field("rating").descending())
+            .limit(2)
+            .select("rating", "reviewer_id")
+            .toArrayExpression()
+            .as("top_reviews"))
+        .execute();
+      // [END pipeline_join_limit]
+      console.log(limitResults);
+
+      // [START pipeline_join_subcollection]
+      const subcollectionResults = await db.pipeline()
+        .collection("cities")
+        .addFields(subcollection("restaurants")
+          .toArrayExpression()
+          .length()
+          .as("restaurant_count"))
+        .execute();
+      // [END pipeline_join_subcollection]
+      console.log(subcollectionResults);
+
+      // [START pipeline_join_multi_field]
+      const multiFieldResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .define(field("owner_id").as("owner_id"), field("__name__").as("__name__"))
+        .where(db.pipeline()
+          .collectionGroup("reviews")
+          .where(field("restaurant").equal(variable("__name__")))
+          .where(field("reviewer_id").equal(variable("owner_id")))
+          .aggregate(countAll().as("c"))
+          .toScalarExpression()
+          .greaterThan(0))
+        .execute();
+      // [END pipeline_join_multi_field]
+      console.log(multiFieldResults);
+
+      // [START pipeline_join_anti]
+      const antiResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .define(field("__name__").as("restaurant_name"))
+        .where(db.pipeline()
+          .collectionGroup("reviews")
+          .where(field("restaurant").equal(variable("restaurant_name")))
+          .aggregate(countAll().as("review_count"))
+          .toScalarExpression()
+          .equal(0))
+        .execute();
+      // [END pipeline_join_anti]
+      console.log(antiResults);
+
+      // [START pipeline_join_unnest]
+      const unnestResults = await db.pipeline()
+        .collectionGroup("restaurants")
+        .where(field("type").equal("pizza"))
+        .define(field("__name__").as("restaurant_name"))
+        .unnest(
+          db.pipeline()
+            .collectionGroup("reviews")
+            .where(field("restaurant").equal(variable("restaurant_name")))
+            .select("rating", "reviewer_id")
+            .toArrayExpression()
+            .as("review"))
+        .execute();
+      // [END pipeline_join_unnest]
+      console.log(unnestResults);
+
+      // [START pipeline_join_uncorrelated]
+      const uncorrelatedResults = await db.pipeline()
+        .collection("reviews")
+        // Average review rating is 4.3
+        .where(field("rating").greaterThan(db.pipeline()
+          .collection("reviews")
+          .aggregate(average("rating").as("avg"))
+          .toScalarExpression()))
+        .select("rating", "reviewer_id")
+        .execute();
+      // [END pipeline_join_uncorrelated]
+      console.log(uncorrelatedResults);
+    }
+
+    async function literalsExamples() {
+      // [START literals_example]
+      const results = await db.pipeline()
+        .literals([
+          { name: "joe", age: 10 },
+          { name: "bob", age: 30 },
+          { name: "alice", age: 40 }
+        ])
+        .where(field("age").lessThan(35))
+        .execute();
+      // [END literals_example]
+      console.log(results);
+
+      // [START literals_expressions]
+      const exprResults = await db.pipeline()
+        .literals([
+          { x: constant("foo-bar-baz").length() },
+          { x: constant("bar").length() }
+        ])
+        .execute();
+      // [END literals_expressions]
+      console.log(exprResults);
+    }
+
+    async function deleteFullCollectionExample() {
+      // [START delete_full_collection]
+      await db.pipeline()
+        .collection("/users")
+        .delete()
+        .execute();
+      // [END delete_full_collection]
+    }
+
+    async function dmlCommonExamples() {
+      // [START dml_transaction]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .where(field("active").equal(false))
+          .addFields(constant("inactive").as("status"))
+          .update();
+
+        await transaction.execute(pipeline);
+      });
+      // [END dml_transaction]
+
+      // [START dml_atomic_option]
+      await db.pipeline()
+        .collection("users")
+        .where(field("active").equal(false))
+        .addFields(constant("inactive").as("status"))
+        .update()
+        .execute({ atomic: true });
+      // [END dml_atomic_option]
+    }
+
+    async function insertExamples() {
+      // [START insert_static_documents]
+      await db.pipeline()
+        .literals([
+          { id: "user1", name: "Alice", age: 30 },
+          { id: "user2", name: "Bob", age: 25 }
+        ])
+        .insert({
+          collection: "users",
+          documentIdExpression: field("id")
+        })
+        .execute();
+      // [END insert_static_documents]
+
+      // [START insert_evaluated_doc_id]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .distinct(field("name"))
+          .insert({
+            collection: "new_users",
+            documentIdExpression: stringConcat(constant("new_"), field("name"))
+          });
+
+        await transaction.execute(pipeline);
+      });
+      // [END insert_evaluated_doc_id]
+
+      // [START insert_document_references]
+      await db.pipeline()
+        .literals([
+          { __name__: db.doc("users/doc1"), name: "Alice" },
+          { __name__: db.doc("users/doc2"), name: "Bob" }
+        ])
+        .insert()
+        .execute();
+      // [END insert_document_references]
+
+      // [START insert_auto_generated_ids]
+      await db.pipeline()
+        .literals([
+          { name: "Alice", role: "admin" },
+          { name: "Bob", role: "viewer" }
+        ])
+        .insert({ collection: "users" })
+        .execute();
+      // [END insert_auto_generated_ids]
+
+      // [START insert_subcollection]
+      await db.pipeline()
+        .literals([
+          { title: "Hello World", published: true }
+        ])
+        .insert({ collection: "users/u1/posts" })
+        .execute();
+      // [END insert_subcollection]
+
+      // [START insert_different_collection]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("source_coll")
+          .where(field("active").equal(true))
+          .addFields(constant("val").as("new_field"))
+          .insert({ collection: "target_coll" });
+
+        await transaction.execute(pipeline);
+      });
+      // [END insert_different_collection]
+
+      // [START insert_advanced_queries]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("products")
+          .search({ query: "shoes" })
+          .insert({ collection: "matched_products" });
+
+        await transaction.execute(pipeline);
+      });
+      // [END insert_advanced_queries]
+    }
+
+    async function updateAggregationSubqueryExample() {
+      // [START update_aggregation_subquery]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .where(
+            field("score").equal(
+              db.pipeline()
+                .collection("users")
+                .aggregate(maximum("score").as("max"))
+                .toScalarExpression()
+            )
+          )
+          .update([constant(true).as("is_top_scorer")]);
+
+        await transaction.execute(pipeline);
+      });
+      // [END update_aggregation_subquery]
+    }
+
+    async function upsertExamples() {
+      // [START upsert_migrate_users]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .where(field("age").greaterThanOrEqual(25))
+          .addFields(constant(true).as("processed"))
+          .upsert({
+            collection: "new_users",
+            documentIdExpression: field("name")
+          });
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_migrate_users]
+
+      // [START upsert_in_place]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .upsert(constant(31).as("age"));
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_in_place]
+
+      // [START upsert_different_collection_explicit_id]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("source_coll")
+          .upsert({
+            additionalFields: [constant(31).as("age")],
+            collection: "target_coll",
+            documentIdExpression: constant("new_doc_id")
+          });
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_different_collection_explicit_id]
+
+      // [START upsert_different_collection_existing_id]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("source_coll")
+          .upsert({
+            additionalFields: [constant("updated_val").as("status")],
+            collection: "target_coll"
+          });
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_different_collection_existing_id]
+
+      // [START upsert_document_references]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .literals([
+            { __name__: db.doc("users/doc1"), name: "Alice" },
+            { __name__: db.doc("users/doc2"), name: "Bob" }
+          ])
+          .upsert();
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_document_references]
+
+      // [START upsert_auto_generated_ids]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .literals([
+            { name: "Alice" },
+            { name: "Bob" }
+          ])
+          .upsert({
+            additionalFields: [constant("active").as("status")],
+            collection: "users"
+          });
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_auto_generated_ids]
+
+      // [START upsert_subcollection]
+      await db.pipeline()
+        .literals([
+          { __name__: db.doc("users/u1/posts/p1"), title: "Updated Post" }
+        ])
+        .upsert({ collection: "users/u1/posts" })
+        .execute({ atomic: true });
+      // [END upsert_subcollection]
+
+      // [START upsert_advanced_queries]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("products")
+          .search({ query: "shoes" })
+          .upsert(constant(true).as("is_shoes"));
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_advanced_queries]
+
+      // [START upsert_aggregation_subquery]
+      await db.runTransaction(async (transaction) => {
+        const pipeline = db.pipeline()
+          .collection("users")
+          .where(
+            field("score").equal(
+              db.pipeline()
+                .collection("users")
+                .aggregate(maximum("score").as("max"))
+                .toScalarExpression()
+            )
+          )
+          .upsert(constant(true).as("is_top_scorer"));
+
+        await transaction.execute(pipeline);
+      });
+      // [END upsert_aggregation_subquery]
+    }
+
+    async function rulesPipelinesExamples() {
+      // [START rules_pipelines_filter_before]
+      const beforeResults = await db.pipeline()
+        .collection("FeatureRequests")
+        .where(field("status").equal("open"))
+        .addFields(constant(true).as("isArchived"))
+        .execute();
+      // [END rules_pipelines_filter_before]
+      console.log(beforeResults);
+
+      // [START rules_pipelines_filter_after]
+      const afterResults = await db.pipeline()
+        .collection("FeatureRequests")
+        .addFields(constant(true).as("isArchived"))
+        .where(field("status").equal("open"))
+        .execute();
+      // [END rules_pipelines_filter_after]
+      console.log(afterResults);
     }
 });

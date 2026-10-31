@@ -7,7 +7,7 @@
 // [START search_score_field_modular]
 await db.pipeline().collection('restaurants')
   .search({
-    query: field('menu').matches('waffles'),
+    query: 'menu:waffles',
     addFields: [
         score().as('score'),
     ]
