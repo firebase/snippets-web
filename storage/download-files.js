@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/storage";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 
 function downloadCreateRef() {
   // [START storage_download_create_ref]
@@ -66,7 +66,7 @@ function downloadFullExample() {
         // User doesn't have permission to access the object
         break;
       case 'storage/canceled':
-        // User canceled the upload
+        // User canceled the download
         break;
 
       // ...

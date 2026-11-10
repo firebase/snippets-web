@@ -2,10 +2,10 @@
   "name": "installations",
   "version": "1.0.0",
   "scripts": {
-    "compile": "echo 'Installations build temporarily disabled'"
+    "compile": "cp ../tsconfig.json.template ./tsconfig.json && tsc"
   },
   "license": "Apache 2.0",
   "dependencies": {
-    "firebase": "^8.10.0"
+    "firebase": "^13.0.0"
   }
 }

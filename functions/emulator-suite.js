@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/functions";
+import firebase from "firebase/compat/app";
+import "firebase/compat/functions";
 
 function emulatorSettings() {
   // [START fb_functions_emulator_connect]

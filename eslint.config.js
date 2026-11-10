@@ -8,7 +8,9 @@ export default defineConfig([
 		rules: {
       "no-unused-vars": "off",
       "no-undef": "off",
-      "no-redeclare": "off"
+      "no-redeclare": "off",
+      "no-unassigned-vars": "off",
+      "no-useless-assignment": "off"
 		},
 	},
 ]);

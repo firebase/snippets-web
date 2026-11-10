@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 const geofire = require('geofire-common');
 
@@ -39,6 +39,7 @@ function queryHashes(done) {
   // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
   // a separate query for each pair. There can be up to 9 pairs of bounds
   // depending on overlap, but in most cases there are 4.
+  // @ts-ignore
   const bounds = geofire.geohashQueryBounds(center, radiusInM);
   const promises = [];
   for (const b of bounds) {
@@ -61,6 +62,7 @@ function queryHashes(done) {
 
         // We have to filter out a few false positives due to GeoHash
         // accuracy, but most will match
+        // @ts-ignore
         const distanceInKm = geofire.distanceBetween([lat, lng], center);
         const distanceInM = distanceInKm * 1000;
         if (distanceInM <= radiusInM) {

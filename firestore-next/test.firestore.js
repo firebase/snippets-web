@@ -173,7 +173,7 @@ describe("firestore", () => {
 
             const querySnapshot = await getDocs(collection(db, "users"));
             querySnapshot.forEach((doc) => {
-              console.log(`${doc.id} => ${doc.data()}`);
+              console.log(doc.id, "=>", doc.data());
             });
             // [END get_all_users]
         });
@@ -283,6 +283,7 @@ describe("firestore", () => {
               const city = docSnap.data();
               // Use a City instance method
               console.log(city.toString());
+              console.log(city.name, city.state, city.country);
             } else {
               console.log("No such document!");
             }
@@ -340,7 +341,7 @@ describe("firestore", () => {
             const { doc, setDoc } = require("firebase/firestore"); 
 
             const cityRef = doc(db, 'cities', 'BJ');
-            setDoc(cityRef, { capital: true }, { merge: true });
+            await setDoc(cityRef, { capital: true }, { merge: true });
             // [END set_with_merge]
         });
 
@@ -2798,8 +2799,12 @@ describe("firestore-pipelines", () => {
 
     async function logFunction() {
         // [START log_function]
-        // Not supported on JS
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(field("rating").log10().as("log10Rating"))
+        );
         // [END log_function]
+        console.log(result);
     }
 
     async function arrayConcat() {
@@ -3248,11 +3253,27 @@ describe("firestore-pipelines", () => {
     }
 
     async function strReplaceFunction() {
-        // not yet supported until GA
+        // [START str_replace]
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(
+            field("title").stringReplaceAll(" ", "-").as("hyphenatedTitle")
+          )
+        );
+        // [END str_replace]
+        console.log(result);
     }
 
     async function strSplitFunction() {
-        // not yet supported until GA
+        // [START str_split]
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(
+            field("title").split(" ").as("titleWords")
+          )
+        );
+        // [END str_split]
+        console.log(result);
     }
 
     async function unixMicrosToTimestampFunction() {
