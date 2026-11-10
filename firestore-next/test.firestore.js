@@ -2799,8 +2799,12 @@ describe("firestore-pipelines", () => {
 
     async function logFunction() {
         // [START log_function]
-        // Not supported on JS
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(field("rating").log10().as("log10Rating"))
+        );
         // [END log_function]
+        console.log(result);
     }
 
     async function arrayConcat() {
@@ -3249,11 +3253,27 @@ describe("firestore-pipelines", () => {
     }
 
     async function strReplaceFunction() {
-        // not yet supported until GA
+        // [START str_replace]
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(
+            field("title").stringReplaceAll(" ", "-").as("hyphenatedTitle")
+          )
+        );
+        // [END str_replace]
+        console.log(result);
     }
 
     async function strSplitFunction() {
-        // not yet supported until GA
+        // [START str_split]
+        const result = await execute(db.pipeline()
+          .collection("books")
+          .select(
+            field("title").split(" ").as("titleWords")
+          )
+        );
+        // [END str_split]
+        console.log(result);
     }
 
     async function unixMicrosToTimestampFunction() {

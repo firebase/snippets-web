@@ -5,5 +5,8 @@
 // 'npm run snippets'.
 
 // [START log_function_modular]
-// Not supported on JS
+const result = await execute(db.pipeline()
+  .collection("books")
+  .select(field("rating").log10().as("log10Rating"))
+);
 // [END log_function_modular]
