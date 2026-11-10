@@ -2,20 +2,20 @@
   "name": "snippets-web",
   "version": "1.0.0",
   "type": "module",
+  "packageManager": "pnpm@12.10.1",
   "scripts": {
-    "snippets": "rimraf snippets && node --loader ts-node/esm scripts/separate-snippets.ts",
-    "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs npx eslint",
-    "format": "npm run lint -- --fix",
-    "bootstrap": "find . -type f -name package.json -not -path '*/node_modules/*' -exec bash -c 'cd $(dirname {}) && npm install' \\;",
-    "compile": "bash scripts/compile.sh"
+    "snippets": "rimraf snippets && node scripts/separate-snippets.ts",
+    "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs pnpm exec eslint",
+    "format": "pnpm run lint --fix",
+    "bootstrap": "pnpm install",
+    "compile": "pnpm -r --filter './*' --workspace-concurrency=4 run compile"
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
-    "@types/node": "^24.9.1",
-    "eslint": "^9.38.0",
-    "rimraf": "^5.0.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.0"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.4",
+    "eslint": "^10.12.0",
+    "rimraf": "^6.1.3",
+    "typescript": "^7.0.2"
   }
 }

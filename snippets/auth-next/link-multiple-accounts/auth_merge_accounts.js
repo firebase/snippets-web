@@ -5,7 +5,7 @@
 // 'npm run snippets'.
 
 // [START auth_merge_accounts_modular]
-import { getAuth, signInWithCredential, linkWithCredential, OAuthProvider } from "firebase/auth";
+import { getAuth, signInWithCredential, deleteUser } from "firebase/auth";
 
 // The implementation of how you store your user data depends on your application
 const repo = new MyUserDataRepo();
@@ -18,11 +18,9 @@ const prevUser = auth.currentUser;
 // while the app is still signed in as this user.
 const prevUserData = repo.get(prevUser);
 
-// Delete the user's data now, we will restore it if the merge fails
-repo.delete(prevUser);
-
-// Sign in user with the account you want to link to
-signInWithCredential(auth, newCredential).then((result) => {
+try {
+  // Sign in user with the account you want to link to
+  const result = await signInWithCredential(auth, newCredential);
   console.log("Sign In Success", result);
   const currentUser = result.user;
   const currentUserData = repo.get(currentUser);
@@ -31,20 +29,13 @@ signInWithCredential(auth, newCredential).then((result) => {
   // Note: How you handle this is specific to your application
   const mergedData = repo.merge(prevUserData, currentUserData);
 
-  const credential = OAuthProvider.credentialFromResult(result);
-  return linkWithCredential(prevUser, credential)
-    .then((linkResult) => {
-      // Sign in with the newly linked credential
-      const linkCredential = OAuthProvider.credentialFromResult(linkResult);
-      return signInWithCredential(auth, linkCredential);
-    })
-    .then((signInResult) => {
-      // Save the merged data to the new user
-      repo.set(signInResult.user, mergedData);
-    });
-}).catch((error) => {
-  // If there are errors we want to undo the data merge/deletion
+  // Save the merged data to the new user
+  repo.set(currentUser, mergedData);
+
+  // Delete the previous user's Firebase Auth account first
+  await deleteUser(prevUser);
+  repo.delete(prevUser);
+} catch (error) {
   console.log("Sign In Error", error);
-  repo.set(prevUser, prevUserData);
-});
+}
 // [END auth_merge_accounts_modular]

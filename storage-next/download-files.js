@@ -23,7 +23,9 @@ function downloadViaUrl() {
   const { getStorage, ref, getDownloadURL } = require("firebase/storage");
 
   const storage = getStorage();
-  getDownloadURL(ref(storage, 'images/stars.jpg'))
+  const starsRef = ref(storage, 'images/stars.jpg');
+
+  getDownloadURL(starsRef)
     .then((url) => {
       // `url` is the download URL for 'images/stars.jpg'
     
@@ -70,7 +72,7 @@ function downloadFullExample() {
           // User doesn't have permission to access the object
           break;
         case 'storage/canceled':
-          // User canceled the upload
+          // User canceled the download
           break;
 
         // ...

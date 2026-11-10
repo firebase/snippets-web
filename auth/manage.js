@@ -1,8 +1,8 @@
 // These samples are intended for Web so this import would normally be
 // done in HTML however using modules here is more convenient for
 // ensuring sample correctness offline.
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 function getUserProfile() {
   // [START auth_get_user_profile]
@@ -89,6 +89,7 @@ function updatePassword() {
 
   // [START auth_update_password]
   const user = firebase.auth().currentUser;
+  // Add your own function here to read the user's entered password, or generate a new one
   const newPassword = getASecureRandomPassword();
 
   user.updatePassword(newPassword).then(() => {
@@ -129,7 +130,7 @@ function deleteUser() {
 
 function reauthenticateWithCredential() {
   /**
-   * @returns {object}
+   * @returns {any}
    */
   function promptForCredentials() {
     return {};

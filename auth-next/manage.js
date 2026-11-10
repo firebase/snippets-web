@@ -98,6 +98,7 @@ function updatePassword() {
   const auth = getAuth();
 
   const user = auth.currentUser;
+  // Add your own function here to read the user's entered password, or generate a new one
   const newPassword = getASecureRandomPassword();
 
   updatePassword(user, newPassword).then(() => {
@@ -143,7 +144,7 @@ function deleteUser() {
 
 function reauthenticateWithCredential() {
   /**
-   * @returns {object}
+   * @returns {any}
    */
   function promptForCredentials() {
     return {};
