@@ -166,7 +166,7 @@ function processSnippet(
 function listSnippetFiles(): string[] {
   const output = cp
     .execSync(
-      'find . -type f -name "*.js" -not -path "*node_modules*" -not -path "./snippets*"'
+      'find . -type f \\( -name "*.js" -o -name "*.jsx" \\) -not -path "*node_modules*" -not -path "./snippets*"'
     )
     .toString();
   return output.split("\n").filter((x) => !isBlank(x));
@@ -260,8 +260,10 @@ async function main() {
       continue;
     }
 
+    // Generated snippets keep the extension of their source (".js" or ".jsx").
+    const ext = path.extname(filePath);
     const fileSlug = filePath
-      .replace(".js", "")
+      .replace(/\.jsx?$/, "")
       .replace("./", "")
       .replace(/\./g, "-");
     const snippetDir = path.join("./snippets", fileSlug);
@@ -275,7 +277,7 @@ async function main() {
     }
 
     for (const snippetName in config.map) {
-      const newFilePath = path.join(snippetDir, `${snippetName}.js`);
+      const newFilePath = path.join(snippetDir, `${snippetName}${ext}`);
 
       const snippetLines = config.map[snippetName];
       const content = processSnippet(

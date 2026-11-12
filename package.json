@@ -5,7 +5,8 @@
   "packageManager": "pnpm@12.10.1",
   "scripts": {
     "snippets": "rimraf snippets && node scripts/separate-snippets.ts",
-    "lint": "git ls-files | grep -v 'snippets/' | grep '.js$' | xargs pnpm exec eslint",
+    "lint": "git ls-files | grep -v 'snippets/' | grep -E '\\.jsx?$' | xargs pnpm exec eslint",
+    "check-parity": "node scripts/check-react-parity.ts",
     "format": "pnpm run lint --fix",
     "bootstrap": "pnpm install",
     "compile": "pnpm -r --filter './*' --workspace-concurrency=4 run compile"
@@ -15,6 +16,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.4",
     "eslint": "^10.12.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
     "rimraf": "^6.1.3",
     "typescript": "^7.0.2"
   }

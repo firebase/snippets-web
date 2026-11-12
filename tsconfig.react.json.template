@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2024",                       /* Newest ECMAScript edition whose APIs are Baseline Widely available. */
+    "module": "commonjs",                     /* Lets `const { x } = require("...")` inside snippets type-check, as in the -next directories. */
+    "lib": ["es2024", "dom", "dom.iterable", "webworker"],
+    "jsx": "react-jsx",                       /* React 19 automatic runtime: no `import React` needed. */
+    "allowJs": true,                          /* Allow javascript files to be compiled. */
+    "checkJs": true,                          /* Report errors in .js and .jsx files. */
+    "outDir": "./dist",                       /* Redirect output structure to the directory. */
+    "noEmit": true,                           /* Do not emit outputs. */
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "../node_modules/@types"
+    ],
+    "types": ["*"],
+    /* Strict Type-Checking Options */
+    "strict": true,                           /* Enable all strict type-checking options. */
+    "noImplicitAny": false,                   /* Raise error on expressions and declarations with an implied 'any' type. */
+    "strictNullChecks": false,                /* Enable strict null checks. */
+    "useUnknownInCatchVariables": false,      /* Snippets read `error.code` and `error.message` in catch blocks. */
+
+    // See: https://github.com/microsoft/TypeScript/issues/20595
+    "skipLibCheck": true,
+
+    /* Additional Checks */
+    "noUnusedLocals": false,                  /* Report errors on unused locals. */
+
+    "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+  }
+}

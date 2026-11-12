@@ -1,0 +1,25 @@
+// [SNIPPET_REGISTRY disabled]
+// [SNIPPETS_SEPARATION enabled]
+// [SNIPPETS_SUFFIX _react]
+
+function onDocumentReady() {
+  // [START rtdb_emulator_connect]
+  const { getDatabase, connectDatabaseEmulator } = require("firebase/database");
+
+  const db = getDatabase();
+  if (location.hostname === "localhost") {
+    // Point to the RTDB emulator running on localhost.
+    connectDatabaseEmulator(db, "127.0.0.1", 9000);
+  } 
+  // [END rtdb_emulator_connect]
+}
+
+function flushRealtimeDatabase() {
+  // [START rtdb_emulator_flush]
+  const { getDatabase, ref, set } = require("firebase/database");
+
+  // With a database Reference, write null to clear the database.
+  const db = getDatabase();
+  set(ref(db), null);
+  // [END rtdb_emulator_flush]
+}
